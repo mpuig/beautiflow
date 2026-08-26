@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=bricolage-grotesque:500,600,700,800|source-sans-3:400,500,600,700" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f5c46'/%3E%3Ccircle cx='18' cy='32' r='7' fill='%23c8ff62'/%3E%3Cpath d='M25 32h19m-7-8 8 8-8 8' fill='none' stroke='%23f4f1e8' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <title>Beautiflow — Mermaid diagrams, finished</title>
+  <title>Beautiflow — Clear, validated Mermaid diagrams</title>
   <style>
     :root {
       --paper: #f4f1e8;
@@ -554,12 +554,12 @@
     <section class="hero" id="top">
       <div class="shell">
         <div class="hero-intro">
-          <h1>Mermaid in.<br><span class="out">Finished diagrams out.</span></h1>
+          <h1>Mermaid in.<br><span class="out">Diagrams ready to share.</span></h1>
           <div class="hero-copy">
-            <p>Beautiflow turns diagram source into polished, validated output—with deterministic layout, a local live preview, and an Agent Skill for conversational editing.</p>
+            <p>Beautiflow turns Mermaid source into polished, validated output. Use the CLI directly, keep a local preview open, or let the Agent Skill guide edits in Pi, Claude Code, or Codex.</p>
             <div class="actions">
-              <a class="button button-primary" href="#install">Install Beautiflow <span aria-hidden="true">↓</span></a>
-              <a class="button button-secondary" href="https://github.com/mpuig/beautiflow">View source <span aria-hidden="true">↗</span></a>
+              <a class="button button-primary" href="#install">Install the CLI <span aria-hidden="true">↓</span></a>
+              <a class="button button-secondary" href="https://github.com/mpuig/beautiflow">View on GitHub <span aria-hidden="true">↗</span></a>
             </div>
           </div>
         </div>
@@ -567,12 +567,12 @@
         <div class="trace" aria-label="Beautiflow source-to-render demonstration">
           <div class="trace-tabs" role="tablist" aria-label="Diagram examples">
             <button class="trace-tab" role="tab" aria-selected="true" data-demo="architecture">AWS architecture</button>
-            <button class="trace-tab" role="tab" aria-selected="false" data-demo="flowchart">Product flow</button>
+            <button class="trace-tab" role="tab" aria-selected="false" data-demo="flowchart">Observability flow</button>
             <button class="trace-tab" role="tab" aria-selected="false" data-demo="sequence">Sequence</button>
           </div>
           <div class="trace-body">
             <div class="source-pane">
-              <div class="pane-label"><span>diagram.mmd</span><span>semantic source</span></div>
+              <div class="pane-label"><span>diagram.mmd</span><span>Mermaid source</span></div>
               <pre class="source-code" id="demo-source">architecture-beta
 
 group account(cloud)[AWS account]
@@ -596,7 +596,7 @@ api:R --> L:database</pre>
               </div>
             </div>
             <div class="output-pane">
-              <div class="pane-label"><span>Beautiflow output</span><span class="quality" id="demo-quality">Quality 92 / 100</span></div>
+              <div class="pane-label"><span>Validated output</span><span class="quality" id="demo-quality">Architecture audit: 92 / 100</span></div>
               <div class="render-stage" id="render-stage">
                 <img id="demo-render" src="examples/recipes/aws-architecture/rendered/step-6-production-architecture.svg" alt="Rendered multilevel AWS production architecture diagram" width="1993" height="1067" fetchpriority="high">
               </div>
@@ -618,16 +618,16 @@ api:R --> L:database</pre>
     <section class="why" id="why">
       <div class="shell">
         <div class="section-head">
-          <h2>Mermaid captures meaning. Beautiflow finishes the artifact.</h2>
-          <p>Rendering successfully is not the same as communicating clearly. Beautiflow treats geometry, hierarchy, and reproducibility as part of correctness.</p>
+          <h2>Mermaid describes the system. Beautiflow makes it readable.</h2>
+          <p>A diagram can render successfully and still be hard to follow. Beautiflow checks geometry, hierarchy, routing, and reproducibility before accepting a layout.</p>
         </div>
         <div class="why-grid">
-          <p class="problem-statement">Keep Mermaid as the source of truth. Add <strong>durable presentation state</strong>, semantic edits, visual audits, and output you can put in a document or deck.</p>
+          <p class="problem-statement">Keep Mermaid as the source of truth. Store <strong>layout separately</strong>, edit by meaning, audit the final geometry, and export diagrams ready for docs or slides.</p>
           <ul class="principles">
-            <li><strong>No coordinate guessing</strong><span>Agents request semantic changes. Beautiflow owns geometry and validation.</span></li>
-            <li><strong>No hidden mutation</strong><span>The preview server renders exactly what is saved and never runs polish on its own.</span></li>
-            <li><strong>No model lock-in</strong><span>Pi, Claude Code, Codex, or a plain terminal can use the same deterministic core.</span></li>
-            <li><strong>No “it rendered” quality bar</strong><span>Audits catch overlaps, crossings, unreadable labels, route noise, and regressions.</span></li>
+            <li><strong>No coordinate guessing</strong><span>Agents describe the intended relationship. Beautiflow calculates and validates the geometry.</span></li>
+            <li><strong>Preview never edits files</strong><span>The local server renders exactly what is saved. It never runs polish or changes the source.</span></li>
+            <li><strong>Use any coding agent</strong><span>Pi, Claude Code, Codex, and a plain terminal all use the same deterministic CLI.</span></li>
+            <li><strong>Rendering is only the first check</strong><span>Audits catch overlaps, crossings, unreadable labels, noisy routes, and regressions.</span></li>
           </ul>
         </div>
       </div>
@@ -636,46 +636,46 @@ api:R --> L:database</pre>
     <section id="how">
       <div class="shell">
         <div class="section-head">
-          <h2>One source. A bounded path to better.</h2>
-          <p>The common path stays deliberately small. Advanced semantic actions and transformations remain available when the diagram needs a precise correction.</p>
+          <h2>One file. A clear path from source to output.</h2>
+          <p>Use one command for routine polishing. When a diagram needs a precise correction, semantic actions can change its layout or structure without editing pixel coordinates.</p>
         </div>
 
         <div class="pipeline">
           <div class="flow-line" aria-hidden="true"></div>
           <ol class="steps">
-            <li class="step"><div class="step-node">M</div><h3>Read semantics</h3><p>Parse the Mermaid family, topology, groups, labels, and any saved presentation state.</p></li>
-            <li class="step"><div class="step-node">L</div><h3>Evaluate layouts</h3><p>Generate bounded candidates with ELK or the family-specific renderer while preserving pins and roles.</p></li>
-            <li class="step"><div class="step-node">Q</div><h3>Reject regressions</h3><p>Audit geometry and visual quality before a candidate can replace the current layout.</p></li>
-            <li class="step"><div class="step-node">O</div><h3>Render anywhere</h3><p>Export SVG, PNG, Unicode, or ASCII where supported—or keep a read-only browser preview live.</p></li>
+            <li class="step"><div class="step-node">M</div><h3>Understand the diagram</h3><p>Read the Mermaid family, nodes, connections, groups, labels, and saved layout preferences.</p></li>
+            <li class="step"><div class="step-node">L</div><h3>Compare valid layouts</h3><p>Generate a limited set of candidates while preserving pinned nodes, primary paths, and semantic roles.</p></li>
+            <li class="step"><div class="step-node">Q</div><h3>Check the final geometry</h3><p>Reject layouts with overlaps, blocked arrows, excessive crossings, unreadable labels, or quality regressions.</p></li>
+            <li class="step"><div class="step-node">O</div><h3>Export or preview</h3><p>Write SVG or PNG, render terminal output where supported, or keep a read-only browser preview open.</p></li>
           </ol>
         </div>
 
         <div class="two-engines">
           <article class="engine-column">
-            <h3>The CLI owns certainty.</h3>
-            <p>Parsing, layout, routing, validation, persistence, transformation, and rendering are deterministic and reproducible.</p>
+            <h3>The CLI makes every change reproducible.</h3>
+            <p>The same source and saved layout produce the same result. Parsing, routing, validation, transformation, and rendering stay local and deterministic.</p>
             <ul class="plain-list">
-              <li>Polish in one bounded command</li>
-              <li>Preview from localhost without mutation</li>
-              <li>Inspect changes with transactional dry-runs</li>
+              <li>Polish and validate with one command</li>
+              <li>Preview saved files without changing them</li>
+              <li>Review semantic edits with dry-runs before writing</li>
             </ul>
             <div class="code-window">
-              <div class="code-toolbar"><span>Terminal</span><button class="copy-button" data-copy="beautiflow polish architecture.mmd&#10;beautiflow server architecture.mmd">Copy</button></div>
+              <div class="code-toolbar"><span>Terminal</span><button class="copy-button" data-copy="beautiflow polish architecture.mmd&#10;beautiflow server architecture.mmd">Copy commands</button></div>
               <pre><span class="prompt">$</span> beautiflow polish architecture.mmd
 <span class="prompt">$</span> beautiflow server architecture.mmd</pre>
             </div>
           </article>
 
           <article class="engine-column">
-            <h3>The Agent Skill owns judgment.</h3>
-            <p>Conversation, vision, and intent stay in your coding harness. The portable skill teaches the agent when to call Beautiflow and when to stop.</p>
+            <h3>The Agent Skill adds design judgment.</h3>
+            <p>Conversation, visual review, and intent stay in your coding harness. The portable skill tells the agent how to use the CLI and when a valid result is good enough to stop.</p>
             <ul class="plain-list">
               <li>Works with Pi, Claude Code, and Codex</li>
-              <li>Reads optional project context from FLOW.md</li>
-              <li>Uses semantic actions—not raw coordinates</li>
+              <li>Reads optional project guidance from FLOW.md</li>
+              <li>Requests roles and relationships, not pixel positions</li>
             </ul>
             <div class="code-window">
-              <div class="code-toolbar"><span>Install the skill</span><button class="copy-button" data-copy="beautiflow install-skill">Copy</button></div>
+              <div class="code-toolbar"><span>Install the Agent Skill</span><button class="copy-button" data-copy="beautiflow install-skill">Copy command</button></div>
               <pre><span class="prompt">$</span> beautiflow install-skill
 
 <span style="color:#a9bdb3">Then ask:</span>
@@ -689,14 +689,14 @@ Use Beautiflow to polish architecture.mmd.</pre>
     <section class="examples" id="examples">
       <div class="shell">
         <div class="section-head">
-          <h2>Source, command, result. Nothing hidden.</h2>
-          <p>Every bundled example includes its Mermaid source, rendered fixture, exact reproduction command, live-preview command, and an optional agent prompt.</p>
+          <h2>See the source, command, and output.</h2>
+          <p>Every example includes the Mermaid source, the rendered result, the exact command that produced it, a live-preview command, and an optional prompt for your coding agent.</p>
         </div>
 
         <article class="example-row">
           <div class="example-copy">
             <h3>Production AWS architecture</h3>
-            <p>A 26-service, multilevel architecture with explicit ports, AWS and Lucide icons, nested account/VPC/subnet boundaries, and primary-versus-support route emphasis.</p>
+            <p>A 26-service architecture with explicit ports, recognizable service icons, nested account, VPC, and subnet boundaries, plus a stronger visual path for primary traffic.</p>
             <pre class="source-fragment">architecture-beta
 
 group account(cloud)[AWS account]
@@ -720,7 +720,7 @@ service controller(logos:aws-eks)[Controller]</pre>
         <article class="example-row">
           <div class="example-copy">
             <h3>Subscription intake</h3>
-            <p>A complete flowchart pipeline with a clear activation spine and a payment-recovery loop that remains readable without competing with the primary path.</p>
+            <p>A complete flowchart with a clear activation path and a payment-recovery loop that stays readable without competing with the successful path.</p>
             <pre class="source-fragment">flowchart TD
   signup([Trial signup]) --> profile[Create profile]
   profile --> plan{Select a plan?}
@@ -741,7 +741,7 @@ service controller(logos:aws-eks)[Controller]</pre>
         <article class="example-row">
           <div class="example-copy">
             <h3>Support escalation</h3>
-            <p>Specialized Mermaid families use dedicated renderers rather than pretending every diagram is a flowchart. Sequence diagrams preserve their own visual grammar.</p>
+            <p>Sequence, class, ER, and chart diagrams use dedicated renderers, so each family keeps the visual conventions that make it easy to read.</p>
             <pre class="source-fragment">sequenceDiagram
   participant Customer
   participant Support
@@ -772,17 +772,17 @@ service controller(logos:aws-eks)[Controller]</pre>
       <div class="shell">
         <div class="section-head">
           <h2>Install one executable. Keep your workflow.</h2>
-          <p>The standalone build includes the rendering pipeline and does not require Bun at runtime. Builds are validated on their target operating system before release.</p>
+          <p>Each standalone release includes the complete rendering pipeline, with no Bun installation required. The macOS and Linux binaries are built and tested on their target operating systems.</p>
         </div>
         <div class="install-grid">
-          <p class="install-note">Download the binary, put it on your PATH, and point it at Mermaid.</p>
+          <p class="install-note">Download the binary, add it to your PATH, and run it on a Mermaid file.</p>
           <div>
             <div class="platform-tabs" role="tablist" aria-label="Installation platform">
               <button class="platform-tab" role="tab" aria-selected="true" data-platform="mac">macOS · Apple silicon</button>
               <button class="platform-tab" role="tab" aria-selected="false" data-platform="linux">Linux · x86-64</button>
             </div>
             <div class="code-window">
-              <div class="code-toolbar"><span id="install-label">Standalone install</span><button class="copy-button" id="install-copy">Copy</button></div>
+              <div class="code-toolbar"><span id="install-label">Standalone installation</span><button class="copy-button" id="install-copy">Copy commands</button></div>
               <pre id="install-code">mkdir -p "$HOME/.local/bin"
 curl -fL https://github.com/mpuig/beautiflow/releases/latest/download/beautiflow-darwin-arm64 \
   -o "$HOME/.local/bin/beautiflow"
@@ -804,8 +804,8 @@ beautiflow version</pre>
           <circle cx="25" cy="34" r="21" fill="#0f5c46"/>
           <path d="M49 34h80m-23-22 22 22-22 22" fill="none" stroke="#0f5c46" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <h2>Make the diagram as considered as the system it explains.</h2>
-        <p>Start with one Mermaid file. Beautiflow will keep the semantics yours and make the presentation reproducible.</p>
+        <h2>Make your diagrams as clear as the systems they explain.</h2>
+        <p>Start with one Mermaid file. Beautiflow preserves its meaning while making the layout clear, validated, and reproducible.</p>
         <div class="actions">
           <a class="button button-primary" href="https://github.com/mpuig/beautiflow">Explore on GitHub <span aria-hidden="true">↗</span></a>
           <a class="button button-secondary" href="https://github.com/mpuig/beautiflow/tree/main/examples">Browse all examples <span aria-hidden="true">↗</span></a>
@@ -820,7 +820,7 @@ beautiflow version</pre>
         <svg class="brand-mark" viewBox="0 0 46 28" aria-hidden="true"><circle cx="9" cy="14" r="7" fill="#0f5c46"/><path d="M17 14h22m-7-7 7 7-7 7" fill="none" stroke="#0f5c46" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Beautiflow
       </a>
-      <span>Deterministic tools for diagrams that need to communicate.</span>
+      <span>Deterministic tools for Mermaid diagrams that need to communicate clearly.</span>
       <div class="footer-links"><a href="https://github.com/mpuig/beautiflow/blob/main/docs/README.md">Docs</a><a href="https://github.com/mpuig/beautiflow/blob/main/LICENSE">MIT License</a><a href="https://github.com/mpuig/beautiflow/issues">Issues</a></div>
     </div>
   </footer>
@@ -832,19 +832,19 @@ beautiflow version</pre>
         source: `architecture-beta\n\ngroup account(cloud)[AWS account]\ngroup vpc(cloud)[VPC · two AZs] in account\ngroup eks(cloud)[Amazon EKS] in vpc\n\nservice users(lucide:users)[Public users]\nservice route53(logos:aws-route53)[Route 53] in account\nservice waf(logos:aws-waf)[WAF] in account\nservice api(logos:aws-eks)[API] in eks\nservice database(logos:aws-aurora)[Aurora] in vpc\n\nusers:R --> L:route53\nroute53:R --> L:waf\nwaf:B --> T:api\napi:R --> L:database`,
         image: "examples/recipes/aws-architecture/rendered/step-6-production-architecture.svg",
         alt: "Rendered multilevel AWS production architecture diagram",
-        quality: "Quality 92 / 100"
+        quality: "Architecture audit: 92 / 100"
       },
       flowchart: {
-        source: `flowchart LR\n  request([API request]) --> gateway[Gateway]\n  gateway --> valid{Valid?}\n  valid -->|Yes| auth[Authorize]\n  auth --> service[Service]\n  service --> response([Response])\n  valid -->|No| rejected[Reject request]\n  rejected --> response`,
+        source: `flowchart TB\n  traces[Trace events] --> sampler{Sample event?}\n  metrics[Metric points] --> aggregate[Aggregate windows]\n  logs[Structured logs] --> redact[Redact secrets]\n  sampler -->|Keep| enrich[Add service context]\n  redact --> enrich\n  aggregate --> warehouse[(Analytics store)]\n  enrich --> warehouse\n  warehouse --> explore[Explore signals]\n  explore --> alert{Threshold crossed?}\n  alert -->|Yes| page[Page responder]`, 
         image: "examples/rendered/19-observability-routing.svg",
         alt: "Rendered observability routing flowchart",
-        quality: "Validated geometry"
+        quality: "Geometry checks passed"
       },
       sequence: {
         source: `sequenceDiagram\n  participant Customer\n  participant Support\n  participant Diagnostics\n  participant Specialist\n\n  Customer->>Support: Report failure\n  Support->>Diagnostics: Collect traces\n  Diagnostics-->>Support: Correlated events\n  Support->>Specialist: Share evidence\n  Specialist-->>Support: Recommend fix\n  Support-->>Customer: Apply fix`,
         image: "examples/rendered/15-support-escalation-sequence.svg",
         alt: "Rendered support escalation sequence diagram",
-        quality: "Specialized renderer"
+        quality: "Sequence renderer"
       }
     };
 
