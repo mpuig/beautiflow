@@ -2,9 +2,11 @@
 
 [![CI](https://github.com/mpuig/beautiflow/actions/workflows/ci.yml/badge.svg)](https://github.com/mpuig/beautiflow/actions/workflows/ci.yml)
 
-Beautiful diagrams from imperfect flows. Beautiflow is a standalone CLI and portable agent skill for rendering, arranging, auditing, and polishing Mermaid flowcharts.
+Beautiful diagrams from imperfect flows. Beautiflow is a standalone CLI and portable Agent Skill for rendering, arranging, auditing, and polishing Mermaid diagrams.
 
-## What the magical PoC can do
+[Visit the developer site](https://mpuig.github.io/beautiflow/) for the source-to-render walkthrough, installation, and examples.
+
+## What Beautiflow can do
 
 - Render flowchart, state, sequence, class, ER, XY chart, pie, GitGraph, and `architecture-beta` diagrams to SVG or PNG
 - Render supported textual families to Unicode or ASCII through Beautiful Mermaid
