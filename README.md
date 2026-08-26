@@ -34,6 +34,36 @@ To start playing immediately:
 beautiflow server examples/sources/01-subscription-intake.mmd
 ```
 
+## Install
+
+Download the standalone executable from the [latest GitHub release](https://github.com/mpuig/beautiflow/releases/latest). It does not require Bun at runtime.
+
+macOS Apple silicon:
+
+```bash
+mkdir -p "$HOME/.local/bin"
+curl -fL https://github.com/mpuig/beautiflow/releases/latest/download/beautiflow-darwin-arm64 \
+  -o "$HOME/.local/bin/beautiflow"
+chmod +x "$HOME/.local/bin/beautiflow"
+```
+
+Linux x86-64:
+
+```bash
+mkdir -p "$HOME/.local/bin"
+curl -fL https://github.com/mpuig/beautiflow/releases/latest/download/beautiflow-linux-x86_64 \
+  -o "$HOME/.local/bin/beautiflow"
+chmod +x "$HOME/.local/bin/beautiflow"
+```
+
+Ensure `$HOME/.local/bin` is on your `PATH`, then verify the installation:
+
+```bash
+beautiflow version
+```
+
+Checksums, the license, and third-party notices are attached to each release. Other platforms can build from source.
+
 ## Development
 
 Requires Bun 1.3 or newer:
