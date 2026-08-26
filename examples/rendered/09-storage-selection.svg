@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000.0361666666668 1089.953" width="1000.0361666666668" height="1089.953" style="--bg:#d5d6db;--fg:#343b58;--line:#34548a;--accent:#34548a;--muted:#9699a3;background:#d5d6db">
+<rect width="100%" height="100%" fill="#d5d6db" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          #343b58;
+    --_text-sec:      var(--muted, color-mix(in srgb, #343b58 60%, #d5d6db));
+    --_text-muted:    var(--muted, color-mix(in srgb, #343b58 40%, #d5d6db));
+    --_text-faint:    color-mix(in srgb, #343b58 25%, #d5d6db);
+    --_line:          var(--line, color-mix(in srgb, #343b58 50%, #d5d6db));
+    --_arrow:         var(--accent, color-mix(in srgb, #343b58 85%, #d5d6db));
+    --_node-fill:     var(--surface, color-mix(in srgb, #343b58 3%, #d5d6db));
+    --_node-stroke:   var(--border, color-mix(in srgb, #343b58 20%, #d5d6db));
+    --_group-fill:    #d5d6db;
+    --_group-hdr:     color-mix(in srgb, #343b58 5%, #d5d6db);
+    --_inner-stroke:  color-mix(in srgb, #343b58 12%, #d5d6db);
+    --_key-badge:     color-mix(in srgb, #343b58 10%, #d5d6db);
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="#34548a" stroke="#34548a" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="#34548a" stroke="#34548a" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-2334548a" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="#34548a" stroke="#34548a" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start-2334548a" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="#34548a" stroke="#34548a" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<polyline class="edge" data-from="start" data-to="relationships" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="410.0455,84.9 410.0455,172.9" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="relationships" data-to="relational" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" points="376.20633333333336,342.0958333333333 376.20633333333336,387.93500000000006 229.36075,387.93500000000006 229.36075,508.235" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="relationships" data-to="access" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" points="443.88466666666665,342.0958333333333 443.88466666666665,387.93499999999995 656.2316666666668,387.93499999999995 656.2316666666666,508.2350000000001" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="access" data-to="keyvalue" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Key lookup" points="603.4351666666666,666.6244999999999 603.4351666666666,759.853 462.1711666666667,759.853 462.1711666666667,865.9369999999999" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="access" data-to="document" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Document query" points="656.2316666666666,719.4209999999999 656.2316666666668,915.7209999999999" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="access" data-to="timeseries" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Time window" points="709.0281666666667,666.6244999999999 709.0281666666667,731.4209999999999 867.3351666666667,731.4209999999999 867.3351666666667,865.9369999999999" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="relational" data-to="scale" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="229.36075,545.135 229.36075,633.135" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="scale" data-to="single" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" points="200.09108333333333,779.4833333333332 200.09108333333333,884.7529999999999 130.47800000000004,884.7529999999999 130.478,1005.0529999999999" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="scale" data-to="distributed" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" points="258.63041666666663,779.4833333333333 258.63041666666663,884.7529999999999 328.24350000000004,884.7529999999999 328.2435,1005.0529999999999" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<g class="edge-label" data-from="relationships" data-to="relational" data-label="Yes">
+  <rect x="210.86075" y="394.93500000000006" width="36.658" height="30.3" rx="2" ry="2" fill="#d5d6db" stroke="#c2c3cb" stroke-width="1" />
+  <text x="229.18975" y="410.08500000000004" text-anchor="middle" font-size="11" font-weight="400" fill="#9699a3" dy="3.8499999999999996">Yes</text>
+</g>
+<g class="edge-label" data-from="relationships" data-to="access" data-label="No">
+  <rect x="640.7316666666668" y="394.93499999999995" width="30.718000000000004" height="30.3" rx="2" ry="2" fill="#d5d6db" stroke="#c2c3cb" stroke-width="1" />
+  <text x="656.0906666666668" y="410.0849999999999" text-anchor="middle" font-size="11" font-weight="400" fill="#9699a3" dy="3.8499999999999996">No</text>
+</g>
+<g class="edge-label" data-from="access" data-to="keyvalue" data-label="Key lookup">
+  <rect x="426.6711666666667" y="766.853" width="70.516" height="30.3" rx="2" ry="2" fill="#d5d6db" stroke="#c2c3cb" stroke-width="1" />
+  <text x="461.9291666666667" y="782.0029999999999" text-anchor="middle" font-size="11" font-weight="400" fill="#9699a3" dy="3.8499999999999996">Key lookup</text>
+</g>
+<g class="edge-label" data-from="access" data-to="document" data-label="Document query">
+  <rect x="608.7316666666668" y="802.4209999999999" width="94.27600000000002" height="30.3" rx="2" ry="2" fill="#d5d6db" stroke="#c2c3cb" stroke-width="1" />
+  <text x="655.8696666666668" y="817.5709999999999" text-anchor="middle" font-size="11" font-weight="400" fill="#9699a3" dy="3.8499999999999996">Document query</text>
+</g>
+<g class="edge-label" data-from="access" data-to="timeseries" data-label="Time window">
+  <rect x="828.8351666666667" y="738.4209999999999" width="76.45599999999999" height="30.3" rx="2" ry="2" fill="#d5d6db" stroke="#c2c3cb" stroke-width="1" />
+  <text x="867.0631666666667" y="753.5709999999999" text-anchor="middle" font-size="11" font-weight="400" fill="#9699a3" dy="3.8499999999999996">Time window</text>
+</g>
+<g class="edge-label" data-from="scale" data-to="single" data-label="No">
+  <rect x="114.97800000000004" y="891.7529999999999" width="30.718000000000004" height="30.3" rx="2" ry="2" fill="#d5d6db" stroke="#c2c3cb" stroke-width="1" />
+  <text x="130.33700000000005" y="906.9029999999999" text-anchor="middle" font-size="11" font-weight="400" fill="#9699a3" dy="3.8499999999999996">No</text>
+</g>
+<g class="edge-label" data-from="scale" data-to="distributed" data-label="Yes">
+  <rect x="309.74350000000004" y="891.7529999999999" width="36.658" height="30.3" rx="2" ry="2" fill="#d5d6db" stroke="#c2c3cb" stroke-width="1" />
+  <text x="328.07250000000005" y="906.9029999999999" text-anchor="middle" font-size="11" font-weight="400" fill="#9699a3" dy="3.8499999999999996">Yes</text>
+</g>
+<g class="node" data-id="start" data-label="Choose storage" data-shape="stadium">
+  <rect x="342.017" y="48" width="136.05700000000002" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="410.0455" y="66.45" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Choose storage</text>
+</g>
+<g class="node" data-id="relationships" data-label="Complex relationships?" data-shape="diamond">
+  <polygon points="410.0455,172.90000000000003 511.563,274.4175 410.0455,375.935 308.528,274.4175" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="410.0455" y="274.4175" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Complex relationships?</text>
+</g>
+<g class="node" data-id="relational" data-label="Relational database" data-shape="rectangle">
+  <rect x="150.95825" y="508.235" width="156.805" height="36.900000000000006" rx="0" ry="0" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="229.36075" y="526.6850000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Relational database</text>
+</g>
+<g class="node" data-id="access" data-label="Primary access pattern?" data-shape="diamond">
+  <polygon points="656.2316666666667,508.235 761.8246666666666,613.828 656.2316666666667,719.4209999999999 550.6386666666667,613.828" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="656.2316666666667" y="613.828" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Primary access pattern?</text>
+</g>
+<g class="node" data-id="keyvalue" data-label="Key-value store" data-shape="rectangle">
+  <rect x="394.5131666666667" y="865.9369999999999" width="135.31600000000003" height="36.900000000000006" rx="0" ry="0" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="462.1711666666667" y="884.387" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Key-value store</text>
+</g>
+<g class="node" data-id="document" data-label="Document database" data-shape="rectangle">
+  <rect x="577.8291666666667" y="915.7209999999999" width="156.805" height="36.900000000000006" rx="0" ry="0" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="656.2316666666667" y="934.1709999999999" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Document database</text>
+</g>
+<g class="node" data-id="timeseries" data-label="Time-series database" data-shape="rectangle">
+  <rect x="782.6341666666667" y="865.9369999999999" width="169.402" height="36.900000000000006" rx="0" ry="0" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="867.3351666666667" y="884.387" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Time-series database</text>
+</g>
+<g class="node" data-id="scale" data-label="Global write scale?" data-shape="diamond">
+  <polygon points="229.36075,633.135 317.16975,720.944 229.36075,808.7529999999999 141.55175,720.944" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="229.36075" y="720.944" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Global write scale?</text>
+</g>
+<g class="node" data-id="single" data-label="Single-region cluster" data-shape="rectangle">
+  <rect x="48" y="1005.0529999999999" width="164.95600000000002" height="36.900000000000006" rx="0" ry="0" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="130.478" y="1023.5029999999999" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Single-region cluster</text>
+</g>
+<g class="node" data-id="distributed" data-label="Distributed SQL" data-shape="rectangle">
+  <rect x="260.956" y="1005.0529999999999" width="134.575" height="36.900000000000006" rx="0" ry="0" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="328.24350000000004" y="1023.5029999999999" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Distributed SQL</text>
+</g>
+</svg>

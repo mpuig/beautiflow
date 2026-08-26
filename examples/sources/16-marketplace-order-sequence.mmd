@@ -1,0 +1,28 @@
+sequenceDiagram
+    participant Shopper
+    participant Market
+    participant Inventory
+    participant Payment
+    participant Seller
+
+    Shopper->>+Market: Place order
+    Market->>Inventory: Reserve items
+    alt Items unavailable
+        Inventory-->>Market: Reservation rejected
+        Market-->>Shopper: Suggest alternatives
+    else Items reserved
+        Inventory-->>Market: Reservation confirmed
+        Market->>Payment: Authorize total
+        alt Authorization declined
+            Payment-->>Market: Declined
+            Market->>Inventory: Release reservation
+            Market-->>Shopper: Request another payment method
+        else Authorization approved
+            Payment-->>Market: Approved
+            par Fulfillment
+                Market--)Seller: Send packing request
+            and Receipt
+                Market-->>Shopper: Confirm order
+            end
+        end
+    end

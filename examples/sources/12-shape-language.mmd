@@ -1,0 +1,7 @@
+flowchart LR
+    input[/Incoming signal/] --> normalize[Normalize payload]
+    normalize --> decision{Within limits?}
+    decision -->|Yes| buffer[(Event buffer)]
+    decision -->|No| reject>Reject signal]
+    buffer --> dispatch((Dispatch))
+    dispatch --> output[/Consumer stream/]

@@ -1,0 +1,19 @@
+{
+  "actions": [
+    {
+      "type": "set-primary-flow",
+      "nodes": ["client", "gateway", "auth", "worker", "database"]
+    },
+    {
+      "type": "set-role",
+      "nodes": ["denied"],
+      "role": "exception"
+    },
+    {
+      "type": "place-relative",
+      "node": "queue",
+      "relativeTo": "database",
+      "position": "right"
+    }
+  ]
+}

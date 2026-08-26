@@ -1,0 +1,9 @@
+version: 2
+updates:
+  # Dependabot does not update Bun's native bun.lock consistently. Runtime
+  # dependency updates are performed with `bun update` and validated locally.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5

@@ -1,0 +1,19 @@
+flowchart TB
+    traces[Trace events] --> sampler{Sample event?}
+    metrics[Metric points] --> aggregate[Aggregate windows]
+    logs[Structured logs] --> redact[Redact secrets]
+
+    sampler -->|Keep| enrich[Add service context]
+    sampler -->|Drop| discard[Record drop count]
+    redact --> enrich
+    aggregate --> warehouse[(Analytics store)]
+    enrich --> warehouse
+    warehouse --> explore[Explore signals]
+    explore --> alert{Threshold crossed?}
+    alert -->|Yes| page[Page responder]
+    alert -->|No| retain[Retain baseline]
+
+    classDef source fill:#e7f0ff,stroke:#5376a6,stroke-width:2px
+    classDef action fill:#eef7ec,stroke:#557f54,stroke-width:2px
+    class traces,metrics,logs source
+    class enrich,aggregate,redact action

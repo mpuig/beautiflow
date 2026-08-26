@@ -1,0 +1,75 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.5
+      - run: bun install --frozen-lockfile
+      - run: bun run validate
+      - name: Package executable
+        id: package
+        shell: bash
+        run: |
+          platform="$(uname -s | tr '[:upper:]' '[:lower:]')"
+          arch="$(uname -m)"
+          name="beautiflow-${platform}-${arch}"
+          mkdir -p release
+          cp dist/beautiflow "release/${name}"
+          chmod +x "release/${name}"
+          cp LICENSE THIRD_PARTY_NOTICES.md release/
+          echo "name=${name}" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ steps.package.outputs.name }}
+          path: release/
+          if-no-files-found: error
+
+  publish:
+    name: Publish GitHub release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          path: release
+          merge-multiple: true
+      - name: Generate checksums
+        working-directory: release
+        run: sha256sum beautiflow-* > SHA256SUMS
+      - uses: anchore/sbom-action@v0.24.0
+        with:
+          path: .
+          format: spdx-json
+          output-file: release/beautiflow.spdx.json
+      - uses: sigstore/cosign-installer@v4.1.2
+      - name: Sign checksum manifest with Sigstore
+        run: cosign sign-blob --yes --bundle release/SHA256SUMS.sigstore.json release/SHA256SUMS
+      - uses: softprops/action-gh-release@v3
+        with:
+          generate_release_notes: true
+          files: |
+            release/beautiflow-*
+            release/SHA256SUMS
+            release/SHA256SUMS.sigstore.json
+            release/beautiflow.spdx.json
+            release/LICENSE
+            release/THIRD_PARTY_NOTICES.md

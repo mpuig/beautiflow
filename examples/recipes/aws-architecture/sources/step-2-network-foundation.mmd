@@ -1,0 +1,51 @@
+---
+config:
+  theme: base
+  themeVariables:
+    darkMode: false
+    archEdgeColor: "#232F3E"
+    archEdgeArrowColor: "#232F3E"
+    archGroupBorderColor: "#879196"
+  architecture:
+    seed: 7
+    iconSize: 52
+    numIter: 400
+    idealEdgeLengthMultiplier: 2
+---
+architecture-beta
+
+service internet(internet)[Public internet]
+service corporate(lucide:building-2)[Corporate network]
+
+group account(cloud)[AWS account]
+group vpc(cloud)[VPC · 10.0.0.0/16] in account
+group publicA(cloud)[Public subnet · AZ A] in vpc
+group publicB(cloud)[Public subnet · AZ B] in vpc
+group privateA(cloud)[Private app subnet · AZ A] in vpc
+group privateB(cloud)[Private app subnet · AZ B] in vpc
+group dataA(cloud)[Data subnet · AZ A] in vpc
+group dataB(cloud)[Data subnet · AZ B] in vpc
+
+service igw(lucide:waypoints)[Internet Gateway] in vpc
+service cgw(lucide:router)[Customer Gateway] in vpc
+service vpn(aws:vpn)[Site-to-Site VPN] in vpc
+service vgw(lucide:shield-check)[Virtual Private Gateway] in vpc
+service natA(aws:nat-gateway)[NAT Gateway A] in publicA
+service natB(aws:nat-gateway)[NAT Gateway B] in publicB
+service appA(server)[Application nodes A] in privateA
+service appB(server)[Application nodes B] in privateB
+service dbA(database)[Database writer A] in dataA
+service dbB(database)[Database reader B] in dataB
+
+internet:R --> L:igw
+igw:R --> L:natA
+igw:R --> L:natB
+natA:R --> L:appA
+natB:R --> L:appB
+appA:R --> L:dbA
+appB:R --> L:dbB
+corporate:R --> L:cgw
+cgw:R --> L:vpn
+vpn:R --> L:vgw
+vgw:R --> L:appA
+vgw:R --> L:appB

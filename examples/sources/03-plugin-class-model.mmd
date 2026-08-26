@@ -1,0 +1,22 @@
+classDiagram
+    class PluginRegistry {
+        +register(plugin)
+        +resolve(capability)
+    }
+    class Plugin {
+        +name
+        +version
+        +activate(context)
+    }
+    class Capability {
+        +key
+        +permissions
+    }
+    class RuntimeContext {
+        +workspaceId
+        +logger
+    }
+
+    PluginRegistry o-- Plugin : manages
+    Plugin --> Capability : provides
+    Plugin --> RuntimeContext : receives

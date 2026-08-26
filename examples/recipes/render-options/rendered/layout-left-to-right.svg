@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1632.571 276.805" width="1632.571" height="276.805" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:#ffffff">
+<rect width="100%" height="100%" fill="#ffffff" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          #1f2328;
+    --_text-sec:      var(--muted, color-mix(in srgb, #1f2328 60%, #ffffff));
+    --_text-muted:    var(--muted, color-mix(in srgb, #1f2328 40%, #ffffff));
+    --_text-faint:    color-mix(in srgb, #1f2328 25%, #ffffff);
+    --_line:          var(--line, color-mix(in srgb, #1f2328 50%, #ffffff));
+    --_arrow:         var(--accent, color-mix(in srgb, #1f2328 85%, #ffffff));
+    --_node-fill:     var(--surface, color-mix(in srgb, #1f2328 3%, #ffffff));
+    --_node-stroke:   var(--border, color-mix(in srgb, #1f2328 20%, #ffffff));
+    --_group-fill:    #ffffff;
+    --_group-hdr:     color-mix(in srgb, #1f2328 5%, #ffffff);
+    --_inner-stroke:  color-mix(in srgb, #1f2328 12%, #ffffff);
+    --_key-badge:     color-mix(in srgb, #1f2328 10%, #ffffff);
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="#0969da" stroke="#0969da" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="#0969da" stroke="#0969da" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-230969da" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="#0969da" stroke="#0969da" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start-230969da" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="#0969da" stroke="#0969da" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-23d1d9e0" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="#d1d9e0" stroke="#d1d9e0" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start-23d1d9e0" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="#d1d9e0" stroke="#d1d9e0" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<polyline class="edge" data-from="visitor" data-to="router" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="128.482,138.4025 216.482,138.4025" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="router" data-to="cached" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="346.611,138.4025 434.611,138.4025" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="cached" data-to="cache" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" points="585.2818333333333,108.26833333333335 1113.583,108.26833333333335 1113.583,92.4525 1238.536,92.4525" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="cache" data-to="response" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1350.881,92.4525 1400.4385000000002,92.4525 1400.4385000000002,138.4025 1442.586,138.4025" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="cached" data-to="queue" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" points="585.2818333333332,168.5366666666667 691.416,168.5366666666667 691.416,184.35250000000002 814.134,184.35250000000002" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="queue" data-to="worker" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="927.22,184.35250000000002 1015.22,184.35250000000002" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="worker" data-to="store" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1146.831,184.35250000000002 1238.536,184.35250000000002" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="store" data-to="response" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1358.2910000000002,184.35250000000002 1400.4385000000002,184.35250000000002 1400.4385000000002,138.4025 1442.586,138.4025" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<g class="edge-label" data-from="cached" data-to="cache" data-label="Yes">
+  <rect x="1121.583" y="76.4525" width="36.658" height="30.3" rx="2" ry="2" fill="#ffffff" stroke="#e4e5e5" stroke-width="1" />
+  <text x="1139.912" y="91.6025" text-anchor="middle" font-size="11" font-weight="400" fill="#59636e" dy="3.8499999999999996">Yes</text>
+</g>
+<g class="edge-label" data-from="cached" data-to="queue" data-label="No">
+  <rect x="699.416" y="168.35250000000002" width="30.718000000000004" height="30.3" rx="2" ry="2" fill="#ffffff" stroke="#e4e5e5" stroke-width="1" />
+  <text x="714.7750000000001" y="183.50250000000003" text-anchor="middle" font-size="11" font-weight="400" fill="#59636e" dy="3.8499999999999996">No</text>
+</g>
+<g class="node" data-id="visitor" data-label="Visitor" data-shape="stadium">
+  <rect x="48" y="119.9525" width="80.482" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
+  <text x="88.241" y="138.4025" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Visitor</text>
+</g>
+<g class="node" data-id="router" data-label="Request router" data-shape="rectangle">
+  <rect x="216.482" y="119.9525" width="130.12900000000002" height="36.900000000000006" rx="0" ry="0" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
+  <text x="281.54650000000004" y="138.4025" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Request router</text>
+</g>
+<g class="node" data-id="cached" data-label="Response cached?" data-shape="diamond">
+  <polygon points="525.0135,48 615.416,138.4025 525.0135,228.805 434.611,138.4025" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
+  <text x="525.0135" y="138.4025" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Response cached?</text>
+</g>
+<g class="node" data-id="cache" data-label="Edge cache" data-shape="cylinder">
+  <rect x="1238.536" y="74.0025" width="112.345" height="36.900000000000006" fill="#e9f2fc" stroke="none" />
+  <line x1="1238.536" y1="74.0025" x2="1238.536" y2="110.9025" stroke="#0969da" stroke-width="2" />
+  <line x1="1350.881" y1="74.0025" x2="1350.881" y2="110.9025" stroke="#0969da" stroke-width="2" />
+  <ellipse cx="1294.7085" cy="110.9025" rx="56.1725" ry="7" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
+  <ellipse cx="1294.7085" cy="74.0025" rx="56.1725" ry="7" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
+  <text x="1294.7085" y="92.4525" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Edge cache</text>
+</g>
+<g class="node" data-id="response" data-label="Return response" data-shape="rectangle">
+  <rect x="1442.586" y="119.9525" width="141.985" height="36.900000000000006" rx="0" ry="0" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
+  <text x="1513.5785" y="138.4025" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Return response</text>
+</g>
+<g class="node" data-id="queue" data-label="Work queue" data-shape="rectangle">
+  <rect x="814.134" y="165.9025" width="113.086" height="36.900000000000006" rx="0" ry="0" fill="#f8f8f9" stroke="#d2d3d4" stroke-width="0.75" />
+  <text x="870.677" y="184.35250000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Work queue</text>
+</g>
+<g class="node" data-id="worker" data-label="Render worker" data-shape="rectangle">
+  <rect x="1015.22" y="165.9025" width="131.611" height="36.900000000000006" rx="0" ry="0" fill="#f8f8f9" stroke="#d2d3d4" stroke-width="0.75" />
+  <text x="1081.0255" y="184.35250000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Render worker</text>
+</g>
+<g class="node" data-id="store" data-label="Content store" data-shape="cylinder">
+  <rect x="1238.536" y="165.9025" width="119.755" height="36.900000000000006" fill="#f8f8f9" stroke="none" />
+  <line x1="1238.536" y1="165.9025" x2="1238.536" y2="202.8025" stroke="#d2d3d4" stroke-width="0.75" />
+  <line x1="1358.2910000000002" y1="165.9025" x2="1358.2910000000002" y2="202.8025" stroke="#d2d3d4" stroke-width="0.75" />
+  <ellipse cx="1298.4135" cy="202.8025" rx="59.8775" ry="7" fill="#f8f8f9" stroke="#d2d3d4" stroke-width="0.75" />
+  <ellipse cx="1298.4135" cy="165.9025" rx="59.8775" ry="7" fill="#f8f8f9" stroke="#d2d3d4" stroke-width="0.75" />
+  <text x="1298.4135" y="184.35250000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Content store</text>
+</g>
+</svg>

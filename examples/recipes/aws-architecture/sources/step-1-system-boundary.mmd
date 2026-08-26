@@ -1,0 +1,30 @@
+---
+config:
+  theme: base
+  themeVariables:
+    darkMode: false
+    archEdgeColor: "#232F3E"
+    archEdgeArrowColor: "#232F3E"
+    archGroupBorderColor: "#879196"
+  architecture:
+    seed: 7
+    iconSize: 56
+    numIter: 400
+    idealEdgeLengthMultiplier: 2
+---
+architecture-beta
+
+service users(lucide:users)[Public users]
+service engineers(lucide:laptop)[Remote engineers]
+
+group account(cloud)[AWS account]
+group vpc(cloud)[Amazon VPC] in account
+
+service vpn(aws:vpn)[AWS Site-to-Site VPN] in vpc
+service eks(logos:aws-eks)[Amazon EKS] in vpc
+service aurora(logos:aws-aurora)[Aurora PostgreSQL] in vpc
+
+users:R --> L:eks
+engineers:R --> L:vpn
+vpn:R --> L:eks
+eks:R --> L:aurora

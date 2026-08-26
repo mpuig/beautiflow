@@ -1,0 +1,305 @@
+# Beautiflow
+
+[![CI](https://github.com/mpuig/beautiflow/actions/workflows/ci.yml/badge.svg)](https://github.com/mpuig/beautiflow/actions/workflows/ci.yml)
+
+Beautiflow is the deterministic diagram runtime for coding agents. It lets Pi, Claude Code, Codex, and other Agent Skills-compatible harnesses discover what they may change, validate a plan, commit only matching files, verify evidence, make at most one correction, and stop explicitly.
+
+The CLI is designed as an agent protocol: it enforces capability boundaries, schemas, receipt-backed mutations, geometry, rollback, rendering, and reproducibility without embedding a model. Humans can invoke it directly, but direct operation is secondary to the intended agent workflow. [Visit the developer site](https://beautiflow.cc/) for the agent workflow, installation, and [rendered examples](https://beautiflow.cc/examples.html).
+
+## Use Beautiflow from your coding agent
+
+Install the standalone runtime and portable skill:
+
+```bash
+curl -fsSL https://beautiflow.cc/install.sh | bash
+beautiflow install-skill
+```
+
+Open your coding-agent harness—for example, Pi:
+
+```bash
+pi
+```
+
+Then ask for the outcome in natural language:
+
+```text
+Use Beautiflow to improve architecture.mmd
+```
+
+The harness invokes the skill and follows Beautiflow's capability-aware, receipt-backed workflow. You do not need to orchestrate the CLI transaction yourself.
+
+## What Beautiflow can do
+
+- Give agents a versioned capability contract, machine schemas, safe `argv` transitions, execution budgets, and stop conditions
+- Validate mutations in receipts bound to source, sidecar, and action hashes
+- Reject stale plans, repeated corrections, unsupported operations, and quality regressions
+- Roll back a transaction to its original Mermaid source and sidecar
+- Install a portable Agent Skills-compatible skill for Pi, Claude Code, Codex, and compatible harnesses
+- Diagnose installation, permissions, parsing, rendering, protocol compatibility, and skill setup with `beautiflow doctor`
+- Apply schema-validated semantic layout actions without raw coordinates
+- Transactionally add, remove, rename, insert, bypass, reconnect, and regroup flow nodes
+- Generate multiple ELK layout candidates and select the strongest
+- Score overlaps, crossings, bends, alignment, and aspect ratio
+- Persist node positions, roles, and pins in a sidecar
+- Render flowchart, state, sequence, class, ER, XY chart, pie, GitGraph, and `architecture-beta` diagrams to SVG or PNG
+- Render supported textual families to Unicode or ASCII through Beautiful Mermaid
+- Preserve Beautiful Mermaid’s ELK routes, clipping, labels, shapes, and arrowheads
+- Route moved flowchart edges and architecture connectors around obstacles with deterministic Manhattan routing
+
+Layout actions, semantic transformations, diagnostics, polishing, and persistent sidecars focus on Mermaid flowcharts and state diagrams. Sequence, class, ER, and XY charts use family-specific SVG/PNG renderers and terminal output where supported. Pie and GitGraph support SVG/PNG rendering. Architecture supports SVG/PNG rendering plus visual audit; it preserves Mermaid’s native documented layout for normal diagrams and activates a deterministic compound ELK stability fallback for large multilevel diagrams. Both architecture paths retain explicit ports and registered AWS/Lucide icon packs.
+
+## Documentation and examples
+
+Browse the generated documentation at [beautiflow.cc/docs](https://beautiflow.cc/docs/) or read the canonical Markdown sources in the repository.
+
+- [`docs/README.md`](docs/README.md) — technical documentation index
+- [`AGENTS.md`](AGENTS.md) — repository guidance for coding agents
+- [`examples/README.md`](examples/README.md) — 19 Markdown walkthroughs, reproducible renders, and focused recipes including a six-stage AWS architecture build
+
+Browse [rendered examples](https://beautiflow.cc/examples.html), or open the bundled walkthroughs to reproduce them locally. For direct inspection, the optional read-only preview remains available:
+
+```bash
+beautiflow server examples/sources/01-subscription-intake.mmd
+```
+
+## Installation details
+
+The installer detects macOS Apple silicon or Linux x86-64, downloads the matching binary, verifies it against the release SHA-256 manifest, and installs it to `$HOME/.local/bin/beautiflow`. Override the destination with `BEAUTIFLOW_INSTALL_DIR`.
+
+The executable does not require Bun at runtime. New [GitHub releases](https://github.com/mpuig/beautiflow/releases/latest) include checksums, a Sigstore verification bundle, an SPDX SBOM, the license, and third-party notices. Other platforms can build from source.
+
+## Development
+
+Requires Bun 1.3 or newer:
+
+```bash
+bun install
+bun run check
+bun test
+# Or run every release gate and build the executable:
+bun run validate
+```
+
+Build the standalone executable:
+
+```bash
+bun run build
+./dist/beautiflow --help
+```
+
+The compiled executable does not require Bun at runtime.
+
+## Live browser preview
+
+Keep a read-only preview open beside Pi, Claude Code, or Codex:
+
+```bash
+beautiflow server architecture.mmd
+```
+
+Beautiflow opens a local browser view, watches the Mermaid source and its sidecar, and updates after every save. It renders exactly what is on disk and never runs `polish` or mutates files. If a save is temporarily invalid, the viewer keeps the last good diagram visible and shows the render error until the source recovers. Press `Ctrl+C` to stop it.
+
+No port, host, or browser options are required. The server binds to localhost and automatically selects an available port starting at 4242.
+
+## Direct CLI use
+
+Agents are the intended interface. For direct human use with a flowchart or state diagram, one command is enough:
+
+```bash
+beautiflow polish architecture.mmd
+```
+
+It runs a bounded inspect → diagnose → layout → regression check, then writes the best valid sidecar plus SVG and PNG. Preview without writing with:
+
+```bash
+beautiflow polish architecture.mmd --dry-run
+```
+
+Beautiflow reads the nearest `FLOW.md` as optional prose context. It has no required schema or configuration keys; use it for a few durable principles that should guide diagrams in that directory tree. See the repository’s `FLOW.md` for a minimal example.
+
+The commands below are advanced tools for precise rendering, inspection, or structural changes.
+
+## Render
+
+```bash
+beautiflow render architecture.mmd
+beautiflow render architecture.mmd --format png
+beautiflow render architecture.mmd --format unicode --output -
+beautiflow render architecture.mmd --theme github-dark --transparent
+```
+
+By default, output is written beside the source file.
+
+## Agent capability discovery
+
+Before choosing a mutating command, coding agents can request a family-aware operation contract:
+
+```bash
+beautiflow inspect diagram.mmd --agent --json
+```
+
+The response identifies supported operations, mutation boundaries, nearest `FLOW.md`, semantic diagnostics, safe `argv` recommendations, execution budgets, schemas, and stop conditions. Agents discover action contracts with `beautiflow schema --json`. Use `beautiflow doctor [file] --json` only when installation, parsing, permissions, or skill setup needs attention.
+
+## Receipt-backed agent runtime
+
+Agents never mutate a diagram directly. They use an enforced local transaction:
+
+```bash
+beautiflow agent plan diagram.mmd --operation polish --json
+beautiflow agent commit --receipt architecture.mmd.beautiflow-agent.json --json
+beautiflow agent verify --receipt architecture.mmd.beautiflow-agent.json --json
+beautiflow agent finish --receipt architecture.mmd.beautiflow-agent.json --visual-inspected --json
+```
+
+The state machine is:
+
+```text
+validated → applied → verified → complete
+```
+
+A receipt records source, sidecar, and action hashes; validated evidence; before-state snapshots; execution budgets; and the exact next `argv` array. Commits reject stale inputs. One targeted correction is available through `agent correct`; `agent rollback` restores the original source and sidecar. Receipts are ignored by Git because they may contain source snapshots.
+
+## Arrange and audit
+
+```bash
+beautiflow inspect architecture.mmd --json
+beautiflow layout architecture.mmd --candidates 5 --json
+beautiflow audit architecture.mmd --json
+beautiflow diagnose architecture.mmd --json
+```
+
+Layout state is stored beside the source:
+
+```text
+architecture.mmd
+architecture.beautiflow.json
+```
+
+## Apply semantic actions
+
+```bash
+beautiflow schema --json
+beautiflow agent plan architecture.mmd --operation apply --actions actions.json --json
+```
+
+Follow the returned `nextAction.argv` through commit, verify, optional correction, and finish. Direct `apply --dry-run` remains available as a low-level human command, but agents use the receipt-backed runtime.
+
+Example:
+
+```json
+{
+  "actions": [
+    { "type": "set-primary-flow", "nodes": ["client", "api", "worker"] },
+    { "type": "place-relative", "node": "retry", "relativeTo": "worker", "position": "below" },
+    { "type": "set-role", "nodes": ["retry"], "role": "exception" }
+  ]
+}
+```
+
+See `skills/beautiflow/references/actions.md` for the action catalog.
+
+## Transform graph structure
+
+Transformations change Mermaid semantics rather than only its visual layout:
+
+```bash
+beautiflow schema --json
+beautiflow agent plan architecture.mmd --operation transform --actions transformations.json --json
+```
+
+The receipt-backed transaction makes stale evidence, repeated corrections, invalid state transitions, and unverified completion explicit. Direct `transform --dry-run` remains available for low-level inspection.
+
+Example:
+
+```json
+{
+  "actions": [
+    {
+      "type": "insert-node",
+      "id": "validate",
+      "label": "Validate request",
+      "shape": "diamond",
+      "between": { "source": "gateway", "target": "auth" }
+    },
+    { "type": "add-edge", "source": "validate", "target": "denied", "label": "Invalid", "style": "dotted" }
+  ]
+}
+```
+
+A transformation is parsed, applied to a cloned graph and to a minimal source patch, reparsed, semantically diagnosed, relaid out, and audited before either the Mermaid source or sidecar is written. Agent planning records this evidence without changing diagram files. Successful commits preserve comments and unrelated formatting, reconcile stable IDs, and preserve pinned overrides.
+
+For safety, edge-changing transformations reject chained edge statements and numeric `linkStyle` directives that cannot yet be re-indexed without ambiguity. Expand chained edges to one edge per line or use class-based styling first.
+
+See `skills/beautiflow/references/transformations.md` for the transformation catalog.
+
+## Install the Beautiflow skill
+
+Shared Agent Skills location:
+
+```bash
+beautiflow install-skill
+```
+
+Harness-specific or project-local locations:
+
+```bash
+beautiflow install-skill --target pi
+beautiflow install-skill --target claude
+beautiflow install-skill --target codex
+beautiflow install-skill --local
+```
+
+Then ask your agent:
+
+```text
+Use the Beautiflow skill to polish architecture.mmd.
+```
+
+In Pi, you can invoke it explicitly:
+
+```text
+/skill:beautiflow architecture.mmd
+```
+
+The skill first runs `inspect --agent --json`, classifies the request, selects the smallest supported operation, previews semantic mutations, validates command evidence, and inspects one final render when vision is available. It allows at most one targeted correction before stopping. The agent owns intent and visual judgment; the CLI owns geometry, transactions, and validation.
+
+## Example
+
+```bash
+beautiflow layout examples/recipes/architecture/architecture.mmd --candidates 5
+beautiflow apply examples/recipes/architecture/architecture.mmd --actions examples/recipes/architecture/layout-actions.json --dry-run
+beautiflow transform examples/recipes/architecture/architecture.mmd --actions examples/recipes/architecture/graph-transformations.json --dry-run
+beautiflow render examples/recipes/architecture/architecture.mmd --format png
+```
+
+## Example suite
+
+`examples/` contains 19 original examples covering every supported Mermaid family. Nine flowchart/state examples exercise the complete layout and audit pipeline; ten specialized-family examples exercise render-only pipelines. Every raw source has a matching Markdown walkthrough, committed SVG or PNG, exact reproduction command, live-preview command, and agent prompt.
+
+See `examples/README.md` for the catalog, the [six-stage AWS architecture walkthrough](examples/recipes/aws-architecture/README.md), and the [render-options comparison](examples/recipes/render-options/README.md).
+
+## Release checklist
+
+```bash
+bun install --frozen-lockfile
+bun run validate
+./dist/beautiflow version
+./dist/beautiflow inspect examples/recipes/architecture/architecture.mmd --agent --json
+./dist/beautiflow doctor examples/recipes/architecture/architecture.mmd --json
+./dist/beautiflow layout examples/recipes/architecture/architecture.mmd --candidates 5
+./dist/beautiflow audit examples/recipes/architecture/architecture.mmd
+./dist/beautiflow diagnose examples/recipes/architecture/architecture.mmd
+./dist/beautiflow render examples/recipes/architecture/architecture.mmd --format svg
+./dist/beautiflow render examples/recipes/architecture/architecture.mmd --format png
+```
+
+The compiled executable is host-targeted because PNG support includes resvg’s native library. Build release binaries on each supported operating system and architecture. CI hides `node_modules` before exercising version output, agent inspection, and architecture rendering from the compiled executable. Tagged releases include checksums, a Sigstore bundle, and an SPDX SBOM.
+
+## License
+
+Beautiflow is released under the MIT License. See `LICENSE`.
+
+## Third-party software
+
+Beautiflow uses Beautiful Mermaid, ELK, Mermaid, JSDOM, napi-rs canvas, Iconify collections, and resvg. Vendored Beautiful Mermaid layout and rendering files retain their MIT license in `src/vendor/beautiful-mermaid/LICENSE`. See `THIRD_PARTY_NOTICES.md` for the complete attribution and license list.

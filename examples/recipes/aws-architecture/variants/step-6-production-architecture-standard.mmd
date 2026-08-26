@@ -1,0 +1,86 @@
+---
+config:
+  theme: base
+  themeVariables:
+    darkMode: false
+    archEdgeColor: "#232F3E"
+    archEdgeArrowColor: "#232F3E"
+    archGroupBorderColor: "#879196"
+  architecture:
+    seed: 7
+    iconSize: 52
+    nodeSeparation: 85
+    numIter: 500
+    idealEdgeLengthMultiplier: 1.9
+---
+architecture-beta
+
+service users(internet)[Public users]
+service engineers(server)[Remote engineers]
+service repository(disk)[Source repository]
+service oncall(server)[Operations on-call]
+
+group account(cloud)[AWS account]
+group edge(cloud)[Public edge services] in account
+group delivery(cloud)[Delivery and identity] in account
+group vpc(cloud)[VPC · 10.0.0.0/16 · two Availability Zones] in account
+group public(cloud)[Public subnets · AZ A and B] in vpc
+group eksGroup(cloud)[Amazon EKS · private application subnets] in vpc
+group dataGroup(database)[Isolated data subnets · AZ A and B] in vpc
+group operations(cloud)[Operations and recovery] in account
+
+service route53(server)[Amazon Route 53] in edge
+service cloudfront(server)[Amazon CloudFront] in edge
+service waf(server)[AWS WAF] in edge
+service alb(server)[Application Load Balancer] in public
+service natA(server)[NAT Gateway · AZ A] in public
+service natB(server)[NAT Gateway · AZ B] in public
+
+service controller(server)[Load Balancer Controller] in eksGroup
+service frontend(server)[Frontend pods · AZ A and B] in eksGroup
+service backend(server)[Backend pods · AZ A and B] in eksGroup
+service iam(server)[IAM and IRSA] in eksGroup
+service secrets(disk)[Secrets Manager] in eksGroup
+
+service proxy(server)[Amazon RDS Proxy] in dataGroup
+service writer(database)[Aurora writer · AZ A] in dataGroup
+service reader(database)[Aurora reader · AZ B] in dataGroup
+service backups(disk)[S3 backup archive] in dataGroup
+
+service cgw(server)[Customer Gateway] in vpc
+service vpn(server)[Site-to-Site VPN] in vpc
+service vgw(server)[Virtual Private Gateway] in vpc
+
+service pipeline(server)[CI/CD pipeline] in delivery
+service ecr(disk)[Amazon ECR] in delivery
+service cloudwatch(server)[Amazon CloudWatch] in operations
+service alarms(server)[CloudWatch alarms] in operations
+
+users:R --> L:route53
+route53:R --> L:cloudfront
+cloudfront:R --> L:waf
+waf:B --> T:alb
+alb:R --> L:controller
+controller:R --> L:frontend
+frontend:R --> L:backend
+backend:R --> L:proxy
+proxy:R --> L:writer
+writer:B --> T:reader
+writer:R --> L:backups
+
+engineers:R --> L:cgw
+cgw:R --> L:vpn
+vpn:R --> L:vgw
+vgw:T --> B:backend
+backend:B --> T:natA
+natA:R --> L:natB
+
+repository:R --> L:pipeline
+pipeline:R --> L:ecr
+ecr:R --> L:controller
+iam:B --> T:backend
+secrets:B --> T:backend
+backend:R --> L:cloudwatch
+cloudwatch:R --> L:alarms
+alarms:R --> L:oncall
+

@@ -1,0 +1,27 @@
+{
+  "actions": [
+    {
+      "type": "insert-node",
+      "id": "validate",
+      "label": "Validate request",
+      "shape": "diamond",
+      "between": {
+        "source": "gateway",
+        "target": "auth"
+      }
+    },
+    {
+      "type": "set-edge-label",
+      "source": "validate",
+      "target": "auth",
+      "label": "Valid"
+    },
+    {
+      "type": "add-edge",
+      "source": "validate",
+      "target": "denied",
+      "label": "Invalid",
+      "style": "dotted"
+    }
+  ]
+}

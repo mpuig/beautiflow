@@ -1,0 +1,7 @@
+flowchart LR
+  client[Client] --> gateway[API Gateway]
+  gateway --> auth{Authorized?}
+  auth -->|Yes| worker[Worker]
+  auth -->|No| denied[Access denied]
+  worker --> database[(Database)]
+  worker -.-> queue[Retry queue]

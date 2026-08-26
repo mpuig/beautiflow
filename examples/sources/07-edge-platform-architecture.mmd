@@ -1,0 +1,10 @@
+flowchart TB
+    devices[Field devices] --> edge[Edge gateway]
+    edge --> ingest[Event ingestion]
+    ingest --> stream[Stream processor]
+    stream --> telemetry[(Telemetry store)]
+    stream --> alerts[Alert service]
+    alerts --> operator[Operations console]
+    stream --> archive[Cold archive]
+    edge --> commands[Command channel]
+    commands --> devices

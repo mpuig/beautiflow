@@ -1,0 +1,85 @@
+---
+config:
+  theme: base
+  themeVariables:
+    darkMode: false
+    archEdgeColor: "#232F3E"
+    archEdgeArrowColor: "#232F3E"
+    archGroupBorderColor: "#879196"
+  architecture:
+    seed: 7
+    iconSize: 52
+    nodeSeparation: 85
+    numIter: 500
+    idealEdgeLengthMultiplier: 1.9
+---
+architecture-beta
+
+service users(lucide:users)[Public users]
+service engineers(lucide:laptop)[Engineers]
+service repository(lucide:git-branch)[Source]
+service oncall(lucide:bell-ring)[On-call]
+
+group account(cloud)[AWS account]
+group edge(cloud)[Public edge services] in account
+group delivery(lucide:rocket)[Delivery and identity] in account
+group vpc(cloud)[VPC · 10.0.0.0/16 · two Availability Zones] in account
+group public(cloud)[Public subnets · AZ A and B] in vpc
+group eksGroup(cloud)[Amazon EKS · private application subnets] in vpc
+group dataGroup(database)[Isolated data subnets · AZ A and B] in vpc
+group operations(cloud)[Operations and recovery] in account
+
+service route53(logos:aws-route53)[Route 53] in edge
+service cloudfront(logos:aws-cloudfront)[CloudFront] in edge
+service waf(logos:aws-waf)[WAF] in edge
+service alb(logos:aws-elb)[ALB] in public
+service natA(aws:nat-gateway)[NAT-A] in public
+service natB(aws:nat-gateway)[NAT-B] in public
+
+service controller(logos:aws-eks)[Controller] in eksGroup
+service frontend(lucide:panels-top-left)[Frontend] in eksGroup
+service backend(lucide:server-cog)[Backend] in eksGroup
+service iam(logos:aws-iam)[IRSA] in eksGroup
+service secrets(logos:aws-secrets-manager)[Secrets] in eksGroup
+
+service proxy(logos:aws-rds)[RDS Proxy] in dataGroup
+service writer(logos:aws-aurora)[Aurora writer] in dataGroup
+service reader(logos:aws-aurora)[Aurora reader] in dataGroup
+service backups(logos:aws-s3)[S3 backups] in dataGroup
+
+service cgw(lucide:router)[Customer GW] in vpc
+service vpn(aws:vpn)[VPN] in vpc
+service vgw(lucide:shield-check)[Virtual GW] in vpc
+
+service pipeline(lucide:workflow)[CI/CD] in delivery
+service ecr(aws:ecr)[ECR] in delivery
+service cloudwatch(logos:aws-cloudwatch)[CloudWatch] in operations
+service alarms(lucide:triangle-alert)[Alarms] in operations
+
+users:B --> T:route53
+route53:R --> L:cloudfront
+cloudfront:R --> L:waf
+waf:B --> T:alb
+alb:R --> L:controller
+controller:R --> L:frontend
+frontend:R --> L:backend
+backend:R --> L:proxy
+proxy:R --> L:writer
+writer:B --> T:reader
+writer:R --> L:backups
+
+engineers:B --> T:cgw
+cgw:R --> L:vpn
+vpn:R --> L:vgw
+vgw:T --> B:backend
+backend:B --> T:natA
+natA:R --> L:natB
+
+repository:B --> T:pipeline
+pipeline:R --> L:ecr
+ecr:R --> L:controller
+iam:B --> T:backend
+secrets:B --> T:backend
+backend:R --> L:cloudwatch
+cloudwatch:R --> L:alarms
+alarms:T --> B:oncall

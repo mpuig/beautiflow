@@ -1,0 +1,56 @@
+---
+config:
+  theme: base
+  themeVariables:
+    darkMode: false
+    archEdgeColor: "#232F3E"
+    archEdgeArrowColor: "#232F3E"
+    archGroupBorderColor: "#879196"
+  architecture:
+    seed: 7
+    iconSize: 52
+    numIter: 400
+    idealEdgeLengthMultiplier: 1.9
+---
+architecture-beta
+
+service users(lucide:users)[Public users]
+service engineers(lucide:laptop)[Remote engineers]
+
+group account(cloud)[AWS account]
+group edge(cloud)[Public edge services] in account
+group vpc(cloud)[VPC · two Availability Zones] in account
+group public(cloud)[Public subnets · AZ A and B] in vpc
+group eksGroup(logos:aws-eks)[Amazon EKS · private app subnets] in vpc
+group dataGroup(database)[Isolated data subnets] in vpc
+
+service route53(logos:aws-route53)[Amazon Route 53] in edge
+service cloudfront(logos:aws-cloudfront)[Amazon CloudFront] in edge
+service waf(logos:aws-waf)[AWS WAF] in edge
+service alb(logos:aws-elb)[Application Load Balancer] in public
+service controller(logos:aws-eks)[Load Balancer Controller] in eksGroup
+service frontend(lucide:panels-top-left)[Frontend pods] in eksGroup
+service backend(lucide:server-cog)[Backend pods] in eksGroup
+service proxy(logos:aws-rds)[Amazon RDS Proxy] in dataGroup
+service aurora(logos:aws-aurora)[Aurora PostgreSQL · Multi-AZ] in dataGroup
+service cgw(lucide:router)[Customer Gateway] in vpc
+service vpn(aws:vpn)[Site-to-Site VPN] in vpc
+service vgw(lucide:shield-check)[Virtual Private Gateway] in vpc
+service natA(aws:nat-gateway)[NAT Gateway · AZ A] in public
+service natB(aws:nat-gateway)[NAT Gateway · AZ B] in public
+
+users:R --> L:route53
+route53:R --> L:cloudfront
+cloudfront:R --> L:waf
+waf:B --> T:alb
+alb:R --> L:controller
+controller:R --> L:frontend
+frontend:R --> L:backend
+backend:R --> L:proxy
+proxy:R --> L:aurora
+engineers:R --> L:cgw
+cgw:R --> L:vpn
+vpn:R --> L:vgw
+vgw:T --> B:backend
+backend:B --> T:natA
+natA:R --> L:natB

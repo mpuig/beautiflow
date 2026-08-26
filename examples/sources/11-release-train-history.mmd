@@ -1,0 +1,14 @@
+gitGraph:
+    commit id: "baseline"
+    branch accessibility
+    checkout accessibility
+    commit id: "contrast"
+    commit id: "keyboard" tag: "review"
+    checkout main
+    commit id: "telemetry" type: HIGHLIGHT
+    merge accessibility id: "merge-a11y"
+    branch hotfix
+    checkout hotfix
+    commit id: "cache-fix" type: REVERSE
+    checkout main
+    merge hotfix id: "release-2.4"

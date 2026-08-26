@@ -1,0 +1,10 @@
+flowchart TD
+    start([Choose storage]) --> relationships{Complex relationships?}
+    relationships -->|Yes| relational[Relational database]
+    relationships -->|No| access{Primary access pattern?}
+    access -->|Key lookup| keyvalue[Key-value store]
+    access -->|Document query| document[Document database]
+    access -->|Time window| timeseries[Time-series database]
+    relational --> scale{Global write scale?}
+    scale -->|No| single[Single-region cluster]
+    scale -->|Yes| distributed[Distributed SQL]

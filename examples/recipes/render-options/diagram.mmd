@@ -1,0 +1,9 @@
+flowchart LR
+    visitor([Visitor]) --> router[Request router]
+    router --> cached{Response cached?}
+    cached -->|Yes| cache[(Edge cache)]
+    cache --> response[Return response]
+    cached -->|No| queue[Work queue]
+    queue --> worker[Render worker]
+    worker --> store[(Content store)]
+    store --> response

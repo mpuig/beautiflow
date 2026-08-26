@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.5
+      - run: bun install --frozen-lockfile
+      - run: bun run validate
+      - name: Standalone smoke test without node_modules
+        shell: bash
+        run: |
+          mv node_modules node_modules.hidden
+          trap 'mv node_modules.hidden node_modules' EXIT
+          ./dist/beautiflow version
+          ./dist/beautiflow inspect examples/sources/01-subscription-intake.mmd --agent --json > /tmp/beautiflow-agent.json
+          ./dist/beautiflow schema --json > /tmp/beautiflow-schema.json
+          cp examples/sources/01-subscription-intake.mmd /tmp/beautiflow-agent-smoke.mmd
+          ./dist/beautiflow agent plan /tmp/beautiflow-agent-smoke.mmd --operation polish --receipt /tmp/beautiflow-agent-receipt.json --json > /tmp/beautiflow-plan.json
+          ./dist/beautiflow agent commit --receipt /tmp/beautiflow-agent-receipt.json --json > /tmp/beautiflow-commit.json
+          ./dist/beautiflow agent verify --receipt /tmp/beautiflow-agent-receipt.json --json > /tmp/beautiflow-verify.json
+          ./dist/beautiflow agent finish --receipt /tmp/beautiflow-agent-receipt.json --json > /tmp/beautiflow-finish.json
+          ./dist/beautiflow render examples/recipes/aws-architecture/sources/step-6-production-architecture.mmd --format svg --output /tmp/beautiflow-architecture.svg
+          test -s /tmp/beautiflow-architecture.svg
+          grep -q '"protocolVersion": "1.1"' /tmp/beautiflow-agent.json
+          grep -q '"state": "complete"' /tmp/beautiflow-finish.json
