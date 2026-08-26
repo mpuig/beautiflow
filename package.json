@@ -18,11 +18,12 @@
   },
   "scripts": {
     "build": "bun run ./scripts/patch-jsdom.ts && bun build ./src/cli.ts --compile --minify --bytecode --sourcemap --no-compile-autoload-dotenv --no-compile-autoload-bunfig --outfile ./dist/beautiflow",
+    "build:docs": "bun run ./scripts/build-docs.ts",
     "check": "bunx tsc --noEmit",
     "clean": "rm -rf dist",
     "dev": "bun run ./src/cli.ts",
     "test": "bun test",
-    "validate": "bun run check && bun test && bun run build"
+    "validate": "bun run check && bun test && bun run build && bun run build:docs"
   },
   "dependencies": {
     "@iconify-json/logos": "1.2.13",
@@ -37,6 +38,7 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@types/jsdom": "27.0.0",
+    "marked": "16.4.2",
     "typescript": "^5.9.3"
   },
   "engines": {

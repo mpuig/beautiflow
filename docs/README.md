@@ -4,15 +4,15 @@ Beautiflow is a standalone CLI that turns Mermaid source into deterministic, pol
 
 ## Start here
 
-- [Architecture](architecture.md) — process boundaries and source tree
-- [CLI reference](cli.md) — commands, output, and exit behavior
-- [Rendering pipeline](rendering.md) — family detection, Beautiful Mermaid, SVG, and PNG
-- [Layout sidecar](sidecar.md) — persisted presentation state and reconciliation
-- [Transformations](transformations.md) — semantic graph editing and source-preserving writes
-- [Auditing and diagnostics](quality.md) — geometric and semantic checks
-- [Live preview server](server.md) — file watching, SSE, recovery, and security boundary
-- [Agent Skill](agent-skill.md) — Pi, Claude Code, Codex, `FLOW.md`, and action contracts
-- [Development](development.md) — building, testing, vendoring, and releases
+- [Architecture](architecture.md): process boundaries and source tree
+- [CLI reference](cli.md): commands, output, and exit behavior
+- [Rendering pipeline](rendering.md): family detection, Beautiful Mermaid, SVG, and PNG
+- [Layout sidecar](sidecar.md): persisted presentation state and reconciliation
+- [Transformations](transformations.md): semantic graph editing and source-preserving writes
+- [Auditing and diagnostics](quality.md): geometric and semantic checks
+- [Live preview server](server.md): file watching, SSE, recovery, and security boundary
+- [Agent Skill](agent-skill.md): Pi, Claude Code, Codex, `FLOW.md`, and action contracts
+- [Development](development.md): building, testing, vendoring, and releases
 
 ## Common workflow
 

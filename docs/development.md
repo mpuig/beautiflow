@@ -23,6 +23,16 @@ bun run build
 
 The build command first applies a narrowly checked JSDOM compile patch that disables its unused synchronous-XHR worker path, then compiles `src/cli.ts` with minification and Bun bytecode into `dist/beautiflow`. JSDOM's default stylesheet is embedded as text and supplied during dynamic module initialization. These adapters prevent the executable from referring to build-machine `node_modules` paths. The executable does not require Bun at runtime.
 
+## Documentation site
+
+Markdown under `docs/` is the canonical source. Build the static HTML documentation with:
+
+```bash
+bun run build:docs
+```
+
+The command writes clean-route pages, shared CSS, and copy-button JavaScript to `dist/docs/`. GitHub Pages runs the same generator against `_site/docs`; generated HTML is not committed. Internal Markdown links are rewritten to web routes, while every page links back to its source on GitHub.
+
 ## Release gate
 
 ```bash

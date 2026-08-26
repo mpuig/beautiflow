@@ -31,6 +31,7 @@ describe('developer landing page', () => {
 
     expect(workflow).toContain('actions/upload-pages-artifact@')
     expect(workflow).toContain('actions/deploy-pages@')
+    expect(workflow).toContain('bun run ./scripts/build-docs.ts _site/docs')
     expect(workflow).toContain('cp index.html install.sh CNAME _site/')
     expect(workflow).toContain('cp -R examples _site/examples')
   })

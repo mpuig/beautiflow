@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added a responsive HTML documentation site generated from the canonical Markdown sources.
+- Added clean documentation routes, chapter navigation, local tables of contents, copyable code blocks, and GitHub edit links.
+- Added build and link regression coverage for generated documentation.
+
 ## 0.7.1
 
 - Embedded JSDOM's runtime stylesheet in the standalone executable.

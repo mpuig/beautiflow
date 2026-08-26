@@ -28,6 +28,8 @@ Layout actions, semantic transformations, diagnostics, polishing, and persistent
 
 ## Documentation and examples
 
+Browse the generated documentation at [beautiflow.cc/docs](https://beautiflow.cc/docs/) or read the canonical Markdown sources in the repository.
+
 - [`docs/README.md`](docs/README.md) — technical documentation index
 - [`AGENTS.md`](AGENTS.md) — repository guidance for coding agents
 - [`examples/README.md`](examples/README.md) — 19 Markdown walkthroughs, reproducible renders, and focused recipes including a six-stage AWS architecture build

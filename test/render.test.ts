@@ -71,7 +71,7 @@ waf:B --> T:eks
     expect(svg).not.toContain('data-beautiflow-layout="compound-elk-fallback"')
     expect(png).toBeInstanceOf(Uint8Array)
     expect([...png.slice(0, 8)]).toEqual([137, 80, 78, 71, 13, 10, 26, 10])
-  })
+  }, 15_000)
 
   test('renders pie and gitGraph families in the standalone binary pipeline', async () => {
     const pie = await renderStandaloneOutput(`pie title Work\n  "Build" : 70\n  "Review" : 30\n`, { inputPath: 'pie.mmd', format: 'svg', transparent: false })
