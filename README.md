@@ -46,7 +46,7 @@ curl -fsSL https://beautiflow.cc/install.sh | bash
 
 The installer detects macOS Apple silicon or Linux x86-64, downloads the matching binary, verifies it against the release SHA-256 manifest, and installs it to `$HOME/.local/bin/beautiflow`. Override the destination with `BEAUTIFLOW_INSTALL_DIR`.
 
-The executable does not require Bun at runtime. Checksums, the license, and third-party notices are attached to every [GitHub release](https://github.com/mpuig/beautiflow/releases/latest). Other platforms can build from source.
+The executable does not require Bun at runtime. New [GitHub releases](https://github.com/mpuig/beautiflow/releases/latest) include checksums, a Sigstore verification bundle, an SPDX SBOM, the license, and third-party notices. Other platforms can build from source.
 
 ## Development
 
@@ -109,6 +109,16 @@ beautiflow render architecture.mmd --theme github-dark --transparent
 ```
 
 By default, output is written beside the source file.
+
+## Agent capability discovery
+
+Before choosing a mutating command, coding agents can request a family-aware operation contract:
+
+```bash
+beautiflow inspect architecture.mmd --agent --json
+```
+
+The response identifies supported operations, mutation boundaries, nearest `FLOW.md`, semantic diagnostics, command recommendations, execution budgets, and stop conditions. Use `beautiflow doctor [file] --json` only when installation, parsing, permissions, or skill setup needs attention.
 
 ## Arrange and audit
 

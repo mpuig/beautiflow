@@ -2,6 +2,7 @@
 
 import packageJson from '../package.json' with { type: 'json' }
 import { parseArgs } from './args.ts'
+import { agentInspection } from './agent.ts'
 import { applyActions, parseActions } from './diagram/actions.ts'
 import { auditDiagram } from './diagram/audit.ts'
 import { generateCandidates, layoutProject } from './diagram/layout.ts'
@@ -17,6 +18,7 @@ import { diagnoseProject } from './diagram/semantic.ts'
 import { polishProject } from './diagram/polish.ts'
 import { findFlowContext } from './flow-context.ts'
 import { startPreviewServer } from './server.ts'
+import { doctorReport } from './doctor.ts'
 
 function printJson(value: unknown): void {
   console.log(JSON.stringify(value, null, 2))
@@ -40,7 +42,16 @@ function graphSummary(project: Awaited<ReturnType<typeof loadProject>>) {
   }
 }
 
-async function runInspect(inputPath: string, json: boolean): Promise<void> {
+async function runInspect(inputPath: string, json: boolean, agent: boolean): Promise<void> {
+  if (agent) {
+    const contract = await agentInspection(inputPath)
+    if (json) printJson(contract)
+    else {
+      console.log(`${contract.family} · ${Object.values(contract.capabilities).filter((capability) => capability.supported).length} supported operations`)
+      console.log(`Next: ${contract.recommendedOperations[0]?.command ?? 'No operation recommended'}`)
+    }
+    return
+  }
   const project = await loadProject(inputPath)
   const context = await findFlowContext(inputPath)
   const summary = { ...graphSummary(project), flowContext: context ?? null }
@@ -74,7 +85,18 @@ async function runPolish(inputPath: string, dryRun: boolean, json: boolean): Pro
   }
 
   const output = {
+    ok: true,
+    operation: 'polish',
+    changed: !dryRun && result.status !== 'unchanged',
     status: dryRun ? `dry-run-${result.status}` : result.status,
+    files: {
+      source: project.sourcePath,
+      sidecar: project.sidecarPath,
+      ...(dryRun ? {} : {
+        svg: requestedOutputPath({ inputPath, format: 'svg', transparent: false }),
+        png: requestedOutputPath({ inputPath, format: 'png', transparent: false }),
+      }),
+    },
     before: { score: result.before.score, metrics: result.before.metrics },
     after: { score: result.after.score, metrics: result.after.metrics },
     semantic: result.semantic,
@@ -85,6 +107,8 @@ async function runPolish(inputPath: string, dryRun: boolean, json: boolean): Pro
     ...(dryRun ? {} : {
       outputs: [requestedOutputPath({ inputPath, format: 'svg', transparent: false }), requestedOutputPath({ inputPath, format: 'png', transparent: false })],
     }),
+    warnings: result.semantic.issues ?? [],
+    nextAction: null,
   }
   if (json) printJson(output)
   else {
@@ -125,6 +149,9 @@ async function runLayout(inputPath: string, count: number, json: boolean): Promi
   const audit = auditDiagram(selected)
 
   const result = {
+    ok: true,
+    operation: 'layout',
+    changed: true,
     selected: best.id,
     score: audit.score,
     direction: best.direction,
@@ -144,7 +171,15 @@ async function runLayout(inputPath: string, count: number, json: boolean): Promi
 
 async function runDiagnose(inputPath: string, json: boolean): Promise<void> {
   const project = await loadProject(inputPath)
-  const report = diagnoseProject(project)
+  const semantic = diagnoseProject(project)
+  const report = {
+    ok: true,
+    operation: 'diagnose',
+    changed: false,
+    ...semantic,
+    warnings: semantic.issues,
+    nextAction: semantic.issues.length ? 'Address a named semantic issue with a dry-run transformation' : null,
+  }
   if (json) printJson(report)
   else {
     console.log(`Semantic score ${report.score}/100`)
@@ -173,7 +208,17 @@ async function runAudit(inputPath: string, json: boolean): Promise<void> {
       ...(metrics.wrappedLabels ? [{ severity: 'medium', type: 'wrapped-labels', message: `${metrics.wrappedLabels} service labels wrap beyond two lines` }] : []),
       ...(metrics.complexityLoad ? [{ severity: 'low', type: 'complexity-load', message: `${metrics.complexityLoad} services exceed the single-slide detail budget` }] : []),
     ]
-    const report = { score, family: 'architecture', metrics, issues }
+    const report = {
+      ok: true,
+      operation: 'audit',
+      changed: false,
+      score,
+      family: 'architecture',
+      metrics,
+      issues,
+      warnings: issues,
+      nextAction: issues.some((issue) => issue.severity === 'high') ? 'Correct high-severity architecture findings before accepting the render' : null,
+    }
     if (json) printJson(report)
     else {
       console.log(`Architecture score ${score}/100`)
@@ -187,7 +232,15 @@ async function runAudit(inputPath: string, json: boolean): Promise<void> {
     direction: project.sidecar.direction,
     applyOverrides: true,
   })
-  const audit = auditDiagram(diagram)
+  const geometry = auditDiagram(diagram)
+  const audit = {
+    ok: true,
+    operation: 'audit',
+    changed: false,
+    ...geometry,
+    warnings: geometry.issues,
+    nextAction: geometry.issues.some((issue) => issue.severity === 'high') ? 'Correct high-severity geometry findings before accepting the render' : null,
+  }
   if (json) printJson(audit)
   else {
     console.log(`Score ${audit.score}/100`)
@@ -232,6 +285,9 @@ async function runTransform(
   }
 
   const output = {
+    ok: true,
+    operation: 'transform',
+    changed: !dryRun,
     actionsApplied: result.actionsApplied,
     dryRun,
     before: result.before,
@@ -241,6 +297,9 @@ async function runTransform(
     semantic: result.semantic,
     source: project.sourcePath,
     sidecar: project.sidecarPath,
+    files: { source: project.sourcePath, sidecar: project.sidecarPath },
+    warnings: [...result.semantic.issues, ...result.audit.issues],
+    nextAction: dryRun ? 'Apply the same validated transformation file without --dry-run' : null,
     ...(dryRun ? { transformedSource: result.source } : {}),
   }
   if (json) printJson(output)
@@ -268,11 +327,17 @@ async function runApply(
   else project.sidecar = original
 
   const output = {
+    ok: true,
+    operation: 'apply',
+    changed: !dryRun,
     actionsApplied: result.actionsApplied,
     dryRun,
     score: result.audit.score,
     metrics: result.audit.metrics,
     sidecar: project.sidecarPath,
+    files: { source: project.sourcePath, sidecar: project.sidecarPath },
+    warnings: result.audit.issues,
+    nextAction: dryRun ? 'Apply the same validated action file without --dry-run' : null,
   }
   if (json) printJson(output)
   else console.log(`${dryRun ? 'Validated' : 'Applied'} ${actions.length} action(s) · score ${result.audit.score}`)
@@ -296,7 +361,17 @@ export async function run(args: string[]): Promise<void> {
       })
       return
     }
-    case 'inspect': await runInspect(command.inputPath, command.json); return
+    case 'inspect': await runInspect(command.inputPath, command.json, command.agent); return
+    case 'doctor': {
+      const report = await doctorReport(packageJson.version, command.inputPath)
+      if (command.json) printJson(report)
+      else {
+        for (const check of report.checks) console.log(`${check.status.padEnd(4)}  ${check.name}: ${check.message}`)
+        console.log(report.ok ? 'Beautiflow is ready' : 'Beautiflow needs attention')
+      }
+      if (!report.ok) process.exitCode = 1
+      return
+    }
     case 'layout': await runLayout(command.inputPath, command.candidates, command.json); return
     case 'polish': await runPolish(command.inputPath, command.dryRun, command.json); return
     case 'audit': await runAudit(command.inputPath, command.json); return

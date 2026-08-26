@@ -33,12 +33,14 @@ This runs type checking, every Bun test, and the standalone build.
 
 ## Test suites
 
+- `agent.test.ts` — capability discovery, mutation boundaries, execution budgets, and doctor checks
 - `args.test.ts` — public command parsing
 - `diagram.test.ts` — layout, routing, actions, audits, and ELK edge association
 - `examples.test.ts` — 19-file Mermaid family compatibility suite
 - `polish.test.ts` — bounded candidate selection and `FLOW.md`
 - `render.test.ts` — SVG, terminal, specialized families, and PNG signatures
 - `server.test.ts` — save detection, last-good-render retention, and recovery
+- `site.test.ts` — developer site, Pages deployment, and verified installer
 - `transform.test.ts` — source-preserving topology changes and semantic regression checks
 
 ## Vendored Beautiful Mermaid files
@@ -62,4 +64,4 @@ The product deliberately keeps its common path small. Prefer deterministic defau
 
 ## Release artifacts
 
-PNG support includes native code. Build and test on each release target rather than assuming Bun cross-compilation carries the correct resvg binary. Publish checksums and third-party notices with binaries.
+PNG support includes native code. Build and test on each release target rather than assuming Bun cross-compilation carries the correct resvg binary. Publish checksums, a Sigstore checksum-manifest bundle, an SPDX SBOM, and third-party notices with binaries. The release workflow creates these artifacts automatically; macOS notarization remains a separate credentialed release requirement.

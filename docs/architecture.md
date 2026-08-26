@@ -20,6 +20,8 @@ This keeps the executable deterministic and lets each agent harness use its exis
 ```text
 src/cli.ts
   ├─ args.ts                 command parsing
+  ├─ agent.ts                capability discovery and bounded operation contract
+  ├─ doctor.ts               local environment and diagram readiness checks
   ├─ diagram/project.ts      Mermaid + sidecar loading
   ├─ diagram/layout.ts       ELK candidates and constrained routing
   ├─ diagram/audit.ts        geometric metrics

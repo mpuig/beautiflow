@@ -44,6 +44,17 @@ describe('parseArgs', () => {
     expect(() => parseArgs(['server', 'flow.mmd', '--port', '9000'])).toThrow('Unexpected argument')
   })
 
+  test('parses agent inspection and doctor commands', () => {
+    expect(parseArgs(['inspect', 'flow.mmd', '--agent', '--json'])).toEqual({
+      name: 'inspect', inputPath: 'flow.mmd', agent: true, json: true,
+    })
+    expect(parseArgs(['inspect', 'flow.mmd'])).toEqual({
+      name: 'inspect', inputPath: 'flow.mmd', agent: false, json: false,
+    })
+    expect(parseArgs(['doctor', '--json'])).toEqual({ name: 'doctor', json: true })
+    expect(parseArgs(['doctor', 'flow.mmd'])).toEqual({ name: 'doctor', inputPath: 'flow.mmd', json: false })
+  })
+
   test('parses the simple polish command', () => {
     expect(parseArgs(['polish', 'flow.mmd'])).toEqual({
       name: 'polish', inputPath: 'flow.mmd', dryRun: false, json: false,

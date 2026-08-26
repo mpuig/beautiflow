@@ -43,11 +43,15 @@ Pie, GitGraph, and `architecture-beta` currently support SVG and PNG, not termin
 
 ```bash
 beautiflow inspect diagram.mmd --json
+beautiflow inspect diagram.mmd --agent --json
+beautiflow doctor diagram.mmd --json
 beautiflow audit diagram.mmd --json
 beautiflow diagnose diagram.mmd --json
 ```
 
 - `inspect` reports graph IDs, edges, sidecar state, and the nearest `FLOW.md`.
+- `inspect --agent` works across supported families and returns capabilities, mutation boundaries, recommended commands, execution budgets, and evidence-based stop conditions.
+- `doctor` validates the local platform, skill installation, file access, family detection, output directory, `FLOW.md`, and parse/render pipeline. It accepts an optional diagram path.
 - `audit` checks flowchart geometry. For large multilevel architecture renders it reports shared route segments, group-header crossings, excessive bends, and over-wrapped labels.
 - `diagnose` checks flow semantics.
 
@@ -99,6 +103,6 @@ beautiflow --help
 
 - `0`: success
 - `2`: invalid command input, missing files, parse failures, unsafe transformations, or rejected geometry
-- `1`: unexpected internal failure
+- `1`: failed `doctor` checks or an unexpected internal failure
 
 Human progress messages go to stderr where needed so rendered stdout remains pipe-safe.

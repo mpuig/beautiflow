@@ -31,6 +31,8 @@ The user runs `beautiflow server <diagram.mmd>` in parallel with an agent chat. 
 - Flowchart and state diagrams use the complete layout pipeline; specialized Mermaid families use render-only pipelines.
 - `architecture-beta` preserves Mermaid’s native renderer for normal diagrams and uses a deterministic compound ELK stability fallback for large multilevel diagrams, with explicit ports and registered AWS/Lucide icon packs.
 - The normal interface must remain simple and avoid exposing unnecessary options.
+- Agent integrations discover family-specific capabilities, mutation boundaries, command routing, execution budgets, and stop conditions through a versioned JSON contract.
+- Agent autonomy is bounded to one initial operation, one evidence-based correction, and one visual inspection; failed validation always stops mutation.
 
 ## Brand Commitments
 
@@ -43,6 +45,7 @@ The repository includes a 19-file original Mermaid example suite spanning every 
 ## Product Principles
 
 - Keep the common path to one obvious command.
+- Make agents proactive about discovery and conservative about mutation.
 - Preview never mutates source files.
 - The artifact leads; viewer chrome stays secondary.
 - Failures remain visible and actionable without replacing the last good render.

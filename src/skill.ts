@@ -3,6 +3,7 @@ import { homedir } from 'node:os'
 import { join, resolve } from 'node:path'
 import skill from '../skills/beautiflow/SKILL.md' with { type: 'text' }
 import actions from '../skills/beautiflow/references/actions.md' with { type: 'text' }
+import protocol from '../skills/beautiflow/references/agent-protocol.md' with { type: 'text' }
 import rubric from '../skills/beautiflow/references/quality-rubric.md' with { type: 'text' }
 import transformations from '../skills/beautiflow/references/transformations.md' with { type: 'text' }
 import type { SkillTarget } from './args.ts'
@@ -28,6 +29,7 @@ export async function installSkill(target: SkillTarget, local: boolean): Promise
   await Promise.all([
     writeFile(join(directory, 'SKILL.md'), skill),
     writeFile(join(references, 'actions.md'), actions),
+    writeFile(join(references, 'agent-protocol.md'), protocol),
     writeFile(join(references, 'quality-rubric.md'), rubric),
     writeFile(join(references, 'transformations.md'), transformations),
   ])

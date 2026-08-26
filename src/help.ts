@@ -3,7 +3,8 @@ export const HELP = `Beautiflow — beautiful diagrams from imperfect flows
 Usage:
   beautiflow render <file> [options]
   beautiflow server <file>
-  beautiflow inspect <file> [--json]
+  beautiflow inspect <file> [--agent] [--json]
+  beautiflow doctor [file] [--json]
   beautiflow layout <file> [--candidates 1-5] [--json]
   beautiflow polish <file> [--dry-run] [--json]
   beautiflow audit <file> [--json]
@@ -23,6 +24,8 @@ Render options:
 Examples:
   beautiflow server architecture.mmd
   beautiflow polish architecture.mmd
+  beautiflow inspect architecture.mmd --agent --json
+  beautiflow doctor architecture.mmd --json
   beautiflow polish architecture.mmd --dry-run --json
   beautiflow layout architecture.mmd --candidates 5 --json
   beautiflow audit architecture.mmd --json

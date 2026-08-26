@@ -9,8 +9,9 @@ Beautiflow is a deterministic Mermaid CLI and portable agent skill. Agent harnes
 Keep the common path simple:
 
 ```bash
-beautiflow server diagram.mmd
+beautiflow inspect diagram.mmd --agent --json
 beautiflow polish diagram.mmd
+beautiflow server diagram.mmd
 ```
 
 Do not add model SDKs, provider authentication, embedded chat, visual editing, or tldraw without an explicit product decision.

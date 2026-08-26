@@ -9,7 +9,8 @@ export type Command =
   | { name: 'themes' }
   | { name: 'render'; request: RenderRequest }
   | { name: 'server'; inputPath: string }
-  | { name: 'inspect'; inputPath: string; json: boolean }
+  | { name: 'inspect'; inputPath: string; json: boolean; agent: boolean }
+  | { name: 'doctor'; inputPath?: string; json: boolean }
   | { name: 'layout'; inputPath: string; candidates: number; json: boolean }
   | { name: 'polish'; inputPath: string; dryRun: boolean; json: boolean }
   | { name: 'audit'; inputPath: string; json: boolean }
@@ -87,14 +88,29 @@ function parseRender(args: string[]): Command {
 function parseInputCommand(name: 'inspect' | 'audit' | 'diagnose', args: string[]): Command {
   let inputPath: string | undefined
   let json = false
+  let agent = false
+  for (const arg of args) {
+    if (arg === '--json') json = true
+    else if (arg === '--agent' && name === 'inspect') agent = true
+    else if (arg.startsWith('-')) throw new CliError(`Unknown option: ${arg}`, 2)
+    else if (inputPath) throw new CliError(`Unexpected argument: ${arg}`, 2)
+    else inputPath = arg
+  }
+  if (!inputPath) throw new CliError('Missing Mermaid input file', 2)
+  if (name === 'inspect') return { name, inputPath, json, agent }
+  return { name, inputPath, json }
+}
+
+function parseDoctor(args: string[]): Command {
+  let inputPath: string | undefined
+  let json = false
   for (const arg of args) {
     if (arg === '--json') json = true
     else if (arg.startsWith('-')) throw new CliError(`Unknown option: ${arg}`, 2)
     else if (inputPath) throw new CliError(`Unexpected argument: ${arg}`, 2)
     else inputPath = arg
   }
-  if (!inputPath) throw new CliError('Missing Mermaid input file', 2)
-  return { name, inputPath, json }
+  return { name: 'doctor', ...(inputPath ? { inputPath } : {}), json }
 }
 
 function parsePolish(args: string[]): Command {
@@ -179,6 +195,7 @@ export function parseArgs(args: string[]): Command {
   if (command === 'render') return parseRender(rest)
   if (command === 'server') return parseServer(rest)
   if (command === 'inspect' || command === 'audit' || command === 'diagnose') return parseInputCommand(command, rest)
+  if (command === 'doctor') return parseDoctor(rest)
   if (command === 'layout') return parseLayout(rest)
   if (command === 'polish') return parsePolish(rest)
   if (command === 'apply' || command === 'transform') return parseActionCommand(command, rest)
