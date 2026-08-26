@@ -30,7 +30,7 @@
     "@napi-rs/canvas": "1.0.8",
     "@resvg/resvg-js": "2.6.2",
     "beautiful-mermaid": "1.1.3",
-    "elkjs": "0.11.0",
+    "elkjs": "0.12.0",
     "jsdom": "27.0.1",
     "mermaid": "11.17.2"
   },
