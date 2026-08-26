@@ -38,33 +38,15 @@ beautiflow server examples/sources/01-subscription-intake.mmd
 
 ## Install
 
-Download the standalone executable from the [latest GitHub release](https://github.com/mpuig/beautiflow/releases/latest). It does not require Bun at runtime.
-
-macOS Apple silicon:
+Install the latest standalone release with one command:
 
 ```bash
-mkdir -p "$HOME/.local/bin"
-curl -fL https://github.com/mpuig/beautiflow/releases/latest/download/beautiflow-darwin-arm64 \
-  -o "$HOME/.local/bin/beautiflow"
-chmod +x "$HOME/.local/bin/beautiflow"
+curl -fsSL https://beautiflow.cc/install.sh | bash
 ```
 
-Linux x86-64:
+The installer detects macOS Apple silicon or Linux x86-64, downloads the matching binary, verifies it against the release SHA-256 manifest, and installs it to `$HOME/.local/bin/beautiflow`. Override the destination with `BEAUTIFLOW_INSTALL_DIR`.
 
-```bash
-mkdir -p "$HOME/.local/bin"
-curl -fL https://github.com/mpuig/beautiflow/releases/latest/download/beautiflow-linux-x86_64 \
-  -o "$HOME/.local/bin/beautiflow"
-chmod +x "$HOME/.local/bin/beautiflow"
-```
-
-Ensure `$HOME/.local/bin` is on your `PATH`, then verify the installation:
-
-```bash
-beautiflow version
-```
-
-Checksums, the license, and third-party notices are attached to each release. Other platforms can build from source.
+The executable does not require Bun at runtime. Checksums, the license, and third-party notices are attached to every [GitHub release](https://github.com/mpuig/beautiflow/releases/latest). Other platforms can build from source.
 
 ## Development
 

@@ -31,7 +31,18 @@ describe('developer landing page', () => {
 
     expect(workflow).toContain('actions/upload-pages-artifact@')
     expect(workflow).toContain('actions/deploy-pages@')
-    expect(workflow).toContain('cp index.html CNAME _site/')
+    expect(workflow).toContain('cp index.html install.sh CNAME _site/')
     expect(workflow).toContain('cp -R examples _site/examples')
+  })
+
+  test('ships a syntax-valid, checksum-verifying installer', async () => {
+    const installer = await readFile(resolve(root, 'install.sh'), 'utf8')
+    const syntax = Bun.spawnSync(['bash', '-n', resolve(root, 'install.sh')])
+
+    expect(syntax.exitCode).toBe(0)
+    expect(installer).toContain('beautiflow-darwin-arm64')
+    expect(installer).toContain('beautiflow-linux-x86_64')
+    expect(installer).toContain('SHA256SUMS')
+    expect(installer).toContain('[ "$actual" = "$expected" ]')
   })
 })
