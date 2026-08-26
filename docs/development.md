@@ -31,7 +31,7 @@ Markdown under `docs/` is the canonical source. Build the static HTML documentat
 bun run build:docs
 ```
 
-The command writes clean-route pages, shared CSS, and copy-button JavaScript to `dist/docs/`. GitHub Pages runs the same generator against `_site/docs`; generated HTML is not committed. Internal Markdown links are rewritten to web routes, while every page links back to its source on GitHub.
+The command writes clean-route pages, shared CSS, and copy-button JavaScript to `dist/docs/`, plus public protocol schemas to `dist/schemas/`. GitHub Pages runs the same generator against `_site/docs`; generated HTML and schemas are not committed. Internal Markdown links are rewritten to web routes, while every page links back to its source on GitHub.
 
 ## Release gate
 
@@ -44,6 +44,7 @@ This runs type checking, every Bun test, and the standalone build. CI additional
 ## Test suites
 
 - `agent.test.ts` — capability discovery, mutation boundaries, execution budgets, and doctor checks
+- `agent-runtime.test.ts` — receipt states, stale evidence, correction budgets, rollback, schemas, and JSON failures
 - `args.test.ts` — public command parsing
 - `diagram.test.ts` — layout, routing, actions, audits, and ELK edge association
 - `docs.test.ts` — local links, public command coverage, agent protocol, release metadata, and site-version synchronization

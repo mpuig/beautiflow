@@ -17,13 +17,20 @@ load source and sidecar
   → write source and sidecar or roll back
 ```
 
-A dry run performs every validation without writing:
+Agents discover the schema and perform every validation through a receipt-backed plan:
+
+```bash
+beautiflow schema --json
+beautiflow agent plan flow.mmd --operation transform --actions changes.json --json
+```
+
+The receipt binds the source, sidecar, and action hashes before commit. Humans can still inspect the low-level dry-run directly:
 
 ```bash
 beautiflow transform flow.mmd --actions changes.json --dry-run --json
 ```
 
-The JSON response includes `transformedSource`.
+The direct JSON response includes `transformedSource`.
 
 ## Actions
 
@@ -66,4 +73,4 @@ Transformations reject newly introduced semantic errors, including isolated node
 
 ## Rollback
 
-Beautiflow keeps the original source and sidecar content in memory. If either final write fails, it restores the original files. Future crash-journal support would be needed for atomic recovery from process termination between filesystem renames.
+Beautiflow keeps the original source and sidecar content in memory. If either final write fails, it restores the original files. Agent receipts additionally persist the transaction's original source and sidecar snapshot, so `beautiflow agent rollback --receipt <file> --json` can restore them after a successful commit. Crash-safe recovery from process termination between filesystem writes remains a separate filesystem-journaling concern.

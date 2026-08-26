@@ -55,6 +55,20 @@ describe('parseArgs', () => {
     expect(parseArgs(['doctor', 'flow.mmd'])).toEqual({ name: 'doctor', inputPath: 'flow.mmd', json: false })
   })
 
+  test('parses receipt-backed agent commands and schema discovery', () => {
+    expect(parseArgs(['schema', '--json'])).toEqual({ name: 'schema', json: true })
+    expect(parseArgs(['agent', 'plan', 'flow.mmd', '--operation', 'apply', '--actions', 'actions.json', '--receipt', 'receipt.json', '--json'])).toEqual({
+      name: 'agent', action: 'plan', inputPath: 'flow.mmd', operation: 'apply', actionsPath: 'actions.json', receiptPath: 'receipt.json', json: true,
+    })
+    expect(parseArgs(['agent', 'commit', '--receipt', 'receipt.json', '--json'])).toEqual({
+      name: 'agent', action: 'commit', receiptPath: 'receipt.json', json: true,
+    })
+    expect(parseArgs(['agent', 'finish', '--receipt', 'receipt.json', '--visual-inspected', '--json'])).toEqual({
+      name: 'agent', action: 'finish', receiptPath: 'receipt.json', visualInspected: true, json: true,
+    })
+    expect(() => parseArgs(['agent', 'correct', '--receipt', 'receipt.json', '--operation', 'polish', '--actions', 'actions.json'])).toThrow('agent correct requires')
+  })
+
   test('parses the simple polish command', () => {
     expect(parseArgs(['polish', 'flow.mmd'])).toEqual({
       name: 'polish', inputPath: 'flow.mmd', dryRun: false, json: false,

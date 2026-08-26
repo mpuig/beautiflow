@@ -35,6 +35,13 @@ jobs:
           trap 'mv node_modules.hidden node_modules' EXIT
           ./dist/beautiflow version
           ./dist/beautiflow inspect examples/sources/01-subscription-intake.mmd --agent --json > /tmp/beautiflow-agent.json
+          ./dist/beautiflow schema --json > /tmp/beautiflow-schema.json
+          cp examples/sources/01-subscription-intake.mmd /tmp/beautiflow-agent-smoke.mmd
+          ./dist/beautiflow agent plan /tmp/beautiflow-agent-smoke.mmd --operation polish --receipt /tmp/beautiflow-agent-receipt.json --json > /tmp/beautiflow-plan.json
+          ./dist/beautiflow agent commit --receipt /tmp/beautiflow-agent-receipt.json --json > /tmp/beautiflow-commit.json
+          ./dist/beautiflow agent verify --receipt /tmp/beautiflow-agent-receipt.json --json > /tmp/beautiflow-verify.json
+          ./dist/beautiflow agent finish --receipt /tmp/beautiflow-agent-receipt.json --json > /tmp/beautiflow-finish.json
           ./dist/beautiflow render examples/recipes/aws-architecture/sources/step-6-production-architecture.mmd --format svg --output /tmp/beautiflow-architecture.svg
           test -s /tmp/beautiflow-architecture.svg
-          grep -q '"protocolVersion": "1.0"' /tmp/beautiflow-agent.json
+          grep -q '"protocolVersion": "1.1"' /tmp/beautiflow-agent.json
+          grep -q '"state": "complete"' /tmp/beautiflow-finish.json

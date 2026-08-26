@@ -9,7 +9,8 @@
 - `capabilities` — supported operations, mutation status, and unsupported reasons.
 - `context` — nearest `FLOW.md`, sidecar path, and sidecar existence.
 - `diagnostics` — semantic score and issues when the complete graph model is available.
-- `recommendedOperations` — deterministic command routing with the condition for each command.
+- `recommendedOperations` — deterministic routing as safe `argv` arrays with the condition for each operation.
+- `schemas` — discoverable action, transformation, and receipt schemas.
 - `constraints` — family-specific authority boundaries.
 - `budget` — maximum automatic polish, correction, and visual-inspection runs.
 - `stopWhen` — evidence-based completion conditions.
@@ -32,14 +33,22 @@ Do not select an unsupported operation. Specialized render-only families must no
 
 ## Mutation discipline
 
-`apply` and `transform` always start with `--dry-run --json`. Apply the same action file without `--dry-run` only after semantic and geometric validation succeeds. Never repair a rejected transaction by editing generated coordinates.
+All mutations use the receipt-backed state machine:
+
+```text
+validated → applied → verified → complete
+```
+
+`agent plan` performs the dry-run and records source, sidecar, and action hashes. `agent commit` rejects stale evidence. `agent verify` compares final geometry and semantics with the validated plan. `agent finish` records whether visual inspection was available. A single `agent correct` transition is available from `verified` or `needs-correction`; a second correction is rejected. `agent rollback` restores the original source and sidecar snapshot.
+
+Execute returned `nextAction.argv` values directly as process arguments. Never concatenate them into a shell command, bypass a receipt with direct mutation, or repair a rejected transaction by editing generated coordinates.
 
 ## Stop conditions
 
 Stop when all applicable conditions hold:
 
 1. The requested semantic or visual change is present.
-2. The command reports success.
+2. The receipt reaches `complete` rather than merely reporting a successful write.
 3. Semantic diagnostics contain no newly introduced error.
 4. Geometry and quality metrics do not regress.
 5. One final render has been inspected when image viewing is available.

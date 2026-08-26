@@ -35,13 +35,19 @@ The skill discovers family-specific capabilities before acting:
 beautiflow inspect diagram.mmd --agent --json
 ```
 
-It classifies the request as render, preview, polish, diagnose, apply, or transform; runs the smallest supported operation; validates JSON evidence; visually inspects once when vision is available; and allows at most one evidence-based correction. The complete contract is embedded at `skills/beautiflow/references/agent-protocol.md`.
+It classifies the request as render, preview, polish, diagnose, apply, or transform; selects the smallest supported operation; validates machine schemas; visually inspects once when vision is available; and allows at most one evidence-based correction. The complete contract is embedded at `skills/beautiflow/references/agent-protocol.md`.
 
-For routine visual improvement, the selected operation remains:
+Every mutation runs through the receipt-backed state machine:
 
 ```bash
-beautiflow polish diagram.mmd --json
+beautiflow schema --json
+beautiflow agent plan diagram.mmd --operation polish --json
+beautiflow agent commit --receipt diagram.mmd.beautiflow-agent.json --json
+beautiflow agent verify --receipt diagram.mmd.beautiflow-agent.json --json
+beautiflow agent finish --receipt diagram.mmd.beautiflow-agent.json --visual-inspected --json
 ```
+
+The runtime enforces `validated → applied → verified → complete`, rejects stale source, sidecar, or action hashes, permits one targeted correction, and can restore the original files with `agent rollback`. Returned commands are `argv` arrays and must never be evaluated through a shell.
 
 When continuous preview is wanted, the user leaves this running in a separate terminal:
 
@@ -49,7 +55,7 @@ When continuous preview is wanted, the user leaves this running in a separate te
 beautiflow server diagram.mmd
 ```
 
-The skill never loops on `polish`, invents coordinates, bypasses a failed dry-run, or mutates a render-only diagram through flowchart semantics.
+The skill never loops on `polish`, invents coordinates, bypasses a receipt, or mutates a render-only diagram through flowchart semantics. A task cannot report completion before the receipt reaches `complete`.
 
 ## `FLOW.md`
 

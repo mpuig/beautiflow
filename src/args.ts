@@ -2,6 +2,7 @@ import { CliError } from './errors.ts'
 import { OUTPUT_FORMATS, type OutputFormat, type RenderRequest } from './types.ts'
 
 export type SkillTarget = 'agents' | 'pi' | 'claude' | 'codex'
+export type AgentMutationOperation = 'polish' | 'apply' | 'transform'
 
 export type Command =
   | { name: 'help' }
@@ -11,6 +12,11 @@ export type Command =
   | { name: 'server'; inputPath: string }
   | { name: 'inspect'; inputPath: string; json: boolean; agent: boolean }
   | { name: 'doctor'; inputPath?: string; json: boolean }
+  | { name: 'schema'; json: boolean }
+  | { name: 'agent'; action: 'plan'; inputPath: string; operation: AgentMutationOperation; actionsPath?: string; receiptPath?: string; json: boolean }
+  | { name: 'agent'; action: 'commit' | 'verify' | 'rollback'; receiptPath: string; json: boolean }
+  | { name: 'agent'; action: 'finish'; receiptPath: string; visualInspected: boolean; json: boolean }
+  | { name: 'agent'; action: 'correct'; receiptPath: string; operation: 'apply' | 'transform'; actionsPath: string; json: boolean }
   | { name: 'layout'; inputPath: string; candidates: number; json: boolean }
   | { name: 'polish'; inputPath: string; dryRun: boolean; json: boolean }
   | { name: 'audit'; inputPath: string; json: boolean }
@@ -21,6 +27,7 @@ export type Command =
 
 const FORMAT_SET = new Set<string>(OUTPUT_FORMATS)
 const SKILL_TARGETS = new Set<string>(['agents', 'pi', 'claude', 'codex'])
+const AGENT_OPERATIONS = new Set<string>(['polish', 'apply', 'transform'])
 
 function valueAfter(args: string[], index: number, flag: string): string {
   const value = args[index + 1]
@@ -169,6 +176,47 @@ function parseActionCommand(name: 'apply' | 'transform', args: string[]): Comman
   return { name, inputPath, actionsPath, dryRun, json }
 }
 
+function parseAgent(args: string[]): Command {
+  const [action, ...rest] = args
+  if (!action || !['plan', 'commit', 'verify', 'correct', 'finish', 'rollback'].includes(action)) {
+    throw new CliError('agent expects plan, commit, verify, correct, finish, or rollback', 2)
+  }
+  let inputPath: string | undefined
+  let operation: AgentMutationOperation | undefined
+  let actionsPath: string | undefined
+  let receiptPath: string | undefined
+  let json = false
+  let visualInspected = false
+  for (let index = 0; index < rest.length; index += 1) {
+    const arg = rest[index]!
+    if (arg === '--operation') {
+      const value = valueAfter(rest, index, arg); index += 1
+      if (!AGENT_OPERATIONS.has(value)) throw new CliError(`Unknown agent operation: ${value}`, 2)
+      operation = value as AgentMutationOperation
+    } else if (arg === '--actions') { actionsPath = valueAfter(rest, index, arg); index += 1 }
+    else if (arg === '--receipt') { receiptPath = valueAfter(rest, index, arg); index += 1 }
+    else if (arg === '--visual-inspected') visualInspected = true
+    else if (arg === '--json') json = true
+    else if (arg.startsWith('-')) throw new CliError(`Unknown option: ${arg}`, 2)
+    else if (inputPath) throw new CliError(`Unexpected argument: ${arg}`, 2)
+    else inputPath = arg
+  }
+  if (action === 'plan') {
+    if (!inputPath) throw new CliError('agent plan requires a Mermaid input file', 2)
+    if (!operation) throw new CliError('agent plan requires --operation <polish|apply|transform>', 2)
+    if (operation !== 'polish' && !actionsPath) throw new CliError(`agent plan ${operation} requires --actions <file>`, 2)
+    return { name: 'agent', action, inputPath, operation, ...(actionsPath ? { actionsPath } : {}), ...(receiptPath ? { receiptPath } : {}), json }
+  }
+  if (!receiptPath) throw new CliError(`agent ${action} requires --receipt <file>`, 2)
+  if (action === 'correct') {
+    if (operation !== 'apply' && operation !== 'transform') throw new CliError('agent correct requires --operation <apply|transform>', 2)
+    if (!actionsPath) throw new CliError('agent correct requires --actions <file>', 2)
+    return { name: 'agent', action, receiptPath, operation, actionsPath, json }
+  }
+  if (action === 'finish') return { name: 'agent', action, receiptPath, visualInspected, json }
+  return { name: 'agent', action: action as 'commit' | 'verify' | 'rollback', receiptPath, json }
+}
+
 function parseInstallSkill(args: string[]): Command {
   let target: SkillTarget = 'agents'
   let local = false
@@ -196,6 +244,11 @@ export function parseArgs(args: string[]): Command {
   if (command === 'server') return parseServer(rest)
   if (command === 'inspect' || command === 'audit' || command === 'diagnose') return parseInputCommand(command, rest)
   if (command === 'doctor') return parseDoctor(rest)
+  if (command === 'schema') {
+    if (rest.some((arg) => arg !== '--json')) throw new CliError(`Unknown option: ${rest.find((arg) => arg !== '--json')}`, 2)
+    return { name: 'schema', json: rest.includes('--json') }
+  }
+  if (command === 'agent') return parseAgent(rest)
   if (command === 'layout') return parseLayout(rest)
   if (command === 'polish') return parsePolish(rest)
   if (command === 'apply' || command === 'transform') return parseActionCommand(command, rest)

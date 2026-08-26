@@ -6,6 +6,7 @@ dist/
 .idea/
 *.svg
 *.png
+*.beautiflow-agent.json
 !examples/rendered/*.svg
 !examples/rendered/*.png
 !examples/recipes/**/rendered/*.svg

@@ -2,6 +2,7 @@ import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { basename, resolve } from 'node:path'
 import { marked } from 'marked'
 import packageJson from '../package.json' with { type: 'json' }
+import { actionSchema, agentReceiptSchema, transformationSchema } from '../src/schemas.ts'
 
 const root = resolve(import.meta.dir, '..')
 const sourceDirectory = resolve(root, 'docs')
@@ -167,4 +168,13 @@ for (const page of pages) {
   await writeFile(resolve(directory, 'index.html'), layout(page, titleHeading, article, headings))
 }
 
-console.log(`Built ${pages.length} documentation pages in ${outputDirectory}`)
+const schemaDirectory = resolve(outputDirectory, '..', 'schemas')
+await rm(schemaDirectory, { recursive: true, force: true })
+await mkdir(schemaDirectory, { recursive: true })
+await Promise.all([
+  writeFile(resolve(schemaDirectory, 'actions-v1.json'), `${JSON.stringify(actionSchema, null, 2)}\n`),
+  writeFile(resolve(schemaDirectory, 'transformations-v1.json'), `${JSON.stringify(transformationSchema, null, 2)}\n`),
+  writeFile(resolve(schemaDirectory, 'agent-receipt-v1.json'), `${JSON.stringify(agentReceiptSchema, null, 2)}\n`),
+])
+
+console.log(`Built ${pages.length} documentation pages and 3 schemas in ${outputDirectory}`)

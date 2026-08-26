@@ -31,8 +31,9 @@ The user runs `beautiflow server <diagram.mmd>` in parallel with an agent chat. 
 - Flowchart and state diagrams use the complete layout pipeline; specialized Mermaid families use render-only pipelines.
 - `architecture-beta` preserves Mermaid’s native renderer for normal diagrams and uses a deterministic compound ELK stability fallback for large multilevel diagrams, with explicit ports and registered AWS/Lucide icon packs.
 - The normal interface must remain simple and avoid exposing unnecessary options.
-- Agent integrations discover family-specific capabilities, mutation boundaries, command routing, execution budgets, and stop conditions through a versioned JSON contract.
-- Agent autonomy is bounded to one initial operation, one evidence-based correction, and one visual inspection; failed validation always stops mutation.
+- Agent integrations discover family-specific capabilities, mutation boundaries, JSON Schemas, safe argument arrays, execution budgets, and stop conditions through a versioned JSON contract.
+- Every agent mutation uses a receipt-backed state machine with stale-input rejection, validated evidence, rollback, and explicit terminal states.
+- Agent autonomy is mechanically bounded to one initial operation, one evidence-based correction, and one visual inspection; failed validation always stops mutation.
 
 ## Brand Commitments
 

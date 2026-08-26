@@ -13,7 +13,7 @@ describe('developer landing page', () => {
     expect(html).toContain('class="skip-link"')
     expect(html.match(/<h1\b/g)?.length).toBe(1)
     expect(html).toContain('The CLI makes every change reproducible.')
-    expect(html).toContain('The Agent Skill adds design judgment.')
+    expect(html).toContain('The Agent runtime enforces safe autonomy.')
     expect(html).toContain('aria-live="polite"')
     expect(html).toContain('@media (prefers-reduced-motion: reduce)')
   })

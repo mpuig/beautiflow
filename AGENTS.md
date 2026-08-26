@@ -58,6 +58,8 @@ Smoke test the compiled binary, not only `bun run dev`:
 ```bash
 ./dist/beautiflow version
 ./dist/beautiflow inspect examples/recipes/architecture/architecture.mmd --agent --json
+./dist/beautiflow schema --json
+./dist/beautiflow agent plan examples/recipes/architecture/architecture.mmd --operation polish --receipt /tmp/beautiflow-agent-smoke.json --json
 ./dist/beautiflow doctor examples/recipes/architecture/architecture.mmd --json
 ./dist/beautiflow polish examples/recipes/architecture/architecture.mmd --dry-run
 BEAUTIFLOW_NO_OPEN=1 ./dist/beautiflow server examples/recipes/architecture/architecture.mmd
@@ -79,6 +81,7 @@ BEAUTIFLOW_NO_OPEN=1 ./dist/beautiflow server examples/recipes/architecture/arch
 ## Tests expected by change type
 
 - Agent capability and doctor contracts: `test/agent.test.ts`
+- Enforced agent receipts, state transitions, stale evidence, rollback, and budgets: `test/agent-runtime.test.ts`
 - CLI surface: `test/args.test.ts`
 - Rendering/family support: `test/render.test.ts` and `test/examples.test.ts`
 - Layout/routing/audit: `test/diagram.test.ts`

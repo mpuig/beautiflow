@@ -40,7 +40,8 @@ describe('documentation', () => {
   })
 
   test('builds accessible HTML documentation from canonical Markdown', async () => {
-    const output = await mkdtemp(resolve(tmpdir(), 'beautiflow-docs-'))
+    const temporary = await mkdtemp(resolve(tmpdir(), 'beautiflow-docs-'))
+    const output = resolve(temporary, 'docs')
     try {
       const build = Bun.spawnSync(['bun', 'run', resolve(root, 'scripts/build-docs.ts'), output], { cwd: root })
       expect(build.exitCode).toBe(0)
@@ -57,8 +58,11 @@ describe('documentation', () => {
       expect(cli).not.toMatch(/href="(?!https?:)[^"]+\.md(?:#|\")/)
       expect(existsSync(resolve(output, 'docs.css'))).toBe(true)
       expect(existsSync(resolve(output, 'docs.js'))).toBe(true)
+      expect(existsSync(resolve(output, '../schemas/actions-v1.json'))).toBe(true)
+      expect(existsSync(resolve(output, '../schemas/transformations-v1.json'))).toBe(true)
+      expect(existsSync(resolve(output, '../schemas/agent-receipt-v1.json'))).toBe(true)
     } finally {
-      await rm(output, { recursive: true, force: true })
+      await rm(temporary, { recursive: true, force: true })
     }
   })
 
@@ -70,13 +74,14 @@ describe('documentation', () => {
       readFile(resolve(root, 'index.html'), 'utf8'),
     ])
 
-    for (const command of ['inspect', 'doctor', 'render', 'server', 'layout', 'polish', 'audit', 'diagnose', 'apply', 'transform', 'install-skill']) {
+    for (const command of ['inspect', 'doctor', 'schema', 'agent', 'render', 'server', 'layout', 'polish', 'audit', 'diagnose', 'apply', 'transform', 'install-skill']) {
       expect(cli).toContain(`beautiflow ${command}`)
     }
     expect(readme).toContain('https://beautiflow.cc/install.sh')
     expect(readme).toContain('Sigstore verification bundle')
     expect(skill).toContain('beautiflow inspect <diagram.mmd> --agent --json')
-    expect(skill).toContain('One initial operation and at most one targeted correction')
+    expect(skill).toContain('receipt permits one initial operation and at most one targeted correction')
+    expect(skill).toContain('validated → applied → verified → complete')
     expect(site).toContain(`"softwareVersion": "${packageJson.version}"`)
     expect(site).not.toMatch(/\d+ tests · \d+ assertions/)
   })

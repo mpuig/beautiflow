@@ -19,6 +19,8 @@ import { polishProject } from './diagram/polish.ts'
 import { findFlowContext } from './flow-context.ts'
 import { startPreviewServer } from './server.ts'
 import { doctorReport } from './doctor.ts'
+import { schemaContract } from './schemas.ts'
+import { commitAgentMutation, finishAgentMutation, planAgentCorrection, planAgentMutation, rollbackAgentMutation, verifyAgentMutation } from './agent-runtime.ts'
 
 function printJson(value: unknown): void {
   console.log(JSON.stringify(value, null, 2))
@@ -48,7 +50,7 @@ async function runInspect(inputPath: string, json: boolean, agent: boolean): Pro
     if (json) printJson(contract)
     else {
       console.log(`${contract.family} · ${Object.values(contract.capabilities).filter((capability) => capability.supported).length} supported operations`)
-      console.log(`Next: ${contract.recommendedOperations[0]?.command ?? 'No operation recommended'}`)
+      console.log(`Next: ${contract.recommendedOperations[0]?.argv.join(' ') ?? 'No operation recommended'}`)
     }
     return
   }
@@ -178,7 +180,7 @@ async function runDiagnose(inputPath: string, json: boolean): Promise<void> {
     changed: false,
     ...semantic,
     warnings: semantic.issues,
-    nextAction: semantic.issues.length ? 'Address a named semantic issue with a dry-run transformation' : null,
+    nextAction: semantic.issues.length ? { operation: 'agent-plan', argv: ['beautiflow', 'agent', 'plan', inputPath, '--operation', 'transform', '--actions', '<transformations.json>', '--json'], reason: 'Address one named semantic issue through a receipt-backed dry-run', requiresConfirmation: false } : null,
   }
   if (json) printJson(report)
   else {
@@ -217,7 +219,7 @@ async function runAudit(inputPath: string, json: boolean): Promise<void> {
       metrics,
       issues,
       warnings: issues,
-      nextAction: issues.some((issue) => issue.severity === 'high') ? 'Correct high-severity architecture findings before accepting the render' : null,
+      nextAction: issues.some((issue) => issue.severity === 'high') ? { operation: 'edit-source', argv: [], reason: 'Correct high-severity architecture findings before accepting the render; architecture mutation is not supported', requiresConfirmation: true } : null,
     }
     if (json) printJson(report)
     else {
@@ -239,7 +241,7 @@ async function runAudit(inputPath: string, json: boolean): Promise<void> {
     changed: false,
     ...geometry,
     warnings: geometry.issues,
-    nextAction: geometry.issues.some((issue) => issue.severity === 'high') ? 'Correct high-severity geometry findings before accepting the render' : null,
+    nextAction: geometry.issues.some((issue) => issue.severity === 'high') ? { operation: 'agent-plan', argv: ['beautiflow', 'agent', 'plan', inputPath, '--operation', 'apply', '--actions', '<actions.json>', '--json'], reason: 'Correct one named high-severity geometry finding', requiresConfirmation: false } : null,
   }
   if (json) printJson(audit)
   else {
@@ -299,7 +301,7 @@ async function runTransform(
     sidecar: project.sidecarPath,
     files: { source: project.sourcePath, sidecar: project.sidecarPath },
     warnings: [...result.semantic.issues, ...result.audit.issues],
-    nextAction: dryRun ? 'Apply the same validated transformation file without --dry-run' : null,
+    nextAction: dryRun ? { operation: 'agent-plan', argv: ['beautiflow', 'agent', 'plan', inputPath, '--operation', 'transform', '--actions', actionsPath, '--json'], reason: 'Revalidate this transformation through the receipt-backed agent runtime before mutation', requiresConfirmation: false } : null,
     ...(dryRun ? { transformedSource: result.source } : {}),
   }
   if (json) printJson(output)
@@ -337,7 +339,7 @@ async function runApply(
     sidecar: project.sidecarPath,
     files: { source: project.sourcePath, sidecar: project.sidecarPath },
     warnings: result.audit.issues,
-    nextAction: dryRun ? 'Apply the same validated action file without --dry-run' : null,
+    nextAction: dryRun ? { operation: 'agent-plan', argv: ['beautiflow', 'agent', 'plan', inputPath, '--operation', 'apply', '--actions', actionsPath, '--json'], reason: 'Revalidate this action through the receipt-backed agent runtime before mutation', requiresConfirmation: false } : null,
   }
   if (json) printJson(output)
   else console.log(`${dryRun ? 'Validated' : 'Applied'} ${actions.length} action(s) · score ${result.audit.score}`)
@@ -372,6 +374,31 @@ export async function run(args: string[]): Promise<void> {
       if (!report.ok) process.exitCode = 1
       return
     }
+    case 'schema': {
+      const report = schemaContract()
+      if (command.json) printJson(report)
+      else console.log('Agent protocol 1.1 · actions, transformations, and receipt schemas')
+      return
+    }
+    case 'agent': {
+      const report = command.action === 'plan'
+        ? await planAgentMutation(command.inputPath, command.operation, command.actionsPath, command.receiptPath)
+        : command.action === 'commit'
+          ? await commitAgentMutation(command.receiptPath)
+          : command.action === 'verify'
+            ? await verifyAgentMutation(command.receiptPath)
+            : command.action === 'correct'
+              ? await planAgentCorrection(command.receiptPath, command.operation, command.actionsPath)
+              : command.action === 'finish'
+                ? await finishAgentMutation(command.receiptPath, command.visualInspected)
+                : await rollbackAgentMutation(command.receiptPath)
+      if (command.json) printJson(report)
+      else {
+        console.log(`${report.operation} · ${report.state}`)
+        if (report.nextAction) console.log(`Next: ${report.nextAction.argv.join(' ')}`)
+      }
+      return
+    }
     case 'layout': await runLayout(command.inputPath, command.candidates, command.json); return
     case 'polish': await runPolish(command.inputPath, command.dryRun, command.json); return
     case 'audit': await runAudit(command.inputPath, command.json); return
@@ -400,12 +427,29 @@ export async function run(args: string[]): Promise<void> {
 }
 
 if (import.meta.main) {
-  void run(process.argv.slice(2)).catch((error: unknown) => {
-    if (error instanceof CliError) {
-      console.error(`error: ${error.message}`)
-      process.exit(error.exitCode)
-    }
-    console.error(error)
-    process.exit(1)
+  const argv = process.argv.slice(2)
+  void run(argv).catch((error: unknown) => {
+    const cliError = error instanceof CliError ? error : null
+    const message = error instanceof Error ? error.message : String(error)
+    const exitCode = cliError?.exitCode ?? 1
+    if (argv.includes('--json')) {
+      const operation = argv[0] === 'agent' ? `agent-${argv[1] ?? 'unknown'}` : (argv[0] ?? 'unknown')
+      printJson({
+        protocolVersion: '1.1',
+        ok: false,
+        operation,
+        state: 'blocked',
+        changed: false,
+        error: {
+          code: cliError?.code ?? 'INTERNAL_ERROR',
+          message: cliError ? message : 'Beautiflow encountered an unexpected internal error',
+          retryable: false,
+        },
+        warnings: [],
+        nextAction: null,
+      })
+    } else if (cliError) console.error(`error: ${message}`)
+    else console.error(error)
+    process.exit(exitCode)
   })
 }

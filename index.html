@@ -359,7 +359,7 @@
       grid-template-columns: 1.05fr .95fr;
       border-block: 1px solid var(--rule);
     }
-    .engine-column { padding-block: 48px; padding-right: clamp(32px, 7vw, 86px); }
+    .engine-column { min-width: 0; padding-block: 48px; padding-right: clamp(32px, 7vw, 86px); }
     .engine-column + .engine-column { border-left: 1px solid var(--rule); padding-left: clamp(32px, 7vw, 86px); padding-right: 0; }
     .engine-column h3 { margin: 0 0 17px; font-size: clamp(1.7rem, 3vw, 2.7rem); }
     .engine-column p { max-width: 48ch; color: var(--muted); }
@@ -513,7 +513,7 @@
     "name": "Beautiflow",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "macOS, Linux",
-    "softwareVersion": "0.7.1",
+    "softwareVersion": "0.8.0",
     "license": "https://opensource.org/license/mit",
     "codeRepository": "https://github.com/mpuig/beautiflow",
     "description": "A deterministic CLI and Agent Skill for polished, validated Mermaid diagrams."
@@ -668,19 +668,17 @@ api:R --> L:database</pre>
           </article>
 
           <article class="engine-column">
-            <h3>The Agent Skill adds design judgment.</h3>
-            <p>Conversation, visual review, and intent stay in your coding harness. The portable skill tells the agent how to use the CLI and when a valid result is good enough to stop.</p>
+            <h3>The Agent runtime enforces safe autonomy.</h3>
+            <p>Intent and visual review stay in your coding harness. Beautiflow discovers what is safe, validates a plan, rejects stale evidence, and stops the agent at an explicit terminal state.</p>
             <ul class="plain-list">
-              <li>Works with Pi, Claude Code, and Codex</li>
-              <li>Reads optional project guidance from FLOW.md</li>
-              <li>Requests roles and relationships, not pixel positions</li>
+              <li>Discovers family-specific operations and schemas</li>
+              <li>Commits only the source and actions it validated</li>
+              <li>Allows one correction, then requires completion or rollback</li>
             </ul>
             <div class="code-window">
-              <div class="code-toolbar"><span>Install the Agent Skill</span><button class="copy-button" data-copy="beautiflow install-skill" aria-label="Copy command" title="Copy command"><svg class="copy-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="check-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-              <pre><span class="prompt">$</span> beautiflow install-skill
-
-<span style="color:#a9bdb3">Then ask:</span>
-Use Beautiflow to polish architecture.mmd.</pre>
+              <div class="code-toolbar"><span>Agent-first workflow</span><button class="copy-button" data-copy="beautiflow inspect architecture.mmd --agent --json&#10;beautiflow agent plan architecture.mmd --operation polish --json" aria-label="Copy commands" title="Copy commands"><svg class="copy-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="check-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+              <pre><span class="prompt">$</span> beautiflow inspect architecture.mmd --agent --json
+<span class="prompt">$</span> beautiflow agent plan architecture.mmd --operation polish --json</pre>
             </div>
           </article>
         </div>

@@ -13,7 +13,7 @@ Pi / Claude Code / Codex
   parse · transform · layout · audit · persist · render · preview
 ```
 
-This keeps the executable deterministic and lets each agent harness use its existing credentials, sessions, and tools.
+This keeps the executable deterministic and lets each agent harness use its existing credentials, sessions, and tools. Harnesses own intent and optional vision; the receipt-backed runtime enforces mutation preconditions, execution budgets, validation transitions, rollback, and terminal stop states.
 
 ## Main modules
 
@@ -21,6 +21,8 @@ This keeps the executable deterministic and lets each agent harness use its exis
 src/cli.ts
   ├─ args.ts                 command parsing
   ├─ agent.ts                capability discovery and bounded operation contract
+  ├─ agent-runtime.ts        receipt state machine, hash gates, rollback, and budgets
+  ├─ schemas.ts              machine-discoverable action and receipt contracts
   ├─ doctor.ts               local environment and diagram readiness checks
   ├─ diagram/project.ts      Mermaid + sidecar loading
   ├─ diagram/layout.ts       ELK candidates and constrained routing

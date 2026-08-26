@@ -23,12 +23,14 @@ describe('agent protocol', () => {
     const path = await fixture('flow.mmd', 'flowchart LR\n  start[Start] --> done[Done]\n')
     const result = await agentInspection(path)
 
-    expect(result.protocolVersion).toBe('1.0')
+    expect(result.protocolVersion).toBe('1.1')
     expect(result.family).toBe('graph')
     expect(result.capabilities.polish!.supported).toBe(true)
     expect(result.capabilities.transform!.supported).toBe(true)
     expect(result.context.sidecarExists).toBe(false)
     expect(result.recommendedOperations[0]?.operation).toBe('polish')
+    expect(result.recommendedOperations[0]?.argv).toEqual(['beautiflow', 'agent', 'plan', path, '--operation', 'polish', '--json'])
+    expect(result.schemas.command).toEqual(['beautiflow', 'schema', '--json'])
     expect(result.budget).toEqual({ automaticPolishRuns: 1, targetedCorrectionRuns: 1, visualInspectionRuns: 1 })
     expect(result.stopWhen.length).toBeGreaterThanOrEqual(4)
   })
@@ -46,7 +48,7 @@ describe('agent protocol', () => {
 
   test('doctor validates the local environment and an input diagram', async () => {
     const path = await fixture('flow.mmd', 'flowchart TD\n  A --> B\n')
-    const result = await doctorReport('0.7.1', path)
+    const result = await doctorReport('0.8.0', path)
 
     expect(result.ok).toBe(true)
     expect(result.operation).toBe('doctor')

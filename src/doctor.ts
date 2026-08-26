@@ -1,5 +1,5 @@
 import { constants } from 'node:fs'
-import { access } from 'node:fs/promises'
+import { access, readFile } from 'node:fs/promises'
 import { homedir, platform, arch } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { diagramFamily, renderStandaloneOutput } from './diagram/pipeline.ts'
@@ -51,15 +51,22 @@ export async function doctorReport(version: string, inputPath?: string) {
   })
 
   const installedSkills: string[] = []
+  const compatibleSkills: string[] = []
   for (const path of skillLocations()) {
-    if (await canAccess(path, constants.R_OK)) installedSkills.push(path)
+    if (await canAccess(path, constants.R_OK)) {
+      installedSkills.push(path)
+      const content = await readFile(path, 'utf8')
+      if (content.includes('receipt-backed') && content.includes('beautiflow schema --json')) compatibleSkills.push(path)
+    }
   }
   checks.push({
     name: 'agent-skill',
-    status: installedSkills.length ? 'pass' : 'warn',
-    message: installedSkills.length
-      ? `Installed at ${installedSkills.join(', ')}`
-      : 'Not installed; run beautiflow install-skill or choose a harness-specific target',
+    status: compatibleSkills.length ? 'pass' : 'warn',
+    message: compatibleSkills.length
+      ? `Agent protocol 1.1 installed at ${compatibleSkills.join(', ')}`
+      : installedSkills.length
+        ? `Installed skill is older than agent protocol 1.1; reinstall with beautiflow install-skill (${installedSkills.join(', ')})`
+        : 'Not installed; run beautiflow install-skill or choose a harness-specific target',
   })
 
   const cwdWritable = await canAccess(resolve('.'), constants.W_OK)
@@ -128,9 +135,9 @@ export async function doctorReport(version: string, inputPath?: string) {
     summary: { passed: checks.length - failures - warnings, warnings, failures },
     diagram,
     nextAction: failures
-      ? 'Resolve failed checks before allowing an agent to mutate the diagram'
-      : installedSkills.length
+      ? { operation: 'resolve-doctor-failures', argv: [], reason: 'Resolve failed checks before allowing an agent to mutate the diagram', requiresConfirmation: true }
+      : compatibleSkills.length
         ? null
-        : 'Run beautiflow install-skill for the active coding harness',
+        : { operation: 'install-skill', argv: ['beautiflow', 'install-skill'], reason: 'Install the skill for the active coding harness', requiresConfirmation: false },
   }
 }

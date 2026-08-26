@@ -57,6 +57,10 @@ When source changes:
 
 The sidecar does not own labels, node existence, edge existence, or graph topology. Those belong in Mermaid so source review remains meaningful and diagrams still work in other Mermaid-aware tools.
 
+## Agent receipts
+
+`*.beautiflow-agent.json` files are temporary execution receipts, not presentation state. They contain hash preconditions, validation evidence, execution budgets, and original source/sidecar snapshots for rollback. They are ignored by Git and must not be treated as durable project configuration.
+
 ## Commit policy
 
 Sidecars are deterministic project state and may be committed. SVG and PNG are output artifacts unless a repository explicitly tracks them.

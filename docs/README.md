@@ -28,10 +28,12 @@ In another terminal, run the simple path directly:
 beautiflow polish architecture.mmd
 ```
 
-An agent harness discovers capabilities before selecting that or another operation:
+An agent harness discovers capabilities and schemas, then enters the enforced receipt state machine before any mutation:
 
 ```bash
 beautiflow inspect architecture.mmd --agent --json
+beautiflow schema --json
+beautiflow agent plan architecture.mmd --operation polish --json
 ```
 
 The server reflects saved source and sidecar changes without mutating either file.

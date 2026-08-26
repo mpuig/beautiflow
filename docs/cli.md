@@ -1,5 +1,29 @@
 # CLI reference
 
+## Agent-first execution
+
+```bash
+beautiflow inspect diagram.mmd --agent --json
+beautiflow schema --json
+beautiflow agent plan diagram.mmd --operation polish --json
+beautiflow agent commit --receipt diagram.mmd.beautiflow-agent.json --json
+beautiflow agent verify --receipt diagram.mmd.beautiflow-agent.json --json
+beautiflow agent finish --receipt diagram.mmd.beautiflow-agent.json --visual-inspected --json
+```
+
+`beautiflow schema --json` embeds the complete contracts; the same versioned schemas are published at `/schemas/actions-v1.json`, `/schemas/transformations-v1.json`, and `/schemas/agent-receipt-v1.json`.
+
+`agent plan` performs a non-mutating dry-run and writes a receipt. `agent commit` verifies source, sidecar, and action hashes before changing diagram files. `agent verify` compares final geometry and semantics with the validated evidence. After optional visual inspection, `agent finish` records the terminal `complete` state.
+
+A named remaining defect may spend the single correction budget:
+
+```bash
+beautiflow agent correct --receipt diagram.mmd.beautiflow-agent.json \
+  --operation apply --actions correction.json --json
+```
+
+`agent rollback` restores the original source and sidecar snapshot. Receipts are ignored by Git because they can contain source content. Direct mutation commands remain available for humans and compatibility, but agents use this state machine.
+
 ## Simple commands
 
 ### `server`
@@ -65,9 +89,9 @@ Agent-facing JSON commands expose a common evidence layer while preserving comma
 - `changed` — whether files were written;
 - `files` — affected source, sidecar, and output paths when applicable;
 - `warnings` — semantic or geometric findings;
-- `nextAction` — the validated follow-up command, or `null` when the agent should stop.
+- `nextAction` — a structured operation, `argv` array, reason, and confirmation boundary, or `null` when the agent must stop.
 
-`inspect --agent` additionally returns protocol version `1.0`, family capabilities, constraints, recommended operations, a one-operation/one-correction budget, and stop conditions. `apply` and `transform` dry-runs recommend applying the same validated action file; completed writes and successful polish results return `nextAction: null`.
+`inspect --agent` returns protocol version `1.1`, family capabilities, constraints, schema locations, safe argument arrays, a one-operation/one-correction budget, and stop conditions. Every `--json` failure also returns a machine-readable blocked envelope with a stable error code. Receipt transitions return `nextAction: null` only at terminal states.
 
 ## Layout
 

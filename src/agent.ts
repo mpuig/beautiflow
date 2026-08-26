@@ -76,25 +76,25 @@ export async function agentInspection(inputPath: string) {
         {
           operation: 'polish',
           when: 'The user asks to improve layout, hierarchy, spacing, or routing without changing meaning',
-          command: `beautiflow polish ${inputPath} --json`,
+          argv: ['beautiflow', 'agent', 'plan', inputPath, '--operation', 'polish', '--json'],
           mutates: true,
         },
         {
           operation: 'diagnose',
           when: 'The user reports unclear meaning, disconnected paths, incomplete decisions, or unreachable nodes',
-          command: `beautiflow diagnose ${inputPath} --json`,
+          argv: ['beautiflow', 'diagnose', inputPath, '--json'],
           mutates: false,
         },
         {
           operation: 'apply',
           when: 'The user requests a precise presentation change using roles, alignment, direction, or relative placement',
-          command: `beautiflow apply ${inputPath} --actions <actions.json> --dry-run --json`,
+          argv: ['beautiflow', 'agent', 'plan', inputPath, '--operation', 'apply', '--actions', '<actions.json>', '--json'],
           mutates: false,
         },
         {
           operation: 'transform',
           when: 'The user asks to add, remove, rename, reconnect, or regroup graph elements',
-          command: `beautiflow transform ${inputPath} --actions <transformations.json> --dry-run --json`,
+          argv: ['beautiflow', 'agent', 'plan', inputPath, '--operation', 'transform', '--actions', '<transformations.json>', '--json'],
           mutates: false,
         },
       ]
@@ -103,13 +103,13 @@ export async function agentInspection(inputPath: string) {
           {
             operation: 'audit',
             when: 'Evaluate final rendered architecture quality before accepting the result',
-            command: `beautiflow audit ${inputPath} --json`,
+            argv: ['beautiflow', 'audit', inputPath, '--json'],
             mutates: false,
           },
           {
             operation: 'render',
             when: 'Produce the saved architecture exactly as authored',
-            command: `beautiflow render ${inputPath} --format svg`,
+            argv: ['beautiflow', 'render', inputPath, '--format', 'svg'],
             mutates: false,
           },
         ]
@@ -117,13 +117,13 @@ export async function agentInspection(inputPath: string) {
           {
             operation: 'render',
             when: `Render this ${family} diagram with its family-specific pipeline`,
-            command: `beautiflow render ${inputPath} --format svg`,
+            argv: ['beautiflow', 'render', inputPath, '--format', 'svg'],
             mutates: false,
           },
         ]
 
   return {
-    protocolVersion: '1.0',
+    protocolVersion: '1.1',
     ok: true,
     operation: 'inspect',
     family,
@@ -142,7 +142,17 @@ export async function agentInspection(inputPath: string) {
         }
       : null,
     recommendedOperations,
-    constraints,
+    schemas: {
+      command: ['beautiflow', 'schema', '--json'],
+      actions: 'https://beautiflow.cc/schemas/actions-v1.json',
+      transformations: 'https://beautiflow.cc/schemas/transformations-v1.json',
+      agentReceipt: 'https://beautiflow.cc/schemas/agent-receipt-v1.json',
+    },
+    constraints: [
+      ...constraints,
+      'Use argv arrays as arguments, never evaluate a recommended command through a shell',
+      'Use the receipt-backed agent runtime for every supported mutation',
+    ],
     budget: {
       automaticPolishRuns: 1,
       targetedCorrectionRuns: 1,

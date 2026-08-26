@@ -5,6 +5,13 @@ Usage:
   beautiflow server <file>
   beautiflow inspect <file> [--agent] [--json]
   beautiflow doctor [file] [--json]
+  beautiflow schema [--json]
+  beautiflow agent plan <file> --operation <polish|apply|transform> [--actions <file>] [--receipt <file>] [--json]
+  beautiflow agent commit --receipt <file> [--json]
+  beautiflow agent verify --receipt <file> [--json]
+  beautiflow agent correct --receipt <file> --operation <apply|transform> --actions <file> [--json]
+  beautiflow agent finish --receipt <file> [--visual-inspected] [--json]
+  beautiflow agent rollback --receipt <file> [--json]
   beautiflow layout <file> [--candidates 1-5] [--json]
   beautiflow polish <file> [--dry-run] [--json]
   beautiflow audit <file> [--json]
@@ -25,6 +32,8 @@ Examples:
   beautiflow server architecture.mmd
   beautiflow polish architecture.mmd
   beautiflow inspect architecture.mmd --agent --json
+  beautiflow schema --json
+  beautiflow agent plan architecture.mmd --operation polish --json
   beautiflow doctor architecture.mmd --json
   beautiflow polish architecture.mmd --dry-run --json
   beautiflow layout architecture.mmd --candidates 5 --json

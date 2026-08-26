@@ -122,7 +122,26 @@ Before choosing a mutating command, coding agents can request a family-aware ope
 beautiflow inspect architecture.mmd --agent --json
 ```
 
-The response identifies supported operations, mutation boundaries, nearest `FLOW.md`, semantic diagnostics, command recommendations, execution budgets, and stop conditions. Use `beautiflow doctor [file] --json` only when installation, parsing, permissions, or skill setup needs attention.
+The response identifies supported operations, mutation boundaries, nearest `FLOW.md`, semantic diagnostics, safe `argv` recommendations, execution budgets, schemas, and stop conditions. Agents discover action contracts with `beautiflow schema --json`. Use `beautiflow doctor [file] --json` only when installation, parsing, permissions, or skill setup needs attention.
+
+## Receipt-backed agent runtime
+
+Agents never mutate a diagram directly. They use an enforced local transaction:
+
+```bash
+beautiflow agent plan architecture.mmd --operation polish --json
+beautiflow agent commit --receipt architecture.mmd.beautiflow-agent.json --json
+beautiflow agent verify --receipt architecture.mmd.beautiflow-agent.json --json
+beautiflow agent finish --receipt architecture.mmd.beautiflow-agent.json --visual-inspected --json
+```
+
+The state machine is:
+
+```text
+validated → applied → verified → complete
+```
+
+A receipt records source, sidecar, and action hashes; validated evidence; before-state snapshots; execution budgets; and the exact next `argv` array. Commits reject stale inputs. One targeted correction is available through `agent correct`; `agent rollback` restores the original source and sidecar. Receipts are ignored by Git because they may contain source snapshots.
 
 ## Arrange and audit
 
@@ -143,9 +162,11 @@ architecture.beautiflow.json
 ## Apply semantic actions
 
 ```bash
-beautiflow apply architecture.mmd --actions actions.json --dry-run --json
-beautiflow apply architecture.mmd --actions actions.json --json
+beautiflow schema --json
+beautiflow agent plan architecture.mmd --operation apply --actions actions.json --json
 ```
+
+Follow the returned `nextAction.argv` through commit, verify, optional correction, and finish. Direct `apply --dry-run` remains available as a low-level human command, but agents use the receipt-backed runtime.
 
 Example:
 
@@ -166,9 +187,11 @@ See `skills/beautiflow/references/actions.md` for the action catalog.
 Transformations change Mermaid semantics rather than only its visual layout:
 
 ```bash
-beautiflow transform architecture.mmd --actions transformations.json --dry-run --json
-beautiflow transform architecture.mmd --actions transformations.json --json
+beautiflow schema --json
+beautiflow agent plan architecture.mmd --operation transform --actions transformations.json --json
 ```
+
+The receipt-backed transaction makes stale evidence, repeated corrections, invalid state transitions, and unverified completion explicit. Direct `transform --dry-run` remains available for low-level inspection.
 
 Example:
 
@@ -187,7 +210,7 @@ Example:
 }
 ```
 
-A transformation is parsed, applied to a cloned graph and to a minimal source patch, reparsed, semantically diagnosed, relaid out, and audited before either the Mermaid source or sidecar is written. Use `--dry-run --json` to inspect `transformedSource`. Successful writes preserve comments and unrelated formatting, reconcile stable IDs, and preserve pinned overrides.
+A transformation is parsed, applied to a cloned graph and to a minimal source patch, reparsed, semantically diagnosed, relaid out, and audited before either the Mermaid source or sidecar is written. Agent planning records this evidence without changing diagram files. Successful commits preserve comments and unrelated formatting, reconcile stable IDs, and preserve pinned overrides.
 
 For safety, edge-changing transformations reject chained edge statements and numeric `linkStyle` directives that cannot yet be re-indexed without ambiguity. Expand chained edges to one edge per line or use class-based styling first.
 

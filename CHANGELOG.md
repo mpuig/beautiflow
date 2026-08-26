@@ -1,6 +1,18 @@
 # Changelog
 
-## Unreleased
+## 0.8.0
+
+### Agentic-first runtime
+
+- Added an enforced receipt-backed agent state machine: `plan → commit → verify → finish`, with explicit terminal states.
+- Added source, sidecar, and action hash preconditions that reject stale validated evidence.
+- Added one mechanically enforced targeted correction and transaction rollback to the original source and sidecar snapshot.
+- Added `beautiflow schema --json` with published action, transformation, and receipt JSON Schemas.
+- Upgraded capability discovery to protocol 1.1 with safe `argv` arrays instead of shell command strings.
+- Added structured JSON error envelopes for every `--json` failure.
+- Added realistic state transition, stale receipt, correction budget, rollback, schema, and JSON error tests.
+
+### Documentation site
 
 - Added a responsive HTML documentation site generated from the canonical Markdown sources.
 - Added clean documentation routes, chapter navigation, local tables of contents, copyable code blocks, and GitHub edit links.
