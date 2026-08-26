@@ -69,4 +69,4 @@ Flowchart and state diagrams use the complete project pipeline. Sequence, class,
 
 ## Standalone executable
 
-Bun compiles TypeScript, Beautiful Mermaid, ELK, resvg, the browser viewer, and the Agent Skill into one host-targeted executable. PNG support includes a native resvg library, so release binaries must be built per operating system and architecture.
+Bun compiles TypeScript, Beautiful Mermaid, Mermaid, ELK, JSDOM, canvas, resvg, the browser viewer, and the Agent Skill into one host-targeted executable. PNG support includes a native resvg library, so release binaries must be built per operating system and architecture. The build embeds JSDOM's runtime stylesheet and disables its unused synchronous-XHR worker path. CI then hides `node_modules` and verifies version output, agent inspection, and architecture rendering from the executable.

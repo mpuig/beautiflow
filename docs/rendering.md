@@ -11,7 +11,7 @@
 - `xychart` → Beautiful Mermaid XY renderer
 - `pie` → Beautiflow pie renderer
 - `gitGraph` → Beautiflow GitGraph renderer
-- `architecture-beta` → Mermaid parser/icon renderer followed by Beautiflow compound ELK layout and orthogonal routing
+- `architecture-beta` → Mermaid parser, icon registry, and native renderer; large multilevel diagrams then use Beautiflow's compound ELK stability fallback and orthogonal routing
 
 YAML frontmatter is skipped during family detection and remains available to Mermaid for architecture theme and layout configuration. Unknown families fail explicitly.
 
@@ -48,7 +48,7 @@ The vendored Beautiful Mermaid renderer owns node shapes, clipping, labels, grou
 
 ## PNG
 
-PNG is rendered from the final SVG with `@resvg/resvg-js` at 2× scale. System fonts are enabled with Arial as the final fallback. The native resvg dependency makes compiled executables host-targeted.
+PNG is rendered from the final SVG with `@resvg/resvg-js` at 2× scale. System fonts are enabled with Arial as the final fallback. The native resvg dependency makes compiled executables host-targeted. JSDOM is loaded only for architecture rendering; its default stylesheet is embedded and its unused synchronous-XHR worker path is removed during compilation so the executable does not depend on the build machine's `node_modules`.
 
 ## Themes
 

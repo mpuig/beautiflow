@@ -20,9 +20,11 @@ Beautiful diagrams from imperfect flows. Beautiflow is a standalone CLI and port
 - Create and reorganize Mermaid subgraphs
 - Reject changes that introduce node overlaps or arrows through unrelated nodes
 - Install a portable Agent Skills-compatible Beautiflow skill
+- Give agents a versioned capability contract, mutation boundaries, execution budgets, and stop conditions
+- Diagnose installation, permissions, parsing, rendering, and skill setup with `beautiflow doctor`
 - Let Pi, Claude Code, Codex, or another agent visually inspect and improve the result
 
-Layout, auditing, semantic transformations, and persistent sidecars focus on Mermaid flowcharts and state diagrams. Sequence, class, ER, XY chart, pie, GitGraph, and architecture diagrams currently provide standalone SVG/PNG rendering. Architecture rendering preserves Mermaid’s native documented layout for normal diagrams and activates a deterministic compound ELK stability fallback for large multilevel diagrams. Both paths retain explicit ports and registered AWS/Lucide icon packs.
+Layout actions, semantic transformations, diagnostics, polishing, and persistent sidecars focus on Mermaid flowcharts and state diagrams. Sequence, class, ER, and XY charts use family-specific SVG/PNG renderers and terminal output where supported. Pie and GitGraph support SVG/PNG rendering. Architecture supports SVG/PNG rendering plus visual audit; it preserves Mermaid’s native documented layout for normal diagrams and activates a deterministic compound ELK stability fallback for large multilevel diagrams. Both architecture paths retain explicit ports and registered AWS/Lucide icon packs.
 
 ## Documentation and examples
 
@@ -218,7 +220,7 @@ In Pi, you can invoke it explicitly:
 /skill:beautiflow architecture.mmd
 ```
 
-The skill runs a bounded inspect → layout → audit → render → visually review → apply → validate loop. The agent makes design decisions while the CLI owns geometry and validation.
+The skill first runs `inspect --agent --json`, classifies the request, selects the smallest supported operation, previews semantic mutations, validates command evidence, and inspects one final render when vision is available. It allows at most one targeted correction before stopping. The agent owns intent and visual judgment; the CLI owns geometry, transactions, and validation.
 
 ## Example
 
@@ -241,6 +243,8 @@ See `examples/README.md` for the catalog, the [six-stage AWS architecture walkth
 bun install --frozen-lockfile
 bun run validate
 ./dist/beautiflow version
+./dist/beautiflow inspect examples/recipes/architecture/architecture.mmd --agent --json
+./dist/beautiflow doctor examples/recipes/architecture/architecture.mmd --json
 ./dist/beautiflow layout examples/recipes/architecture/architecture.mmd --candidates 5
 ./dist/beautiflow audit examples/recipes/architecture/architecture.mmd
 ./dist/beautiflow diagnose examples/recipes/architecture/architecture.mmd
@@ -248,7 +252,7 @@ bun run validate
 ./dist/beautiflow render examples/recipes/architecture/architecture.mmd --format png
 ```
 
-The compiled executable is host-targeted because PNG support includes resvg’s native library. Build release binaries on each supported operating system and architecture.
+The compiled executable is host-targeted because PNG support includes resvg’s native library. Build release binaries on each supported operating system and architecture. CI hides `node_modules` before exercising version output, agent inspection, and architecture rendering from the compiled executable. Tagged releases include checksums, a Sigstore bundle, and an SPDX SBOM.
 
 ## License
 
@@ -256,4 +260,4 @@ Beautiflow is released under the MIT License. See `LICENSE`.
 
 ## Third-party software
 
-Beautiflow uses Beautiful Mermaid, ELK, and resvg. Vendored Beautiful Mermaid layout and rendering files retain their MIT license in `src/vendor/beautiful-mermaid/LICENSE`. See `THIRD_PARTY_NOTICES.md`.
+Beautiflow uses Beautiful Mermaid, ELK, Mermaid, JSDOM, napi-rs canvas, Iconify collections, and resvg. Vendored Beautiful Mermaid layout and rendering files retain their MIT license in `src/vendor/beautiful-mermaid/LICENSE`. See `THIRD_PARTY_NOTICES.md` for the complete attribution and license list.

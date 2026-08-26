@@ -22,10 +22,16 @@ In one terminal:
 beautiflow server architecture.mmd
 ```
 
-In another terminal—or through an agent harness:
+In another terminal, run the simple path directly:
 
 ```bash
 beautiflow polish architecture.mmd
+```
+
+An agent harness discovers capabilities before selecting that or another operation:
+
+```bash
+beautiflow inspect architecture.mmd --agent --json
 ```
 
 The server reflects saved source and sidecar changes without mutating either file.

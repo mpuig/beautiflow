@@ -36,6 +36,7 @@ This runs type checking, every Bun test, and the standalone build. CI additional
 - `agent.test.ts` — capability discovery, mutation boundaries, execution budgets, and doctor checks
 - `args.test.ts` — public command parsing
 - `diagram.test.ts` — layout, routing, actions, audits, and ELK edge association
+- `docs.test.ts` — local links, public command coverage, agent protocol, release metadata, and site-version synchronization
 - `examples.test.ts` — 19-file Mermaid family compatibility suite
 - `polish.test.ts` — bounded candidate selection and `FLOW.md`
 - `render.test.ts` — SVG, terminal, specialized families, and PNG signatures

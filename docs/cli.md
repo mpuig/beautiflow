@@ -44,6 +44,7 @@ Pie, GitGraph, and `architecture-beta` currently support SVG and PNG, not termin
 ```bash
 beautiflow inspect diagram.mmd --json
 beautiflow inspect diagram.mmd --agent --json
+beautiflow doctor --json
 beautiflow doctor diagram.mmd --json
 beautiflow audit diagram.mmd --json
 beautiflow diagnose diagram.mmd --json
@@ -54,6 +55,19 @@ beautiflow diagnose diagram.mmd --json
 - `doctor` validates the local platform, skill installation, file access, family detection, output directory, `FLOW.md`, and parse/render pipeline. It accepts an optional diagram path.
 - `audit` checks flowchart geometry. For large multilevel architecture renders it reports shared route segments, group-header crossings, excessive bends, and over-wrapped labels.
 - `diagnose` checks flow semantics.
+
+## Agent JSON envelopes
+
+Agent-facing JSON commands expose a common evidence layer while preserving command-specific fields:
+
+- `ok` — whether the operation completed successfully;
+- `operation` — selected CLI operation;
+- `changed` — whether files were written;
+- `files` — affected source, sidecar, and output paths when applicable;
+- `warnings` — semantic or geometric findings;
+- `nextAction` — the validated follow-up command, or `null` when the agent should stop.
+
+`inspect --agent` additionally returns protocol version `1.0`, family capabilities, constraints, recommended operations, a one-operation/one-correction budget, and stop conditions. `apply` and `transform` dry-runs recommend applying the same validated action file; completed writes and successful polish results return `nextAction: null`.
 
 ## Layout
 

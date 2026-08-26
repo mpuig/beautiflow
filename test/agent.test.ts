@@ -46,7 +46,7 @@ describe('agent protocol', () => {
 
   test('doctor validates the local environment and an input diagram', async () => {
     const path = await fixture('flow.mmd', 'flowchart TD\n  A --> B\n')
-    const result = await doctorReport('0.7.0', path)
+    const result = await doctorReport('0.7.1', path)
 
     expect(result.ok).toBe(true)
     expect(result.operation).toBe('doctor')
