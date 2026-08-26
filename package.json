@@ -1,6 +1,6 @@
 {
   "name": "beautiflow",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Render, arrange, audit, and polish Mermaid diagrams.",
   "license": "MIT",
   "repository": {
@@ -17,7 +17,7 @@
     "beautiflow": "./src/cli.ts"
   },
   "scripts": {
-    "build": "bun build ./src/cli.ts --compile --minify --bytecode --sourcemap --no-compile-autoload-dotenv --no-compile-autoload-bunfig --outfile ./dist/beautiflow",
+    "build": "bun run ./scripts/patch-jsdom.ts && bun build ./src/cli.ts --compile --minify --bytecode --sourcemap --no-compile-autoload-dotenv --no-compile-autoload-bunfig --outfile ./dist/beautiflow",
     "check": "bunx tsc --noEmit",
     "clean": "rm -rf dist",
     "dev": "bun run ./src/cli.ts",

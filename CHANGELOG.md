@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.1
+
+- Embedded JSDOM's runtime stylesheet in the standalone executable.
+- Removed JSDOM's unused synchronous-XHR worker dependency from compiled builds.
+- Added CI smoke tests that run version, agent inspection, and architecture rendering with `node_modules` unavailable.
+
 ## 0.7.0
 
 ### Agentic production hardening

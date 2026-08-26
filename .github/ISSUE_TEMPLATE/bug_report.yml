@@ -20,7 +20,7 @@ body:
     id: version
     attributes:
       label: Beautiflow version
-      placeholder: beautiflow 0.7.0
+      placeholder: beautiflow 0.7.1
     validations:
       required: true
   - type: input

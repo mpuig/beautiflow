@@ -1,5 +1,7 @@
 import { createCanvas } from '@napi-rs/canvas'
-import { JSDOM } from 'jsdom'
+import fs from 'node:fs'
+import type { JSDOM as JSDOMInstance } from 'jsdom'
+import jsdomDefaultStylesheet from '../../node_modules/jsdom/lib/jsdom/browser/default-stylesheet.css' with { type: 'text' }
 import type { DiagramColors } from 'beautiful-mermaid'
 import { CliError } from '../errors.ts'
 import { stabilizeComplexArchitectureSvg } from './architecture-layout.ts'
@@ -9,11 +11,27 @@ interface MermaidRuntime {
 }
 
 let runtimePromise: Promise<MermaidRuntime> | undefined
-let activeDom: JSDOM | undefined
+let activeDom: JSDOMInstance | undefined
 let renderSequence = 0
 
-function installDom(): void {
+async function installDom(): Promise<void> {
   if ('document' in globalThis && 'window' in globalThis) return
+
+  // JSDOM reads its default stylesheet through fs while the module loads.
+  // Intercept that one asset with the text embedded by Bun so the compiled
+  // executable never depends on the build machine's node_modules directory.
+  const mutableFs = fs as unknown as { readFileSync: (...args: unknown[]) => unknown }
+  const originalReadFileSync = mutableFs.readFileSync
+  mutableFs.readFileSync = (path: unknown, ...args: unknown[]): unknown =>
+    String(path).endsWith('/jsdom/browser/default-stylesheet.css')
+      ? jsdomDefaultStylesheet
+      : originalReadFileSync(path, ...args)
+  let JSDOM: typeof import('jsdom').JSDOM
+  try {
+    ;({ JSDOM } = await import('jsdom'))
+  } finally {
+    mutableFs.readFileSync = originalReadFileSync
+  }
 
   const dom = new JSDOM('<!doctype html><html><body></body></html>', { url: 'http://127.0.0.1/' })
   const { window } = dom
@@ -77,7 +95,7 @@ function disposeDom(): void {
 
 async function mermaidRuntime(): Promise<MermaidRuntime> {
   runtimePromise ??= (async () => {
-    installDom()
+    await installDom()
     const [{ default: mermaid }, { icons: logos }, { icons: lucide }] = await Promise.all([
       import('mermaid'),
       import('@iconify-json/logos'),

@@ -21,7 +21,7 @@ bun run build
 ./dist/beautiflow version
 ```
 
-The build command compiles `src/cli.ts` with minification and Bun bytecode into `dist/beautiflow`. The executable does not require Bun at runtime.
+The build command first applies a narrowly checked JSDOM compile patch that disables its unused synchronous-XHR worker path, then compiles `src/cli.ts` with minification and Bun bytecode into `dist/beautiflow`. JSDOM's default stylesheet is embedded as text and supplied during dynamic module initialization. These adapters prevent the executable from referring to build-machine `node_modules` paths. The executable does not require Bun at runtime.
 
 ## Release gate
 
@@ -29,7 +29,7 @@ The build command compiles `src/cli.ts` with minification and Bun bytecode into 
 bun run validate
 ```
 
-This runs type checking, every Bun test, and the standalone build.
+This runs type checking, every Bun test, and the standalone build. CI additionally hides `node_modules` before exercising version output, agent inspection, and architecture rendering from the executable.
 
 ## Test suites
 
