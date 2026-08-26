@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant Device
+    participant Sync
+    participant Cloud
+
+    loop While local changes remain
+        Device->>Sync: Submit next change set
+        Sync->>Cloud: Compare revision vector
+        alt Conflict detected
+            Cloud-->>Sync: Return conflicting fields
+            Sync-->>Device: Request user resolution
+        else Revisions compatible
+            Cloud-->>Sync: Commit accepted
+            Sync-->>Device: Advance local cursor
+        end
+        opt Battery is low
+            Device->>Device: Pause background sync
+        end
+    end

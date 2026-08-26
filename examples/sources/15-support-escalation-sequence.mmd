@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant Customer
+    participant Support
+    participant Diagnostics
+    participant Specialist
+
+    Customer->>Support: Report intermittent failure
+    Support->>Diagnostics: Collect recent traces
+    Diagnostics-->>Support: Return correlated events
+    Support->>Specialist: Share evidence bundle
+    Specialist->>Specialist: Reproduce in sandbox
+    Specialist-->>Support: Recommend configuration fix
+    Support-->>Customer: Explain and apply fix
+    Customer-->>Support: Confirm recovery

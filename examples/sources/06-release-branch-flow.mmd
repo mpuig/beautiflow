@@ -1,0 +1,10 @@
+flowchart LR
+    main[Stable branch] --> topic[Open topic branch]
+    topic --> changes[Implement change]
+    changes --> review[Open review]
+    review --> checks[Run quality gates]
+    checks --> ready{Ready to merge?}
+    ready -->|Needs work| revise[Revise implementation]
+    revise --> review
+    ready -->|Ready| merge[Merge with squash]
+    merge --> preview[Publish preview build]

@@ -1,0 +1,19 @@
+flowchart TB
+    subgraph Research
+        insight[Validate customer need]
+        brief[Write opportunity brief]
+    end
+    subgraph Design
+        prototype[Build prototype]
+        usability[Run usability sessions]
+    end
+    subgraph Engineering
+        implement[Implement release]
+        harden[Harden and observe]
+    end
+    subgraph Enablement
+        guide[Prepare launch guide]
+        rollout[Coordinate rollout]
+    end
+
+    insight --> brief --> prototype --> usability --> implement --> harden --> guide --> rollout

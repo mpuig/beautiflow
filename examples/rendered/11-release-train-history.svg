@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 832 451" width="832" height="451">
+<rect width="100%" height="100%" fill="#24283b" />
+<g font-family="Inter, Arial, sans-serif" fill="#a9b1d6"><rect x="24" y="79" width="96" height="32" rx="8" fill="#6366f1" opacity="0.14" />
+<text x="72" y="95" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#6366f1">main</text>
+<line x1="130" y1="95" x2="797" y2="95" stroke="#3d59a1" opacity="0.18" stroke-dasharray="3 5" />
+<rect x="24" y="171" width="96" height="32" rx="8" fill="#22c55e" opacity="0.14" />
+<text x="72" y="187" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#22c55e">accessibility</text>
+<line x1="130" y1="187" x2="797" y2="187" stroke="#3d59a1" opacity="0.18" stroke-dasharray="3 5" />
+<rect x="24" y="263" width="96" height="32" rx="8" fill="#f59e0b" opacity="0.14" />
+<text x="72" y="279" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#f59e0b">hotfix</text>
+<line x1="130" y1="279" x2="797" y2="279" stroke="#3d59a1" opacity="0.18" stroke-dasharray="3 5" />
+<circle cx="150" cy="95" r="8" fill="#6366f1" stroke="#24283b" stroke-width="3" />
+<text x="150" y="123" text-anchor="middle" font-size="11" fill="#a9b1d6" transform="rotate(-28 150 123)">baseline</text>
+<path d="M 150 95 L 236 187" fill="none" stroke="#22c55e" stroke-width="4" />
+<circle cx="236" cy="187" r="8" fill="#22c55e" stroke="#24283b" stroke-width="3" />
+<text x="236" y="215" text-anchor="middle" font-size="11" fill="#a9b1d6" transform="rotate(-28 236 215)">contrast</text>
+<path d="M 236 187 L 322 187" fill="none" stroke="#22c55e" stroke-width="4" />
+<circle cx="322" cy="187" r="8" fill="#22c55e" stroke="#24283b" stroke-width="3" />
+<text x="322" y="215" text-anchor="middle" font-size="11" fill="#a9b1d6" transform="rotate(-28 322 215)">keyboard</text>
+<rect x="301" y="149" width="42" height="20" rx="5" fill="#22c55e" opacity="0.16" />
+<text x="322" y="159" text-anchor="middle" dominant-baseline="middle" font-size="10" font-weight="700" fill="#22c55e">review</text>
+<path d="M 150 95 L 408 95" fill="none" stroke="#6366f1" stroke-width="4" />
+<rect x="400" y="87" width="16" height="16" fill="#24283b" stroke="#6366f1" stroke-width="4" />
+<text x="408" y="123" text-anchor="middle" font-size="11" fill="#a9b1d6" transform="rotate(-28 408 123)">telemetry</text>
+<path d="M 408 95 L 494 95" fill="none" stroke="#6366f1" stroke-width="4" />
+<path d="M 322 187 C 357 187, 459 95, 494 95" fill="none" stroke="#22c55e" stroke-width="3" />
+<circle cx="494" cy="95" r="8" fill="#6366f1" stroke="#24283b" stroke-width="3" />
+<text x="494" y="123" text-anchor="middle" font-size="11" fill="#a9b1d6" transform="rotate(-28 494 123)">merge accessibility</text>
+<path d="M 494 95 L 580 279" fill="none" stroke="#f59e0b" stroke-width="4" />
+<circle cx="580" cy="279" r="8" fill="#f59e0b" stroke="#24283b" stroke-width="3" />
+<text x="580" y="307" text-anchor="middle" font-size="11" fill="#a9b1d6" transform="rotate(-28 580 307)">cache-fix</text>
+<path d="M 494 95 L 666 95" fill="none" stroke="#6366f1" stroke-width="4" />
+<path d="M 580 279 C 615 279, 631 95, 666 95" fill="none" stroke="#f59e0b" stroke-width="3" />
+<circle cx="666" cy="95" r="8" fill="#6366f1" stroke="#24283b" stroke-width="3" />
+<text x="666" y="123" text-anchor="middle" font-size="11" fill="#a9b1d6" transform="rotate(-28 666 123)">merge hotfix</text></g>
+</svg>

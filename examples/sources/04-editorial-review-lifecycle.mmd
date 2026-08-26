@@ -1,0 +1,11 @@
+stateDiagram-v2
+    [*] --> Draft
+    Draft --> InReview: submit
+    InReview --> Revisions: changes requested
+    Revisions --> InReview: resubmit
+    InReview --> Approved: approve
+    Approved --> Scheduled: choose publish date
+    Scheduled --> Published: release
+    Scheduled --> Draft: withdraw
+    Published --> Archived: retire
+    Archived --> [*]

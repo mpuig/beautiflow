@@ -1,0 +1,81 @@
+flowchart LR
+  users([Public users])
+  engineers([Remote engineers])
+  repository[Source repository]
+  oncall([Operations on-call])
+
+  subgraph account["AWS account"]
+    direction LR
+
+    subgraph edge["Public edge services"]
+      direction LR
+      route53[Amazon Route 53] --> cloudfront[Amazon CloudFront] --> waf[AWS WAF]
+    end
+
+    subgraph delivery["Delivery and identity"]
+      direction LR
+      pipeline[CI/CD pipeline] --> ecr[(Amazon ECR)]
+    end
+
+    subgraph vpc["VPC · 10.0.0.0/16 · two Availability Zones"]
+      direction LR
+
+      subgraph access["Private network access"]
+        direction LR
+        cgw[Customer Gateway] --> vpn[Site-to-Site VPN] --> vgw[Virtual Private Gateway]
+      end
+
+      subgraph public["Public subnets · AZ A and B"]
+        direction LR
+        alb{{Application Load Balancer}}
+        natA[NAT Gateway · AZ A]
+        natB[NAT Gateway · AZ B]
+        natA --> natB
+      end
+
+      subgraph eksGroup["Amazon EKS · private application subnets"]
+        direction LR
+        controller[Load Balancer Controller] --> frontend[Frontend pods · AZ A and B] --> backend[Backend pods · AZ A and B]
+        iam[IAM and IRSA] --> backend
+        secrets[(Secrets Manager)] --> backend
+      end
+
+      subgraph dataGroup["Isolated data subnets · AZ A and B"]
+        direction LR
+        proxy[Amazon RDS Proxy] --> writer[(Aurora writer · AZ A)]
+        writer --> reader[(Aurora reader · AZ B)]
+        writer --> backups[(S3 backup archive)]
+      end
+    end
+
+    subgraph operations["Operations and recovery"]
+      direction LR
+      cloudwatch[Amazon CloudWatch] --> alarms[CloudWatch alarms]
+    end
+  end
+
+  users --> route53
+  waf --> alb
+  alb --> controller
+  backend --> proxy
+
+  engineers --> cgw
+  vgw --> backend
+  backend --> natA
+
+  repository --> pipeline
+  ecr --> controller
+  backend --> cloudwatch
+  alarms --> oncall
+
+  classDef actor fill:#f7f8f5,stroke:#56616a,color:#20231f,stroke-width:1.5px
+  classDef edgeService fill:#f3ecff,stroke:#6b4ea0,color:#20231f,stroke-width:1.5px
+  classDef compute fill:#fff4e6,stroke:#c56a13,color:#20231f,stroke-width:1.5px
+  classDef data fill:#edf2ff,stroke:#5267bd,color:#20231f,stroke-width:1.5px
+  classDef operationsStyle fill:#fff0f3,stroke:#b63d63,color:#20231f,stroke-width:1.5px
+
+  class users,engineers,repository,oncall actor
+  class route53,cloudfront,waf edgeService
+  class alb,natA,natB,controller,frontend,backend,iam,secrets,cgw,vpn,vgw,pipeline,ecr compute
+  class proxy,writer,reader,backups data
+  class cloudwatch,alarms operationsStyle

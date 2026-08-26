@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 694.9779166666667 1378.48" width="694.9779166666667" height="1378.48" style="--bg:#d5d6db;--fg:#343b58;--line:#34548a;--accent:#34548a;--muted:#9699a3">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          #343b58;
+    --_text-sec:      var(--muted, color-mix(in srgb, #343b58 60%, #d5d6db));
+    --_text-muted:    var(--muted, color-mix(in srgb, #343b58 40%, #d5d6db));
+    --_text-faint:    color-mix(in srgb, #343b58 25%, #d5d6db);
+    --_line:          var(--line, color-mix(in srgb, #343b58 50%, #d5d6db));
+    --_arrow:         var(--accent, color-mix(in srgb, #343b58 85%, #d5d6db));
+    --_node-fill:     var(--surface, color-mix(in srgb, #343b58 3%, #d5d6db));
+    --_node-stroke:   var(--border, color-mix(in srgb, #343b58 20%, #d5d6db));
+    --_group-fill:    #d5d6db;
+    --_group-hdr:     color-mix(in srgb, #343b58 5%, #d5d6db);
+    --_inner-stroke:  color-mix(in srgb, #343b58 12%, #d5d6db);
+    --_key-badge:     color-mix(in srgb, #343b58 10%, #d5d6db);
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="#34548a" stroke="#34548a" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="#34548a" stroke="#34548a" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-2334548a" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="#34548a" stroke="#34548a" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start-2334548a" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="#34548a" stroke="#34548a" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<polyline class="edge" data-from="traces" data-to="sampler" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="156.25541666666663,84.9 156.25541666666663,172.90000000000003" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="metrics" data-to="aggregate" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="568.5754166666667,432.365 568.5754166666667,520.365" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="logs" data-to="redact" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="392.58375,307.46500000000003 392.58375,395.46500000000003" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="sampler" data-to="enrich" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Keep" points="181.44958333333335,298.87083333333334 181.44958333333335,400.06500000000005 244.66458333333333,400.06500000000005 244.66458333333333,508.365 300.62733333333335,508.365 300.62733333333335,520.365" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="sampler" data-to="discard" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Drop" points="131.06124999999997,298.87083333333334 131.06124999999997,400.06500000000005 123.80899999999997,400.06500000000005 123.80899999999997,520.365" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="redact" data-to="enrich" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="392.58375,432.365 392.58375,508.365 353.63666666666666,508.365 353.63666666666666,520.365" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="aggregate" data-to="warehouse" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="568.5754166666667,557.265 568.5754166666667,601.265 430.09025,601.265 430.09025,645.265" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="enrich" data-to="warehouse" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="327.132,557.265 327.132,601.265 430.09025,601.265 430.09025,645.265" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="warehouse" data-to="explore" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="430.09024999999997,696.165 430.09024999999997,784.165" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="explore" data-to="alert" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="430.09024999999997,821.0649999999999 430.09024999999997,909.0649999999999" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="alert" data-to="page" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" points="398.72108333333335,1065.9108333333334 398.72108333333335,1173.28 338.43224999999995,1173.28 338.43224999999995,1293.58" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<polyline class="edge" data-from="alert" data-to="retain" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" points="461.45941666666664,1065.9108333333334 461.45941666666664,1173.28 521.74825,1173.28 521.74825,1293.58" fill="none" stroke="#34548a" stroke-width="1" marker-end="url(#arrowhead-2334548a)" />
+<g class="edge-label" data-from="sampler" data-to="enrich" data-label="Keep">
+  <rect x="223.16458333333333" y="407.06500000000005" width="42.598" height="30.3" rx="2" ry="2" fill="#d5d6db" stroke="#c2c3cb" stroke-width="1" />
+  <text x="244.46358333333333" y="422.21500000000003" text-anchor="middle" font-size="11" font-weight="400" fill="#9699a3" dy="3.8499999999999996">Keep</text>
+</g>
+<g class="edge-label" data-from="sampler" data-to="discard" data-label="Drop">
+  <rect x="102.80899999999997" y="407.06500000000005" width="41.41" height="30.3" rx="2" ry="2" fill="#d5d6db" stroke="#c2c3cb" stroke-width="1" />
+  <text x="123.51399999999997" y="422.21500000000003" text-anchor="middle" font-size="11" font-weight="400" fill="#9699a3" dy="3.8499999999999996">Drop</text>
+</g>
+<g class="edge-label" data-from="alert" data-to="page" data-label="Yes">
+  <rect x="319.93224999999995" y="1180.28" width="36.658" height="30.3" rx="2" ry="2" fill="#d5d6db" stroke="#c2c3cb" stroke-width="1" />
+  <text x="338.26124999999996" y="1195.43" text-anchor="middle" font-size="11" font-weight="400" fill="#9699a3" dy="3.8499999999999996">Yes</text>
+</g>
+<g class="edge-label" data-from="alert" data-to="retain" data-label="No">
+  <rect x="506.24825000000004" y="1180.28" width="30.718000000000004" height="30.3" rx="2" ry="2" fill="#d5d6db" stroke="#c2c3cb" stroke-width="1" />
+  <text x="521.60725" y="1195.43" text-anchor="middle" font-size="11" font-weight="400" fill="#9699a3" dy="3.8499999999999996">No</text>
+</g>
+<g class="node" data-id="traces" data-label="Trace events" data-shape="rectangle">
+  <rect x="95.63691666666665" y="48" width="121.23700000000001" height="36.900000000000006" rx="0" ry="0" fill="#e7f0ff" stroke="#5376a6" stroke-width="2px" />
+  <text x="156.25541666666666" y="66.45" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Trace events</text>
+</g>
+<g class="node" data-id="sampler" data-label="Sample event?" data-shape="diamond">
+  <polygon points="156.25541666666666,172.9 231.83791666666667,248.48250000000002 156.25541666666666,324.06500000000005 80.67291666666665,248.48250000000002" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="156.25541666666666" y="248.48250000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Sample event?</text>
+</g>
+<g class="node" data-id="metrics" data-label="Metric points" data-shape="rectangle">
+  <rect x="509.80941666666666" y="395.46500000000003" width="117.53200000000001" height="36.900000000000006" rx="0" ry="0" fill="#e7f0ff" stroke="#5376a6" stroke-width="2px" />
+  <text x="568.5754166666667" y="413.915" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Metric points</text>
+</g>
+<g class="node" data-id="aggregate" data-label="Aggregate windows" data-shape="rectangle">
+  <rect x="490.17291666666665" y="520.365" width="156.805" height="36.900000000000006" rx="0" ry="0" fill="#eef7ec" stroke="#557f54" stroke-width="2px" />
+  <text x="568.5754166666667" y="538.815" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Aggregate windows</text>
+</g>
+<g class="node" data-id="logs" data-label="Structured logs" data-shape="rectangle">
+  <rect x="326.03725" y="270.56500000000005" width="133.09300000000002" height="36.900000000000006" rx="0" ry="0" fill="#e7f0ff" stroke="#5376a6" stroke-width="2px" />
+  <text x="392.58375" y="289.01500000000004" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Structured logs</text>
+</g>
+<g class="node" data-id="redact" data-label="Redact secrets" data-shape="rectangle">
+  <rect x="326.77824999999996" y="395.46500000000003" width="131.611" height="36.900000000000006" rx="0" ry="0" fill="#eef7ec" stroke="#557f54" stroke-width="2px" />
+  <text x="392.58374999999995" y="413.915" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Redact secrets</text>
+</g>
+<g class="node" data-id="enrich" data-label="Add service context" data-shape="rectangle">
+  <rect x="247.618" y="520.365" width="159.028" height="36.900000000000006" rx="0" ry="0" fill="#eef7ec" stroke="#557f54" stroke-width="2px" />
+  <text x="327.132" y="538.815" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Add service context</text>
+</g>
+<g class="node" data-id="discard" data-label="Record drop count" data-shape="rectangle">
+  <rect x="48" y="520.365" width="151.618" height="36.900000000000006" rx="0" ry="0" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="123.809" y="538.815" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Record drop count</text>
+</g>
+<g class="node" data-id="warehouse" data-label="Analytics store" data-shape="cylinder">
+  <rect x="365.02575" y="652.265" width="130.12900000000002" height="36.900000000000006" fill="#d0d1d7" stroke="none" />
+  <line x1="365.02575" y1="652.265" x2="365.02575" y2="689.165" stroke="#b5b7c1" stroke-width="0.75" />
+  <line x1="495.15475000000004" y1="652.265" x2="495.15475000000004" y2="689.165" stroke="#b5b7c1" stroke-width="0.75" />
+  <ellipse cx="430.09025" cy="689.165" rx="65.06450000000001" ry="7" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <ellipse cx="430.09025" cy="652.265" rx="65.06450000000001" ry="7" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="430.09025" y="670.715" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Analytics store</text>
+</g>
+<g class="node" data-id="explore" data-label="Explore signals" data-shape="rectangle">
+  <rect x="362.80275" y="784.165" width="134.575" height="36.900000000000006" rx="0" ry="0" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="430.09024999999997" y="802.615" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Explore signals</text>
+</g>
+<g class="node" data-id="alert" data-label="Threshold crossed?" data-shape="diamond">
+  <polygon points="430.09024999999997,909.0649999999999 524.1977499999999,1003.1724999999999 430.09024999999997,1097.28 335.98275,1003.1724999999999" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="430.09024999999997" y="1003.1724999999999" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Threshold crossed?</text>
+</g>
+<g class="node" data-id="page" data-label="Page responder" data-shape="rectangle">
+  <rect x="268.92175" y="1293.58" width="139.02100000000002" height="36.900000000000006" rx="0" ry="0" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="338.43224999999995" y="1312.03" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Page responder</text>
+</g>
+<g class="node" data-id="retain" data-label="Retain baseline" data-shape="rectangle">
+  <rect x="455.94275" y="1293.58" width="131.611" height="36.900000000000006" rx="0" ry="0" fill="#d0d1d7" stroke="#b5b7c1" stroke-width="0.75" />
+  <text x="521.74825" y="1312.03" text-anchor="middle" font-size="13" font-weight="500" fill="#343b58" dy="4.55">Retain baseline</text>
+</g>
+</svg>

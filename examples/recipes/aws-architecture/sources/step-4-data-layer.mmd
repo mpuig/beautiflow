@@ -1,0 +1,41 @@
+---
+config:
+  theme: base
+  themeVariables:
+    darkMode: false
+    archEdgeColor: "#232F3E"
+    archEdgeArrowColor: "#232F3E"
+    archGroupBorderColor: "#879196"
+  architecture:
+    seed: 7
+    iconSize: 54
+    numIter: 400
+    idealEdgeLengthMultiplier: 2
+---
+architecture-beta
+
+service internet(internet)[Public internet]
+
+group account(cloud)[AWS account]
+group vpc(cloud)[VPC · two Availability Zones] in account
+group public(cloud)[Public subnets] in vpc
+group eksGroup(logos:aws-eks)[Amazon EKS · private app subnets] in vpc
+group frontendGroup(lucide:panels-top-left)[Frontend deployment] in eksGroup
+group backendGroup(lucide:server-cog)[Backend deployment] in eksGroup
+group dataGroup(database)[Isolated data subnets] in vpc
+
+service alb(logos:aws-elb)[Application Load Balancer] in public
+service frontend(lucide:panels-top-left)[Frontend pods · AZ A and B] in frontendGroup
+service backend(lucide:server-cog)[Backend pods · AZ A and B] in backendGroup
+service proxy(logos:aws-rds)[Amazon RDS Proxy] in dataGroup
+service writer(logos:aws-aurora)[Aurora writer · AZ A] in dataGroup
+service reader(logos:aws-aurora)[Aurora reader · AZ B] in dataGroup
+service secrets(logos:aws-secrets-manager)[AWS Secrets Manager] in account
+
+internet:R --> L:alb
+alb:R --> L:frontend
+frontend:R --> L:backend
+backend:R --> L:proxy
+proxy:R --> L:writer
+writer:B --> T:reader
+secrets:B --> T:backend

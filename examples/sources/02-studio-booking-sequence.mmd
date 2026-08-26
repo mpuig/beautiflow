@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant Guest
+    participant Booking
+    participant Calendar
+    participant Billing
+    participant Host
+
+    Guest->>Booking: Request studio slot
+    Booking->>Calendar: Hold requested time
+    Calendar-->>Booking: Hold confirmed
+    Booking->>Billing: Authorize deposit
+    Billing-->>Booking: Deposit authorized
+    Booking-->>Guest: Booking confirmed
+    Booking->>Host: Send preparation brief
+    Host-->>Booking: Brief acknowledged

@@ -1,0 +1,11 @@
+flowchart TD
+    signup([Trial signup]) --> profile[Create workspace profile]
+    profile --> plan{Select a plan?}
+    plan -->|Not yet| nurture[Start onboarding tips]
+    plan -->|Plan selected| payment[Verify payment method]
+    payment --> accepted{Payment accepted?}
+    accepted -->|No| retry[Request another method]
+    retry --> payment
+    accepted -->|Yes| provision[Provision workspace]
+    provision --> invite[Invite teammates]
+    invite --> active([Workspace active])

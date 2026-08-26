@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant Browser
+    participant Gateway
+    participant Cache
+    participant Origin
+
+    Browser->>Gateway: Request dashboard
+    Gateway->>Cache: Read cached response
+    alt Entry is fresh
+        Cache-->>Gateway: Return cached response
+    else Entry is stale
+        Cache->>Cache: Acquire refresh lease
+        Cache->>Origin: Fetch current dashboard
+        Origin-->>Cache: Return current data
+        Cache-->>Gateway: Return refreshed response
+    end
+    Gateway-->>Browser: Render dashboard

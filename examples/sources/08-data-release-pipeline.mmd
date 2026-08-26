@@ -1,0 +1,12 @@
+flowchart LR
+    source[Source snapshot] --> validate[Validate schema]
+    validate --> quality[Run data quality checks]
+    quality --> passed{Checks passed?}
+    passed -->|No| quarantine[Quarantine snapshot]
+    quarantine --> notify[Notify data owner]
+    passed -->|Yes| stage[Load staging tables]
+    stage --> sample[Compare sample metrics]
+    sample --> promote{Promote release?}
+    promote -->|Hold| stage
+    promote -->|Promote| publish[Publish dataset]
+    publish --> catalog[Update catalog]

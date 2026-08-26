@@ -1,0 +1,36 @@
+---
+config:
+  theme: base
+  themeVariables:
+    darkMode: false
+    archEdgeColor: "#232F3E"
+    archEdgeArrowColor: "#232F3E"
+    archGroupBorderColor: "#879196"
+  architecture:
+    seed: 7
+    iconSize: 54
+    numIter: 400
+    idealEdgeLengthMultiplier: 2
+---
+architecture-beta
+
+service internet(internet)[Public internet]
+service engineers(lucide:laptop)[Remote engineers]
+
+group account(cloud)[AWS account]
+group vpc(cloud)[VPC · two Availability Zones] in account
+group public(cloud)[Public subnets] in vpc
+group eksGroup(cloud)[Amazon EKS · private application subnets] in vpc
+
+service alb(logos:aws-elb)[Application Load Balancer] in public
+service controller(logos:aws-eks)[AWS Load Balancer Controller] in eksGroup
+service frontend(lucide:panels-top-left)[Frontend pods · AZ A and B] in eksGroup
+service backend(lucide:server-cog)[Backend pods · AZ A and B] in eksGroup
+service vpn(aws:vpn)[Site-to-Site VPN] in vpc
+
+internet:R --> L:alb
+alb:R --> L:controller
+controller:R --> L:frontend
+frontend:R --> L:backend
+engineers:R --> L:vpn
+vpn:R --> L:backend

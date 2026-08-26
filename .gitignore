@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.idea/
+*.svg
+*.png
+!examples/rendered/*.svg
+!examples/rendered/*.png
+!examples/recipes/**/rendered/*.svg
+!examples/recipes/**/rendered/*.png
+!examples/recipes/**/variants/*.svg
+!examples/recipes/**/variants/*.png
+.DS_Store

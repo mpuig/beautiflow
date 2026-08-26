@@ -1,0 +1,10 @@
+{
+  "actions": [
+    { "type": "set-direction", "direction": "TD" },
+    {
+      "type": "set-primary-flow",
+      "nodes": ["visitor", "router", "cached", "cache", "response"]
+    },
+    { "type": "set-role", "nodes": ["queue", "worker", "store"], "role": "secondary" }
+  ]
+}

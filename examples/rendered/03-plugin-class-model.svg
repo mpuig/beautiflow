@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 644.6" width="360" height="644.6" style="--bg:#eff1f5;--fg:#4c4f69;--line:#9ca0b0;--accent:#8839ef;--muted:#9ca0b0;background:#eff1f5">
+<rect width="100%" height="100%" fill="#eff1f5" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  .mono { font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          #4c4f69;
+    --_text-sec:      var(--muted, color-mix(in srgb, #4c4f69 60%, #eff1f5));
+    --_text-muted:    var(--muted, color-mix(in srgb, #4c4f69 40%, #eff1f5));
+    --_text-faint:    color-mix(in srgb, #4c4f69 25%, #eff1f5);
+    --_line:          var(--line, color-mix(in srgb, #4c4f69 50%, #eff1f5));
+    --_arrow:         var(--accent, color-mix(in srgb, #4c4f69 85%, #eff1f5));
+    --_node-fill:     var(--surface, color-mix(in srgb, #4c4f69 3%, #eff1f5));
+    --_node-stroke:   var(--border, color-mix(in srgb, #4c4f69 20%, #eff1f5));
+    --_group-fill:    #eff1f5;
+    --_group-hdr:     color-mix(in srgb, #4c4f69 5%, #eff1f5);
+    --_inner-stroke:  color-mix(in srgb, #4c4f69 12%, #eff1f5);
+    --_key-badge:     color-mix(in srgb, #4c4f69 10%, #eff1f5);
+  }
+</style>
+<defs>
+  <marker id="cls-inherit" markerWidth="12" markerHeight="10" refX="12" refY="5" orient="auto-start-reverse">
+    <polygon points="0 0, 12 5, 0 10" fill="#eff1f5" stroke="#8839ef" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-composition" markerWidth="12" markerHeight="10" refX="0" refY="5" orient="auto-start-reverse">
+    <polygon points="6 0, 12 5, 6 10, 0 5" fill="#8839ef" stroke="#8839ef" stroke-width="1" />
+  </marker>
+  <marker id="cls-aggregation" markerWidth="12" markerHeight="10" refX="0" refY="5" orient="auto-start-reverse">
+    <polygon points="6 0, 12 5, 6 10, 0 5" fill="#eff1f5" stroke="#8839ef" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto-start-reverse">
+    <polyline points="0 0, 8 3, 0 6" fill="none" stroke="#8839ef" stroke-width="1.5" />
+  </marker>
+</defs>
+<polyline class="class-relationship" data-from="PluginRegistry" data-to="Plugin" data-type="aggregation" data-marker-at="from" data-label="manages" points="123.56666666666666,128 123.56666666666666,268.3" fill="none" stroke="#9ca0b0" stroke-width="1" marker-start="url(#cls-aggregation)" />
+<polyline class="class-relationship" data-from="Plugin" data-to="Capability" data-type="association" data-marker-at="to" data-label="provides" points="100,376.3 100,516.6" fill="none" stroke="#9ca0b0" stroke-width="1" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="Plugin" data-to="RuntimeContext" data-type="association" data-marker-at="to" data-label="receives" points="147.13333333333333,376.3 147.13333333333333,386.3 260,386.3 260,516.6" fill="none" stroke="#9ca0b0" stroke-width="1" marker-end="url(#cls-arrow)" />
+<g class="class-node" data-id="PluginRegistry" data-label="PluginRegistry">
+  <rect x="46.266666666666666" y="40" width="154.6" height="88" rx="0" ry="0" fill="#eaecf1" stroke="#ced1d9" stroke-width="1" />
+  <rect x="46.266666666666666" y="40" width="154.6" height="32" rx="0" ry="0" fill="#e7e9ee" stroke="#ced1d9" stroke-width="1" />
+  <text x="123.56666666666666" y="56" text-anchor="middle" font-size="13" font-weight="700" fill="#4c4f69" dy="4.55">PluginRegistry</text>
+  <line x1="46.266666666666666" y1="72" x2="200.86666666666667" y2="72" stroke="#ced1d9" stroke-width="0.75" />
+  <line x1="46.266666666666666" y1="80" x2="200.86666666666667" y2="80" stroke="#ced1d9" stroke-width="0.75" />
+  <text x="54.266666666666666" y="94" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="#c6c9d2">+ </tspan><tspan fill="#9ca0b0">register(plugin)</tspan></text>
+  <text x="54.266666666666666" y="114" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="#c6c9d2">+ </tspan><tspan fill="#9ca0b0">resolve(capability)</tspan></text>
+</g>
+<g class="class-node" data-id="Plugin" data-label="Plugin">
+  <rect x="52.866666666666674" y="268.3" width="141.39999999999998" height="108" rx="0" ry="0" fill="#eaecf1" stroke="#ced1d9" stroke-width="1" />
+  <rect x="52.866666666666674" y="268.3" width="141.39999999999998" height="32" rx="0" ry="0" fill="#e7e9ee" stroke="#ced1d9" stroke-width="1" />
+  <text x="123.56666666666666" y="284.3" text-anchor="middle" font-size="13" font-weight="700" fill="#4c4f69" dy="4.55">Plugin</text>
+  <line x1="52.866666666666674" y1="300.3" x2="194.26666666666665" y2="300.3" stroke="#ced1d9" stroke-width="0.75" />
+  <text x="60.866666666666674" y="314.3" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="#c6c9d2">+ </tspan><tspan fill="#9ca0b0">name</tspan></text>
+  <text x="60.866666666666674" y="334.3" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="#c6c9d2">+ </tspan><tspan fill="#9ca0b0">version</tspan></text>
+  <line x1="52.866666666666674" y1="348.3" x2="194.26666666666665" y2="348.3" stroke="#ced1d9" stroke-width="0.75" />
+  <text x="60.866666666666674" y="362.3" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="#c6c9d2">+ </tspan><tspan fill="#9ca0b0">activate(context)</tspan></text>
+</g>
+<g class="class-node" data-id="Capability" data-label="Capability">
+  <rect x="40" y="516.6" width="120" height="88" rx="0" ry="0" fill="#eaecf1" stroke="#ced1d9" stroke-width="1" />
+  <rect x="40" y="516.6" width="120" height="32" rx="0" ry="0" fill="#e7e9ee" stroke="#ced1d9" stroke-width="1" />
+  <text x="100" y="532.6" text-anchor="middle" font-size="13" font-weight="700" fill="#4c4f69" dy="4.55">Capability</text>
+  <line x1="40" y1="548.6" x2="160" y2="548.6" stroke="#ced1d9" stroke-width="0.75" />
+  <text x="48" y="562.6" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="#c6c9d2">+ </tspan><tspan fill="#9ca0b0">key</tspan></text>
+  <text x="48" y="582.6" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="#c6c9d2">+ </tspan><tspan fill="#9ca0b0">permissions</tspan></text>
+  <line x1="40" y1="596.6" x2="160" y2="596.6" stroke="#ced1d9" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="RuntimeContext" data-label="RuntimeContext">
+  <rect x="200" y="516.6" width="120" height="88" rx="0" ry="0" fill="#eaecf1" stroke="#ced1d9" stroke-width="1" />
+  <rect x="200" y="516.6" width="120" height="32" rx="0" ry="0" fill="#e7e9ee" stroke="#ced1d9" stroke-width="1" />
+  <text x="260" y="532.6" text-anchor="middle" font-size="13" font-weight="700" fill="#4c4f69" dy="4.55">RuntimeContext</text>
+  <line x1="200" y1="548.6" x2="320" y2="548.6" stroke="#ced1d9" stroke-width="0.75" />
+  <text x="208" y="562.6" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="#c6c9d2">+ </tspan><tspan fill="#9ca0b0">workspaceId</tspan></text>
+  <text x="208" y="582.6" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="#c6c9d2">+ </tspan><tspan fill="#9ca0b0">logger</tspan></text>
+  <line x1="200" y1="596.6" x2="320" y2="596.6" stroke="#ced1d9" stroke-width="0.75" />
+</g>
+<text x="95.35766666666666" y="190.15" font-size="11" text-anchor="middle" font-weight="400" fill="#9ca0b0" dy="3.8499999999999996">manages</text>
+<text x="71.791" y="438.45" font-size="11" text-anchor="middle" font-weight="400" fill="#9ca0b0" dy="3.8499999999999996">provides</text>
+<text x="289.209" y="438.45" font-size="11" text-anchor="middle" font-weight="400" fill="#9ca0b0" dy="3.8499999999999996">receives</text>
+</svg>
