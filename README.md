@@ -4,7 +4,7 @@
 
 Beautiful diagrams from imperfect flows. Beautiflow is a standalone CLI and portable Agent Skill for rendering, arranging, auditing, and polishing Mermaid diagrams.
 
-[Visit the developer site](https://mpuig.github.io/beautiflow/) for the source-to-render walkthrough, installation, and examples.
+[Visit the developer site](https://beautiflow.cc/) for the source-to-render walkthrough, installation, and examples.
 
 ## What Beautiflow can do
 
