@@ -1,0 +1,33 @@
+flowchart TD
+  subgraph setup["One-time setup"]
+    install["Install runtime: curl beautiflow.cc/install.sh"]
+    skill["beautiflow install-skill --target claude"]
+  end
+  subgraph repo["Your repo"]
+    mmd["docs/flow.mmd (Mermaid = semantics)"]
+    flowmd["FLOW.md (prose principles)"]
+    sidecar["docs/flow.beautiflow.json (layout sidecar)"]
+  end
+  subgraph txn["Agent transaction (receipt-backed)"]
+    ask["You: 'Polish docs/flow.mmd'"]
+    inspect["inspect --agent: capability contract"]
+    plan["agent plan: dry-run + receipt"]
+    commit["agent commit: hash-gated write"]
+    verify["agent verify: regression check"]
+    finish["agent finish: complete"]
+  end
+  outputs["flow.svg + flow.png beside the source"]
+  preview["beautiflow server: live read-only preview"]
+  install --> skill
+  skill --> ask
+  ask --> inspect
+  mmd --> inspect
+  flowmd --> inspect
+  inspect --> plan
+  plan --> commit
+  commit --> verify
+  verify --> finish
+  commit --> sidecar
+  finish --> outputs
+  mmd --> preview
+  sidecar --> preview

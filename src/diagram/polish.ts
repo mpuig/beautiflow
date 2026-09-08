@@ -37,6 +37,8 @@ export async function polishProject(project: DiagramProject): Promise<PolishResu
     for (const candidate of candidates) {
       const sidecar = structuredClone(originalSidecar)
       sidecar.direction = candidate.direction
+      sidecar.nodeSpacing = candidate.nodeSpacing
+      sidecar.layerSpacing = candidate.layerSpacing
       for (const node of candidate.diagram.nodes) {
         const existing = sidecar.nodes[node.id]
         if (existing?.pinned) continue
@@ -60,7 +62,7 @@ export async function polishProject(project: DiagramProject): Promise<PolishResu
   const best = selectValidCandidate(evaluated)
   const initialized = Object.keys(originalSidecar.nodes).length === 0
   const improved = best !== undefined && best.audit.score > before.score
-  const accepted = best !== undefined && (initialized || improved)
+  const accepted = best !== undefined && (initialized ? best.audit.score >= before.score : improved)
 
   project.sidecar = accepted ? best.sidecar : originalSidecar
   return {

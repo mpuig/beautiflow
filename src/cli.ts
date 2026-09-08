@@ -131,6 +131,8 @@ async function runLayout(inputPath: string, count: number, json: boolean): Promi
   const best = candidates[0]!
 
   project.sidecar.direction = best.direction
+  project.sidecar.nodeSpacing = best.nodeSpacing
+  project.sidecar.layerSpacing = best.layerSpacing
   for (const node of best.diagram.nodes) {
     const existing = project.sidecar.nodes[node.id]
     if (existing?.pinned) continue

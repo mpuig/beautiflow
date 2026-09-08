@@ -40,11 +40,11 @@
   </marker>
 </defs>
 <polyline class="edge" data-from="draft" data-to="ready" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="144.33100000000002,84.9 144.33100000000002,172.9" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
-<polyline class="edge" data-from="ready" data-to="ship" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" points="125.68233333333336,266.1433333333334 125.68233333333336,360.79200000000003 82.31300000000002,360.79200000000003 82.31300000000002,481.092" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
-<polyline class="edge" data-from="ready" data-to="revise" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" points="162.97966666666667,266.1433333333334 162.97966666666667,360.79200000000003 206.34900000000002,360.79200000000003 206.34900000000002,481.092" fill="none" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead-23dc2626)" />
+<polyline class="edge" data-from="ready" data-to="ship" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" points="125.68233333333335,266.1433333333334 125.68233333333335,360.79200000000003 82.313,360.79200000000003 82.313,481.092" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="ready" data-to="revise" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" points="162.97966666666667,266.1433333333334 162.97966666666667,360.79200000000003 206.349,360.79200000000003 206.349,481.092" fill="none" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead-23dc2626)" />
 <g class="edge-label" data-from="ready" data-to="ship" data-label="Yes">
-  <rect x="63.813000000000024" y="367.79200000000003" width="36.658" height="30.3" rx="2" ry="2" fill="#ffffff" stroke="#e4e5e5" stroke-width="1" />
-  <text x="82.14200000000002" y="382.942" text-anchor="middle" font-size="11" font-weight="400" fill="#59636e" dy="3.8499999999999996">Yes</text>
+  <rect x="63.81300000000001" y="367.79200000000003" width="36.658" height="30.3" rx="2" ry="2" fill="#ffffff" stroke="#e4e5e5" stroke-width="1" />
+  <text x="82.14200000000001" y="382.942" text-anchor="middle" font-size="11" font-weight="400" fill="#59636e" dy="3.8499999999999996">Yes</text>
 </g>
 <g class="edge-label" data-from="ready" data-to="revise" data-label="No">
   <rect x="190.84900000000002" y="367.79200000000003" width="30.718000000000004" height="30.3" rx="2" ry="2" fill="#ffffff" stroke="#e4e5e5" stroke-width="1" />

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.9.0
+
+- Prevented first-use polish from accepting layouts below the incumbent geometry score, including diagrams without a sidecar.
+- Preserved normalized ELK geometry, routes, labels, and group bounds across candidate persistence by recording layout spacing. Older binaries can read the sidecar but may render differently.
+- Added pre-plan baseline verification to polish receipts, retained through targeted correction.
+- Improved provider-neutral compound architecture layout, explicit-port routing, measured label placement, and geometry audit coverage.
+- Added focused architecture views, refreshed visual examples, and unified the homepage, examples, and documentation preview.
+- Added regression coverage for persistence, initialization rejection, and receipt baseline checks.
+
 ## 0.8.0
 
 ### Agentic-first runtime

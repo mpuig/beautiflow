@@ -53,7 +53,11 @@ Cycles are reported rather than automatically rejected because retries and state
 beautiflow polish diagram.mmd
 ```
 
-`polish` evaluates five internal layout candidates in one bounded pass. It filters out node-overlap and edge-to-node-intersection candidates before ranking, preserves pinned nodes, and accepts an established candidate only when its geometric score improves. Readability findings participate in scoring and tie-breaking. On first use it initializes the best valid sidecar. If none is valid it retains the current state. Semantics do not change; evaluation failures restore the original in-memory sidecar.
+`polish` evaluates five internal layout candidates in one bounded pass. It filters out node-overlap and edge-to-node-intersection candidates before ranking, preserves pinned nodes, and accepts an established candidate only when its geometric score improves. Readability findings participate in scoring and tie-breaking. On first use it initializes a valid sidecar only if its persisted layout meets or beats the incumbent score. Otherwise it reports `unchanged`, selects `current`, and keeps the incumbent; the CLI still writes the sidecar and rendered outputs outside dry-run mode. Semantics do not change; evaluation failures restore the original in-memory sidecar.
+
+Candidate spacing is persisted with normalized node positions so untouched layouts retain their ELK routes, edge-label positions, and group bounds after saving and reopening. Repeating polish without edits is a fixed point. Existing degraded sidecars are not automatically discarded to reclaim a sidecar-free layout.
+
+Polish agent receipts record `expected.baselineScore`. Verification checks both the planned score and this pre-plan baseline, retaining the baseline through targeted correction. Older receipts without this optional field retain their existing expected-score checks.
 
 ## Generation benchmark
 

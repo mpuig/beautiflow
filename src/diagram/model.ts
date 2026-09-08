@@ -73,6 +73,8 @@ export interface BeautiflowSidecar {
   sourceHash: string
   direction: LayoutDirection
   theme?: string
+  nodeSpacing?: number
+  layerSpacing?: number
   primaryFlow?: string[]
   nodes: Record<string, NodeOverride>
 }

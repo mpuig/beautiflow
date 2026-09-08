@@ -33,7 +33,7 @@ interface AgentReceipt {
     sidecarCurrent: string | null
   }
   snapshot: { source: string; sidecar: string | null }
-  expected: { score: number; metrics: Record<string, number>; semanticScore: number }
+  expected: { score: number; metrics: Record<string, number>; semanticScore: number; baselineScore?: number }
   evidence: unknown
   budget: { initialOperations: 0 | 1; targetedCorrections: 0 | 1; visualInspections: 0 | 1 }
 }
@@ -108,6 +108,7 @@ async function dryRun(sourcePath: string, operation: AgentMutationOperation, act
     return {
       evidence: { status: result.status, before: result.before, after: result.after, selected: result.selected, semantic: result.semantic },
       score: result.after.score,
+      baselineScore: result.before.score,
       metrics: result.after.metrics as unknown as Record<string, number>,
       semanticScore: result.semantic.score,
       actionsPath: null,
@@ -166,7 +167,7 @@ export async function planAgentMutation(inputPath: string, operation: AgentMutat
       sidecarCurrent: before.sidecarHash,
     },
     snapshot: { source: before.source, sidecar: before.sidecar },
-    expected: { score: planned.score, metrics: planned.metrics, semanticScore: planned.semanticScore },
+    expected: { score: planned.score, metrics: planned.metrics, semanticScore: planned.semanticScore, ...('baselineScore' in planned ? { baselineScore: planned.baselineScore } : {}) },
     evidence: planned.evidence,
     budget: { initialOperations: 1, targetedCorrections: 1, visualInspections: 1 },
   }
@@ -261,6 +262,7 @@ export async function verifyAgentMutation(receiptPath: string) {
   const audit = auditDiagram(diagram)
   const semantic = diagnoseProject(project)
   const regressions = [
+    ...(receipt.expected.baselineScore !== undefined && audit.score < receipt.expected.baselineScore ? [`Geometry score ${audit.score} is below pre-plan baseline ${receipt.expected.baselineScore}`] : []),
     ...(audit.score < receipt.expected.score ? [`Geometry score ${audit.score} is below validated score ${receipt.expected.score}`] : []),
     ...(semantic.score < receipt.expected.semanticScore ? [`Semantic score ${semantic.score} is below validated score ${receipt.expected.semanticScore}`] : []),
     ...(audit.metrics.nodeOverlaps ? [`${audit.metrics.nodeOverlaps} node overlaps remain`] : []),
@@ -295,7 +297,7 @@ export async function planAgentCorrection(receiptPath: string, operation: Exclud
   receipt.pendingOperation = operation
   receipt.actions = planned.actionsPath
   receipt.hashes.actions = hash(planned.actionsText!)
-  receipt.expected = { score: planned.score, metrics: planned.metrics, semanticScore: planned.semanticScore }
+  receipt.expected = { ...receipt.expected, score: planned.score, metrics: planned.metrics, semanticScore: planned.semanticScore }
   receipt.evidence = planned.evidence
   receipt.state = 'validated'
   receipt.budget.targetedCorrections = 0

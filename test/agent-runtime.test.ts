@@ -20,6 +20,25 @@ async function fixture() {
 }
 
 describe('enforced agent runtime', () => {
+  test('records the polish baseline and retains it through targeted correction', async () => {
+    const files = await fixture()
+    try {
+      await planAgentMutation(files.source, 'polish', undefined, files.receipt)
+      const receipt = JSON.parse(await readFile(files.receipt, 'utf8'))
+      expect(receipt.expected.baselineScore).toBe(receipt.evidence.before.score)
+      await commitAgentMutation(files.receipt)
+      const applied = JSON.parse(await readFile(files.receipt, 'utf8'))
+      applied.expected.baselineScore = 101
+      await writeFile(files.receipt, JSON.stringify(applied))
+      const verified = await verifyAgentMutation(files.receipt)
+      expect(verified.state).toBe('needs-correction')
+      expect(verified.warnings.some((warning) => warning.includes('pre-plan baseline 101'))).toBe(true)
+      await planAgentCorrection(files.receipt, 'apply', files.correction)
+      const corrected = JSON.parse(await readFile(files.receipt, 'utf8'))
+      expect(corrected.expected.baselineScore).toBe(101)
+    } finally { await rm(files.directory, { recursive: true, force: true }) }
+  })
+
   test('publishes machine schemas and JSON errors', () => {
     const contract = schemaContract()
     expect(contract.protocolVersion).toBe('1.1')

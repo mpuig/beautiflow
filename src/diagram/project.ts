@@ -33,6 +33,11 @@ function parseSidecar(value: unknown, path: string): BeautiflowSidecar {
   }
 
   const rawNodes = input.nodes
+  for (const field of ['nodeSpacing', 'layerSpacing']) {
+    if (input[field] !== undefined && (typeof input[field] !== 'number' || !Number.isFinite(input[field]) || input[field] <= 0)) {
+      throw new CliError(`Invalid ${field} in sidecar: ${path}`, 2)
+    }
+  }
   if (!rawNodes || typeof rawNodes !== 'object' || Array.isArray(rawNodes)) {
     throw new CliError(`Invalid nodes in sidecar: ${path}`, 2)
   }
@@ -42,6 +47,8 @@ function parseSidecar(value: unknown, path: string): BeautiflowSidecar {
     sourceHash: typeof input.sourceHash === 'string' ? input.sourceHash : '',
     direction: input.direction,
     nodes: rawNodes as Record<string, NodeOverride>,
+    ...(typeof input.nodeSpacing === 'number' ? { nodeSpacing: input.nodeSpacing } : {}),
+    ...(typeof input.layerSpacing === 'number' ? { layerSpacing: input.layerSpacing } : {}),
     ...(typeof input.theme === 'string' ? { theme: input.theme } : {}),
     ...(Array.isArray(input.primaryFlow)
       ? { primaryFlow: input.primaryFlow.filter((id): id is string => typeof id === 'string') }

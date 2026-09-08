@@ -26,6 +26,7 @@ Quality:
   audit reports geometry, estimated label collisions, and shared routes.
   JSON findings name supported semantic repairs; agents never author coordinates.
   polish ranks valid candidates in one bounded pass without changing semantics.
+  First-use polish keeps the incumbent unless a valid candidate meets its score.
   Architecture audit declares coverage; native-only renders have no geometry score.
   Compound architecture layout preserves explicit ports without cloud-specific rules.
 

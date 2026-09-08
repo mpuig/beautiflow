@@ -1,9 +1,11 @@
-import { afterEach, describe, expect, test } from 'bun:test'
+import { afterEach, describe, expect, spyOn, test } from 'bun:test'
 import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { polishProject } from '../src/diagram/polish.ts'
-import { loadProject } from '../src/diagram/project.ts'
+import { loadProject, saveSidecar } from '../src/diagram/project.ts'
+import { layoutProject } from '../src/diagram/layout.ts'
+import * as auditModule from '../src/diagram/audit.ts'
 import { findFlowContext } from '../src/flow-context.ts'
 
 const directories: string[] = []
@@ -12,6 +14,50 @@ afterEach(async () => {
 })
 
 describe('bounded polish workflow', () => {
+  test('keeps the incumbent when all valid initialization candidates score worse', async () => {
+    const directory = await mkdtemp(join(tmpdir(), 'beautiflow-rejected-'))
+    directories.push(directory)
+    const sourcePath = join(directory, 'flow.mmd')
+    await writeFile(sourcePath, 'flowchart TD\n A[Start] --> B[Done]\n')
+    const project = await loadProject(sourcePath)
+    const original = structuredClone(project.sidecar)
+    const audit = auditModule.auditDiagram
+    let calls = 0
+    const mocked = spyOn(auditModule, 'auditDiagram').mockImplementation((diagram) => ({
+      ...audit(diagram), score: calls++ === 0 ? 100 : 90,
+    }))
+    try {
+      const result = await polishProject(project)
+      expect(result.status).toBe('unchanged')
+      expect(result.selected).toBe('current')
+      expect(result.after).toEqual(result.before)
+      expect(project.sidecar).toEqual(original)
+      await saveSidecar(project)
+      expect((await loadProject(sourcePath)).sidecar.nodes).toEqual({})
+    } finally { mocked.mockRestore() }
+  })
+
+  test('preserves the fresh baseline and reaches an exact persisted fixed point', async () => {
+    const directory = await mkdtemp(join(tmpdir(), 'beautiflow-baseline-'))
+    directories.push(directory)
+    const sourcePath = join(directory, 'flow.mmd')
+    await writeFile(sourcePath, await Bun.file(join(import.meta.dir, 'fixtures/polish-baseline.mmd')).text())
+    const project = await loadProject(sourcePath)
+    const first = await polishProject(project)
+    expect(first.after.score).toBeGreaterThanOrEqual(first.before.score)
+    await saveSidecar(project)
+    const restored = await loadProject(sourcePath)
+    const before = await layoutProject(restored, { direction: restored.sidecar.direction })
+    const second = await polishProject(restored)
+    expect(second.status).toBe('unchanged')
+    expect(second.after).toEqual(first.after)
+    expect(await layoutProject(restored, { direction: restored.sidecar.direction })).toEqual(before)
+    const result = Bun.spawnSync(['bun', 'run', join(import.meta.dir, '../src/cli.ts'), 'layout', sourcePath, '--candidates', '5', '--json'])
+    expect(result.exitCode).toBe(0)
+    const output = JSON.parse(result.stdout.toString())
+    expect(output.score).toBe(output.candidates[0].score)
+  })
+
   test('selects one valid layout without exposing tuning options', async () => {
     const directory = await mkdtemp(join(tmpdir(), 'beautiflow-polish-'))
     directories.push(directory)

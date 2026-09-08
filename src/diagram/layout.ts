@@ -183,7 +183,7 @@ export function routeEdge(
   return clipped
 }
 
-function normalizeCanvas(nodes: PositionedNode[]): {
+function normalizeCanvas(nodes: Array<Pick<PositionedNode, 'x' | 'y' | 'width' | 'height'>>): {
   width: number
   height: number
   shiftX: number
@@ -230,12 +230,13 @@ export async function layoutProject(
     direction: options.direction === 'LR' ? 'LR' : 'TD',
   } as VendorMermaidGraph
   const positioned = layoutGraphSync(graph, {
-    nodeSpacing: options.nodeSpacing ?? 48,
-    layerSpacing: options.layerSpacing ?? 88,
-    componentSpacing: options.nodeSpacing ?? 48,
+    nodeSpacing: options.nodeSpacing ?? project.sidecar.nodeSpacing ?? 48,
+    layerSpacing: options.layerSpacing ?? project.sidecar.layerSpacing ?? 88,
+    componentSpacing: options.nodeSpacing ?? project.sidecar.nodeSpacing ?? 48,
     padding: PADDING,
   })
 
+  const freshCanvas = normalizeCanvas(positioned.nodes)
   const nodes: PositionedNode[] = positioned.nodes.map((node) => {
     const override = options.applyOverrides === false ? undefined : project.sidecar.nodes[node.id]
     return {
@@ -273,16 +274,18 @@ export async function layoutProject(
     const sourceUnmoved = originalNodeSource
       && Math.abs(source.x - (originalNodeSource.x + canvas.shiftX)) < 0.01
       && Math.abs(source.y - (originalNodeSource.y + canvas.shiftY)) < 0.01
+      && source.width === originalNodeSource.width && source.height === originalNodeSource.height
     const targetUnmoved = originalNodeTarget
       && Math.abs(target.x - (originalNodeTarget.x + canvas.shiftX)) < 0.01
       && Math.abs(target.y - (originalNodeTarget.y + canvas.shiftY)) < 0.01
+      && target.width === originalNodeTarget.width && target.height === originalNodeTarget.height
     const originalEdge = positionedEdges.get(`${edge.source}\u0000${edge.target}`)?.shift()
     const useElkRoute = sourceUnmoved && targetUnmoved && originalEdge
     const points = useElkRoute
-      ? originalEdge.points.map((point) => ({ x: point.x + canvas.shiftX, y: point.y + canvas.shiftY }))
+      ? originalEdge.points.map((point) => ({ x: point.x + freshCanvas.shiftX + canvas.shiftX, y: point.y + freshCanvas.shiftY + canvas.shiftY }))
       : routeEdge(source, target, options.direction, nodes)
     const labelPosition = useElkRoute && originalEdge.labelPosition
-      ? { x: originalEdge.labelPosition.x + canvas.shiftX, y: originalEdge.labelPosition.y + canvas.shiftY }
+      ? { x: originalEdge.labelPosition.x + freshCanvas.shiftX + canvas.shiftX, y: originalEdge.labelPosition.y + freshCanvas.shiftY + canvas.shiftY }
       : undefined
     return [{
       id: `${edge.source}->${edge.target}#${index}`,
@@ -305,7 +308,7 @@ export async function layoutProject(
     direction: options.direction,
     nodes,
     edges,
-    groups: shiftGroups(positioned.groups, canvas.shiftX, canvas.shiftY),
+    groups: shiftGroups(positioned.groups, freshCanvas.shiftX + canvas.shiftX, freshCanvas.shiftY + canvas.shiftY),
   }
 }
 

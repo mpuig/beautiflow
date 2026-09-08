@@ -71,6 +71,15 @@ export const agentReceiptSchema = {
     pendingOperation: { enum: ['polish', 'apply', 'transform'] },
     source: { type: 'string' },
     actions: { type: ['string', 'null'] },
+    expected: {
+      type: 'object', required: ['score', 'metrics', 'semanticScore'],
+      properties: {
+        score: { type: 'number' },
+        metrics: { type: 'object', additionalProperties: { type: 'number' } },
+        semanticScore: { type: 'number' },
+        baselineScore: { type: 'number' },
+      },
+    },
     budget: {
       type: 'object', required: ['initialOperations', 'targetedCorrections', 'visualInspections'],
       properties: { initialOperations: { const: 1 }, targetedCorrections: { enum: [0, 1] }, visualInspections: { enum: [0, 1] } },

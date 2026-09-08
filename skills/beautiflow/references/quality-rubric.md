@@ -1,5 +1,7 @@
 # Diagram quality rubric
 
+Polish must not lower the incumbent geometry score, including on first use without node overrides. An `unchanged` result with `selected: current` means the incumbent was retained, not a failed operation. Saved candidate spacing preserves untouched ELK routes on reload. Agent verification compares against the pre-plan baseline as well as the planned score; carry that baseline through any targeted correction. Do not delete existing sidecars to chase a better score without explicit user intent.
+
 ## P0 — invalid
 
 - Unreachable or isolated node without explicit intent

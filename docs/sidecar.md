@@ -31,6 +31,10 @@ architecture.beautiflow.json
 
 Only `version`, `sourceHash`, `direction`, and `nodes` are required. Theme and primary flow are optional.
 
+`nodeSpacing` and `layerSpacing` are optional positive finite numbers recording the selected layout preset. Missing values default to 48 and 88 respectively. Layout and polish persist these values automatically; there are no new tuning flags. Node coordinates use the normalized canvas frame. Unchanged positions and dimensions preserve ELK routing on reload; moved or resized endpoints use the fallback router.
+
+The format remains version 1. Older binaries can parse these sidecars but discard the spacing fields: backward parsing compatibility does **not** guarantee identical rendering. Use the same Beautiflow release when reviewing or regenerating committed diagrams.
+
 ## Node roles
 
 - `primary` — the main visual flow

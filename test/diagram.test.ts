@@ -31,6 +31,47 @@ afterEach(async () => {
 })
 
 describe('diagram pipeline', () => {
+  test('round-trips every preset with nested groups, labels, and exact routes', async () => {
+    const { sourcePath } = await fixture()
+    const reproduction = await Bun.file(join(import.meta.dir, 'fixtures/polish-baseline.mmd')).text()
+    for (const source of [reproduction, 'flowchart TD\n subgraph outer[Outer]\n subgraph inner[Inner]\n A[Request] -->|Accepted| B[Process]\n end\n B --> C[Store]\n end\n C --> D[Done]\n', 'stateDiagram-v2\n [*] --> Waiting\n Waiting --> Running: start\n Running --> Waiting: retry\n Running --> [*]\n']) {
+      await writeFile(sourcePath, source)
+      const project = await loadProject(sourcePath)
+      for (const candidate of await generateCandidates(project, 5)) {
+        project.sidecar.direction = candidate.direction
+        project.sidecar.nodeSpacing = candidate.nodeSpacing
+        project.sidecar.layerSpacing = candidate.layerSpacing
+        project.sidecar.nodes = Object.fromEntries(candidate.diagram.nodes.map((node) => [node.id, {
+          x: node.x, y: node.y, width: node.width, height: node.height, pinned: false,
+        }]))
+        await saveSidecar(project)
+        const restored = await loadProject(sourcePath)
+        const diagram = await layoutProject(restored, { direction: restored.sidecar.direction })
+        expect(diagram).toEqual(candidate.diagram)
+        expect(auditDiagram(diagram)).toEqual(candidate.audit)
+      }
+    }
+  })
+
+  test('rejects invalid persisted spacing', async () => {
+    const { sourcePath, project } = await fixture()
+    for (const spacing of [0, -1, '48', null]) {
+      await writeFile(project.sidecarPath, JSON.stringify({ ...project.sidecar, nodeSpacing: spacing }))
+      await expect(loadProject(sourcePath)).rejects.toThrow('Invalid nodeSpacing')
+    }
+  })
+
+  test('reroutes resized endpoints instead of preserving detached ELK anchors', async () => {
+    const { project } = await fixture()
+    const original = await layoutProject(project, { direction: 'LR' })
+    const client = original.nodes.find((node) => node.id === 'client')!
+    project.sidecar.nodes.client = { x: client.x, y: client.y, width: client.width + 20, height: client.height }
+    const resized = await layoutProject(project, { direction: 'LR' })
+    const edge = resized.edges.find((edge) => edge.source === 'client')!
+    expect(edge.points).not.toEqual(original.edges.find((edge) => edge.source === 'client')!.points)
+    expect(edge.points[0]!.x).toBeCloseTo(client.x + client.width + 20)
+  })
+
   test('generates valid layout candidates', async () => {
     const { project } = await fixture()
     const candidates = await generateCandidates(project, 3)
