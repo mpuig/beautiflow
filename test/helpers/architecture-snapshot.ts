@@ -1,4 +1,40 @@
 import { JSDOM } from 'jsdom'
+import { expect } from 'bun:test'
+
+export function expectArchitectureSnapshot(actual: string, expected: string): void {
+  const actualDom = new JSDOM(architectureSnapshot(actual), { contentType: 'image/svg+xml' })
+  const expectedDom = new JSDOM(architectureSnapshot(expected), { contentType: 'image/svg+xml' })
+  try {
+    const selector = '.architecture-groups > rect, .architecture-groups [transform]'
+    const actualGroups = [...actualDom.window.document.querySelectorAll(selector)]
+    const expectedGroups = [...expectedDom.window.document.querySelectorAll(selector)]
+    expect(actualGroups.length).toBe(expectedGroups.length)
+    for (const [index, element] of actualGroups.entries()) {
+      const reference = expectedGroups[index]!
+      for (const attribute of ['x', 'y', 'width', 'height', 'transform']) {
+        const value = element.getAttribute(attribute)
+        const expectedValue = reference.getAttribute(attribute)
+        if (value === null || expectedValue === null) {
+          expect(value).toBe(expectedValue)
+          continue
+        }
+        const numberPattern = /[-+]?(?:\d*\.\d+|\d+)(?:e[-+]?\d+)?/gi
+        expect(value.replace(numberPattern, '#')).toBe(expectedValue.replace(numberPattern, '#'))
+        const actualNumbers = value.match(numberPattern)!.map(Number)
+        const expectedNumbers = expectedValue.match(numberPattern)!.map(Number)
+        expect(actualNumbers.length).toBe(expectedNumbers.length)
+        for (const [coordinate, number] of actualNumbers.entries()) {
+          expect(Math.abs(number - expectedNumbers[coordinate]!)).toBeLessThanOrEqual(4)
+        }
+        element.setAttribute(attribute, expectedValue)
+      }
+    }
+    expect(actualDom.window.document.documentElement.outerHTML).toBe(expectedDom.window.document.documentElement.outerHTML)
+  } finally {
+    actualDom.window.close()
+    expectedDom.window.close()
+  }
+}
 
 export function architectureSnapshot(svg: string): string {
   const dom = new JSDOM(svg, { contentType: 'image/svg+xml' })
