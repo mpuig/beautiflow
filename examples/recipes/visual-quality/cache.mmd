@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant Browser
+    participant API
+    participant Cache
+    participant Database
+    Browser->>API: GET /catalog
+    API->>Cache: Read catalog
+    alt Cache hit
+        Cache-->>API: Cached catalog
+    else Cache miss
+        Cache-->>API: Not found
+        API->>Database: Query catalog
+        Database-->>API: Catalog rows
+        API->>Cache: Store catalog
+    end
+    API-->>Browser: 200 OK + catalog

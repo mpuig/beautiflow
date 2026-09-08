@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "sourceHash": "6d19f09550d1ac67",
+  "direction": "TD",
+  "nodes": {
+    "_end": {
+      "x": 185.53337500000004,
+      "y": 755.3000000000001,
+      "width": 28,
+      "height": 28,
+      "pinned": false,
+      "role": "secondary"
+    },
+    "_end2": {
+      "x": 371.92800000000005,
+      "y": 342.1,
+      "width": 28,
+      "height": 28,
+      "pinned": false,
+      "role": "secondary"
+    },
+    "_start": {
+      "x": 77.946,
+      "y": 48.000000000000014,
+      "width": 28,
+      "height": 28,
+      "pinned": false,
+      "role": "secondary"
+    },
+    "Completed": {
+      "x": 148.177375,
+      "y": 630.4000000000001,
+      "width": 102.712,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    },
+    "Failed": {
+      "x": 346.42800000000005,
+      "y": 217.2,
+      "width": 79,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "exception"
+    },
+    "Queued": {
+      "x": 48,
+      "y": 164,
+      "width": 87.892,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    },
+    "Running": {
+      "x": 154.10537500000004,
+      "y": 397.20000000000005,
+      "width": 90.856,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    },
+    "Waiting": {
+      "x": 240.87350000000004,
+      "y": 48,
+      "width": 84.187,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "exception"
+    }
+  },
+  "primaryFlow": [
+    "Queued",
+    "Running",
+    "Completed"
+  ]
+}

@@ -1,0 +1,9 @@
+stateDiagram-v2
+    [*] --> Queued
+    Queued --> Running : Worker accepts
+    Running --> Completed : Result saved
+    Running --> Waiting : Temporary failure
+    Waiting --> Running : Retry allowed
+    Waiting --> Failed : Budget exhausted
+    Completed --> [*]
+    Failed --> [*]

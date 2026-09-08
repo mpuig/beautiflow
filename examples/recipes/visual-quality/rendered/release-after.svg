@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 415.7435 1251.9950000000001" width="415.7435" height="1251.9950000000001" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:#ffffff">
+<rect width="100%" height="100%" fill="#ffffff" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          #1f2328;
+    --_text-sec:      var(--muted, color-mix(in srgb, #1f2328 60%, #ffffff));
+    --_text-muted:    var(--muted, color-mix(in srgb, #1f2328 40%, #ffffff));
+    --_text-faint:    color-mix(in srgb, #1f2328 25%, #ffffff);
+    --_line:          var(--line, color-mix(in srgb, #1f2328 50%, #ffffff));
+    --_arrow:         var(--accent, color-mix(in srgb, #1f2328 85%, #ffffff));
+    --_node-fill:     var(--surface, color-mix(in srgb, #1f2328 3%, #ffffff));
+    --_node-stroke:   var(--border, color-mix(in srgb, #1f2328 20%, #ffffff));
+    --_group-fill:    #ffffff;
+    --_group-hdr:     color-mix(in srgb, #1f2328 5%, #ffffff);
+    --_inner-stroke:  color-mix(in srgb, #1f2328 12%, #ffffff);
+    --_key-badge:     color-mix(in srgb, #1f2328 10%, #ffffff);
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="#0969da" stroke="#0969da" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="#0969da" stroke="#0969da" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-230969da" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="#0969da" stroke="#0969da" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start-230969da" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="#0969da" stroke="#0969da" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-23dc2626" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="#dc2626" stroke="#dc2626" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start-23dc2626" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="#dc2626" stroke="#dc2626" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<polyline class="edge" data-from="change" data-to="checks" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="217.69,84.9 217.69,172.9" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="checks" data-to="review" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="217.69,209.8 217.69,297.8" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="review" data-to="package" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Approved" points="188.79083333333332,442.29583333333335 188.79083333333332,547.1950000000002 132.701,547.1950000000002 132.701,667.4950000000001" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="package" data-to="staging" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="132.701,704.3950000000001 132.701,792.3950000000001" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="staging" data-to="smoke" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="132.701,829.2950000000001 132.701,917.2950000000001" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="smoke" data-to="production" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="132.701,954.195 132.701,1042.1950000000002" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="production" data-to="observe" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="132.701,1079.095 132.701,1167.095" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="review" data-to="revise" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Changes needed" points="246.58916666666664,442.29583333333335 246.58916666666664,547.1949999999999 302.679,547.1949999999999 302.679,667.495" fill="none" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead-23dc2626)" />
+<g class="edge-label" data-from="review" data-to="package" data-label="Approved">
+  <rect x="99.701" y="554.1950000000002" width="65.17" height="30.3" rx="2" ry="2" fill="#ffffff" stroke="#e4e5e5" stroke-width="1" />
+  <text x="132.286" y="569.3450000000001" text-anchor="middle" font-size="11" font-weight="400" fill="#59636e" dy="3.8499999999999996">Approved</text>
+</g>
+<g class="edge-label" data-from="review" data-to="revise" data-label="Changes needed">
+  <rect x="253.67899999999997" y="554.1949999999999" width="97.84000000000002" height="30.3" rx="2" ry="2" fill="#ffffff" stroke="#e4e5e5" stroke-width="1" />
+  <text x="302.599" y="569.3449999999999" text-anchor="middle" font-size="11" font-weight="400" fill="#59636e" dy="3.8499999999999996">Changes needed</text>
+</g>
+<g class="node" data-id="change" data-label="Change ready" data-shape="stadium">
+  <rect x="154.8485" y="48" width="125.68299999999999" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
+  <text x="217.69" y="66.45" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Change ready</text>
+</g>
+<g class="node" data-id="checks" data-label="Run checks" data-shape="rectangle">
+  <rect x="161.51749999999998" y="172.9" width="112.345" height="36.900000000000006" rx="0" ry="0" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
+  <text x="217.69" y="191.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Run checks</text>
+</g>
+<g class="node" data-id="review" data-label="Approve release?" data-shape="diamond">
+  <polygon points="217.69,297.8 304.3875,384.4975 217.69,471.195 130.9925,384.4975" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
+  <text x="217.69" y="384.4975" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Approve release?</text>
+</g>
+<g class="node" data-id="package" data-label="Build artifact" data-shape="rectangle">
+  <rect x="75.7875" y="667.4950000000001" width="113.827" height="36.900000000000006" rx="0" ry="0" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
+  <text x="132.701" y="685.9450000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Build artifact</text>
+</g>
+<g class="node" data-id="staging" data-label="Deploy to staging" data-shape="rectangle">
+  <rect x="62.07899999999999" y="792.3950000000001" width="141.244" height="36.900000000000006" rx="0" ry="0" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
+  <text x="132.701" y="810.8450000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Deploy to staging</text>
+</g>
+<g class="node" data-id="smoke" data-label="Run smoke tests" data-shape="rectangle">
+  <rect x="64.30199999999999" y="917.2950000000001" width="136.798" height="36.900000000000006" rx="0" ry="0" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
+  <text x="132.701" y="935.7450000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Run smoke tests</text>
+</g>
+<g class="node" data-id="production" data-label="Promote to production" data-shape="rectangle">
+  <rect x="48" y="1042.1950000000002" width="169.402" height="36.900000000000006" rx="0" ry="0" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
+  <text x="132.701" y="1060.6450000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Promote to production</text>
+</g>
+<g class="node" data-id="observe" data-label="Observe release" data-shape="stadium">
+  <rect x="61.70849999999999" y="1167.095" width="141.985" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
+  <text x="132.701" y="1185.545" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Observe release</text>
+</g>
+<g class="node" data-id="revise" data-label="Revise change" data-shape="rectangle">
+  <rect x="237.6145" y="667.495" width="130.129" height="36.900000000000006" rx="0" ry="0" fill="#fdf0f0" stroke="#dc2626" stroke-width="2" />
+  <text x="302.679" y="685.945" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Revise change</text>
+</g>
+</svg>

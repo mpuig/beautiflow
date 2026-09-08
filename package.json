@@ -19,6 +19,8 @@
   "scripts": {
     "build": "bun run ./scripts/patch-jsdom.ts && bun build ./src/cli.ts --compile --minify --bytecode --sourcemap --no-compile-autoload-dotenv --no-compile-autoload-bunfig --outfile ./dist/beautiflow",
     "build:docs": "bun run ./scripts/build-docs.ts",
+    "build:site": "bun run ./scripts/build-site.ts",
+    "preview:site": "bun run ./scripts/build-site.ts --serve",
     "check": "bunx tsc --noEmit",
     "clean": "rm -rf dist",
     "dev": "bun run ./src/cli.ts",

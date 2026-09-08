@@ -26,23 +26,35 @@
   <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
     <polygon points="8 0, 0 2.5, 8 5" fill="#0969da" stroke="#0969da" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
+  <marker id="arrowhead-230969da" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="#0969da" stroke="#0969da" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start-230969da" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="#0969da" stroke="#0969da" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
   <marker id="arrowhead-23d1d9e0" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
     <polygon points="0 0, 8 2.5, 0 5" fill="#d1d9e0" stroke="#d1d9e0" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
   <marker id="arrowhead-start-23d1d9e0" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
     <polygon points="8 0, 0 2.5, 8 5" fill="#d1d9e0" stroke="#d1d9e0" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
+  <marker id="arrowhead-23dc2626" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="#dc2626" stroke="#dc2626" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start-23dc2626" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="#dc2626" stroke="#dc2626" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
 </defs>
-<polyline class="edge" data-from="signup" data-to="profile" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="237.69700000000003,84.9 237.69700000000003,172.9" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
-<polyline class="edge" data-from="profile" data-to="plan" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="237.69700000000003,209.8 237.69700000000003,297.8" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="signup" data-to="profile" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="237.69700000000003,84.9 237.69700000000003,172.9" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="profile" data-to="plan" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="237.69700000000003,209.8 237.69700000000003,297.8" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
 <polyline class="edge" data-from="plan" data-to="nurture" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Not yet" points="213.12033333333335,420.6833333333333 213.12033333333335,898.365 129.73700000000002,898.365 129.73700000000002,1018.665" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
-<polyline class="edge" data-from="plan" data-to="payment" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Plan selected" points="262.2736666666667,420.6833333333333 262.2736666666667,521.26 345.65700000000004,521.26 345.65700000000004,641.56" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
-<polyline class="edge" data-from="payment" data-to="accepted" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="374.3846666666667,678.46 374.3846666666667,754.46 396.35825000000006,754.46 396.35825000000006,766.46" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
-<polyline class="edge" data-from="accepted" data-to="retry" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" points="366.2240833333334,917.1308333333335 366.2240833333334,1023.2650000000001 299.7363333333334,1023.2650000000001 299.7363333333334,1131.565 294.5588333333334,1131.565 294.5588333333334,1143.565" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="plan" data-to="payment" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Plan selected" points="262.2736666666667,420.6833333333333 262.2736666666667,521.26 345.65700000000004,521.26 345.65700000000004,641.56" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="payment" data-to="accepted" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="374.3846666666667,678.46 374.3846666666667,754.46 396.35825000000006,754.46 396.35825000000006,766.46" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="accepted" data-to="retry" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" points="366.2240833333334,917.1308333333335 366.2240833333334,1023.2650000000001 299.7363333333334,1023.2650000000001 299.7363333333334,1131.565 294.5588333333334,1131.565 294.5588333333334,1143.565" fill="none" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead-23dc2626)" />
 <polyline class="edge" data-from="retry" data-to="payment" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="233.64550000000003,1143.565 233.64550000000003,1131.565 252.8521666666667,1131.565 252.8521666666667,754.46 316.9293333333334,754.46 316.9293333333334,678.46" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
-<polyline class="edge" data-from="accepted" data-to="provision" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" points="426.4924166666667,917.1308333333334 426.4924166666667,1023.2650000000001 487.8026666666667,1023.2650000000001 487.8026666666667,1143.565" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
-<polyline class="edge" data-from="provision" data-to="invite" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="487.8026666666667,1180.4650000000001 487.8026666666667,1268.4650000000001" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
-<polyline class="edge" data-from="invite" data-to="active" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="487.8026666666667,1305.3650000000002 487.8026666666667,1393.3650000000002" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="accepted" data-to="provision" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" points="426.4924166666667,917.1308333333334 426.4924166666667,1023.2650000000001 487.8026666666667,1023.2650000000001 487.8026666666667,1143.565" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="provision" data-to="invite" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="487.8026666666667,1180.4650000000001 487.8026666666667,1268.4650000000001" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
+<polyline class="edge" data-from="invite" data-to="active" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="487.8026666666667,1305.3650000000002 487.8026666666667,1393.3650000000002" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#arrowhead-230969da)" />
 <g class="edge-label" data-from="plan" data-to="nurture" data-label="Not yet">
   <rect x="104.73700000000002" y="905.365" width="49.13200000000001" height="30.3" rx="2" ry="2" fill="#ffffff" stroke="#e4e5e5" stroke-width="1" />
   <text x="129.30300000000003" y="920.515" text-anchor="middle" font-size="11" font-weight="400" fill="#59636e" dy="3.8499999999999996">Not yet</text>
@@ -60,15 +72,15 @@
   <text x="487.6316666666667" y="1045.4150000000002" text-anchor="middle" font-size="11" font-weight="400" fill="#59636e" dy="3.8499999999999996">Yes</text>
 </g>
 <g class="node" data-id="signup" data-label="Trial signup" data-shape="stadium">
-  <rect x="181.52450000000005" y="48" width="112.345" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="#f8f8f9" stroke="#d2d3d4" stroke-width="0.75" />
+  <rect x="181.52450000000005" y="48" width="112.345" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
   <text x="237.69700000000006" y="66.45" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Trial signup</text>
 </g>
 <g class="node" data-id="profile" data-label="Create workspace profile" data-shape="rectangle">
-  <rect x="142.62200000000007" y="172.9" width="190.14999999999995" height="36.900000000000006" rx="0" ry="0" fill="#f8f8f9" stroke="#d2d3d4" stroke-width="0.75" />
+  <rect x="142.62200000000007" y="172.9" width="190.14999999999995" height="36.900000000000006" rx="0" ry="0" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
   <text x="237.69700000000006" y="191.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Create workspace profile</text>
 </g>
 <g class="node" data-id="plan" data-label="Select a plan?" data-shape="diamond">
-  <polygon points="237.69700000000003,297.79999999999995 311.427,371.53 237.69700000000003,445.26 163.96700000000004,371.53" fill="#f8f8f9" stroke="#d2d3d4" stroke-width="0.75" />
+  <polygon points="237.69700000000003,297.79999999999995 311.427,371.53 237.69700000000003,445.26 163.96700000000004,371.53" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
   <text x="237.69700000000003" y="371.53" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Select a plan?</text>
 </g>
 <g class="node" data-id="nurture" data-label="Start onboarding tips" data-shape="rectangle">
@@ -76,27 +88,27 @@
   <text x="129.73700000000002" y="1037.115" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Start onboarding tips</text>
 </g>
 <g class="node" data-id="payment" data-label="Verify payment method" data-shape="rectangle">
-  <rect x="259.47400000000005" y="641.56" width="172.36599999999999" height="36.900000000000006" rx="0" ry="0" fill="#f8f8f9" stroke="#d2d3d4" stroke-width="0.75" />
+  <rect x="259.47400000000005" y="641.56" width="172.36599999999999" height="36.900000000000006" rx="0" ry="0" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
   <text x="345.65700000000004" y="660.01" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Verify payment method</text>
 </g>
 <g class="node" data-id="accepted" data-label="Payment accepted?" data-shape="diamond">
-  <polygon points="396.35825,766.46 486.76075000000003,856.8625000000001 396.35825,947.2650000000001 305.95574999999997,856.8625000000001" fill="#f8f8f9" stroke="#d2d3d4" stroke-width="0.75" />
+  <polygon points="396.35825,766.46 486.76075000000003,856.8625000000001 396.35825,947.2650000000001 305.95574999999997,856.8625000000001" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
   <text x="396.35825" y="856.8625000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Payment accepted?</text>
 </g>
 <g class="node" data-id="retry" data-label="Request another method" data-shape="rectangle">
-  <rect x="172.73216666666673" y="1143.565" width="182.73999999999998" height="36.900000000000006" rx="0" ry="0" fill="#f8f8f9" stroke="#d2d3d4" stroke-width="0.75" />
+  <rect x="172.73216666666673" y="1143.565" width="182.73999999999998" height="36.900000000000006" rx="0" ry="0" fill="#fdf0f0" stroke="#dc2626" stroke-width="2" />
   <text x="264.10216666666673" y="1162.015" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Request another method</text>
 </g>
 <g class="node" data-id="provision" data-label="Provision workspace" data-shape="rectangle">
-  <rect x="403.4721666666667" y="1143.565" width="168.661" height="36.900000000000006" rx="0" ry="0" fill="#f8f8f9" stroke="#d2d3d4" stroke-width="0.75" />
+  <rect x="403.4721666666667" y="1143.565" width="168.661" height="36.900000000000006" rx="0" ry="0" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
   <text x="487.8026666666667" y="1162.015" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Provision workspace</text>
 </g>
 <g class="node" data-id="invite" data-label="Invite teammates" data-shape="rectangle">
-  <rect x="419.7741666666667" y="1268.4650000000001" width="136.057" height="36.900000000000006" rx="0" ry="0" fill="#f8f8f9" stroke="#d2d3d4" stroke-width="0.75" />
+  <rect x="419.7741666666667" y="1268.4650000000001" width="136.057" height="36.900000000000006" rx="0" ry="0" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
   <text x="487.8026666666667" y="1286.9150000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Invite teammates</text>
 </g>
 <g class="node" data-id="active" data-label="Workspace active" data-shape="stadium">
-  <rect x="413.4756666666667" y="1393.3650000000002" width="148.654" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="#f8f8f9" stroke="#d2d3d4" stroke-width="0.75" />
+  <rect x="413.4756666666667" y="1393.3650000000002" width="148.654" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="#e9f2fc" stroke="#0969da" stroke-width="2" />
   <text x="487.8026666666667" y="1411.8150000000003" text-anchor="middle" font-size="13" font-weight="500" fill="#1f2328" dy="4.55">Workspace active</text>
 </g>
 </svg>

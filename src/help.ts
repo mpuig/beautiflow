@@ -22,6 +22,11 @@ Usage:
   beautiflow themes
   beautiflow version
 
+Quality:
+  audit reports geometry, estimated label collisions, and shared routes.
+  JSON findings name supported semantic repairs; agents never author coordinates.
+  polish ranks valid candidates in one bounded pass without changing semantics.
+
 Render options:
   -f, --format <format>   Output: svg, png, unicode, or ascii (default: svg)
   -o, --output <path>    Output path; use - for stdout

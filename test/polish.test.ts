@@ -18,6 +18,8 @@ describe('bounded polish workflow', () => {
     const sourcePath = join(directory, 'flow.mmd')
     await writeFile(sourcePath, `flowchart LR\n  start[Start] --> choice{Ready?}\n  choice -->|Yes| done[Done]\n  choice -->|No| retry[Retry]\n  retry --> choice\n`)
     const project = await loadProject(sourcePath)
+    const originalSource = project.source
+    const originalEdges = structuredClone(project.graph.edges)
     const result = await polishProject(project)
 
     expect(result.status).toBe('initialized')
@@ -25,6 +27,9 @@ describe('bounded polish workflow', () => {
     expect(result.after.metrics.nodeOverlaps).toBe(0)
     expect(result.after.metrics.edgeNodeIntersections).toBe(0)
     expect(Object.keys(project.sidecar.nodes)).toHaveLength(4)
+    expect(project.source).toBe(originalSource)
+    expect(await Bun.file(sourcePath).text()).toBe(originalSource)
+    expect(project.graph.edges).toEqual(originalEdges)
   })
 
   test('uses the nearest FLOW.md as prose context', async () => {

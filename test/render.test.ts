@@ -1,6 +1,8 @@
 import { describe, expect, test } from 'bun:test'
 import { renderSource, resolveTheme } from '../src/render.ts'
 import { diagramFamily, renderStandaloneOutput } from '../src/diagram/pipeline.ts'
+import { JSDOM } from 'jsdom'
+import { hasFragmentedArchitectureLabel } from '../src/diagram/architecture-layout.ts'
 
 const source = `flowchart LR
   A[Start] --> B{Ready?}
@@ -85,4 +87,49 @@ waf:B --> T:eks
   test('resolves a built-in theme', () => {
     expect(resolveTheme('github-dark')).toBeDefined()
   })
+
+  test('keeps sequence message text at foreground contrast without changing connector colors', async () => {
+    const svg = await renderStandaloneOutput('sequenceDiagram\n  Customer->>Support: Report failure\n  Support-->>Customer: Confirm recovery', {
+      inputPath: 'support.mmd', format: 'svg', transparent: false, themeName: 'dracula',
+    }) as string
+    const dom = new JSDOM(svg)
+    try {
+      const labels = [...dom.window.document.querySelectorAll('text')].filter((element) => /Report failure|Confirm recovery/.test(element.textContent ?? ''))
+      expect(labels).toHaveLength(2)
+      for (const label of labels) expect(label.getAttribute('fill')).toBe('#f8f8f2')
+      expect(svg).toContain('#6272a4')
+      expect(svg).toContain('#282a36')
+    } finally {
+      dom.window.close()
+    }
+  })
+
+  test('detects split words but allows natural two-line architecture labels', () => {
+    const dom = new JSDOM('<svg><g id="label"><text><tspan class="text-outer-tspan">CloudFron</tspan><tspan class="text-outer-tspan">t</tspan></text></g></svg>')
+    try {
+      const service = dom.window.document.querySelector('#label')!
+      expect(hasFragmentedArchitectureLabel(service, 'CloudFront')).toBe(true)
+      service.querySelectorAll('tspan')[0]!.textContent = 'Public'
+      service.querySelectorAll('tspan')[1]!.textContent = 'users'
+      expect(hasFragmentedArchitectureLabel(service, 'Public users')).toBe(false)
+    } finally {
+      dom.window.close()
+    }
+  })
+
+  test('fits short architecture service names within the compound fallback label width', async () => {
+    const source = await Bun.file('examples/recipes/aws-architecture/sources/step-6-production-architecture.mmd').text()
+    const svg = await renderStandaloneOutput(source, { inputPath: 'aws.mmd', format: 'svg', transparent: false, themeName: 'github-light' }) as string
+    const dom = new JSDOM(svg)
+    try {
+      for (const [id, label] of [['cloudfront', 'CloudFront'], ['cloudwatch', 'CloudWatch'], ['controller', 'Controller']] as const) {
+        const service = dom.window.document.querySelector(`[id$="-service-${id}"]`)!
+        expect([...service.querySelectorAll('.text-outer-tspan')].map((row) => row.textContent)).toEqual([label])
+      }
+      expect(svg).toContain('data-beautiflow-layout="compound-elk-fallback"')
+      expect(svg).toContain('data-beautiflow-wrapped-labels="0"')
+    } finally {
+      dom.window.close()
+    }
+  }, 20_000)
 })

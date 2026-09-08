@@ -1,0 +1,44 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-09-08T06:49:34.064Z",
+        "reason": "Agent: preserved established paper #f4f1e8 and evergreen palette from the pre-existing website, documented in DESIGN.md; not a newly selected default."
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-09-08T06:49:34.149Z",
+        "reason": "Agent: only finding is full-width setup section. Browser measurement confirms inner .shell gives 16px left/right and 48px top/bottom at mobile; parent padding heuristic misses centered child margins."
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "examples.html"
+        ],
+        "createdAt": "2026-09-08T06:49:34.239Z",
+        "reason": "Agent: findings are examples-hero and cta full-width backgrounds. Browser measurements at 1440px confirm 100px side insets, 140/155px hero vertical insets and 120px CTA vertical insets from inner .shell and parent padding."
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "examples.html"
+        ],
+        "createdAt": "2026-09-08T06:57:23.705Z",
+        "reason": "Agent: intentional established paper #f4f1e8 and evergreen brand palette, shared through site.css with index.html to fulfill the user's explicit request to unify both pages; documented in DESIGN.md."
+      }
+    ]
+  }
+}

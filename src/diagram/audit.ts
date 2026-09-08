@@ -1,4 +1,9 @@
 import type { AuditIssue, AuditReport, Point, PositionedDiagram, PositionedEdge, PositionedNode } from './model.ts'
+import { edgeMidpoint } from '../vendor/beautiful-mermaid/renderer.ts'
+import { measureMultilineText } from '../vendor/beautiful-mermaid/text-metrics.ts'
+import { FONT_SIZES, FONT_WEIGHTS } from '../vendor/beautiful-mermaid/styles.ts'
+
+type Box = Pick<PositionedNode, 'x' | 'y' | 'width' | 'height'>
 
 interface Segment {
   start: Point
@@ -6,7 +11,7 @@ interface Segment {
   edge: PositionedEdge
 }
 
-function overlaps(a: PositionedNode, b: PositionedNode): boolean {
+function overlaps(a: Box, b: Box): boolean {
   return a.x < b.x + b.width
     && a.x + a.width > b.x
     && a.y < b.y + b.height
@@ -38,7 +43,7 @@ function strictIntersection(a: Segment, b: Segment): boolean {
   return o1 !== 0 && o2 !== 0 && o3 !== 0 && o4 !== 0 && o1 !== o2 && o3 !== o4
 }
 
-function segmentIntersectsNode(segment: Segment, node: PositionedNode): boolean {
+function segmentIntersectsNode(segment: Segment, node: Box): boolean {
   const left = node.x + 1
   const right = node.x + node.width - 1
   const top = node.y + 1
@@ -53,7 +58,90 @@ function segmentIntersectsNode(segment: Segment, node: PositionedNode): boolean 
     const maxX = Math.max(segment.start.x, segment.end.x)
     return segment.start.y > top && segment.start.y < bottom && maxX > left && minX < right
   }
+  let minimum = 0
+  let maximum = 1
+  for (const [start, delta, lower, upper] of [
+    [segment.start.x, segment.end.x - segment.start.x, left, right],
+    [segment.start.y, segment.end.y - segment.start.y, top, bottom],
+  ] as const) {
+    if (delta === 0) {
+      if (start <= lower || start >= upper) return false
+      continue
+    }
+    const first = (lower - start) / delta
+    const second = (upper - start) / delta
+    minimum = Math.max(minimum, Math.min(first, second))
+    maximum = Math.min(maximum, Math.max(first, second))
+  }
+  return minimum < maximum
+}
+
+function sharedLength(first: Segment, second: Segment): number {
+  if (first.start.y === first.end.y && second.start.y === second.end.y && first.start.y === second.start.y) {
+    return Math.max(0, Math.min(Math.max(first.start.x, first.end.x), Math.max(second.start.x, second.end.x))
+      - Math.max(Math.min(first.start.x, first.end.x), Math.min(second.start.x, second.end.x)))
+  }
+  if (first.start.x === first.end.x && second.start.x === second.end.x && first.start.x === second.start.x) {
+    return Math.max(0, Math.min(Math.max(first.start.y, first.end.y), Math.max(second.start.y, second.end.y))
+      - Math.max(Math.min(first.start.y, first.end.y), Math.min(second.start.y, second.end.y)))
+  }
+  return 0
+}
+
+function sharedTerminal(first: Segment, second: Segment): boolean {
+  for (const endpoint of ['source', 'target'] as const) {
+    for (const otherEndpoint of ['source', 'target'] as const) {
+      if (first.edge[endpoint] !== second.edge[otherEndpoint]) continue
+      const terminal = endpoint === 'source' ? first.edge.points[0] : first.edge.points.at(-1)
+      const otherTerminal = otherEndpoint === 'source' ? second.edge.points[0] : second.edge.points.at(-1)
+      const point = endpoint === 'source' ? first.start : first.end
+      const otherPoint = otherEndpoint === 'source' ? second.start : second.end
+      if (point === terminal && otherPoint === otherTerminal) return true
+    }
+  }
   return false
+}
+
+function readabilityIssues(diagram: PositionedDiagram, segments: Segment[]): AuditIssue[] {
+  const issues: AuditIssue[] = []
+  const labels = diagram.edges.filter((edge) => edge.label).map((edge) => {
+    const center = edge.labelPosition ?? edgeMidpoint(edge.points)
+    const measured = measureMultilineText(edge.label!, FONT_SIZES.edgeLabel, FONT_WEIGHTS.edgeLabel)
+    const width = measured.width + 16
+    const height = measured.height + 16
+    return { edge, x: center.x - width / 2, y: center.y - height / 2, width, height }
+  })
+  for (const [index, label] of labels.entries()) {
+    const evidence = { x: label.x, y: label.y, width: label.width, height: label.height }
+    for (const node of diagram.nodes) {
+      if (!overlaps(label, node)) continue
+      issues.push({ severity: 'medium', type: 'label-collision', message: `${label.edge.id} label overlaps ${node.id}`,
+        edges: [label.edge.id], nodes: [node.id], evidence: { ...evidence, kind: 'label-node' } })
+    }
+    for (const other of labels.slice(index + 1)) {
+      if (!overlaps(label, other)) continue
+      issues.push({ severity: 'medium', type: 'label-collision', message: `${label.edge.id} label overlaps ${other.edge.id} label`,
+        edges: [label.edge.id, other.edge.id], evidence: { ...evidence, kind: 'label-label' } })
+    }
+    for (const edge of diagram.edges) {
+      if (edge.id === label.edge.id || !segments.some((segment) => segment.edge === edge && segmentIntersectsNode(segment, label))) continue
+      issues.push({ severity: 'medium', type: 'label-collision', message: `${label.edge.id} label masks ${edge.id}`,
+        edges: [label.edge.id, edge.id], evidence: { ...evidence, kind: 'label-route' } })
+    }
+  }
+  const shared = new Set<string>()
+  for (const [index, first] of segments.entries()) {
+    for (const second of segments.slice(index + 1)) {
+      if (first.edge.id === second.edge.id || sharedTerminal(first, second)) continue
+      const length = sharedLength(first, second)
+      const key = JSON.stringify([first.edge.id, second.edge.id].sort())
+      if (length <= 1 || shared.has(key)) continue
+      shared.add(key)
+      issues.push({ severity: 'medium', type: 'shared-route', message: `${first.edge.id} shares a routing channel with ${second.edge.id}`,
+        edges: [first.edge.id, second.edge.id], evidence: { sharedLength: length } })
+    }
+  }
+  return issues
 }
 
 function bendCount(edge: PositionedEdge): number {
@@ -160,6 +248,10 @@ export function auditDiagram(diagram: PositionedDiagram): AuditReport {
   }
 
   const alignment = alignmentScore(diagram.nodes)
+  issues.push(...readabilityIssues(diagram, allSegments))
+  for (const issue of issues) issue.supportedFixes = ['set-direction', 'place-relative']
+  const labelCollisions = issues.filter((issue) => issue.type === 'label-collision').length
+  const sharedRoutes = issues.filter((issue) => issue.type === 'shared-route').length
   const aspectRatio = diagram.height === 0 ? 1 : diagram.width / diagram.height
   const aspectPenalty = aspectRatio > 2.4
     ? Math.min(18, (aspectRatio - 2.4) * 8)
@@ -171,6 +263,8 @@ export function auditDiagram(diagram: PositionedDiagram): AuditReport {
       - nodeOverlaps * 30
       - edgeCrossings * 8
       - edgeNodeIntersections * 20
+      - labelCollisions * 8
+      - sharedRoutes * 8
       - Math.max(0, totalBends - diagram.edges.length * 2) * 2
       - aspectPenalty
       + alignment * 4,
@@ -183,7 +277,8 @@ export function auditDiagram(diagram: PositionedDiagram): AuditReport {
       nodeOverlaps,
       edgeCrossings,
       edgeNodeIntersections,
-      labelCollisions: 0,
+      labelCollisions,
+      sharedRoutes,
       totalBends,
       alignmentScore: Number(alignment.toFixed(3)),
       aspectRatio: Number(aspectRatio.toFixed(3)),

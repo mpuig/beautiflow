@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 679.7030000000001 470" width="679.7030000000001" height="470" style="--bg:#282a36;--fg:#f8f8f2;--line:#6272a4;--accent:#bd93f9;--muted:#6272a4;background:#282a36">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 679.7030000000001 470" width="679.7030000000001" height="470" style="--bg:#282a36;--fg:#f8f8f2;--line:#6272a4;--accent:#bd93f9;--muted:#f8f8f2;background:#282a36">
 <rect width="100%" height="100%" fill="#282a36" />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
@@ -33,35 +33,35 @@
 <line class="lifeline" data-actor="Specialist" x1="495.133" y1="70" x2="495.133" y2="440" stroke="#6272a4" stroke-width="0.75" stroke-dasharray="6 4" />
 <g class="message" data-from="Customer" data-to="Support" data-label="Report intermittent failure" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="75.133" y1="90" x2="215.13299999999998" y2="90" stroke="#6272a4" stroke-width="1" marker-end="url(#seq-arrow)" />
-  <text x="145.13299999999998" y="80" font-size="11" text-anchor="middle" font-weight="400" fill="#6272a4" dy="3.8499999999999996">Report intermittent failure</text>
+  <text x="145.13299999999998" y="80" font-size="11" text-anchor="middle" font-weight="400" fill="#f8f8f2" dy="3.8499999999999996">Report intermittent failure</text>
 </g>
 <g class="message" data-from="Support" data-to="Diagnostics" data-label="Collect recent traces" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="215.13299999999998" y1="130" x2="355.133" y2="130" stroke="#6272a4" stroke-width="1" marker-end="url(#seq-arrow)" />
-  <text x="285.133" y="120" font-size="11" text-anchor="middle" font-weight="400" fill="#6272a4" dy="3.8499999999999996">Collect recent traces</text>
+  <text x="285.133" y="120" font-size="11" text-anchor="middle" font-weight="400" fill="#f8f8f2" dy="3.8499999999999996">Collect recent traces</text>
 </g>
 <g class="message" data-from="Diagnostics" data-to="Support" data-label="Return correlated events" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="355.133" y1="170" x2="215.13299999999998" y2="170" stroke="#6272a4" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <text x="285.133" y="160" font-size="11" text-anchor="middle" font-weight="400" fill="#6272a4" dy="3.8499999999999996">Return correlated events</text>
+  <text x="285.133" y="160" font-size="11" text-anchor="middle" font-weight="400" fill="#f8f8f2" dy="3.8499999999999996">Return correlated events</text>
 </g>
 <g class="message" data-from="Support" data-to="Specialist" data-label="Share evidence bundle" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="215.13299999999998" y1="210" x2="495.133" y2="210" stroke="#6272a4" stroke-width="1" marker-end="url(#seq-arrow)" />
-  <text x="355.133" y="200" font-size="11" text-anchor="middle" font-weight="400" fill="#6272a4" dy="3.8499999999999996">Share evidence bundle</text>
+  <text x="355.133" y="200" font-size="11" text-anchor="middle" font-weight="400" fill="#f8f8f2" dy="3.8499999999999996">Share evidence bundle</text>
 </g>
 <g class="message" data-from="Specialist" data-to="Specialist" data-label="Reproduce in sandbox" data-line-style="solid" data-arrow-head="filled" data-self="true">
   <polyline points="495.133,250 525.133,250 525.133,270 495.133,270" fill="none" stroke="#6272a4" stroke-width="1" marker-end="url(#seq-arrow)" />
-  <text x="533.133" y="260" font-size="11" text-anchor="start" font-weight="400" fill="#6272a4" dy="3.8499999999999996">Reproduce in sandbox</text>
+  <text x="533.133" y="260" font-size="11" text-anchor="start" font-weight="400" fill="#f8f8f2" dy="3.8499999999999996">Reproduce in sandbox</text>
 </g>
 <g class="message" data-from="Specialist" data-to="Support" data-label="Recommend configuration fix" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="495.133" y1="320" x2="215.13299999999998" y2="320" stroke="#6272a4" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <text x="355.133" y="310" font-size="11" text-anchor="middle" font-weight="400" fill="#6272a4" dy="3.8499999999999996">Recommend configuration fix</text>
+  <text x="355.133" y="310" font-size="11" text-anchor="middle" font-weight="400" fill="#f8f8f2" dy="3.8499999999999996">Recommend configuration fix</text>
 </g>
 <g class="message" data-from="Support" data-to="Customer" data-label="Explain and apply fix" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="215.13299999999998" y1="360" x2="75.133" y2="360" stroke="#6272a4" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <text x="145.13299999999998" y="350" font-size="11" text-anchor="middle" font-weight="400" fill="#6272a4" dy="3.8499999999999996">Explain and apply fix</text>
+  <text x="145.13299999999998" y="350" font-size="11" text-anchor="middle" font-weight="400" fill="#f8f8f2" dy="3.8499999999999996">Explain and apply fix</text>
 </g>
 <g class="message" data-from="Customer" data-to="Support" data-label="Confirm recovery" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="75.133" y1="400" x2="215.13299999999998" y2="400" stroke="#6272a4" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <text x="145.13299999999998" y="390" font-size="11" text-anchor="middle" font-weight="400" fill="#6272a4" dy="3.8499999999999996">Confirm recovery</text>
+  <text x="145.13299999999998" y="390" font-size="11" text-anchor="middle" font-weight="400" fill="#f8f8f2" dy="3.8499999999999996">Confirm recovery</text>
 </g>
 <g class="actor" data-id="Customer" data-label="Customer" data-type="participant">
   <rect x="30" y="30" width="90.26599999999999" height="40" rx="4" ry="4" fill="#2e303c" stroke="#52535c" stroke-width="1" />

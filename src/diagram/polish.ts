@@ -13,6 +13,15 @@ export interface PolishResult {
   sidecar: BeautiflowSidecar
 }
 
+export function selectValidCandidate<Candidate extends { audit: AuditReport }>(candidates: Candidate[]): Candidate | undefined {
+  return candidates.filter(({ audit }) => audit.metrics.nodeOverlaps === 0 && audit.metrics.edgeNodeIntersections === 0)
+    .sort((first, second) => second.audit.score - first.audit.score
+      || first.audit.metrics.labelCollisions - second.audit.metrics.labelCollisions
+      || first.audit.metrics.sharedRoutes - second.audit.metrics.sharedRoutes
+      || first.audit.metrics.edgeCrossings - second.audit.metrics.edgeCrossings
+      || first.audit.metrics.totalBends - second.audit.metrics.totalBends)[0]
+}
+
 export async function polishProject(project: DiagramProject): Promise<PolishResult> {
   const originalSidecar = structuredClone(project.sidecar)
   const beforeDiagram = await layoutProject(project, {
@@ -24,37 +33,34 @@ export async function polishProject(project: DiagramProject): Promise<PolishResu
   const candidates = await generateCandidates(project, 5)
   const evaluated = []
 
-  for (const candidate of candidates) {
-    const sidecar = structuredClone(originalSidecar)
-    sidecar.direction = candidate.direction
-    for (const node of candidate.diagram.nodes) {
-      const existing = sidecar.nodes[node.id]
-      if (existing?.pinned) continue
-      sidecar.nodes[node.id] = {
-        x: node.x,
-        y: node.y,
-        width: node.width,
-        height: node.height,
-        pinned: false,
-        role: existing?.role ?? node.role,
+  try {
+    for (const candidate of candidates) {
+      const sidecar = structuredClone(originalSidecar)
+      sidecar.direction = candidate.direction
+      for (const node of candidate.diagram.nodes) {
+        const existing = sidecar.nodes[node.id]
+        if (existing?.pinned) continue
+        sidecar.nodes[node.id] = {
+          x: node.x,
+          y: node.y,
+          width: node.width,
+          height: node.height,
+          pinned: false,
+          role: existing?.role ?? node.role,
+        }
       }
+      project.sidecar = sidecar
+      const diagram = await layoutProject(project, { direction: sidecar.direction, applyOverrides: true })
+      evaluated.push({ candidate, sidecar, audit: auditDiagram(diagram) })
     }
-    project.sidecar = sidecar
-    const diagram = await layoutProject(project, { direction: sidecar.direction, applyOverrides: true })
-    evaluated.push({ candidate, sidecar, audit: auditDiagram(diagram) })
+  } finally {
+    project.sidecar = originalSidecar
   }
 
-  evaluated.sort((a, b) =>
-    b.audit.score - a.audit.score
-    || a.audit.metrics.edgeNodeIntersections - b.audit.metrics.edgeNodeIntersections
-    || a.audit.metrics.edgeCrossings - b.audit.metrics.edgeCrossings
-    || a.audit.metrics.totalBends - b.audit.metrics.totalBends
-    || a.candidate.id.localeCompare(b.candidate.id))
-  const best = evaluated[0]!
+  const best = selectValidCandidate(evaluated)
   const initialized = Object.keys(originalSidecar.nodes).length === 0
-  const valid = best.audit.metrics.nodeOverlaps === 0 && best.audit.metrics.edgeNodeIntersections === 0
-  const improved = valid && best.audit.score > before.score
-  const accepted = initialized ? valid : improved
+  const improved = best !== undefined && best.audit.score > before.score
+  const accepted = best !== undefined && (initialized || improved)
 
   project.sidecar = accepted ? best.sidecar : originalSidecar
   return {

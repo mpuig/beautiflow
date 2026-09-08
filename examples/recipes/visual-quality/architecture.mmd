@@ -1,0 +1,28 @@
+---
+config:
+  theme: base
+  themeVariables:
+    darkMode: false
+    archEdgeColor: "#334155"
+    archEdgeArrowColor: "#334155"
+    archGroupBorderColor: "#94a3b8"
+  architecture:
+    seed: 7
+    iconSize: 56
+    numIter: 400
+    idealEdgeLengthMultiplier: 2
+---
+architecture-beta
+    service users(lucide:users)[Customers]
+    group platform(cloud)[Order platform]
+    service api(lucide:server)[Orders API] in platform
+    service database(lucide:database)[Orders database] in platform
+    service queue(lucide:list)[Job queue] in platform
+    service worker(lucide:settings)[Order worker] in platform
+    service notifications(lucide:mail)[Email] in platform
+
+    users:R --> L:api
+    api:R --> L:database
+    api:T --> L:queue
+    queue:R --> L:worker
+    worker:R --> L:notifications

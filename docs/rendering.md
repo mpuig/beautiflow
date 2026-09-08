@@ -15,6 +15,8 @@
 
 YAML frontmatter is skipped during family detection and remains available to Mermaid for architecture theme and layout configuration. Unknown families fail explicitly.
 
+Sequence output uses the theme foreground for message labels rather than the muted secondary color. This keeps essential request and response text readable in dark palettes while preserving connector and arrow colors.
+
 ## Full graph pipeline
 
 ```text
@@ -33,6 +35,8 @@ Untouched edges retain ELK routes. Edges connected to manually moved nodes use B
 Positioned ELK edges are matched to semantic edges by source/target endpoint queues. Array-index matching is unsafe because ELK may reorder edges around subgraphs or disconnected components.
 
 ## Architecture diagrams
+
+The compound fallback fits fragmented single-word service labels to their allocated layout width instead of retaining the native icon-sized wrap. Its label audit counts mid-word splits, including two-line splits, as well as labels longer than two lines. Natural two-line labels are allowed.
 
 `architecture-beta` uses Mermaid 11 for parsing, labels, icons, boundary styling, and its native fCoSE layout on normal-sized diagrams, matching Mermaid’s documented renderer. For large diagrams with at least 14 services and multilevel groups, Beautiflow applies a bounded stability fallback: the same compound ELK engine used by Beautiful Mermaid replaces unstable fCoSE coordinates while retaining Mermaid’s architecture visuals. Generated IDs are normalized for deterministic output. The standalone renderer registers:
 

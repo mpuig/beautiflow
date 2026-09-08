@@ -2,25 +2,27 @@
 version: 1
 slug: "index-html"
 primary_target: "index.html"
-related_targets: ["examples.html", ".github/workflows/pages.yml"]
+related_targets: ["examples.html"]
 ---
 
 ## Scope and mode
 
-Developer landing page at `index.html`; Persuade mode.
+Developer landing page, Persuade mode. Developers using coding agents need to understand the product and install the runtime and skill. Keep renderer output factual, family boundaries explicit, and source files accessible. Preserve the existing brand palette and typefaces; simplify the structure rather than redesign the brand.
 
-## Audience, job, and action
+## Direction contract
 
-Developers using Pi, Claude Code, Codex, or another coding-agent harness need a safe way to delegate Mermaid diagram work. They should understand the bounded authority model, trust the evidence and rollback guarantees, then install the runtime and skill or read the agent protocol.
+THESIS: Show a useful diagram before explaining the protocol.
 
-## Proof and constraints
+OWN-WORLD: Existing evergreen and tinted paper, Bricolage Grotesque headings, Source Sans body, crisp rules, renderer-owned artifact styling.
 
-Use only repository-backed capabilities. The first viewport must make the agent-first setup path immediately actionable: install the runtime, install the skill, open a harness, and ask for an outcome. The following section proves capability discovery, family-aware routing, explicit states, and verified output rather than presenting agents as an optional wrapper. The page remains dependency-free at runtime beyond web fonts, deploys through GitHub Pages, serves real committed artifacts, works from 320px upward, and keeps wide diagrams locally scrollable without page overflow.
+STORY: Understand the result, inspect real examples, install the runtime and skill, then ask a coding agent.
 
-## Chosen direction
+FIRST VIEWPORT: Benefit and Install Beautiflow CTA on the left; source-linked architecture with keyboard-switchable diagram families on the right. Stack on mobile.
 
-A dark judgment → control proposition leads directly into a four-step agent onramp, followed by the bounded execution trace. Navy authority, evergreen machinery, lime state signals, coral installation, tinted drafting paper, crisp graph geometry, and asymmetric technical typography remain the established visual world. The CLI is framed as machinery behind the skill; direct human invocation is available but secondary.
+FORM: Diagram-first product demonstration; code-led refinement of the existing site, no new randomized direction or approved comp.
 
-## Memorable moment
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
-Switching diagram families changes the agent intent, family-appropriate execution states, source context, and verified artifact together. Unsupported architecture mutation is visibly avoided rather than implied.
+## Evidence and limits
+
+Show committed SVGs, not simulated execution. Comparison scores describe geometry only. Architecture supports render/audit, sequence render-only, flowchart/state polish. Copy failure selects the visible text. Generation commands and original sources document artifact provenance in examples/recipes/visual-quality/README.md. No fabricated model benchmark results.

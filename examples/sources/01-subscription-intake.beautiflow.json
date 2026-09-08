@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "sourceHash": "bf9af2a8a389b9fb",
+  "direction": "TD",
+  "nodes": {
+    "accepted": {
+      "x": 305.95575,
+      "y": 766.46,
+      "width": 180.805,
+      "height": 180.805,
+      "pinned": false,
+      "role": "primary"
+    },
+    "active": {
+      "x": 413.4756666666667,
+      "y": 1393.3650000000002,
+      "width": 148.654,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    },
+    "invite": {
+      "x": 419.7741666666667,
+      "y": 1268.4650000000001,
+      "width": 136.057,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    },
+    "nurture": {
+      "x": 48,
+      "y": 1018.665,
+      "width": 163.47400000000005,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "secondary"
+    },
+    "payment": {
+      "x": 259.47400000000005,
+      "y": 641.56,
+      "width": 172.36599999999999,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    },
+    "plan": {
+      "x": 163.96700000000004,
+      "y": 297.8,
+      "width": 147.45999999999998,
+      "height": 147.45999999999998,
+      "pinned": false,
+      "role": "primary"
+    },
+    "profile": {
+      "x": 142.62200000000007,
+      "y": 172.9,
+      "width": 190.14999999999995,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    },
+    "provision": {
+      "x": 403.4721666666667,
+      "y": 1143.565,
+      "width": 168.661,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    },
+    "retry": {
+      "x": 172.73216666666673,
+      "y": 1143.565,
+      "width": 182.73999999999998,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "exception"
+    },
+    "signup": {
+      "x": 181.52450000000005,
+      "y": 48,
+      "width": 112.345,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    }
+  },
+  "primaryFlow": [
+    "signup",
+    "profile",
+    "plan",
+    "payment",
+    "accepted",
+    "provision",
+    "invite",
+    "active"
+  ]
+}

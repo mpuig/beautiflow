@@ -77,7 +77,7 @@ beautiflow diagnose diagram.mmd --json
 - `inspect` reports graph IDs, edges, sidecar state, and the nearest `FLOW.md`.
 - `inspect --agent` works across supported families and returns capabilities, mutation boundaries, recommended commands, execution budgets, and evidence-based stop conditions.
 - `doctor` validates the local platform, skill installation, file access, family detection, output directory, `FLOW.md`, and parse/render pipeline. It accepts an optional diagram path.
-- `audit` checks flowchart geometry. For large multilevel architecture renders it reports shared route segments, group-header crossings, excessive bends, and over-wrapped labels.
+- `audit` checks flowchart/state geometry, including estimated label-mask collisions and shared routing channels. Readability findings include evidence and supported semantic repair action types. For large multilevel architecture renders it reports shared route segments, group-header crossings, excessive bends, and over-wrapped labels.
 - `diagnose` checks flow semantics.
 
 ## Agent JSON envelopes

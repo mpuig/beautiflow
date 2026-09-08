@@ -5,6 +5,44 @@ import { diagramFamily, renderProjectOutput, renderStandaloneOutput } from '../s
 import { loadProject } from '../src/diagram/project.ts'
 
 describe('example Mermaid compatibility suite', () => {
+  test('keeps subscription emphasis reproducible without changing topology', async () => {
+    const inputPath = 'examples/sources/01-subscription-intake.mmd'
+    const project = await loadProject(inputPath)
+    expect(project.sidecar.primaryFlow).toEqual(['signup', 'profile', 'plan', 'payment', 'accepted', 'provision', 'invite', 'active'])
+    expect(project.sidecar.nodes.retry?.role).toBe('exception')
+    expect(project.graph.nodes.size).toBe(10)
+    expect(project.graph.edges).toHaveLength(10)
+    const svg = await renderProjectOutput(project, { inputPath, format: 'svg', transparent: false, themeName: 'github-light' })
+    expect(svg).toBe(await Bun.file('examples/rendered/01-subscription-intake.svg').text())
+  })
+
+  test('keeps the visual-quality lab fixtures reproducible and collision-free', async () => {
+    const root = 'examples/recipes/visual-quality'
+    const guide = await Bun.file(`${root}/README.md`).text()
+    for (const name of ['release', 'job', 'approval', 'cache', 'architecture']) {
+      const inputPath = `${root}/${name}.mmd`
+      const source = await Bun.file(inputPath).text()
+      const graph = name === 'release' || name === 'job' || name === 'approval'
+      const stem = graph ? `${name}-after` : name
+      const request = { inputPath, format: 'svg' as const, transparent: false, themeName: 'github-light' }
+      const project = graph ? await loadProject(inputPath) : undefined
+      const output = project ? await renderProjectOutput(project, request) : await renderStandaloneOutput(source, request)
+      expect(output).toBe(await Bun.file(`${root}/rendered/${stem}.svg`).text())
+      expect(guide).toContain(`beautiflow render ${inputPath} --format svg --theme github-light --output ${root}/rendered/${stem}.svg`)
+      expect(Bun.file(`${root}/rendered/${stem}.png`).size).toBeGreaterThan(100)
+      if (project) {
+        const { auditDiagram } = await import('../src/diagram/audit.ts')
+        const { layoutProject } = await import('../src/diagram/layout.ts')
+        const audit = auditDiagram(await layoutProject(project, { direction: project.sidecar.direction, applyOverrides: true }))
+        expect(audit.issues).toEqual([])
+        project.sidecar.nodes = {}
+        project.sidecar.primaryFlow = undefined
+        project.sidecar.direction = name === 'release' ? 'LR' : 'TD'
+        expect(await renderProjectOutput(project, request)).toBe(await Bun.file(`${root}/rendered/${name}-before.svg`).text())
+      }
+    }
+  }, 20_000)
+
   test('renders every bundled example and keeps its guide reproducible', async () => {
     const sourceRoot = 'examples/sources'
     const renderedRoot = 'examples/rendered'

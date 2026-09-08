@@ -1,0 +1,6 @@
+{
+  "actions": [
+    { "type": "set-primary-flow", "nodes": ["Queued", "Running", "Completed"] },
+    { "type": "set-role", "nodes": ["Waiting", "Failed"], "role": "exception" }
+  ]
+}

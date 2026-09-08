@@ -273,7 +273,7 @@ function renderEdgeLabel(edge: PositionedEdge, font: string): string {
 }
 
 /** Get the midpoint of a polyline (by walking segments) */
-function edgeMidpoint(points: Point[]): Point {
+export function edgeMidpoint(points: Point[]): Point {
   if (points.length === 0) return { x: 0, y: 0 }
   if (points.length === 1) return points[0]!
 

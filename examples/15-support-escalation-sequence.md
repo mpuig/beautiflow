@@ -4,6 +4,8 @@ Trace evidence collection and a specialist handoff through recovery.
 
 **Capability:** render-only specialized family.
 
+Message labels use the theme foreground for legibility; lifelines, connectors, and arrowheads retain the Dracula palette.
+
 ```mermaid
 sequenceDiagram
     participant Customer

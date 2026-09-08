@@ -28,14 +28,10 @@ jobs:
       - uses: actions/configure-pages@v6
       - name: Assemble static site
         run: |
-          mkdir -p _site
-          cp index.html examples.html install.sh CNAME _site/
-          cp -R examples _site/examples
-          bun run ./scripts/build-docs.ts _site/docs
-          touch _site/.nojekyll
+          bun run build:site
       - uses: actions/upload-pages-artifact@v5
         with:
-          path: _site
+          path: dist/site
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5

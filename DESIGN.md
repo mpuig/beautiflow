@@ -56,3 +56,13 @@ Desktop fits the complete SVG to the available stage. Below 600px, the diagram k
 ## Accessibility
 
 Status uses a polite live region, render failures use `role="alert"`, text contrast meets operational UI requirements, the page has no keyboard traps, and reduced motion is respected.
+
+## Developer Website
+
+Both marketing pages load `site.css`: one source for palette, typography, shell widths, navigation, buttons, diagram frames, section spacing, footer, and responsive breakpoints. The examples page uses the same paper introduction and dark-green install section as the homepage, with consistent text-left / diagram-right rows instead of alternating layouts. All four original gallery entries, source snippets, and walkthrough links remain available. Diagrams fit their frames without hidden internal scrolling; portrait flowcharts get a taller stage and every figure has an explicit full-size SVG link.
+
+The marketing site is separate from the read-only preview. `index.html` uses the established Bricolage Grotesque / Source Sans 3 typography, pale paper, and evergreen palette. Its opening pairs a plain-language benefit and one primary “Install Beautiflow” action with real, linked diagram artifacts. Architecture, sequence, and lifecycle tabs support arrow-key and Home/End navigation with a single tab stop, showing family-specific capabilities without simulated agent execution.
+
+A four-node approval comparison shows real before/after outputs from one semantic action pass: emphasis changes presentation while preserving nodes, relationships, and labels. It makes no layout-score uplift claim and links to the Mermaid source and full-size outputs. Comparison stages are 560px tall, reducing to 530px in the stacked layout at widths up to 480px, so the short flow stays readable rather than shrinking a long workflow into a thumbnail.
+
+A dark-green installation section contains three steps and copy controls with visible success/failure feedback. Technical protocol details follow the product demonstration rather than preceding it. Mobile stacks the hero, preserves the install CTA, and keeps source/download links available. At widths up to 360px, the header hides its Examples link to keep the brand and install CTA within the viewport; examples remain accessible from the hero and footer. `examples.html` remains the fuller gallery; generated artifacts retain their renderer-owned styling.

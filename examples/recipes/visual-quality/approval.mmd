@@ -1,0 +1,4 @@
+flowchart TD
+    draft([Draft]) --> ready{Ready?}
+    ready -->|Yes| ship([Ship])
+    ready -->|No| revise[Revise]

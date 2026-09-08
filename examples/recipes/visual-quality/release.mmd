@@ -1,0 +1,9 @@
+flowchart LR
+    change([Change ready]) --> checks[Run checks]
+    checks --> review{Approve release?}
+    review -->|Approved| package[Build artifact]
+    package --> staging[Deploy to staging]
+    staging --> smoke[Run smoke tests]
+    smoke --> production[Promote to production]
+    production --> observe([Observe release])
+    review -->|Changes needed| revise[Revise change]

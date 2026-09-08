@@ -25,8 +25,11 @@ flowchart TD
 Generated with:
 
 ```bash
+beautiflow apply examples/sources/01-subscription-intake.mmd --actions examples/sources/01-subscription-intake-emphasis.json --json
 beautiflow render examples/sources/01-subscription-intake.mmd --format svg --theme github-light --output examples/rendered/01-subscription-intake.svg
 ```
+
+The committed sidecar emphasizes the activation path in blue and payment recovery in red. The onboarding branch remains secondary. All ten nodes and ten relationships stay in the original Mermaid source; the actions change presentation only. The long flow is best read using the full-size SVG.
 
 ## Try it
 

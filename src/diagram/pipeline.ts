@@ -44,7 +44,8 @@ export async function renderStandaloneOutput(source: string, request: RenderRequ
     }
     return renderMermaidASCII(source, { useAscii: request.format === 'ascii', colorMode: 'none' })
   }
-  const theme = resolveTheme(request.themeName) ?? DEFAULT_COLORS
+  const resolvedTheme = resolveTheme(request.themeName) ?? DEFAULT_COLORS
+  const theme = family === 'sequence' ? { ...resolvedTheme, muted: resolvedTheme.fg } : resolvedTheme
   const transparent = request.transparent
   const rendered = family === 'pie'
     ? renderPieSvg(source, theme, transparent)

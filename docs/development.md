@@ -1,5 +1,11 @@
 # Development
 
+## Website preview
+
+Run `bun run preview:site` and open `http://127.0.0.1:4173/`. This assembles the homepage, examples, generated HTML documentation, and schemas together in `dist/site`, then serves them on localhost. Stop with Ctrl-C and rerun after changes. Do not use `open index.html` or serve the repository root to test documentation links: `docs/` in the checkout contains Markdown, not the generated website.
+
+`bun run build:site` builds the same directory without starting a server. GitHub Pages deploys this exact build path so local navigation and deployed navigation use the same routes.
+
 ## Requirements
 
 - Bun 1.3 or newer

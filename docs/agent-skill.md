@@ -1,5 +1,7 @@
 # Agent Skill
 
+New diagrams start with the embedded [creation recipe](../skills/beautiflow/references/creation.md): choose the question and family, ground repository claims in source, establish a primary path, and split overwhelming detail into a distinct view. Initial Mermaid authorship belongs to the harness and must use a new authorized path; existing files still require receipt-backed transformations. The [generation benchmark](../benchmarks/generation/README.md) evaluates this installed-skill workflow independently of renderer fixture tests.
+
 Beautiflow ships a portable skill under:
 
 ```text

@@ -1,0 +1,6 @@
+{
+  "actions": [
+    { "type": "set-primary-flow", "nodes": ["draft", "ready", "ship"] },
+    { "type": "set-role", "nodes": ["revise"], "role": "exception" }
+  ]
+}

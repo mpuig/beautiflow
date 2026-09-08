@@ -14,6 +14,8 @@
 
 - Primary flow is unclear
 - Avoidable edge crossings
+- Shared routing channels that make distinct relationships ambiguous
+- Relationship labels masking unrelated routes or other labels
 - Exceptional path dominates the main path
 - Related nodes are visually separated
 
@@ -31,4 +33,4 @@
 - Secondary labels are too prominent
 - Theme is inappropriate for the destination
 
-Run both `beautiflow diagnose <file> --json` and `beautiflow audit <file> --json`. Review multiple entries, unlabeled or duplicate decision branches, high fan-out, cycles, and flows without exits. Mechanical diagnostics are authoritative for reachability, overlaps, and edge/node intersections; visual inspection is authoritative for balance and hierarchy.
+Use `beautiflow diagnose <file> --json` for semantic defects and `beautiflow audit <file> --json` for geometry. Run both only when both kinds of failure are relevant. Review multiple entries, unlabeled or duplicate decision branches, high fan-out, cycles, and flows without exits. Mechanical diagnostics check reachability, overlaps, edge/node intersections, estimated label masks, and shared routes; visual inspection remains necessary for actual text readability, balance, and hierarchy. Preserve meaningful labels and relationships when repairing geometry. Use a finding's `supportedFixes` only through the existing receipt-backed semantic action schema; a suggested action type is not a guarantee of improvement.

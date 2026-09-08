@@ -1,0 +1,39 @@
+[
+  {
+    "id": "cache-fallback",
+    "prompt": "Create a Mermaid flowchart showing Browser calling API, API checking Cache, Cache returning to API on Hit, Cache querying Database on Miss, and Database returning to API. Preserve Hit and Miss labels. Make the primary request easy to follow.",
+    "nodes": { "browser": ["Browser"], "api": ["API"], "cache": ["Cache", "Redis cache"], "database": ["Database", "PostgreSQL"] },
+    "edges": [
+      { "source": "browser", "target": "api" },
+      { "source": "api", "target": "cache" },
+      { "source": "cache", "target": "api", "labels": ["Hit", "Cache hit"] },
+      { "source": "cache", "target": "database", "labels": ["Miss", "Cache miss"] },
+      { "source": "database", "target": "api" }
+    ]
+  },
+  {
+    "id": "approval-workflow",
+    "prompt": "Create a Mermaid flowchart: Submit goes to Review. Review goes to Deploy on Approved and Revise on Rejected. Revise returns to Review. Deploy goes to Done. Label both decision branches and keep rejection secondary but visible.",
+    "nodes": { "submit": ["Submit"], "review": ["Review"], "deploy": ["Deploy"], "revise": ["Revise"], "done": ["Done"] },
+    "edges": [
+      { "source": "submit", "target": "review" },
+      { "source": "review", "target": "deploy", "labels": ["Approved"] },
+      { "source": "review", "target": "revise", "labels": ["Rejected"] },
+      { "source": "revise", "target": "review" },
+      { "source": "deploy", "target": "done" }
+    ]
+  },
+  {
+    "id": "job-lifecycle",
+    "prompt": "Create a Mermaid state diagram with Queued, Running, Waiting, Completed, and Cancelled states. Queued starts Running; Running completes to Completed or retries via Waiting back to Running. Queued and Waiting can each become Cancelled. Keep all transitions, including the retry return.",
+    "nodes": { "queued": ["Queued"], "running": ["Running"], "waiting": ["Waiting"], "completed": ["Completed"], "cancelled": ["Cancelled"] },
+    "edges": [
+      { "source": "queued", "target": "running" },
+      { "source": "running", "target": "completed" },
+      { "source": "running", "target": "waiting" },
+      { "source": "waiting", "target": "running" },
+      { "source": "queued", "target": "cancelled" },
+      { "source": "waiting", "target": "cancelled" }
+    ]
+  }
+]

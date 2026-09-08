@@ -2,6 +2,7 @@ import type { MermaidEdge, MermaidGraph, MermaidSubgraph, Point, PositionedGroup
 import { layoutGraphSync } from '../vendor/beautiful-mermaid/layout-engine.ts'
 import { routeEdge as routeAroundNodes } from './layout.ts'
 import type { PositionedNode as RoutedNode } from './model.ts'
+import { createCanvas } from '@napi-rs/canvas'
 
 type Port = 'L' | 'R' | 'T' | 'B'
 
@@ -308,6 +309,29 @@ function arrowMarker(root: SVGSVGElement, id: string, color: string): void {
   defs.append(marker)
 }
 
+export function hasFragmentedArchitectureLabel(service: Element, label: string): boolean {
+  const rows = [...service.querySelectorAll('.text-outer-tspan')].map((row) => row.textContent?.trim() ?? '')
+  return rows.length > 2 || (rows.length > 1 && rows.join(' ') !== label.trim().replace(/\s+/g, ' '))
+}
+
+function fitServiceLabels(root: SVGSVGElement, model: Model, positionedNodes: PositionedNode[]): void {
+  const context = createCanvas(1, 1).getContext('2d')
+  const availableWidths = new Map(positionedNodes.map((node) => [node.id, node.width]))
+  for (const service of model.services.values()) {
+    const element = root.querySelector<SVGGElement>(`[id$="-service-${service.id}"]`)
+    const rows = element?.querySelectorAll<SVGTSpanElement>('.text-outer-tspan')
+    if (!element || !rows || rows.length < 2 || /\s/.test(service.label)) continue
+    if ([...rows].map((row) => row.textContent).join('') !== service.label) continue
+    const style = root.ownerDocument.defaultView?.getComputedStyle(element)
+    context.font = `${style?.fontSize || '16px'} ${style?.fontFamily || 'Arial'}`
+    if (context.measureText(service.label).width > (availableWidths.get(service.id) ?? SERVICE_WIDTH)) continue
+    const first = rows[0]!.querySelector('.text-inner-tspan')
+    if (!first) continue
+    first.textContent = service.label
+    for (const row of [...rows].slice(1)) row.remove()
+  }
+}
+
 function routeQuality(
   routes: Map<number, Point[]>,
   groups: PositionedGroup[],
@@ -363,8 +387,9 @@ function routeQuality(
     }
   }
   let wrappedLabels = 0
-  for (const service of root.querySelectorAll<SVGGElement>('.architecture-service')) {
-    if (service.querySelectorAll('.text-inner-tspan').length > 2) wrappedLabels += 1
+  for (const service of model.services.values()) {
+    const element = root.querySelector<SVGGElement>(`[id$="-service-${service.id}"]`)
+    if (element && hasFragmentedArchitectureLabel(element, service.label)) wrappedLabels += 1
   }
   const complexityLoad = Math.max(0, model.services.size - 18)
   // Shared fan-in/fan-out terminal stubs and intentional boundary ingress are
@@ -386,6 +411,7 @@ export function stabilizeComplexArchitectureSvg(svg: string, source: string): st
   host.innerHTML = svg
   const root = host.querySelector<SVGSVGElement>('svg')
   if (!root) return svg
+  fitServiceLabels(root, model, positioned.nodes)
   const nodes = new Map(positioned.nodes.map((node) => [node.id, visualBox(node)]))
   placeExternalActors(model, nodes, positioned.groups, primary.nodes)
   const routingNodes = new Map([...nodes].map(([id, box]) => [id, {

@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "sourceHash": "edd6d16a10b8207c",
+  "direction": "TD",
+  "nodes": {
+    "draft": {
+      "x": 109.277,
+      "y": 48,
+      "width": 70.108,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    },
+    "ready": {
+      "x": 88.385,
+      "y": 172.9,
+      "width": 111.892,
+      "height": 111.892,
+      "pinned": false,
+      "role": "primary"
+    },
+    "revise": {
+      "x": 164.62600000000003,
+      "y": 481.092,
+      "width": 83.446,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "exception"
+    },
+    "ship": {
+      "x": 48,
+      "y": 481.092,
+      "width": 68.626,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    }
+  },
+  "primaryFlow": [
+    "draft",
+    "ready",
+    "ship"
+  ]
+}

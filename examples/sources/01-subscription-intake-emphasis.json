@@ -1,0 +1,7 @@
+{
+  "actions": [
+    { "type": "set-primary-flow", "nodes": ["signup", "profile", "plan", "payment", "accepted", "provision", "invite", "active"] },
+    { "type": "set-role", "nodes": ["retry"], "role": "exception" },
+    { "type": "set-role", "nodes": ["nurture"], "role": "secondary" }
+  ]
+}

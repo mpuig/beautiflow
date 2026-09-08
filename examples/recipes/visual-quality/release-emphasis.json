@@ -1,0 +1,6 @@
+{
+  "actions": [
+    { "type": "set-primary-flow", "nodes": ["change", "checks", "review", "package", "staging", "smoke", "production", "observe"] },
+    { "type": "set-role", "nodes": ["revise"], "role": "exception" }
+  ]
+}

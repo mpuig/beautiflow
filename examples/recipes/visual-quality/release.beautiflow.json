@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "sourceHash": "58ea94f4fbf63a3c",
+  "direction": "TD",
+  "nodes": {
+    "change": {
+      "x": 154.8485,
+      "y": 48,
+      "width": 125.68299999999999,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    },
+    "checks": {
+      "x": 161.51749999999998,
+      "y": 172.9,
+      "width": 112.345,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    },
+    "observe": {
+      "x": 61.70849999999999,
+      "y": 1167.095,
+      "width": 141.985,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    },
+    "package": {
+      "x": 75.7875,
+      "y": 667.4950000000001,
+      "width": 113.827,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    },
+    "production": {
+      "x": 48,
+      "y": 1042.1950000000002,
+      "width": 169.402,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    },
+    "review": {
+      "x": 130.9925,
+      "y": 297.8,
+      "width": 173.39499999999998,
+      "height": 173.39499999999998,
+      "pinned": false,
+      "role": "primary"
+    },
+    "revise": {
+      "x": 237.6145,
+      "y": 667.495,
+      "width": 130.129,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "exception"
+    },
+    "smoke": {
+      "x": 64.30199999999999,
+      "y": 917.2950000000001,
+      "width": 136.798,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    },
+    "staging": {
+      "x": 62.07899999999999,
+      "y": 792.3950000000001,
+      "width": 141.244,
+      "height": 36.900000000000006,
+      "pinned": false,
+      "role": "primary"
+    }
+  },
+  "primaryFlow": [
+    "change",
+    "checks",
+    "review",
+    "package",
+    "staging",
+    "smoke",
+    "production",
+    "observe"
+  ]
+}
