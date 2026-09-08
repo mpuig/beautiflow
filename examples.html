@@ -47,7 +47,7 @@
         <article class="example-row">
           <div class="example-copy">
             <h2>Production AWS architecture</h2>
-            <p>A 26-service architecture with explicit ports, recognizable service icons, nested account, VPC, and subnet boundaries, plus a stronger visual path for primary traffic.</p>
+            <p>A complete 26-service reference with explicit ports, measured icon and label geometry, and nested boundaries. Relationships stay neutral: the renderer does not guess which path carries requests.</p>
             <pre class="source">architecture-beta
 
 group account(cloud)[AWS account]
@@ -57,7 +57,7 @@ group eksGroup(cloud)[Amazon EKS] in vpc
 service route53(logos:aws-route53)[Route 53]
 service cloudfront(logos:aws-cloudfront)[CloudFront]
 service waf(logos:aws-waf)[WAF]</pre>
-            <div class="artifact-links"><a href="https://github.com/mpuig/beautiflow/blob/main/examples/recipes/aws-architecture/README.md">Read the walkthrough ↗</a><a href="examples/recipes/aws-architecture/sources/step-6-production-architecture.mmd">Open source ↗</a></div>
+            <div class="artifact-links"><a href="https://github.com/mpuig/beautiflow/blob/main/examples/recipes/aws-architecture/README.md">Read the walkthrough ↗</a><a href="examples/recipes/aws-architecture/sources/step-6-production-architecture.mmd">Open source ↗</a><a href="examples/recipes/architecture-views/rendered/request.svg">Focused request view</a><a href="examples/recipes/architecture-views/rendered/network.svg">Network view</a><a href="examples/recipes/architecture-views/rendered/operations.svg">Operations view</a></div>
           </div>
           <figure class="showcase example-figure">
           <a class="art" href="examples/recipes/aws-architecture/rendered/step-6-production-architecture.svg" aria-label="Open full AWS architecture render"><img src="examples/recipes/aws-architecture/rendered/step-6-production-architecture.svg" alt="Beautiflow production AWS architecture render" width="1993" height="1067"></a>

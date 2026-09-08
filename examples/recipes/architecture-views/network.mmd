@@ -1,0 +1,14 @@
+flowchart TD
+    engineers([Engineers]) -->|Private access| access[Private access gateway]
+    subgraph network["Private network"]
+        subgraph zone_a["Zone A"]
+            app_a[Application A] --> egress_a[Egress A]
+        end
+        subgraph zone_b["Zone B"]
+            app_b[Application B] --> egress_b[Egress B]
+        end
+    end
+    access --> app_a
+    access --> app_b
+    egress_a --> external([External services])
+    egress_b --> external

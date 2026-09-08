@@ -11,6 +11,8 @@
 
 ## First artifact and validation
 
+For architecture, separate request traffic from control, identity, delivery, and telemetry relationships. Verify provider semantics using authoritative documentation; an icon or service name does not establish where it belongs or how it connects. Use the same composition principles for AWS, GCP, Azure, on-premises, and mixed systems. Do not infer a primary path from the longest chain. Keep complete references and separately authored focused views distinct; never imply a focused example is an automatic projection when it is not.
+
 The harness owns initial authorship: write Mermaid only to a new, user-authorized path, never overwrite an existing source or sidecar. Beautiflow has no receipt-backed create operation. If the destination exists, inspect it and use supported transformations instead.
 
 Inspect the new file with `beautiflow inspect <file> --agent --json`. Follow the returned family capabilities. For flowchart/state layout improvement, enter the normal receipt-backed polish workflow. For render-only families, render and report that geometric auditing is unavailable; do not pass them through the flowchart model. Architecture supports its own audit, not polish.

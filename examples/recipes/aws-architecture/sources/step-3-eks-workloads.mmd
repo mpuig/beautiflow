@@ -29,8 +29,8 @@ service backend(lucide:server-cog)[Backend pods · AZ A and B] in eksGroup
 service vpn(aws:vpn)[Site-to-Site VPN] in vpc
 
 internet:R --> L:alb
-alb:R --> L:controller
-controller:R --> L:frontend
+alb:R --> L:frontend
+controller:T --> B:alb
 frontend:R --> L:backend
 engineers:R --> L:vpn
 vpn:R --> L:backend

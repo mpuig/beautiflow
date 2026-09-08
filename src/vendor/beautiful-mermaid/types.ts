@@ -19,6 +19,7 @@ export interface MermaidGraph {
 export type Direction = 'TD' | 'TB' | 'LR' | 'BT' | 'RL'
 
 export interface MermaidNode {
+  layoutSize?: { width: number; height: number }
   id: string
   label: string
   shape: NodeShape

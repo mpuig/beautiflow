@@ -16,13 +16,13 @@ In another terminal, start Pi, Claude Code, or Codex with the Beautiflow skill i
 
 ## AWS architecture rendering
 
-This recipe uses Mermaid `architecture-beta`, not a generic flowchart. Mermaid supplies parsing, labels, boundaries, registered `logos`, `lucide`, and `aws` icons, and the native layout used by the smaller snapshots. The full production snapshot crosses Beautiflow’s complexity threshold and uses the compound ELK stability fallback instead of accepting an extreme fCoSE arrangement. The result works as SVG, PNG, and live server output.
+This recipe uses Mermaid `architecture-beta`, not a generic flowchart. Mermaid supplies parsing, labels, boundaries, registered `logos`, `lucide`, and `aws` icons, and the native layout used by the smaller snapshots. The full production snapshot crosses Beautiflow’s complexity threshold and uses the compound ELK stability fallback instead of accepting an extreme fCoSE arrangement. The result works as SVG, PNG, and live server output. The layout and audit code are provider-neutral; AWS-specific decisions live only in these example sources.
 
 AWS service glyphs come from the CC0 SVG Logos collection where available. Lucide supplies neutral actors and fallbacks for services absent from that collection. They create an AWS-documentation-style diagram but are not a redistributed copy of the official AWS Architecture Icon Package. AWS names and marks remain the property of Amazon Web Services.
 
 ## Presentation layout
 
-Every snapshot is authored with explicit `L/R/T/B` ports. Normal snapshots retain Mermaid’s documented straight and single-elbow connectors. For the large multilevel final snapshot, the stability fallback sizes groups bottom-up and keeps the composition close to 16:9. SVG is recommended for PowerPoint because it stays sharp when resized.
+Every snapshot is authored with explicit `L/R/T/B` ports. Normal snapshots retain Mermaid’s documented straight and single-elbow connectors. For the large multilevel final snapshot, the stability fallback sizes groups from measured icons and labels. Open the complete reference at full size rather than shrinking all services onto a small slide. SVG is recommended for PowerPoint because it stays sharp when resized.
 
 ### Standard-symbol variant
 
@@ -40,17 +40,17 @@ beautiflow server examples/recipes/aws-architecture/variants/step-6-production-a
 
 [View the standard-symbol SVG](variants/step-6-production-architecture-standard.svg).
 
-For a version that does not use `architecture-beta` at all, use the conventional Mermaid [`flowchart LR` source](variants/step-6-production-architecture-flowchart.mmd):
+For a version that does not use `architecture-beta` at all, use the conventional Mermaid [`flowchart LR` source](variants/step-6-production-architecture-flowchart-reviewed.mmd):
 
 ```bash
-beautiflow render examples/recipes/aws-architecture/variants/step-6-production-architecture-flowchart.mmd --format svg --theme github-light --output examples/recipes/aws-architecture/variants/step-6-production-architecture-flowchart.svg
+beautiflow render examples/recipes/aws-architecture/variants/step-6-production-architecture-flowchart-reviewed.mmd --format svg --theme github-light --output examples/recipes/aws-architecture/variants/step-6-production-architecture-flowchart-reviewed.svg
 ```
 
 ```bash
-beautiflow server examples/recipes/aws-architecture/variants/step-6-production-architecture-flowchart.mmd
+beautiflow server examples/recipes/aws-architecture/variants/step-6-production-architecture-flowchart-reviewed.mmd
 ```
 
-[View the conventional flowchart SVG](variants/step-6-production-architecture-flowchart.svg).
+[View the conventional flowchart SVG](variants/step-6-production-architecture-flowchart-reviewed.svg).
 
 ---
 
@@ -185,13 +185,13 @@ beautiflow render examples/recipes/aws-architecture/sources/step-4-data-layer.mm
 ```text
 Replace the conceptual public connection with a realistic edge path.
 
-Public users should resolve Amazon Route 53, pass through Amazon CloudFront and AWS WAF, then reach an Application Load Balancer in the public subnets. The ALB and AWS Load Balancer Controller route only to the frontend service. Keep Site-to-Site VPN access separate through a Virtual Private Gateway. Add one NAT Gateway per Availability Zone for controlled backend egress. Preserve the frontend-to-backend and backend-to-Aurora paths.
+Public users should resolve Amazon Route 53, pass through Amazon CloudFront and AWS WAF, then reach an Application Load Balancer in the public subnets. The ALB sends application traffic to the frontend service. Show the controller configuring the ALB as a separate management relationship. Keep Site-to-Site VPN access separate through a Virtual Private Gateway. Add one NAT Gateway per Availability Zone for controlled backend egress. Preserve the frontend-to-backend and backend-to-Aurora paths.
 ```
 
 ### What changes
 
 - Public ingress becomes `Route 53 → CloudFront → WAF → ALB`
-- The ALB routes to frontend workloads through the controller
+- The ALB routes to frontend workloads; the controller configures the ALB separately
 - Corporate access remains private and separate
 - NAT gateways provide zonal egress without exposing pods publicly
 
@@ -230,7 +230,7 @@ Use explicit architecture ports for every connection. Keep AWS account, VPC, sub
 ### What changes
 
 - Delivery, identity, secrets, telemetry, alerting, and backups appear as supporting planes
-- Runtime flow remains visually distinct from operational dependencies
+- Runtime and operational relationships are retained without inventing a primary flow from the longest path
 - Every public, private, and data boundary remains explicit
 - The final diagram explains both request flow and production operations
 
@@ -259,13 +259,24 @@ beautiflow server examples/recipes/aws-architecture/sources/step-6-production-ar
 | Public ingress | Route 53 → CloudFront → WAF → ALB |
 | Private access | Corporate network → Customer Gateway → Site-to-Site VPN → Virtual Private Gateway |
 | Compute | Private Amazon EKS cluster with frontend and backend deployments across both zones |
-| Workload routing | ALB controller → frontend service → frontend pods → backend service → backend pods |
+| Workload routing | ALB → frontend workloads → backend workloads; the controller configures the ALB |
 | Database | Backend pods → RDS Proxy → Aurora PostgreSQL writer and reader in isolated subnets |
 | Egress | One NAT Gateway per Availability Zone |
 | Delivery | Source repository → CI/CD → Amazon ECR → EKS |
 | Identity and secrets | IAM/IRSA and Secrets Manager scoped to backend workloads |
 | Observability | EKS → CloudWatch → alarms → operations on-call |
 | Recovery | Aurora automated snapshots → Amazon S3 archive |
+
+
+## Reading the reviewed examples
+
+The reviewed snapshots connect the ALB to frontend workloads, with a separate controller-to-ALB configuration relationship. NAT-A and NAT-B are independent egress dependencies, not a serial chain. The complete reference is still illustrative: DNS, filtering, backup, identity, and management relationships must not all be interpreted as packet forwarding.
+
+The conventional flowchart's reviewed version shows the controller relationship with a labelled dotted edge. The original unreviewed flowchart file remains only as a historical artifact and is not the recommended example.
+
+For presentation-sized explanations, start with the separate [request, network, and operations examples](../architecture-views/README.md). They use provider-neutral responsibilities, are not automatic projections of this AWS source, and do not replace the complete reference.
+
+Solid arrows in the native architecture reference mean directed relationships, not necessarily request traffic. A layout algorithm cannot validate provider semantics; review those separately using [AWS load-balancing guidance](https://docs.aws.amazon.com/eks/latest/best-practices/load-balancing.html) and [zonal NAT guidance](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-basics.html).
 
 ## Continue the conversation
 

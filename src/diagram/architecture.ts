@@ -150,6 +150,7 @@ async function mermaidRuntime(): Promise<MermaidRuntime> {
 }
 
 function repairArchitectureViewBox(svg: string): string {
+  if (svg.includes('data-beautiflow-layout="compound-elk-fallback"')) return svg
   const bounds: Array<[number, number, number, number]> = []
   for (const match of svg.matchAll(/<rect[^>]*\bx="([\d.-]+)"\s+y="([\d.-]+)"\s+width="([\d.-]+)"\s+height="([\d.-]+)"[^>]*class="node-bkg"/g)) {
     bounds.push([Number(match[1]), Number(match[2]), Number(match[3]), Number(match[4])])

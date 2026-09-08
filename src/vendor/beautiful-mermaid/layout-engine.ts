@@ -262,7 +262,7 @@ function mermaidToElk(
   // Add top-level nodes (those not in any subgraph)
   for (const [id, node] of graph.nodes) {
     if (!subgraphNodeIds.has(id) && !subgraphIds.has(id)) {
-      const size = estimateNodeSize(id, node.label, node.shape)
+      const size = node.layoutSize ?? estimateNodeSize(id, node.label, node.shape)
       elkGraph.children!.push({
         id,
         width: size.width,
@@ -346,7 +346,9 @@ function subgraphToElk(
 ): ElkGraphNode {
   const layoutOptions: LayoutOptions = {
     'elk.algorithm': 'layered',
-    'elk.padding': '[top=44,left=16,bottom=16,right=16]', // Top = headerHeight(28) + gap(16) to match bottom padding
+    'elk.padding': [...graph.nodes.values()].some((node) => node.layoutSize)
+      ? '[top=64,left=32,bottom=32,right=32]'
+      : '[top=44,left=16,bottom=16,right=16]',
     'elk.edgeRouting': 'ORTHOGONAL',
     'elk.contentAlignment': 'H_CENTER V_CENTER',
     'elk.spacing.edgeEdge': '12',
@@ -384,7 +386,7 @@ function subgraphToElk(
   for (const nodeId of sg.nodeIds) {
     const node = graph.nodes.get(nodeId)
     if (node) {
-      const size = estimateNodeSize(nodeId, node.label, node.shape)
+      const size = node.layoutSize ?? estimateNodeSize(nodeId, node.label, node.shape)
       elkNode.children!.push({
         id: nodeId,
         width: size.width,

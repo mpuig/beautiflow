@@ -1,0 +1,238 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2493.8060000000005 737.8000000000001" width="2493.8060000000005" height="737.8000000000001" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:#ffffff">
+<rect width="100%" height="100%" fill="#ffffff" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          #1f2328;
+    --_text-sec:      var(--muted, color-mix(in srgb, #1f2328 60%, #ffffff));
+    --_text-muted:    var(--muted, color-mix(in srgb, #1f2328 40%, #ffffff));
+    --_text-faint:    color-mix(in srgb, #1f2328 25%, #ffffff);
+    --_line:          var(--line, color-mix(in srgb, #1f2328 50%, #ffffff));
+    --_arrow:         var(--accent, color-mix(in srgb, #1f2328 85%, #ffffff));
+    --_node-fill:     var(--surface, color-mix(in srgb, #1f2328 3%, #ffffff));
+    --_node-stroke:   var(--border, color-mix(in srgb, #1f2328 20%, #ffffff));
+    --_group-fill:    #ffffff;
+    --_group-hdr:     color-mix(in srgb, #1f2328 5%, #ffffff);
+    --_inner-stroke:  color-mix(in srgb, #1f2328 12%, #ffffff);
+    --_key-badge:     color-mix(in srgb, #1f2328 10%, #ffffff);
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="#0969da" stroke="#0969da" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="#0969da" stroke="#0969da" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-23d1d9e0" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="#d1d9e0" stroke="#d1d9e0" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start-23d1d9e0" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="#d1d9e0" stroke="#d1d9e0" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="account" data-label="AWS account">
+  <rect x="48" y="104.9" width="2457.806" height="681.35" rx="0" ry="0" fill="#ffffff" stroke="#d2d3d4" stroke-width="1" />
+  <rect x="48" y="104.9" width="2457.806" height="28" rx="0" ry="0" fill="#f4f4f4" stroke="#d2d3d4" stroke-width="1" />
+  <text x="60" y="118.9" font-size="12" font-weight="600" fill="#59636e" dy="4.199999999999999">AWS account</text>
+<g class="subgraph" data-id="edge" data-label="Public edge services">
+  <rect x="902.307" y="148.9" width="610.984" height="96.9" rx="0" ry="0" fill="#ffffff" stroke="#d2d3d4" stroke-width="1" />
+  <rect x="902.307" y="148.9" width="610.984" height="28" rx="0" ry="0" fill="#f4f4f4" stroke="#d2d3d4" stroke-width="1" />
+  <text x="914.307" y="162.9" font-size="12" font-weight="600" fill="#59636e" dy="4.199999999999999">Public edge services</text>
+</g>
+<g class="subgraph" data-id="delivery" data-label="Delivery and identity">
+  <rect x="64" y="148.9" width="361.73299999999995" height="110.9" rx="0" ry="0" fill="#ffffff" stroke="#d2d3d4" stroke-width="1" />
+  <rect x="64" y="148.9" width="361.73299999999995" height="28" rx="0" ry="0" fill="#f4f4f4" stroke="#d2d3d4" stroke-width="1" />
+  <text x="76" y="162.9" font-size="12" font-weight="600" fill="#59636e" dy="4.199999999999999">Delivery and identity</text>
+</g>
+<g class="subgraph" data-id="vpc" data-label="VPC · 10.0.0.0/16 · two Availability Zones">
+  <rect x="64" y="279.8" width="2425.806" height="490.45000000000005" rx="0" ry="0" fill="#ffffff" stroke="#d2d3d4" stroke-width="1" />
+  <rect x="64" y="279.8" width="2425.806" height="28" rx="0" ry="0" fill="#f4f4f4" stroke="#d2d3d4" stroke-width="1" />
+  <text x="76" y="293.8" font-size="12" font-weight="600" fill="#59636e" dy="4.199999999999999">VPC · 10.0.0.0/16 · two Availability Zones</text>
+<g class="subgraph" data-id="access" data-label="Private network access">
+  <rect x="80" y="338.75" width="670.264" height="96.9" rx="0" ry="0" fill="#ffffff" stroke="#d2d3d4" stroke-width="1" />
+  <rect x="80" y="338.75" width="670.264" height="28" rx="0" ry="0" fill="#f4f4f4" stroke="#d2d3d4" stroke-width="1" />
+  <text x="92" y="352.75" font-size="12" font-weight="600" fill="#59636e" dy="4.199999999999999">Private network access</text>
+</g>
+<g class="subgraph" data-id="public" data-label="Public subnets · AZ A and B">
+  <rect x="2153.994" y="323.8" width="307.812" height="210.70000000000002" rx="0" ry="0" fill="#ffffff" stroke="#d2d3d4" stroke-width="1" />
+  <rect x="2153.994" y="323.8" width="307.812" height="28" rx="0" ry="0" fill="#f4f4f4" stroke="#d2d3d4" stroke-width="1" />
+  <text x="2165.994" y="337.8" font-size="12" font-weight="600" fill="#59636e" dy="4.199999999999999">Public subnets · AZ A and B</text>
+</g>
+<g class="subgraph" data-id="eksGroup" data-label="Amazon EKS · private application subnets">
+  <rect x="838.264" y="357.2" width="442.78999999999996" height="348.6" rx="0" ry="0" fill="#ffffff" stroke="#d2d3d4" stroke-width="1" />
+  <rect x="838.264" y="357.2" width="442.78999999999996" height="28" rx="0" ry="0" fill="#f4f4f4" stroke="#d2d3d4" stroke-width="1" />
+  <text x="850.264" y="371.2" font-size="12" font-weight="600" fill="#59636e" dy="4.199999999999999">Amazon EKS · private application subnets</text>
+</g>
+<g class="subgraph" data-id="dataGroup" data-label="Isolated data subnets · AZ A and B">
+  <rect x="1369.054" y="435.40000000000003" width="696.94" height="209.8" rx="0" ry="0" fill="#ffffff" stroke="#d2d3d4" stroke-width="1" />
+  <rect x="1369.054" y="435.40000000000003" width="696.94" height="28" rx="0" ry="0" fill="#f4f4f4" stroke="#d2d3d4" stroke-width="1" />
+  <text x="1381.054" y="449.40000000000003" font-size="12" font-weight="600" fill="#59636e" dy="4.199999999999999">Isolated data subnets · AZ A and B</text>
+</g>
+</g>
+<g class="subgraph" data-id="operations" data-label="Operations and recovery">
+  <rect x="445.73299999999995" y="148.9" width="436.574" height="96.9" rx="0" ry="0" fill="#ffffff" stroke="#d2d3d4" stroke-width="1" />
+  <rect x="445.73299999999995" y="148.9" width="436.574" height="28" rx="0" ry="0" fill="#f4f4f4" stroke="#d2d3d4" stroke-width="1" />
+  <text x="457.73299999999995" y="162.9" font-size="12" font-weight="600" fill="#59636e" dy="4.199999999999999">Operations and recovery</text>
+</g>
+</g>
+<polyline class="edge" data-from="route53" data-to="cloudfront" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1068.4964999999997,211.35000000000002 1148.1335,211.35000000000002" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="cloudfront" data-to="waf" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1306.4205000000002,211.35000000000002 1390.1870000000001,211.35000000000002" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="pipeline" data-to="ecr" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="211.45999999999998,218.35000000000002 291.46,218.35000000000002" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="cgw" data-to="vpn" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="238.877,401.2 343.7905,401.2" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="vpn" data-to="vgw" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="476.8835,401.2 555.97,401.2" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="backend" data-to="natB" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1241.9534999999998,473.09999999999997 1255.9534999999998,473.09999999999997 1255.9534999999998,443.15000000000003 2169.994,443.15000000000003" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="frontend" data-to="backend" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1059.234,430.65 1073.234,430.65 1073.234,473.09999999999997 1148.1335,473.09999999999997" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="iam" data-to="backend" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1047.0075,515.5500000000001 1061.0075,515.5500000000001 1061.0075,473.09999999999997 1148.1335,473.09999999999997" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="secrets" data-to="backend" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1071.4605,607.45 1085.4605,607.45 1085.4605,473.09999999999997 1148.1335,473.09999999999997" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="proxy" data-to="writer" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1547.7330000000002,554.3000000000001 1630.6000000000001,554.3000000000001" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="writer" data-to="reader" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1792.592,554.3000000000001 1836.592,554.3000000000001 1836.592,504.85 1880.592,504.85" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="writer" data-to="backups" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1792.592,554.3000000000001 1836.592,554.3000000000001 1836.592,603.7500000000001 1880.592,603.7500000000001" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="cloudwatch" data-to="alarms" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="623.7249999999999,211.35000000000002 711.7249999999999,211.35000000000002" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="users" data-to="route53" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="902.307,211.35000000000002 925.7705,211.35000000000002" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="waf" data-to="alb" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1492.1580000000001,211.35000000000002 1513.2910000000002,211.35000000000002 28,211.35000000000002 28,392.40000000000003 2169.994,392.40000000000003" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="alb" data-to="frontend" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="2387.554,386.25 2461.806,386.25 2537.806,386.25 2537.806,106.45000000000002 2409.806,106.45000000000002 2409.806,473.45000000000005 698.264,473.45000000000005 698.264,150.85 774.264,150.84999999999997 2537.806,150.84999999999997 2537.806,430.65 854.264,430.65" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="controller" data-to="alb" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="configures" points="1045.896,671.35 1281.054,671.35 16,671.35 16,391.55 1229.054,391.55 1229.054,441.07500000000005 2013.9940000000001,441.07500000000005 2013.9940000000001,100.30000000000001 2089.994,100.30000000000001 16,100.30000000000001 16,380.1 2169.994,380.1" fill="none" stroke="#d1d9e0" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="backend" data-to="proxy" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1241.9534999999998,473.09999999999997 1255.9534999999998,473.09999999999997 1255.9534999999998,554.3000000000001 1390.1870000000001,554.3000000000001" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="engineers" data-to="cgw" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="80,401.2 88,401.2" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="vgw" data-to="backend" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="734.264,401.2 748.264,401.2 748.264,473.09999999999997 1148.1335,473.09999999999997" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="backend" data-to="natA" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1241.9534999999998,473.09999999999997 1255.9534999999998,473.09999999999997 1255.9534999999998,465.40000000000003 2155.994,465.40000000000003 2155.994,500.05 2169.994,500.05" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="repository" data-to="pipeline" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="64,218.35000000000002 88,218.35000000000002" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="ecr" data-to="controller" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="409.73299999999995,218.35000000000002 425.73299999999995,218.35000000000002 -8,218.35000000000002 -8,671.35 854.264,671.35" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="backend" data-to="cloudwatch" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1148.1335,473.09999999999997 1134.1335,473.09999999999997 1134.1335,243.8 637.7249999999999,243.8 637.7249999999999,211.35000000000002 623.7249999999999,211.35000000000002" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<polyline class="edge" data-from="alarms" data-to="oncall" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="866.307,211.35000000000002 873.3935,211.35000000000002" fill="none" stroke="#d1d9e0" stroke-width="1" marker-end="url(#arrowhead-23d1d9e0)" />
+<g class="edge-label" data-from="controller" data-to="alb" data-label="configures">
+  <rect x="1923.8860000000006" y="85.15" width="68.73400000000001" height="30.3" rx="2" ry="2" fill="#ffffff" stroke="#e4e5e5" stroke-width="1" />
+  <text x="1958.2530000000006" y="100.30000000000001" text-anchor="middle" font-size="11" font-weight="400" fill="#59636e" dy="3.8499999999999996">configures</text>
+</g>
+<g class="node" data-id="users" data-label="Public users" data-shape="stadium">
+  <rect x="48" y="48" width="116.791" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="#f7f8f5" stroke="#56616a" stroke-width="1.5px" />
+  <text x="106.3955" y="66.45" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Public users</text>
+</g>
+<g class="node" data-id="engineers" data-label="Remote engineers" data-shape="stadium">
+  <rect x="184.791" y="48" width="147.913" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="#f7f8f5" stroke="#56616a" stroke-width="1.5px" />
+  <text x="258.7475" y="66.45" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Remote engineers</text>
+</g>
+<g class="node" data-id="repository" data-label="Source repository" data-shape="rectangle">
+  <rect x="521.358" y="48" width="150.877" height="36.900000000000006" rx="0" ry="0" fill="#f7f8f5" stroke="#56616a" stroke-width="1.5px" />
+  <text x="596.7964999999999" y="66.45" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Source repository</text>
+</g>
+<g class="node" data-id="oncall" data-label="Operations on-call" data-shape="stadium">
+  <rect x="343.7905" y="48" width="148.654" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="#f7f8f5" stroke="#56616a" stroke-width="1.5px" />
+  <text x="418.1175" y="66.45" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Operations on-call</text>
+</g>
+<g class="node" data-id="route53" data-label="Amazon Route 53" data-shape="rectangle">
+  <rect x="925.7705" y="192.9" width="142.726" height="36.900000000000006" rx="0" ry="0" fill="#f3ecff" stroke="#6b4ea0" stroke-width="1.5px" />
+  <text x="997.1334999999999" y="211.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Amazon Route 53</text>
+</g>
+<g class="node" data-id="cloudfront" data-label="Amazon CloudFront" data-shape="rectangle">
+  <rect x="1148.1335" y="192.9" width="158.287" height="36.900000000000006" rx="0" ry="0" fill="#f3ecff" stroke="#6b4ea0" stroke-width="1.5px" />
+  <text x="1227.2769999999998" y="211.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Amazon CloudFront</text>
+</g>
+<g class="node" data-id="waf" data-label="AWS WAF" data-shape="rectangle">
+  <rect x="1390.1870000000001" y="192.9" width="101.971" height="36.900000000000006" rx="0" ry="0" fill="#f3ecff" stroke="#6b4ea0" stroke-width="1.5px" />
+  <text x="1441.1725000000001" y="211.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">AWS WAF</text>
+</g>
+<g class="node" data-id="pipeline" data-label="CI/CD pipeline" data-shape="rectangle">
+  <rect x="88" y="199.9" width="123.46" height="36.900000000000006" rx="0" ry="0" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <text x="149.73" y="218.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">CI/CD pipeline</text>
+</g>
+<g class="node" data-id="ecr" data-label="Amazon ECR" data-shape="cylinder">
+  <rect x="291.46" y="199.9" width="118.27299999999998" height="36.900000000000006" fill="#fff4e6" stroke="none" />
+  <line x1="291.46" y1="199.9" x2="291.46" y2="236.8" stroke="#c56a13" stroke-width="1.5px" />
+  <line x1="409.73299999999995" y1="199.9" x2="409.73299999999995" y2="236.8" stroke="#c56a13" stroke-width="1.5px" />
+  <ellipse cx="350.5965" cy="236.8" rx="59.13649999999999" ry="7" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <ellipse cx="350.5965" cy="199.9" rx="59.13649999999999" ry="7" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <text x="350.5965" y="218.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Amazon ECR</text>
+</g>
+<g class="node" data-id="cgw" data-label="Customer Gateway" data-shape="rectangle">
+  <rect x="88" y="382.75" width="150.877" height="36.900000000000006" rx="0" ry="0" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <text x="163.4385" y="401.2" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Customer Gateway</text>
+</g>
+<g class="node" data-id="vpn" data-label="Site-to-Site VPN" data-shape="rectangle">
+  <rect x="343.7905" y="382.75" width="133.09300000000002" height="36.900000000000006" rx="0" ry="0" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <text x="410.337" y="401.2" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Site-to-Site VPN</text>
+</g>
+<g class="node" data-id="vgw" data-label="Virtual Private Gateway" data-shape="rectangle">
+  <rect x="555.97" y="382.75" width="178.29399999999998" height="36.900000000000006" rx="0" ry="0" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <text x="645.117" y="401.2" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Virtual Private Gateway</text>
+</g>
+<g class="node" data-id="alb" data-label="Application Load Balancer" data-shape="hexagon">
+  <polygon points="2179.219,367.8 2378.329,367.8 2387.554,386.25 2378.329,404.70000000000005 2179.219,404.70000000000005 2169.994,386.25" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <text x="2278.7740000000003" y="386.25" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Application Load Balancer</text>
+</g>
+<g class="node" data-id="natA" data-label="NAT Gateway · AZ A" data-shape="rectangle">
+  <rect x="2169.994" y="481.6" width="161.992" height="36.900000000000006" rx="0" ry="0" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <text x="2250.9900000000002" y="500.05" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">NAT Gateway · AZ A</text>
+</g>
+<g class="node" data-id="natB" data-label="NAT Gateway · AZ B" data-shape="rectangle">
+  <rect x="2169.994" y="424.70000000000005" width="161.992" height="36.900000000000006" rx="0" ry="0" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <text x="2250.9900000000002" y="443.15000000000003" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">NAT Gateway · AZ B</text>
+</g>
+<g class="node" data-id="backend" data-label="backend" data-shape="rectangle">
+  <rect x="2351.9860000000003" y="424.70000000000005" width="93.82" height="36.900000000000006" rx="0" ry="0" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <text x="2398.896" y="443.15000000000003" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">backend</text>
+</g>
+<g class="node" data-id="controller" data-label="Load Balancer Controller" data-shape="rectangle">
+  <rect x="854.264" y="652.9000000000001" width="191.63199999999995" height="36.900000000000006" rx="0" ry="0" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <text x="950.0799999999999" y="671.3500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Load Balancer Controller</text>
+</g>
+<g class="node" data-id="frontend" data-label="Frontend pods · AZ A and B" data-shape="rectangle">
+  <rect x="854.264" y="412.2" width="204.96999999999997" height="36.900000000000006" rx="0" ry="0" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <text x="956.749" y="430.65" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Frontend pods · AZ A and B</text>
+</g>
+<g class="node" data-id="backend" data-label="backend" data-shape="rectangle">
+  <rect x="1148.1335" y="454.65" width="93.82" height="36.900000000000006" rx="0" ry="0" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <text x="1195.0435" y="473.09999999999997" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">backend</text>
+</g>
+<g class="node" data-id="iam" data-label="IAM and IRSA" data-shape="rectangle">
+  <rect x="925.7705" y="497.1" width="121.237" height="36.900000000000006" rx="0" ry="0" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <text x="986.389" y="515.5500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">IAM and IRSA</text>
+</g>
+<g class="node" data-id="secrets" data-label="Secrets Manager" data-shape="cylinder">
+  <rect x="925.7705" y="589" width="145.69" height="36.900000000000006" fill="#fff4e6" stroke="none" />
+  <line x1="925.7705" y1="589" x2="925.7705" y2="625.9" stroke="#c56a13" stroke-width="1.5px" />
+  <line x1="1071.4605" y1="589" x2="1071.4605" y2="625.9" stroke="#c56a13" stroke-width="1.5px" />
+  <ellipse cx="998.6155" cy="625.9" rx="72.845" ry="7" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <ellipse cx="998.6155" cy="589" rx="72.845" ry="7" fill="#fff4e6" stroke="#c56a13" stroke-width="1.5px" />
+  <text x="998.6155" y="607.45" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Secrets Manager</text>
+</g>
+<g class="node" data-id="proxy" data-label="Amazon RDS Proxy" data-shape="rectangle">
+  <rect x="1390.1870000000001" y="535.85" width="157.546" height="36.900000000000006" rx="0" ry="0" fill="#edf2ff" stroke="#5267bd" stroke-width="1.5px" />
+  <text x="1468.96" y="554.3000000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Amazon RDS Proxy</text>
+</g>
+<g class="node" data-id="writer" data-label="Aurora writer · AZ A" data-shape="cylinder">
+  <rect x="1630.6000000000001" y="535.85" width="161.99200000000002" height="36.900000000000006" fill="#edf2ff" stroke="none" />
+  <line x1="1630.6000000000001" y1="535.85" x2="1630.6000000000001" y2="572.75" stroke="#5267bd" stroke-width="1.5px" />
+  <line x1="1792.592" y1="535.85" x2="1792.592" y2="572.75" stroke="#5267bd" stroke-width="1.5px" />
+  <ellipse cx="1711.5960000000002" cy="572.75" rx="80.99600000000001" ry="7" fill="#edf2ff" stroke="#5267bd" stroke-width="1.5px" />
+  <ellipse cx="1711.5960000000002" cy="535.85" rx="80.99600000000001" ry="7" fill="#edf2ff" stroke="#5267bd" stroke-width="1.5px" />
+  <text x="1711.5960000000002" y="554.3000000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Aurora writer · AZ A</text>
+</g>
+<g class="node" data-id="reader" data-label="Aurora reader · AZ B" data-shape="cylinder">
+  <rect x="1880.592" y="486.40000000000003" width="169.402" height="36.900000000000006" fill="#edf2ff" stroke="none" />
+  <line x1="1880.592" y1="486.40000000000003" x2="1880.592" y2="523.3000000000001" stroke="#5267bd" stroke-width="1.5px" />
+  <line x1="2049.994" y1="486.40000000000003" x2="2049.994" y2="523.3000000000001" stroke="#5267bd" stroke-width="1.5px" />
+  <ellipse cx="1965.2930000000001" cy="523.3000000000001" rx="84.701" ry="7" fill="#edf2ff" stroke="#5267bd" stroke-width="1.5px" />
+  <ellipse cx="1965.2930000000001" cy="486.40000000000003" rx="84.701" ry="7" fill="#edf2ff" stroke="#5267bd" stroke-width="1.5px" />
+  <text x="1965.2930000000001" y="504.85" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Aurora reader · AZ B</text>
+</g>
+<g class="node" data-id="backups" data-label="S3 backup archive" data-shape="cylinder">
+  <rect x="1880.592" y="585.3000000000001" width="153.10000000000002" height="36.900000000000006" fill="#edf2ff" stroke="none" />
+  <line x1="1880.592" y1="585.3000000000001" x2="1880.592" y2="622.2" stroke="#5267bd" stroke-width="1.5px" />
+  <line x1="2033.692" y1="585.3000000000001" x2="2033.692" y2="622.2" stroke="#5267bd" stroke-width="1.5px" />
+  <ellipse cx="1957.142" cy="622.2" rx="76.55000000000001" ry="7" fill="#edf2ff" stroke="#5267bd" stroke-width="1.5px" />
+  <ellipse cx="1957.142" cy="585.3000000000001" rx="76.55000000000001" ry="7" fill="#edf2ff" stroke="#5267bd" stroke-width="1.5px" />
+  <text x="1957.142" y="603.7500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">S3 backup archive</text>
+</g>
+<g class="node" data-id="cloudwatch" data-label="Amazon CloudWatch" data-shape="rectangle">
+  <rect x="461.73299999999995" y="192.9" width="161.99200000000002" height="36.900000000000006" rx="0" ry="0" fill="#fff0f3" stroke="#b63d63" stroke-width="1.5px" />
+  <text x="542.7289999999999" y="211.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">Amazon CloudWatch</text>
+</g>
+<g class="node" data-id="alarms" data-label="CloudWatch alarms" data-shape="rectangle">
+  <rect x="711.7249999999999" y="192.9" width="154.582" height="36.900000000000006" rx="0" ry="0" fill="#fff0f3" stroke="#b63d63" stroke-width="1.5px" />
+  <text x="789.0159999999998" y="211.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#20231f" dy="4.55">CloudWatch alarms</text>
+</g>
+</svg>

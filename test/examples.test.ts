@@ -5,6 +5,19 @@ import { diagramFamily, renderProjectOutput, renderStandaloneOutput } from '../s
 import { loadProject } from '../src/diagram/project.ts'
 
 describe('example Mermaid compatibility suite', () => {
+  test('keeps focused architecture views reproducible and separately scoped', async () => {
+    const root = 'examples/recipes/architecture-views'
+    const guide = await Bun.file(`${root}/README.md`).text()
+    for (const name of ['request', 'network', 'operations']) {
+      const inputPath = `${root}/${name}.mmd`
+      const project = await loadProject(inputPath)
+      const svg = await renderProjectOutput(project, { inputPath, format: 'svg', themeName: 'github-light', transparent: false })
+      expect(svg).toBe(await Bun.file(`${root}/rendered/${name}.svg`).text())
+      expect(guide).toContain(`beautiflow render ${inputPath} --format svg --theme github-light --output ${root}/rendered/${name}.svg`)
+    }
+    expect(guide).toContain('not automatic projections')
+  })
+
   test('keeps subscription emphasis reproducible without changing topology', async () => {
     const inputPath = 'examples/sources/01-subscription-intake.mmd'
     const project = await loadProject(inputPath)
@@ -115,8 +128,10 @@ describe('example Mermaid compatibility suite', () => {
         expect(svg).toContain('data-beautiflow-layout="compound-elk-fallback"')
         expect(Number(svg.match(/data-beautiflow-quality-score="([\d.]+)"/)?.[1])).toBeGreaterThanOrEqual(85)
         expect(svg).toContain('data-beautiflow-wrapped-labels="0"')
-        expect(svg).toContain('data-flow-role="primary"')
-        expect(svg).toContain('data-flow-role="support"')
+        expect(svg).toContain('data-flow-role="relationship"')
+        for (const metric of ['detached-endpoints', 'port-violations', 'node-overlaps', 'label-collisions', 'edge-node-intersections', 'header-crossings']) {
+          expect(svg).toContain(`data-beautiflow-${metric}="0"`)
+        }
       }
       const viewBox = svg.match(/viewBox="[\d.-]+ [\d.-]+ ([\d.]+) ([\d.]+)"/)
       expect(Number(viewBox?.[1])).toBeGreaterThan(Number(viewBox?.[2]))

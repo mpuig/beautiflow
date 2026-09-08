@@ -85,6 +85,7 @@ export function routeEdge(
   direction: LayoutDirection,
   allNodes: PositionedNode[],
   explicitPorts?: [Point, Point],
+  occupiedRoutes: Point[][] = [],
 ): Point[] {
   const [sourcePort, targetPort] = explicitPorts ?? edgePorts(source, target, direction)
   const margin = 14
@@ -142,7 +143,23 @@ export function routeEdge(
     if (current.point === endIndex) { finalKey = current.key; break }
     for (const next of neighbors.get(current.point) ?? []) {
       const bend = current.direction !== 'S' && current.direction !== next.direction ? 28 : 0
-      const cost = current.cost + next.distance + bend
+      const from = points[current.point]!
+      const to = points[next.index]!
+      let congestion = 0
+      for (const occupied of occupiedRoutes) {
+        for (let index = 1; index < occupied.length; index += 1) {
+          const start = occupied[index - 1]!
+          const end = occupied[index]!
+          const horizontal = from.y === to.y && start.y === end.y && from.y === start.y
+          const vertical = from.x === to.x && start.x === end.x && from.x === start.x
+          if (!horizontal && !vertical) continue
+          const axis = horizontal ? 'x' : 'y'
+          const overlap = Math.min(Math.max(from[axis], to[axis]), Math.max(start[axis], end[axis]))
+            - Math.max(Math.min(from[axis], to[axis]), Math.min(start[axis], end[axis]))
+          congestion += Math.max(0, overlap) * 3
+        }
+      }
+      const cost = current.cost + next.distance + bend + congestion
       const key = `${next.index}:${next.direction}`
       if (cost >= (best.get(key) ?? Number.POSITIVE_INFINITY)) continue
       best.set(key, cost); previous.set(key, current.key)
@@ -160,6 +177,7 @@ export function routeEdge(
   }
   route.reverse()
   let clipped = simplifyRoute([sourcePort, ...route, targetPort])
+  if (explicitPorts) return clipped
   clipped = clipEdgeToShape(clipped, source as VendorPositionedNode, true)
   clipped = clipEdgeToShape(clipped, target as VendorPositionedNode, false)
   return clipped

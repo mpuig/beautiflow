@@ -1,0 +1,8 @@
+flowchart LR
+    repository[Source repository] --> pipeline[Build and release]
+    pipeline --> registry[(Artifact registry)]
+    registry -->|Deploy artifacts| runtime[Application runtime]
+    runtime -->|Telemetry| monitoring[Monitoring]
+    monitoring -->|Alert| oncall([On-call])
+    identity[Workload identity] -.->|Authorizes| runtime
+    secrets[(Secret store)] -.->|Credentials| runtime

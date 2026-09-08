@@ -43,8 +43,8 @@ users:R --> L:route53
 route53:R --> L:cloudfront
 cloudfront:R --> L:waf
 waf:B --> T:alb
-alb:R --> L:controller
-controller:R --> L:frontend
+alb:R --> L:frontend
+controller:T --> B:alb
 frontend:R --> L:backend
 backend:R --> L:proxy
 proxy:R --> L:aurora
@@ -53,4 +53,4 @@ cgw:R --> L:vpn
 vpn:R --> L:vgw
 vgw:T --> B:backend
 backend:B --> T:natA
-natA:R --> L:natB
+backend:B --> T:natB

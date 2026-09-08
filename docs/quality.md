@@ -23,7 +23,9 @@ Flowchart/state readability findings include semantic element IDs, measured `evi
 
 High-severity geometry findings reduce the score heavily. Layout actions and transformations are rejected when they introduce node overlaps or arrows through unrelated nodes.
 
-`audit` also evaluates large multilevel architecture renders. Its deterministic visual-quality pass measures avoidable shared routing channels, unrelated group-header crossings, excessive bends, labels that split words or wrap beyond two lines, and detail beyond the single-slide service budget. Intentional fan-in terminal stubs and boundary ingress for an endpoint’s own group are excluded from collision counts. The same analysis identifies the primary semantic path, places external actors relative to their connected services, routes the primary path first, separates later routes, and reduces support-path emphasis. Architecture diagrams normally retain Mermaid’s own layout; the stability fallback activates only when complexity requires it.
+`audit` also evaluates supported large multilevel architecture renders. The provider-neutral compound pass measures detached endpoints, explicit-port direction violations, icon overlaps, label/icon/route collisions, shared channels, group-title crossings, excessive bends, fragmented labels, and detail beyond the single-slide budget. Only short common terminal stubs are excluded from shared-channel counts; a shared endpoint does not excuse an entire shared route. The renderer does not infer a primary semantic path from graph length or provider names.
+
+The JSON report identifies coverage. `compound-geometry` includes measured geometry and a score, including a real zero when defects warrant it. `native-renderer-only` means those checks were not run and reports `score: null`, not 100. Geometry scores never certify AWS/GCP/Azure correctness or readability at a particular display size. Preserve the complete source and author separate request, network, and operations views when density obscures meaning.
 
 ## Semantic diagnostics
 

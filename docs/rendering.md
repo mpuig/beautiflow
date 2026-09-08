@@ -36,7 +36,7 @@ Positioned ELK edges are matched to semantic edges by source/target endpoint que
 
 ## Architecture diagrams
 
-The compound fallback fits fragmented single-word service labels to their allocated layout width instead of retaining the native icon-sized wrap. Its label audit counts mid-word splits, including two-line splits, as well as labels longer than two lines. Natural two-line labels are allowed.
+The compound fallback measures actual icon dimensions and separately measures label boxes. ELK receives those measured footprints instead of fixed placeholder sizes. Labels wrap at word boundaries and move to an unused side when a connector needs the bottom port; this keeps labels out of terminal paths. Its label audit counts mid-word splits and labels longer than two lines. Natural two-line labels are allowed.
 
 `architecture-beta` uses Mermaid 11 for parsing, labels, icons, boundary styling, and its native fCoSE layout on normal-sized diagrams, matching Mermaid’s documented renderer. For large diagrams with at least 14 services and multilevel groups, Beautiflow applies a bounded stability fallback: the same compound ELK engine used by Beautiful Mermaid replaces unstable fCoSE coordinates while retaining Mermaid’s architecture visuals. Generated IDs are normalized for deterministic output. The standalone renderer registers:
 
@@ -44,7 +44,11 @@ The compound fallback fits fragmented single-word service labels to their alloca
 - `lucide:` — ISC-licensed neutral actors and infrastructure symbols
 - `aws:` — AWS-logo aliases plus Lucide fallbacks for services absent from the logos collection
 
-Architecture diagrams support SVG, PNG, transparency, frontmatter configuration, explicit `T/B/L/R` ports, nested groups, Mermaid `align row`/`align column` directives in the native path, and live preview. Native diagrams retain Mermaid’s straight and single-elbow connectors. The complex-diagram fallback uses Beautiflow’s shared visibility-grid/A* Manhattan router with explicit architecture ports, uniform strokes, rounded bends, service obstacles, and routed-segment separation; it does not impose Mermaid alignment directives. Architecture diagrams support the public `audit` command but do not currently support terminal output, sidecar layout actions, diagnose, transform, or polish.
+Architecture diagrams support SVG, PNG, transparency, frontmatter configuration, explicit `T/B/L/R` ports, nested groups, Mermaid `align row`/`align column` directives in the native path, and live preview. Native diagrams retain Mermaid’s straight and single-elbow connectors. The complex-diagram fallback uses Beautiflow’s shared visibility-grid/A* Manhattan router, preserves every explicit port including external actors, avoids icon/label/header boxes, and penalizes shared channels. It uses neutral solid relationships: neither provider names, group IDs, nor a longest-path heuristic determine request-flow meaning. AWS, GCP, Azure, built-in icons, and custom registered icon families share the same geometry code.
+
+The fallback accepts a deliberately bounded subset: explicit service/group declarations and unlabelled service-to-service edges with ports. Junctions, group endpoints, labelled edges, alignment directives, and unrecognized syntax retain the complete native render rather than silently losing semantics. Architecture diagrams support the public `audit` command but do not currently support terminal output, sidecar layout actions, diagnose, transform, or polish.
+
+Architecture audit reports `coverage: compound-geometry` for the fallback, including detached endpoints, port direction violations, icon overlaps, label collisions, edge/icon intersections, and header crossings. Native output reports `coverage: native-renderer-only` and `score: null`; a successful native render is not an unmeasured 100/100. Neither mode validates cloud architecture semantics or text readability at an arbitrary thumbnail size.
 
 ## SVG
 

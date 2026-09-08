@@ -1,0 +1,9 @@
+flowchart LR
+    clients([Clients]) -->|HTTPS| gateway[Gateway]
+    subgraph runtime["Application runtime"]
+        frontend[Frontend] -->|Request| backend[Backend API]
+    end
+    gateway --> frontend
+    backend -->|Read and write| database[(Database)]
+    backend -->|Enqueue| queue[(Work queue)]
+    queue --> worker[Worker]
