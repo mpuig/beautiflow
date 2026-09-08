@@ -45,7 +45,7 @@ The committed release and job sidecars are deterministic output from one receipt
 
 Use the checked-in sidecars and run from the repository root (replace `beautiflow` with `./dist/beautiflow` if it is not on PATH):
 
-Committed PNGs also carry text metadata identifying their source and renderer. The commands below reproduce the pixels; regenerating them does not preserve that optional provenance metadata. SVG fixtures are checked byte-for-byte by the example tests.
+Committed PNGs also carry text metadata identifying their source and renderer. Regenerating them does not preserve that optional provenance metadata; raster text also depends on available system fonts. Graph and sequence SVG fixtures are checked byte-for-byte. The native architecture fixture compares all SVG content after normalizing the shared viewport translation and coordinate precision to six decimal places, since the native renderer can choose a different absolute origin across platforms. Repeated native renders on the same host must still match byte-for-byte.
 
 ```bash
 beautiflow render examples/recipes/visual-quality/release.mmd --format svg --theme github-light --output examples/recipes/visual-quality/rendered/release-after.svg

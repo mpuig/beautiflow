@@ -3,6 +3,7 @@ import { readdir } from 'node:fs/promises'
 import { basename, join } from 'node:path'
 import { diagramFamily, renderProjectOutput, renderStandaloneOutput } from '../src/diagram/pipeline.ts'
 import { loadProject } from '../src/diagram/project.ts'
+import { architectureSnapshot } from './helpers/architecture-snapshot.ts'
 
 describe('example Mermaid compatibility suite', () => {
   test('keeps focused architecture views reproducible and separately scoped', async () => {
@@ -40,7 +41,13 @@ describe('example Mermaid compatibility suite', () => {
       const request = { inputPath, format: 'svg' as const, transparent: false, themeName: 'github-light' }
       const project = graph ? await loadProject(inputPath) : undefined
       const output = project ? await renderProjectOutput(project, request) : await renderStandaloneOutput(source, request)
-      expect(output).toBe(await Bun.file(`${root}/rendered/${stem}.svg`).text())
+      const committed = await Bun.file(`${root}/rendered/${stem}.svg`).text()
+      if (name === 'architecture') {
+        expect(architectureSnapshot(String(output))).toBe(architectureSnapshot(committed))
+        expect(await renderStandaloneOutput(source, request)).toBe(output)
+      } else {
+        expect(output).toBe(committed)
+      }
       expect(guide).toContain(`beautiflow render ${inputPath} --format svg --theme github-light --output ${root}/rendered/${stem}.svg`)
       expect(Bun.file(`${root}/rendered/${stem}.png`).size).toBeGreaterThan(100)
       if (project) {
