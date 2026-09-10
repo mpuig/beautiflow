@@ -104,6 +104,8 @@ describe('diagram pipeline', () => {
     const png = await renderProjectOutput(project, { inputPath: sourcePath, format: 'png', transparent: false })
 
     expect(typeof svg).toBe('string')
+    expect(svg).toContain('role="img"')
+    expect(svg).toMatch(/<svg[^>]*>\n<title/)
     expect(svg).toContain('marker-end="url(#arrowhead')
     expect(svg).toContain('data-shape="diamond"')
     expect(svg).not.toMatch(/(?:fill|stroke)="var\(/)

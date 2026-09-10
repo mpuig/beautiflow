@@ -14,6 +14,8 @@ export interface SemanticIssue {
     | 'unlabeled-decision-branch'
     | 'duplicate-branch-label'
     | 'high-fan-out'
+    | 'detail-budget'
+    | 'view-split-recommended'
   message: string
   nodes: string[]
   edges?: string[]
@@ -30,6 +32,7 @@ export interface SemanticReport {
     unreachableNodes: number
     isolatedNodes: number
     decisions: number
+    groups: number
     cycles: number
   }
   entryPoints: string[]
@@ -98,6 +101,28 @@ export function diagnoseProject(project: DiagramProject): SemanticReport {
     if (edgeIndices.length > 5) issues.push({ severity: 'warning', type: 'high-fan-out', message: `${nodeId} has ${edgeIndices.length} outgoing branches`, nodes: [nodeId] })
   }
 
+  const collectGroups = (groups: typeof project.graph.subgraphs): Array<{ id: string; label: string }> => groups.flatMap((group) => [
+    { id: group.id, label: group.label },
+    ...collectGroups(group.children),
+  ])
+  const groups = collectGroups(project.graph.subgraphs)
+  if (nodeIds.length > 12 || project.graph.edges.length > 16 || decisions > 5) {
+    issues.push({
+      severity: 'info',
+      type: 'detail-budget',
+      message: `Flow carries ${nodeIds.length} nodes, ${project.graph.edges.length} edges, and ${decisions} decisions; keep one question and primary path in focus`,
+      nodes: [],
+    })
+  }
+  if (nodeIds.length > 12 && groups.length >= 2) {
+    issues.push({
+      severity: 'info',
+      type: 'view-split-recommended',
+      message: `Consider an overview plus focused views for ${groups.slice(0, 3).map((group) => group.label).join(', ')}`,
+      nodes: [],
+    })
+  }
+
   const outgoingTargets = new Map(nodeIds.map((id) => [id, (outgoing.get(id) ?? []).map((index) => project.graph.edges[index]!.target)]))
   const cycles = countCycles(nodeIds, outgoingTargets)
   const errors = issues.filter((issue) => issue.severity === 'error').length
@@ -113,6 +138,7 @@ export function diagnoseProject(project: DiagramProject): SemanticReport {
       unreachableNodes: unreachable.length,
       isolatedNodes: isolated.length,
       decisions,
+      groups: groups.length,
       cycles,
     },
     entryPoints,

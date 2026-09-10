@@ -144,6 +144,46 @@ function readabilityIssues(diagram: PositionedDiagram, segments: Segment[]): Aud
   return issues
 }
 
+function endpointIssues(diagram: PositionedDiagram): AuditIssue[] {
+  const nodes = new Map(diagram.nodes.map((node) => [node.id, node]))
+  const side = (nodeId: string, point: Point): string | undefined => {
+    const node = nodes.get(nodeId)
+    if (!node) return undefined
+    const sides: Array<[string, number]> = [
+      ['left', Math.abs(point.x - node.x)],
+      ['right', Math.abs(point.x - (node.x + node.width))],
+      ['top', Math.abs(point.y - node.y)],
+      ['bottom', Math.abs(point.y - (node.y + node.height))],
+    ]
+    return sides.sort((first, second) => first[1] - second[1])[0]?.[0]
+  }
+  const endpoints = diagram.edges.flatMap((edge) => [
+    { edge, node: edge.source, point: edge.points[0] },
+    { edge, node: edge.target, point: edge.points.at(-1) },
+  ]).filter((endpoint): endpoint is { edge: PositionedEdge; node: string; point: Point } => Boolean(endpoint.point))
+  const issues: AuditIssue[] = []
+  const seen = new Set<string>()
+  for (const [index, first] of endpoints.entries()) {
+    for (const second of endpoints.slice(index + 1)) {
+      if (first.node !== second.node || first.edge.id === second.edge.id || side(first.node, first.point) !== side(second.node, second.point)) continue
+      const distance = Math.hypot(first.point.x - second.point.x, first.point.y - second.point.y)
+      if (distance >= 8) continue
+      const key = [first.edge.id, second.edge.id].sort().join('|')
+      if (seen.has(key)) continue
+      seen.add(key)
+      issues.push({
+        severity: 'medium',
+        type: 'endpoint-overlap',
+        message: `${first.edge.id} and ${second.edge.id} stack at ${first.node}`,
+        nodes: [first.node],
+        edges: [first.edge.id, second.edge.id],
+        evidence: { distance: Number(distance.toFixed(3)), minimumClearance: 8 },
+      })
+    }
+  }
+  return issues
+}
+
 function bendCount(edge: PositionedEdge): number {
   let bends = 0
   for (let index = 1; index < edge.points.length - 1; index += 1) {
@@ -248,10 +288,11 @@ export function auditDiagram(diagram: PositionedDiagram): AuditReport {
   }
 
   const alignment = alignmentScore(diagram.nodes)
-  issues.push(...readabilityIssues(diagram, allSegments))
+  issues.push(...readabilityIssues(diagram, allSegments), ...endpointIssues(diagram))
   for (const issue of issues) issue.supportedFixes = ['set-direction', 'place-relative']
   const labelCollisions = issues.filter((issue) => issue.type === 'label-collision').length
   const sharedRoutes = issues.filter((issue) => issue.type === 'shared-route').length
+  const endpointOverlaps = issues.filter((issue) => issue.type === 'endpoint-overlap').length
   const aspectRatio = diagram.height === 0 ? 1 : diagram.width / diagram.height
   const aspectPenalty = aspectRatio > 2.4
     ? Math.min(18, (aspectRatio - 2.4) * 8)
@@ -265,6 +306,7 @@ export function auditDiagram(diagram: PositionedDiagram): AuditReport {
       - edgeNodeIntersections * 20
       - labelCollisions * 8
       - sharedRoutes * 8
+      - endpointOverlaps * 6
       - Math.max(0, totalBends - diagram.edges.length * 2) * 2
       - aspectPenalty
       + alignment * 4,
@@ -279,6 +321,7 @@ export function auditDiagram(diagram: PositionedDiagram): AuditReport {
       edgeNodeIntersections,
       labelCollisions,
       sharedRoutes,
+      endpointOverlaps,
       totalBends,
       alignmentScore: Number(alignment.toFixed(3)),
       aspectRatio: Number(aspectRatio.toFixed(3)),

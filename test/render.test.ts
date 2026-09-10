@@ -18,6 +18,10 @@ describe('renderSource', () => {
     })
 
     expect(result.content).toStartWith('<svg')
+    expect(result.content).toContain('role="img"')
+    expect(result.content).toMatch(/aria-labelledby="beautiflow-diagram-[a-f0-9]+-title beautiflow-diagram-[a-f0-9]+-desc"/)
+    expect(result.content).toMatch(/<svg[^>]*>\n<title/)
+    expect(result.content).toContain('>diagram</title>')
     expect(result.content).toContain('Start')
     expect(result.content).toContain('Ready?')
   })
@@ -33,12 +37,14 @@ describe('renderSource', () => {
     expect(result.content).not.toContain('┌')
   })
 
-  test('renders specialized Beautiful Mermaid families without the flowchart project parser', async () => {
-    const source = `sequenceDiagram\n  Alice->>Bob: Hello\n  Bob-->>Alice: Hi\n`
+  test('uses authored accessible metadata for specialized families', async () => {
+    const source = `sequenceDiagram\n  accTitle: Support handoff\n  accDescr: Customer and support exchange a greeting.\n  Alice->>Bob: Hello\n  Bob-->>Alice: Hi\n`
     expect(diagramFamily(source)).toBe('sequence')
     const svg = await renderStandaloneOutput(source, { inputPath: 'sequence.mmd', format: 'svg', transparent: false })
     const png = await renderStandaloneOutput(source, { inputPath: 'sequence.mmd', format: 'png', transparent: false })
     expect(svg).toContain('class="actor"')
+    expect(svg).toContain('>Support handoff</title>')
+    expect(svg).toContain('>Customer and support exchange a greeting.</desc>')
     expect(png).toBeInstanceOf(Uint8Array)
     expect([...png.slice(0, 8)]).toEqual([137, 80, 78, 71, 13, 10, 26, 10])
   }, 15_000)

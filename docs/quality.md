@@ -18,6 +18,7 @@ Metrics:
 - Aspect ratio
 - Label-mask collisions with nodes, other labels, and unrelated routes, using the renderer's multiline text estimates and padding
 - Shared orthogonal routing channels, excluding common endpoint terminal stubs
+- Stacked connector attachment points with less than eight pixels of clearance
 
 Flowchart/state readability findings include semantic element IDs, measured `evidence`, and `supportedFixes` naming existing action types. These are options to validate, not automatic prescriptions or permission to author coordinates. Label and shared-route findings reduce the score but are not new hard mutation gates. Browser font differences, clipped node text, group headers, and stacked arrowheads still require separate review; estimated label boxes are not browser glyph measurements.
 
@@ -44,8 +45,10 @@ Checks:
 - Excessive decision fan-out
 - Cyclic flows
 - Flows with no entry or exit
+- Advisory detail load based on nodes, edges, and decision count
+- Overview-plus-focused-view recommendations when a large graph already has meaningful groups
 
-Cycles are reported rather than automatically rejected because retries and state machines may be intentionally cyclic.
+Detail and split findings are informational: they do not lower the semantic score, authorize automatic deletion, or force a transformation. Cycles are reported rather than automatically rejected because retries and state machines may be intentionally cyclic.
 
 ## Polish regression gate
 

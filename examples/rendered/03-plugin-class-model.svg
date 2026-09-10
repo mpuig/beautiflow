@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 644.6" width="360" height="644.6" style="--bg:#eff1f5;--fg:#4c4f69;--line:#9ca0b0;--accent:#8839ef;--muted:#9ca0b0;background:#eff1f5">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 644.6" width="360" height="644.6" style="--bg:#eff1f5;--fg:#4c4f69;--line:#9ca0b0;--accent:#8839ef;--muted:#9ca0b0;background:#eff1f5" role="img" aria-labelledby="beautiflow-03-plugin-class-model-a7db282e-title beautiflow-03-plugin-class-model-a7db282e-desc">
+<title id="beautiflow-03-plugin-class-model-a7db282e-title">03 plugin class model</title>
+<desc id="beautiflow-03-plugin-class-model-a7db282e-desc">03 plugin class model, rendered as a class diagram.</desc>
 <rect width="100%" height="100%" fill="#eff1f5" />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');

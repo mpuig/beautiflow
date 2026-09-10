@@ -2,7 +2,7 @@ import { Resvg } from '@resvg/resvg-js'
 import { renderMermaidASCII, renderMermaidSVG } from 'beautiful-mermaid'
 import { layoutProject } from './layout.ts'
 import type { DiagramProject } from './model.ts'
-import { materializeColors, renderPositionedSvg } from './svg.ts'
+import { makeSvgAccessible, materializeColors, renderPositionedSvg } from './svg.ts'
 import { resolveTheme } from '../render.ts'
 import type { RenderRequest } from '../types.ts'
 import { CliError } from '../errors.ts'
@@ -54,9 +54,10 @@ export async function renderStandaloneOutput(source: string, request: RenderRequ
       : family === 'architecture'
         ? await renderArchitectureSvg(source, theme, transparent)
         : renderMermaidSVG(source, { ...theme, transparent })
-  const svg = family === 'pie' || family === 'gitgraph' || family === 'architecture'
+  const rawSvg = family === 'pie' || family === 'gitgraph' || family === 'architecture'
     ? rendered
     : materializeColors(rendered, theme, transparent)
+  const svg = makeSvgAccessible(rawSvg, source, request.inputPath, family)
   if (request.format === 'svg') return svg
   return new Resvg(svg, {
     fitTo: { mode: 'zoom', value: 2 },
@@ -81,10 +82,10 @@ export async function renderProjectOutput(
     direction: project.sidecar.direction,
     applyOverrides: true,
   })
-  const svg = renderPositionedSvg(diagram, {
+  const svg = makeSvgAccessible(renderPositionedSvg(diagram, {
     ...(theme ? { theme } : {}),
     transparent: request.transparent,
-  })
+  }), project.source, request.inputPath, 'graph')
 
   if (request.format === 'svg') return svg
 

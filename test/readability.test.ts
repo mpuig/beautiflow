@@ -48,6 +48,19 @@ describe('readability audit', () => {
     ])).metrics.sharedRoutes).toBe(0)
   })
 
+  test('detects connectors stacked at one node attachment point', () => {
+    const drawing = diagram([
+      edge('first', [{ x: 40, y: 40 }, { x: 140, y: 40 }], { source: 'shared' }),
+      edge('second', [{ x: 44, y: 42 }, { x: 144, y: 80 }], { source: 'shared' }),
+    ])
+    drawing.nodes.push({ id: 'shared', label: 'Shared', shape: 'rectangle', x: 0, y: 20, width: 40, height: 40, role: 'secondary', pinned: false })
+    const report = auditDiagram(drawing)
+    const issue = report.issues.find((candidate) => candidate.type === 'endpoint-overlap')!
+    expect(report.metrics.endpointOverlaps).toBe(1)
+    expect(issue.nodes).toEqual(['shared'])
+    expect(issue.evidence?.minimumClearance).toBe(8)
+  })
+
   test('detects diagonal arrows through nodes', () => {
     const drawing = diagram([edge('diagonal', [{ x: 0, y: 0 }, { x: 100, y: 100 }])])
     drawing.nodes.push({ id: 'obstacle', label: 'Obstacle', shape: 'rectangle', x: 40, y: 40, width: 20, height: 20, role: 'secondary', pinned: false })

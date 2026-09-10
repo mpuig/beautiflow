@@ -85,6 +85,25 @@ describe('graph transformations', () => {
     expect(report.issues.some((issue) => issue.type === 'isolated-node')).toBe(true)
   })
 
+  test('advises a focused-view split without lowering semantic quality', async () => {
+    const { sourcePath } = await fixture()
+    await writeFile(sourcePath, `flowchart LR
+  subgraph request[Request path]
+    a1 --> a2 --> a3 --> a4 --> a5 --> a6 --> a7
+  end
+  subgraph operations[Operations]
+    b1 --> b2 --> b3 --> b4 --> b5 --> b6 --> b7
+  end
+  a7 --> b1
+`)
+    const report = diagnoseProject(await loadProject(sourcePath))
+
+    expect(report.metrics.groups).toBe(2)
+    expect(report.issues.some((issue) => issue.type === 'detail-budget' && issue.severity === 'info')).toBe(true)
+    expect(report.issues.some((issue) => issue.type === 'view-split-recommended' && issue.message.includes('Request path, Operations'))).toBe(true)
+    expect(report.score).toBe(100)
+  })
+
   test('validates transformation schemas', () => {
     expect(() => parseTransformActions({ actions: [{ type: 'add-node', id: 'bad id', label: 'Bad' }] })).toThrow('must match')
     expect(() => parseTransformActions({ actions: [{ type: 'unknown' }] })).toThrow('Unknown transformation')

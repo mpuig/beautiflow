@@ -182,7 +182,7 @@ async function runDiagnose(inputPath: string, json: boolean): Promise<void> {
     changed: false,
     ...semantic,
     warnings: semantic.issues,
-    nextAction: semantic.issues.length ? { operation: 'agent-plan', argv: ['beautiflow', 'agent', 'plan', inputPath, '--operation', 'transform', '--actions', '<transformations.json>', '--json'], reason: 'Address one named semantic issue through a receipt-backed dry-run', requiresConfirmation: false } : null,
+    nextAction: semantic.issues.some((issue) => issue.severity !== 'info') ? { operation: 'agent-plan', argv: ['beautiflow', 'agent', 'plan', inputPath, '--operation', 'transform', '--actions', '<transformations.json>', '--json'], reason: 'Address one named semantic issue through a receipt-backed dry-run', requiresConfirmation: false } : null,
   }
   if (json) printJson(report)
   else {

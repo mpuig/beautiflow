@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 387.956 1148.505" width="387.956" height="1148.505" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:#ffffff">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 387.956 1148.505" width="387.956" height="1148.505" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:#ffffff" role="img" aria-labelledby="beautiflow-diagram-e0b4477a-title beautiflow-diagram-e0b4477a-desc">
+<title id="beautiflow-diagram-e0b4477a-title">diagram</title>
+<desc id="beautiflow-diagram-e0b4477a-desc">diagram, rendered as a flowchart or state diagram.</desc>
 <rect width="100%" height="100%" fill="#ffffff" />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');

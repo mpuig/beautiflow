@@ -9,6 +9,45 @@ export interface SvgOptions {
   transparent?: boolean
 }
 
+function escapeXml(value: string): string {
+  return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;')
+}
+
+function stableId(value: string): string {
+  let hash = 2166136261
+  for (const character of value) {
+    hash ^= character.codePointAt(0) ?? 0
+    hash = Math.imul(hash, 16777619)
+  }
+  const slug = value.split(/[\\/]/).at(-1)?.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'diagram'
+  return `beautiflow-${slug}-${(hash >>> 0).toString(16)}`
+}
+
+function authoredMetadata(source: string): { title?: string; description?: string } {
+  const oneLine = (name: string) => source.match(new RegExp(`^\\s*${name}\\s*:\\s*["']?(.+?)["']?\\s*$`, 'im'))?.[1]?.trim()
+  const frontmatter = source.trimStart().startsWith('---') ? source.trimStart().match(/^---\s*\n([\s\S]*?)\n---/)?.[1] : undefined
+  const frontmatterTitle = frontmatter?.match(/^title\s*:\s*["']?(.+?)["']?\s*$/im)?.[1]?.trim()
+  const inlineTitle = source.match(/^\s*(?:pie\b.*?)\btitle\s+(.+)$/im)?.[1]?.trim()
+  return {
+    title: oneLine('accTitle') ?? frontmatterTitle ?? inlineTitle,
+    description: oneLine('accDescr'),
+  }
+}
+
+export function makeSvgAccessible(svg: string, source: string, inputPath: string, family: string): string {
+  const metadata = authoredMetadata(source)
+  const fallbackTitle = inputPath.split(/[\\/]/).at(-1)?.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ') || 'Diagram'
+  const title = metadata.title ?? fallbackTitle
+  const description = metadata.description ?? `${title}, rendered as a ${family === 'graph' ? 'flowchart or state' : family} diagram.`
+  const id = stableId(inputPath)
+  return svg.replace(/<svg\b([^>]*)>/i, (_match, attributes: string) => {
+    const clean = attributes
+      .replace(/\srole=(?:"[^"]*"|'[^']*')/gi, '')
+      .replace(/\saria-labelledby=(?:"[^"]*"|'[^']*')/gi, '')
+    return `<svg${clean} role="img" aria-labelledby="${id}-title ${id}-desc">\n<title id="${id}-title">${escapeXml(title)}</title>\n<desc id="${id}-desc">${escapeXml(description)}</desc>`
+  })
+}
+
 function mixColors(background: string, foreground: string, ratio: number, fallback: string): string {
   const normalize = (value: string): string | undefined => {
     const match = value.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i)

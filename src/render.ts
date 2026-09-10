@@ -6,6 +6,7 @@ import {
 } from 'beautiful-mermaid'
 import { CliError } from './errors.ts'
 import type { RenderRequest, RenderResult } from './types.ts'
+import { makeSvgAccessible } from './diagram/svg.ts'
 
 export function resolveTheme(name: string | undefined): DiagramColors | undefined {
   if (!name) return undefined
@@ -33,10 +34,10 @@ export function renderSource(source: string, request: RenderRequest): RenderResu
 
     if (request.format === 'svg') {
       return {
-        content: renderMermaidSVG(source, {
+        content: makeSvgAccessible(renderMermaidSVG(source, {
           ...(theme ?? {}),
           transparent: request.transparent,
-        }),
+        }), source, request.inputPath, 'Mermaid'),
         format: request.format,
         ...(theme ? { theme } : {}),
       }

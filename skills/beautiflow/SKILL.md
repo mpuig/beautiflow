@@ -10,7 +10,7 @@ Use model judgment for intent and visual critique. Give all parsing, geometry, r
 
 ## Agent protocol
 
-For a new diagram, first read [creation.md](references/creation.md). Existing diagrams always use the receipt-backed mutation protocol below; creation guidance never authorizes rewriting an existing file.
+For a new diagram, first read [creation.md](references/creation.md). It may route a clearly matching behavioral request to the small, family-neutral patterns in [semantic-patterns.md](references/semantic-patterns.md). Existing diagrams always use the receipt-backed mutation protocol below; creation guidance never authorizes rewriting an existing file.
 
 Work autonomously inside a strict budget. Do not ask for details that can be discovered from the source, `FLOW.md`, or the agent inspection contract.
 

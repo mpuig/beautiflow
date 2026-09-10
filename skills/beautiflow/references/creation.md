@@ -4,7 +4,7 @@
 
 1. Read the nearest `FLOW.md`. Identify the audience and the single question the diagram should answer. Infer these from the request where possible.
 2. When describing a repository, read the relevant implementation. Distinguish observed relationships from proposed architecture; never infer calls from folder names alone.
-3. Choose the family by the question: flowchart for branching work, state for lifecycle, sequence for ordered interactions, architecture for services and boundaries, ER for data relationships.
+3. Choose the family by the question: flowchart for branching work, state for lifecycle, sequence for ordered interactions, architecture for services and boundaries, ER for data relationships. When behavior is load-bearing and the request clearly matches, load [semantic-patterns.md](semantic-patterns.md) and use one primary composition pattern.
 4. Choose one primary path. Include the unchanged neighbours necessary to explain it. Group by responsibility, runtime, or trust boundary rather than directory structure.
 5. Aim for a readable overview, roughly 8–12 primary nodes when appropriate, not a mandatory limit. If essential detail overwhelms it, create a separately scoped detail view rather than deleting meaning. Do not duplicate essentially the same diagram across views.
 6. Use stable domain IDs, short active labels, and explicit branch conditions. Keep retries and failure paths visible but secondary. Preserve protocols, directions, and synchronous/asynchronous distinctions.

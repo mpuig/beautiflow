@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 538" width="440" height="538" style="--bg:#eceff4;--fg:#2e3440;--line:#aab1c0;--accent:#5e81ac;--muted:#2e3440">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 538" width="440" height="538" style="--bg:#eceff4;--fg:#2e3440;--line:#aab1c0;--accent:#5e81ac;--muted:#2e3440" role="img" aria-labelledby="beautiflow-17-device-sync-sequence-934a3d23-title beautiflow-17-device-sync-sequence-934a3d23-desc">
+<title id="beautiflow-17-device-sync-sequence-934a3d23-title">17 device sync sequence</title>
+<desc id="beautiflow-17-device-sync-sequence-934a3d23-desc">17 device sync sequence, rendered as a sequence diagram.</desc>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
   text { font-family: 'Inter', system-ui, sans-serif; }

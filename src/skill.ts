@@ -7,6 +7,7 @@ import protocol from '../skills/beautiflow/references/agent-protocol.md' with { 
 import rubric from '../skills/beautiflow/references/quality-rubric.md' with { type: 'text' }
 import transformations from '../skills/beautiflow/references/transformations.md' with { type: 'text' }
 import creation from '../skills/beautiflow/references/creation.md' with { type: 'text' }
+import semanticPatterns from '../skills/beautiflow/references/semantic-patterns.md' with { type: 'text' }
 import type { SkillTarget } from './args.ts'
 
 function targetRoot(target: SkillTarget, local: boolean): string {
@@ -34,6 +35,7 @@ export async function installSkill(target: SkillTarget, local: boolean): Promise
     writeFile(join(references, 'quality-rubric.md'), rubric),
     writeFile(join(references, 'transformations.md'), transformations),
     writeFile(join(references, 'creation.md'), creation),
+    writeFile(join(references, 'semantic-patterns.md'), semanticPatterns),
   ])
   return directory
 }
