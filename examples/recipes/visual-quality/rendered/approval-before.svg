@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 296.072 565.992" width="296.072" height="565.992" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:#ffffff" role="img" aria-labelledby="beautiflow-approval-695739f7-title beautiflow-approval-695739f7-desc">
-<title id="beautiflow-approval-695739f7-title">approval</title>
-<desc id="beautiflow-approval-695739f7-desc">approval, rendered as a flowchart or state diagram.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 296.072 565.992" width="296.072" height="565.992" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:#ffffff" role="img" aria-labelledby="beautiflow-approval-5391a27c-title beautiflow-approval-5391a27c-desc">
+<title id="beautiflow-approval-5391a27c-title">approval</title>
+<desc id="beautiflow-approval-5391a27c-desc">A flowchart diagram with 4 nodes and 3 relationships, beginning at Draft.</desc>
 <rect width="100%" height="100%" fill="#ffffff" />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');

@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 832 451" width="832" height="451" role="img" aria-labelledby="beautiflow-11-release-train-history-4049dac0-title beautiflow-11-release-train-history-4049dac0-desc">
-<title id="beautiflow-11-release-train-history-4049dac0-title">11 release train history</title>
-<desc id="beautiflow-11-release-train-history-4049dac0-desc">11 release train history, rendered as a gitgraph diagram.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 832 451" width="832" height="451" role="img" aria-labelledby="beautiflow-11-release-train-history-779a143d-title beautiflow-11-release-train-history-779a143d-desc">
+<title id="beautiflow-11-release-train-history-779a143d-title">11 release train history</title>
+<desc id="beautiflow-11-release-train-history-779a143d-desc">11 release train history, rendered as a gitgraph diagram.</desc>
 <rect width="100%" height="100%" fill="#24283b" />
 <g font-family="Inter, Arial, sans-serif" fill="#a9b1d6"><rect x="24" y="79" width="96" height="32" rx="8" fill="#6366f1" opacity="0.14" />
 <text x="72" y="95" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#6366f1">main</text>

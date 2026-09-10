@@ -20,12 +20,13 @@
     "build": "bun run ./scripts/patch-jsdom.ts && bun build ./src/cli.ts --compile --minify --bytecode --sourcemap --no-compile-autoload-dotenv --no-compile-autoload-bunfig --outfile ./dist/beautiflow",
     "build:docs": "bun run ./scripts/build-docs.ts",
     "build:site": "bun run ./scripts/build-site.ts",
+    "build:contact-sheet": "bun run ./scripts/build-contact-sheet.ts",
     "preview:site": "bun run ./scripts/build-site.ts --serve",
     "check": "bunx tsc --noEmit",
     "clean": "rm -rf dist",
     "dev": "bun run ./src/cli.ts",
     "test": "bun test",
-    "validate": "bun run check && bun test && bun run build && bun run build:docs"
+    "validate": "bun run check && bun test && bun run build && bun run build:docs && bun run build:contact-sheet"
   },
   "dependencies": {
     "@iconify-json/logos": "1.2.13",

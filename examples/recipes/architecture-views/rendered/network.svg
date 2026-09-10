@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.54600000000005 884.8" width="412.54600000000005" height="884.8" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:#ffffff" role="img" aria-labelledby="beautiflow-network-c5911db6-title beautiflow-network-c5911db6-desc">
-<title id="beautiflow-network-c5911db6-title">network</title>
-<desc id="beautiflow-network-c5911db6-desc">network, rendered as a flowchart or state diagram.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.54600000000005 884.8" width="412.54600000000005" height="884.8" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:#ffffff" role="img" aria-labelledby="beautiflow-network-a7cb746b-title beautiflow-network-a7cb746b-desc">
+<title id="beautiflow-network-a7cb746b-title">network</title>
+<desc id="beautiflow-network-a7cb746b-desc">A flowchart diagram with 7 nodes and 7 relationships, beginning at Engineers.</desc>
 <rect width="100%" height="100%" fill="#ffffff" />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');

@@ -16,6 +16,8 @@ export interface SemanticIssue {
     | 'high-fan-out'
     | 'detail-budget'
     | 'view-split-recommended'
+    | 'label-quality'
+    | 'fan-in-focus'
   message: string
   nodes: string[]
   edges?: string[]
@@ -33,6 +35,8 @@ export interface SemanticReport {
     isolatedNodes: number
     decisions: number
     groups: number
+    labelQualityFindings: number
+    fanInHotspots: number
     cycles: number
   }
   entryPoints: string[]
@@ -101,6 +105,27 @@ export function diagnoseProject(project: DiagramProject): SemanticReport {
     if (edgeIndices.length > 5) issues.push({ severity: 'warning', type: 'high-fan-out', message: `${nodeId} has ${edgeIndices.length} outgoing branches`, nodes: [nodeId] })
   }
 
+  const vagueLabels = new Set(['process', 'handler', 'system', 'service', 'component', 'step', 'thing'])
+  let labelQualityFindings = 0
+  for (const [nodeId, node] of project.graph.nodes) {
+    const normalized = node.label.replace(/<br\s*\/?>/gi, '\n').trim()
+    if (normalized.length > 48 || normalized.split('\n').length > 2 || vagueLabels.has(normalized.toLocaleLowerCase())) {
+      labelQualityFindings += 1
+      issues.push({ severity: 'info', type: 'label-quality', message: `${nodeId} label is ${vagueLabels.has(normalized.toLocaleLowerCase()) ? 'too generic' : 'too dense'}: “${normalized.replaceAll('\n', ' / ')}”`, nodes: [nodeId] })
+    }
+  }
+  project.graph.edges.forEach((edge, index) => {
+    const label = edge.label?.trim().toLocaleLowerCase()
+    if (!label || !['connects', 'connects to', 'goes to', 'next'].includes(label)) return
+    labelQualityFindings += 1
+    issues.push({ severity: 'info', type: 'label-quality', message: `${edge.source}->${edge.target} uses a relationship label that adds little meaning: “${edge.label}”`, nodes: [edge.source, edge.target], edges: [`${edge.source}->${edge.target}#${index}`] })
+  })
+
+  const fanInNodes = nodeIds.filter((id) => (incoming.get(id)?.length ?? 0) >= 4)
+  for (const nodeId of fanInNodes) {
+    issues.push({ severity: 'info', type: 'fan-in-focus', message: `${nodeId} receives ${incoming.get(nodeId)!.length} incoming paths; verify that this bottleneck or integration hub is intentionally focal`, nodes: [nodeId] })
+  }
+
   const collectGroups = (groups: typeof project.graph.subgraphs): Array<{ id: string; label: string }> => groups.flatMap((group) => [
     { id: group.id, label: group.label },
     ...collectGroups(group.children),
@@ -139,6 +164,8 @@ export function diagnoseProject(project: DiagramProject): SemanticReport {
       isolatedNodes: isolated.length,
       decisions,
       groups: groups.length,
+      labelQualityFindings,
+      fanInHotspots: fanInNodes.length,
       cycles,
     },
     entryPoints,

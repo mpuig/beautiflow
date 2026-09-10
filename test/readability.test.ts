@@ -59,6 +59,22 @@ describe('readability audit', () => {
     expect(report.metrics.endpointOverlaps).toBe(1)
     expect(issue.nodes).toEqual(['shared'])
     expect(issue.evidence?.minimumClearance).toBe(8)
+    expect(issue.supportedFixes).toBeUndefined()
+  })
+
+  test('detects node-label overflow and group-header collisions', () => {
+    const drawing = diagram([edge('crossing', [{ x: 0, y: 12 }, { x: 240, y: 12 }])])
+    drawing.nodes.push(
+      { id: 'tiny', label: 'A label that cannot fit', shape: 'rectangle', x: 80, y: 0, width: 48, height: 20, role: 'secondary', pinned: false },
+      { id: 'inside', label: 'Inside', shape: 'rectangle', x: 160, y: 4, width: 80, height: 40, role: 'secondary', pinned: false },
+    )
+    drawing.groups.push({ id: 'zone', label: 'A group title that is far too wide', x: 140, y: 0, width: 100, height: 180, children: [] })
+    const report = auditDiagram(drawing)
+
+    expect(report.metrics.textOverflows).toBeGreaterThanOrEqual(2)
+    expect(report.metrics.groupHeaderCollisions).toBeGreaterThanOrEqual(2)
+    expect(report.issues.some((issue) => issue.type === 'group-header-collision' && issue.evidence?.kind === 'route-header')).toBe(true)
+    expect(report.issues.find((issue) => issue.type === 'text-overflow')?.supportedFixes).toBeUndefined()
   })
 
   test('detects diagonal arrows through nodes', () => {

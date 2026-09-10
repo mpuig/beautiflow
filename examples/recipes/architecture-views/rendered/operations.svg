@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1676.281 330.70000000000005" width="1676.281" height="330.70000000000005" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:#ffffff" role="img" aria-labelledby="beautiflow-operations-8fb0e9fe-title beautiflow-operations-8fb0e9fe-desc">
-<title id="beautiflow-operations-8fb0e9fe-title">operations</title>
-<desc id="beautiflow-operations-8fb0e9fe-desc">operations, rendered as a flowchart or state diagram.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1676.281 330.70000000000005" width="1676.281" height="330.70000000000005" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:#ffffff" role="img" aria-labelledby="beautiflow-operations-bb8385a9-title beautiflow-operations-bb8385a9-desc">
+<title id="beautiflow-operations-bb8385a9-title">operations</title>
+<desc id="beautiflow-operations-bb8385a9-desc">A flowchart diagram with 8 nodes and 7 relationships, beginning at Source repository and Workload identity.</desc>
 <rect width="100%" height="100%" fill="#ffffff" />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');

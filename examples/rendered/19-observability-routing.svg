@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 694.9779166666667 1378.48" width="694.9779166666667" height="1378.48" style="--bg:#d5d6db;--fg:#343b58;--line:#34548a;--accent:#34548a;--muted:#9699a3" role="img" aria-labelledby="beautiflow-19-observability-routing-259c5619-title beautiflow-19-observability-routing-259c5619-desc">
-<title id="beautiflow-19-observability-routing-259c5619-title">19 observability routing</title>
-<desc id="beautiflow-19-observability-routing-259c5619-desc">19 observability routing, rendered as a flowchart or state diagram.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 694.9779166666667 1378.48" width="694.9779166666667" height="1378.48" style="--bg:#d5d6db;--fg:#343b58;--line:#34548a;--accent:#34548a;--muted:#9699a3" role="img" aria-labelledby="beautiflow-19-observability-routing-f822f1f6-title beautiflow-19-observability-routing-f822f1f6-desc">
+<title id="beautiflow-19-observability-routing-f822f1f6-title">19 observability routing</title>
+<desc id="beautiflow-19-observability-routing-f822f1f6-desc">A flowchart diagram with 13 nodes and 12 relationships, beginning at Trace events and Metric points.</desc>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
   text { font-family: 'Inter', system-ui, sans-serif; }

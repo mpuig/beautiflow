@@ -106,6 +106,8 @@ describe('diagram pipeline', () => {
     expect(typeof svg).toBe('string')
     expect(svg).toContain('role="img"')
     expect(svg).toMatch(/<svg[^>]*>\n<title/)
+    expect(svg).toContain('<desc id=')
+    expect(svg).toContain('A flowchart diagram with 6 nodes and 5 relationships, beginning at Client.')
     expect(svg).toContain('marker-end="url(#arrowhead')
     expect(svg).toContain('data-shape="diamond"')
     expect(svg).not.toMatch(/(?:fill|stroke)="var\(/)

@@ -104,6 +104,28 @@ describe('graph transformations', () => {
     expect(report.score).toBe(100)
   })
 
+  test('flags weak labels and fan-in as informational focus evidence', async () => {
+    const { sourcePath } = await fixture()
+    await writeFile(sourcePath, `flowchart LR
+  start --> a
+  start --> b
+  start --> c
+  start --> d
+  a --> hub[System]
+  b --> hub
+  c --> hub
+  d --> hub
+  hub --> done[Done]
+`)
+    const report = diagnoseProject(await loadProject(sourcePath))
+
+    expect(report.metrics.labelQualityFindings).toBe(1)
+    expect(report.metrics.fanInHotspots).toBe(1)
+    expect(report.issues.some((issue) => issue.type === 'label-quality' && issue.nodes.includes('hub'))).toBe(true)
+    expect(report.issues.some((issue) => issue.type === 'fan-in-focus' && issue.nodes.includes('hub'))).toBe(true)
+    expect(report.score).toBe(100)
+  })
+
   test('validates transformation schemas', () => {
     expect(() => parseTransformActions({ actions: [{ type: 'add-node', id: 'bad id', label: 'Bad' }] })).toThrow('must match')
     expect(() => parseTransformActions({ actions: [{ type: 'unknown' }] })).toThrow('Unknown transformation')

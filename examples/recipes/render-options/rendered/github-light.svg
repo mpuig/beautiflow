@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1632.571 276.805" width="1632.571" height="276.805" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:#ffffff" role="img" aria-labelledby="beautiflow-diagram-e0b4477a-title beautiflow-diagram-e0b4477a-desc">
-<title id="beautiflow-diagram-e0b4477a-title">diagram</title>
-<desc id="beautiflow-diagram-e0b4477a-desc">diagram, rendered as a flowchart or state diagram.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1632.571 276.805" width="1632.571" height="276.805" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:#ffffff" role="img" aria-labelledby="beautiflow-diagram-6cdd5dfa-title beautiflow-diagram-6cdd5dfa-desc">
+<title id="beautiflow-diagram-6cdd5dfa-title">diagram</title>
+<desc id="beautiflow-diagram-6cdd5dfa-desc">A flowchart diagram with 8 nodes and 8 relationships, beginning at Visitor.</desc>
 <rect width="100%" height="100%" fill="#ffffff" />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');

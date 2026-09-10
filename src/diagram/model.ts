@@ -89,7 +89,7 @@ export interface DiagramProject {
 
 export interface AuditIssue {
   severity: 'high' | 'medium' | 'low'
-  type: 'node-overlap' | 'edge-crossing' | 'edge-node-intersection' | 'excessive-bends' | 'label-collision' | 'shared-route' | 'endpoint-overlap'
+  type: 'node-overlap' | 'edge-crossing' | 'edge-node-intersection' | 'excessive-bends' | 'label-collision' | 'shared-route' | 'endpoint-overlap' | 'text-overflow' | 'group-header-collision'
   message: string
   nodes?: string[]
   edges?: string[]
@@ -107,6 +107,8 @@ export interface AuditReport {
     labelCollisions: number
     sharedRoutes: number
     endpointOverlaps: number
+    textOverflows: number
+    groupHeaderCollisions: number
     totalBends: number
     alignmentScore: number
     aspectRatio: number

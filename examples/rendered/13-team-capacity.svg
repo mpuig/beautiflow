@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 440" width="760" height="440" role="img" aria-labelledby="beautiflow-13-team-capacity-b0f8e2fd-title beautiflow-13-team-capacity-b0f8e2fd-desc">
-<title id="beautiflow-13-team-capacity-b0f8e2fd-title">Weekly team capacity</title>
-<desc id="beautiflow-13-team-capacity-b0f8e2fd-desc">Weekly team capacity, rendered as a pie diagram.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 440" width="760" height="440" role="img" aria-labelledby="beautiflow-13-team-capacity-7943762a-title beautiflow-13-team-capacity-7943762a-desc">
+<title id="beautiflow-13-team-capacity-7943762a-title">Weekly team capacity</title>
+<desc id="beautiflow-13-team-capacity-7943762a-desc">Weekly team capacity, rendered as a pie diagram.</desc>
 <rect width="100%" height="100%" fill="#FFFFFF" />
 <g font-family="Inter, Arial, sans-serif" fill="#27272A"><text x="40" y="48" font-size="24" font-weight="700">Weekly team capacity</text>
 <path d="M 235 240 L 235 90 A 150 150 0 0 1 272.3034830747282 385.2874741692947 Z" fill="#6366f1" stroke="#FFFFFF" stroke-width="2" />

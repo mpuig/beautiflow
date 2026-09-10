@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1632.571 276.805" width="1632.571" height="276.805" style="--bg:#282a36;--fg:#f8f8f2;--line:#6272a4;--accent:#bd93f9;--muted:#6272a4;background:#282a36" role="img" aria-labelledby="beautiflow-diagram-e0b4477a-title beautiflow-diagram-e0b4477a-desc">
-<title id="beautiflow-diagram-e0b4477a-title">diagram</title>
-<desc id="beautiflow-diagram-e0b4477a-desc">diagram, rendered as a flowchart or state diagram.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1632.571 276.805" width="1632.571" height="276.805" style="--bg:#282a36;--fg:#f8f8f2;--line:#6272a4;--accent:#bd93f9;--muted:#6272a4;background:#282a36" role="img" aria-labelledby="beautiflow-diagram-5fdc1a07-title beautiflow-diagram-5fdc1a07-desc">
+<title id="beautiflow-diagram-5fdc1a07-title">diagram</title>
+<desc id="beautiflow-diagram-5fdc1a07-desc">A flowchart diagram with 8 nodes and 8 relationships, beginning at Visitor.</desc>
 <rect width="100%" height="100%" fill="#282a36" />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');

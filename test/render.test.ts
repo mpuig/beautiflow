@@ -22,6 +22,8 @@ describe('renderSource', () => {
     expect(result.content).toMatch(/aria-labelledby="beautiflow-diagram-[a-f0-9]+-title beautiflow-diagram-[a-f0-9]+-desc"/)
     expect(result.content).toMatch(/<svg[^>]*>\n<title/)
     expect(result.content).toContain('>diagram</title>')
+    const absolute = renderSource(source, { inputPath: '/tmp/diagram.mmd', format: 'svg', transparent: false })
+    expect(absolute.content.match(/aria-labelledby="([^"]+)"/)?.[1]).toBe(result.content.match(/aria-labelledby="([^"]+)"/)?.[1])
     expect(result.content).toContain('Start')
     expect(result.content).toContain('Ready?')
   })

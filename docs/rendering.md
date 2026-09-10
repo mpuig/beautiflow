@@ -17,7 +17,7 @@ YAML frontmatter is skipped during family detection and remains available to Mer
 
 Sequence output uses the theme foreground for message labels rather than the muted secondary color. This keeps essential request and response text readable in dark palettes while preserving connector and arrow colors.
 
-Every SVG output receives an accessible name automatically. Beautiflow emits `role="img"`, stable `aria-labelledby` IDs, a first-child `<title>`, and a `<desc>`. Authored Mermaid `accTitle` and `accDescr` values take precedence; frontmatter or diagram titles and then the input filename provide deterministic fallbacks. The same annotated SVG is used for PNG rasterization.
+Every SVG output receives an accessible name automatically. Beautiflow emits `role="img"`, stable `aria-labelledby` IDs, a first-child `<title>`, and a `<desc>`. Authored Mermaid `accTitle` and `accDescr` values take precedence; frontmatter or diagram titles and then the input filename provide deterministic fallbacks. Flowchart and state fallbacks summarize node and relationship counts plus visible entry labels. IDs derive from source and rendered content, so absolute and relative paths produce the same SVG while genuinely different variants remain collision-resistant. The same annotated SVG is used for PNG rasterization.
 
 ## Full graph pipeline
 

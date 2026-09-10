@@ -16,6 +16,15 @@ const DEFAULT_COLORS = {
 
 export type DiagramFamily = 'graph' | 'sequence' | 'class' | 'er' | 'xychart' | 'pie' | 'gitgraph' | 'architecture' | 'unknown'
 
+function graphDescription(diagram: Awaited<ReturnType<typeof layoutProject>>, source: string): string {
+  const state = /^\s*stateDiagram/im.test(mermaidBody(source))
+  const incoming = new Set(diagram.edges.map((edge) => edge.target))
+  const entries = diagram.nodes.filter((node) => !incoming.has(node.id) && diagram.edges.some((edge) => edge.source === node.id))
+  const labels = entries.map((node) => node.label.replace(/<br\s*\/?>/gi, ' ').trim()).filter(Boolean).slice(0, 2)
+  const beginning = labels.length ? `, beginning at ${labels.join(' and ')}` : ''
+  return `A ${state ? 'state' : 'flowchart'} diagram with ${diagram.nodes.length} node${diagram.nodes.length === 1 ? '' : 's'} and ${diagram.edges.length} relationship${diagram.edges.length === 1 ? '' : 's'}${beginning}.`
+}
+
 function mermaidBody(source: string): string {
   const trimmed = source.trimStart()
   if (!trimmed.startsWith('---')) return trimmed
@@ -85,7 +94,7 @@ export async function renderProjectOutput(
   const svg = makeSvgAccessible(renderPositionedSvg(diagram, {
     ...(theme ? { theme } : {}),
     transparent: request.transparent,
-  }), project.source, request.inputPath, 'graph')
+  }), project.source, request.inputPath, 'graph', graphDescription(diagram, project.source))
 
   if (request.format === 'svg') return svg
 

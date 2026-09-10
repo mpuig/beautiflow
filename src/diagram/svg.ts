@@ -13,13 +13,13 @@ function escapeXml(value: string): string {
   return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;')
 }
 
-function stableId(value: string): string {
+function stableId(inputPath: string, identity: string): string {
   let hash = 2166136261
-  for (const character of value) {
+  for (const character of identity) {
     hash ^= character.codePointAt(0) ?? 0
     hash = Math.imul(hash, 16777619)
   }
-  const slug = value.split(/[\\/]/).at(-1)?.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'diagram'
+  const slug = inputPath.split(/[\\/]/).at(-1)?.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'diagram'
   return `beautiflow-${slug}-${(hash >>> 0).toString(16)}`
 }
 
@@ -34,12 +34,20 @@ function authoredMetadata(source: string): { title?: string; description?: strin
   }
 }
 
-export function makeSvgAccessible(svg: string, source: string, inputPath: string, family: string): string {
+export function makeSvgAccessible(
+  svg: string,
+  source: string,
+  inputPath: string,
+  family: string,
+  fallbackDescription?: string,
+): string {
   const metadata = authoredMetadata(source)
   const fallbackTitle = inputPath.split(/[\\/]/).at(-1)?.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ') || 'Diagram'
   const title = metadata.title ?? fallbackTitle
-  const description = metadata.description ?? `${title}, rendered as a ${family === 'graph' ? 'flowchart or state' : family} diagram.`
-  const id = stableId(inputPath)
+  const graphFamily = /^\s*stateDiagram/im.test(source) ? 'state' : 'flowchart'
+  const familyLabel = family === 'graph' ? graphFamily : family
+  const description = metadata.description ?? fallbackDescription ?? `${title}, rendered as a ${familyLabel} diagram.`
+  const id = stableId(inputPath, `${source}\u0000${svg}`)
   return svg.replace(/<svg\b([^>]*)>/i, (_match, attributes: string) => {
     const clean = attributes
       .replace(/\srole=(?:"[^"]*"|'[^']*')/gi, '')

@@ -1,7 +1,7 @@
-import type { AuditIssue, AuditReport, Point, PositionedDiagram, PositionedEdge, PositionedNode } from './model.ts'
+import type { AuditIssue, AuditReport, Point, PositionedDiagram, PositionedEdge, PositionedGroup, PositionedNode } from './model.ts'
 import { edgeMidpoint } from '../vendor/beautiful-mermaid/renderer.ts'
 import { measureMultilineText } from '../vendor/beautiful-mermaid/text-metrics.ts'
-import { FONT_SIZES, FONT_WEIGHTS } from '../vendor/beautiful-mermaid/styles.ts'
+import { FONT_SIZES, FONT_WEIGHTS, NODE_PADDING } from '../vendor/beautiful-mermaid/styles.ts'
 
 type Box = Pick<PositionedNode, 'x' | 'y' | 'width' | 'height'>
 
@@ -139,6 +139,68 @@ function readabilityIssues(diagram: PositionedDiagram, segments: Segment[]): Aud
       shared.add(key)
       issues.push({ severity: 'medium', type: 'shared-route', message: `${first.edge.id} shares a routing channel with ${second.edge.id}`,
         edges: [first.edge.id, second.edge.id], evidence: { sharedLength: length } })
+    }
+  }
+  return issues
+}
+
+function textAndGroupIssues(diagram: PositionedDiagram, segments: Segment[]): AuditIssue[] {
+  const issues: AuditIssue[] = []
+  for (const node of diagram.nodes) {
+    if ((node.shape === 'state-start' || node.shape === 'state-end') && !node.label) continue
+    const measured = measureMultilineText(node.label, FONT_SIZES.nodeLabel, FONT_WEIGHTS.nodeLabel)
+    const requiredWidth = measured.width + NODE_PADDING.horizontal * 2
+    const requiredHeight = measured.height + NODE_PADDING.vertical * 2
+    if (node.width + 0.5 >= requiredWidth && node.height + 0.5 >= requiredHeight) continue
+    issues.push({
+      severity: 'high',
+      type: 'text-overflow',
+      message: `${node.id} label exceeds its node bounds`,
+      nodes: [node.id],
+      evidence: {
+        measuredWidth: Number(measured.width.toFixed(3)),
+        measuredHeight: Number(measured.height.toFixed(3)),
+        requiredWidth: Number(requiredWidth.toFixed(3)),
+        requiredHeight: Number(requiredHeight.toFixed(3)),
+        nodeWidth: node.width,
+        nodeHeight: node.height,
+        kind: 'node-label',
+      },
+    })
+  }
+
+  const flatten = (groups: PositionedGroup[]): PositionedGroup[] => groups.flatMap((group) => [group, ...flatten(group.children)])
+  const headerHeight = FONT_SIZES.groupHeader + 16
+  for (const group of flatten(diagram.groups)) {
+    const header = { x: group.x, y: group.y, width: group.width, height: headerHeight }
+    const measured = measureMultilineText(group.label, FONT_SIZES.groupHeader, FONT_WEIGHTS.groupHeader)
+    if (measured.width + 24 > group.width || measured.height + 8 > headerHeight) {
+      issues.push({
+        severity: 'high',
+        type: 'text-overflow',
+        message: `${group.id} title exceeds its group header`,
+        evidence: { group: group.id, measuredWidth: Number(measured.width.toFixed(3)), groupWidth: group.width, kind: 'group-title' },
+      })
+    }
+    for (const node of diagram.nodes) {
+      if (!overlaps(header, node)) continue
+      issues.push({
+        severity: 'high',
+        type: 'group-header-collision',
+        message: `${node.id} overlaps ${group.id} header`,
+        nodes: [node.id],
+        evidence: { group: group.id, kind: 'node-header' },
+      })
+    }
+    for (const edge of diagram.edges) {
+      if (!segments.some((segment) => segment.edge === edge && segmentIntersectsNode(segment, header))) continue
+      issues.push({
+        severity: 'medium',
+        type: 'group-header-collision',
+        message: `${edge.id} crosses ${group.id} header`,
+        edges: [edge.id],
+        evidence: { group: group.id, kind: 'route-header' },
+      })
     }
   }
   return issues
@@ -288,11 +350,22 @@ export function auditDiagram(diagram: PositionedDiagram): AuditReport {
   }
 
   const alignment = alignmentScore(diagram.nodes)
-  issues.push(...readabilityIssues(diagram, allSegments), ...endpointIssues(diagram))
-  for (const issue of issues) issue.supportedFixes = ['set-direction', 'place-relative']
+  issues.push(...readabilityIssues(diagram, allSegments), ...endpointIssues(diagram), ...textAndGroupIssues(diagram, allSegments))
+  for (const issue of issues) {
+    const supportedFixes = issue.type === 'node-overlap' || issue.type === 'edge-node-intersection'
+      ? ['place-relative', 'set-direction'] as const
+      : issue.type === 'edge-crossing' || issue.type === 'label-collision' || issue.type === 'shared-route' || issue.type === 'group-header-collision'
+        ? ['set-direction', 'place-relative'] as const
+        : issue.type === 'excessive-bends'
+          ? ['set-direction'] as const
+          : []
+    if (supportedFixes.length) issue.supportedFixes = [...supportedFixes]
+  }
   const labelCollisions = issues.filter((issue) => issue.type === 'label-collision').length
   const sharedRoutes = issues.filter((issue) => issue.type === 'shared-route').length
   const endpointOverlaps = issues.filter((issue) => issue.type === 'endpoint-overlap').length
+  const textOverflows = issues.filter((issue) => issue.type === 'text-overflow').length
+  const groupHeaderCollisions = issues.filter((issue) => issue.type === 'group-header-collision').length
   const aspectRatio = diagram.height === 0 ? 1 : diagram.width / diagram.height
   const aspectPenalty = aspectRatio > 2.4
     ? Math.min(18, (aspectRatio - 2.4) * 8)
@@ -307,6 +380,8 @@ export function auditDiagram(diagram: PositionedDiagram): AuditReport {
       - labelCollisions * 8
       - sharedRoutes * 8
       - endpointOverlaps * 6
+      - textOverflows * 20
+      - groupHeaderCollisions * 12
       - Math.max(0, totalBends - diagram.edges.length * 2) * 2
       - aspectPenalty
       + alignment * 4,
@@ -322,6 +397,8 @@ export function auditDiagram(diagram: PositionedDiagram): AuditReport {
       labelCollisions,
       sharedRoutes,
       endpointOverlaps,
+      textOverflows,
+      groupHeaderCollisions,
       totalBends,
       alignmentScore: Number(alignment.toFixed(3)),
       aspectRatio: Number(aspectRatio.toFixed(3)),

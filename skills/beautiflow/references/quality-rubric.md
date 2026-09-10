@@ -19,6 +19,7 @@ Polish must not lower the incumbent geometry score, including on first use witho
 - Avoidable edge crossings
 - Shared routing channels that make distinct relationships ambiguous
 - Connectors stacked on the same node attachment point
+- Connectors or nodes crossing a group header
 - Relationship labels masking unrelated routes or other labels
 - Exceptional path dominates the main path
 - Related nodes are visually separated
@@ -33,10 +34,11 @@ Polish must not lower the incumbent geometry score, including on first use witho
 ## P3 — presentation
 
 - Inconsistent node roles
+- Node or group text exceeding its measured container
 - Weak visual hierarchy
 - Secondary labels are too prominent
 - Theme is inappropriate for the destination
 
 Architecture audit declares its coverage. Only `compound-geometry` has a measured score; `native-renderer-only` reports `score: null`. Do not treat unavailable checks as passing. Inspect icon attachments, label clearance, and the actual display size, and verify provider semantics separately. The renderer never labels the longest graph path as primary traffic.
 
-Use `beautiflow diagnose <file> --json` for semantic defects and `beautiflow audit <file> --json` for geometry. Informational detail-load and view-split findings are composition advice only; they never authorize automatic deletion. Run both only when both kinds of failure are relevant. Review multiple entries, unlabeled or duplicate decision branches, high fan-out, cycles, and flows without exits. Mechanical diagnostics check reachability, overlaps, edge/node intersections, estimated label masks, and shared routes; visual inspection remains necessary for actual text readability, balance, and hierarchy. Preserve meaningful labels and relationships when repairing geometry. Use a finding's `supportedFixes` only through the existing receipt-backed semantic action schema; a suggested action type is not a guarantee of improvement.
+Use `beautiflow diagnose <file> --json` for semantic defects and `beautiflow audit <file> --json` for geometry. Informational detail-load and view-split findings are composition advice only; they never authorize automatic deletion. Run both only when both kinds of failure are relevant. Review multiple entries, unlabeled or duplicate decision branches, high fan-out, cycles, and flows without exits. Mechanical diagnostics check reachability, overlaps, edge/node intersections, measured text fit, group-header clearance, estimated label masks, and shared routes; visual inspection remains necessary for browser-specific glyph rendering, balance, and hierarchy. Repair suggestions are issue-specific and are omitted when the current action schema has no direct remedy. Preserve meaningful labels and relationships when repairing geometry. Use a finding's `supportedFixes` only through the existing receipt-backed semantic action schema; a suggested action type is not a guarantee of improvement.

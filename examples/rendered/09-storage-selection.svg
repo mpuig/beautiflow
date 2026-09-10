@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000.0361666666668 1089.953" width="1000.0361666666668" height="1089.953" style="--bg:#d5d6db;--fg:#343b58;--line:#34548a;--accent:#34548a;--muted:#9699a3;background:#d5d6db" role="img" aria-labelledby="beautiflow-09-storage-selection-1395b4-title beautiflow-09-storage-selection-1395b4-desc">
-<title id="beautiflow-09-storage-selection-1395b4-title">09 storage selection</title>
-<desc id="beautiflow-09-storage-selection-1395b4-desc">09 storage selection, rendered as a flowchart or state diagram.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000.0361666666668 1089.953" width="1000.0361666666668" height="1089.953" style="--bg:#d5d6db;--fg:#343b58;--line:#34548a;--accent:#34548a;--muted:#9699a3;background:#d5d6db" role="img" aria-labelledby="beautiflow-09-storage-selection-805cff35-title beautiflow-09-storage-selection-805cff35-desc">
+<title id="beautiflow-09-storage-selection-805cff35-title">09 storage selection</title>
+<desc id="beautiflow-09-storage-selection-805cff35-desc">A flowchart diagram with 10 nodes and 9 relationships, beginning at Choose storage.</desc>
 <rect width="100%" height="100%" fill="#d5d6db" />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');

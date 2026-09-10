@@ -39,13 +39,21 @@ bun run build:docs
 
 The command writes clean-route pages, shared CSS, and copy-button JavaScript to `dist/docs/`, plus public protocol schemas to `dist/schemas/`. GitHub Pages runs the same generator against `_site/docs`; generated HTML and schemas are not committed. Internal Markdown links are rewritten to web routes, while every page links back to its source on GitHub.
 
+For a visual release review, generate `dist/diagram-contact-sheet.html`:
+
+```bash
+bun run build:contact-sheet
+```
+
+The generator also fails when a committed SVG fixture lacks its accessible image contract. The contact sheet is review evidence, not a pixel-diff correctness gate.
+
 ## Release gate
 
 ```bash
 bun run validate
 ```
 
-This runs type checking, every Bun test, and the standalone build. CI additionally hides `node_modules` before exercising version output, agent inspection, and architecture rendering from the executable.
+This runs type checking, every Bun test, the standalone build, documentation generation, and the visual contact-sheet accessibility gate. CI additionally hides `node_modules` before exercising version output, agent inspection, and architecture rendering from the executable.
 
 ## Test suites
 
