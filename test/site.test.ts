@@ -18,16 +18,20 @@ describe('developer landing page', () => {
     expect(html.match(/<h1\b/g)?.length).toBe(1)
     expect(html).toContain('Agents supply judgment.')
     expect(html).toContain('Beautiflow supplies control.')
-    expect(html).toContain('Diagrams worth <span>sharing.</span>')
+    expect(html).toContain('Mermaid diagrams.<span>With your agent.</span>')
+    expect(html).toContain('Start with an idea or an existing Mermaid file')
+    expect(html).toContain('macOS Apple silicon or Linux x86-64')
+    expect(html).toContain('Your first result:')
+    expect(html).toContain('order-platform.svg')
     expect(html).toContain('href="#start">Install Beautiflow')
     expect(html).toContain('curl -fsSL https://beautiflow.cc/install.sh | bash')
     expect(html).toContain('beautiflow install-skill')
-    expect(html).toContain('Open your harness')
+    expect(html).toContain('Ask your coding agent')
     expect(html).toContain('Use Beautiflow to draw an order platform')
     expect(html).toContain('The CLI is built for agents.')
-    expect(html).toContain('No model keys in Beautiflow')
+    expect(html).toContain('no AI subscription or model keys of its own')
     expect(html).toContain('validated plan')
-    expect(html).toContain('allow one named correction')
+    expect(html).toContain('allows one targeted correction')
     expect(html).toContain('aria-live="polite"')
     expect(await readFile(resolve(root, 'site.css'), 'utf8')).toContain('@media (prefers-reduced-motion: reduce)')
   })
@@ -149,6 +153,35 @@ describe('developer landing page', () => {
     }
   })
 
+  test('focuses before-and-after on reproducible improvements within the shared website', async () => {
+    const html = await readFile(resolve(root, 'examples/recipes/visual-quality/index.html'), 'utf8')
+    const dom = new JSDOM(html)
+    try {
+      const document = dom.window.document
+      expect(document.querySelector('h1')!.textContent).toBe('Before & after')
+      expect(document.querySelectorAll('h1')).toHaveLength(1)
+      expect(document.querySelector('style')).toBeNull()
+      expect(document.querySelector('link[href="../../../site.css"]')).not.toBeNull()
+      expect(document.querySelector('header .nav')).not.toBeNull()
+      expect(document.querySelector('footer .footer-inner')).not.toBeNull()
+      expect(document.querySelector('#architecture')).toBeNull()
+      expect(document.querySelector('#cache')).toBeNull()
+      expect(document.querySelectorAll('.before-after-row')).toHaveLength(2)
+      expect(document.querySelectorAll('.comparison-original summary')).toHaveLength(2)
+      expect(html).toContain('79 → 94')
+      expect(html).toContain('97 → 97')
+      for (const id of ['release', 'job']) {
+        expect(document.querySelector(`#${id} .comparison-result img`)!.getAttribute('src')).toBe(`rendered/${id}-after.svg`)
+      }
+      for (const file of ['architecture.mmd', 'cache.mmd', 'rendered/architecture.svg', 'rendered/cache.svg']) {
+        expect(existsSync(resolve(root, 'examples/recipes/visual-quality', file))).toBe(true)
+      }
+      for (const page of ['index.html', 'examples.html']) {
+        expect(await readFile(resolve(root, page), 'utf8')).not.toContain('visual test gallery')
+      }
+    } finally { dom.window.close() }
+  })
+
   test('has a GitHub Pages deployment workflow', async () => {
     const workflow = await readFile(resolve(root, '.github/workflows/pages.yml'), 'utf8')
 
@@ -164,7 +197,7 @@ describe('developer landing page', () => {
       await Bun.write(resolve(directory, 'examples/removed-example.html'), 'obsolete generated content')
       await buildSite(directory)
       expect((await siteResponse(new Request('http://localhost/examples/removed-example.html'), directory)).status).toBe(404)
-      const links = new Set<string>(['/', '/examples.html', '/site.css', '/docs/docs.css', '/docs/docs.js'])
+      const links = new Set<string>(['/', '/examples.html', '/examples/recipes/visual-quality/', '/site.css', '/docs/docs.css', '/docs/docs.js'])
       for (const file of ['index.html', 'examples.html']) {
         const html = await readFile(resolve(directory, file), 'utf8')
         for (const match of html.matchAll(/href="(\/docs\/[^"#]*)"/g)) links.add(match[1]!)

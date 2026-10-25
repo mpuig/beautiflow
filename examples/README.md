@@ -54,6 +54,7 @@ These support SVG/PNG rendering and live preview:
 
 ## Recipes
 
+- [Before & after](recipes/visual-quality/index.html) shows reproducible release-workflow and job-lifecycle improvements with original layouts, measured scores, preserved meaning, and linked sources. Its [recipe](recipes/visual-quality/README.md) retains architecture and sequence regression fixtures as well.
 - [Build an AWS architecture from scratch](recipes/aws-architecture/README.md) grows six prompt-driven `architecture-beta` snapshots into a horizontal, icon-rich production diagram for presentation slides.
 - [One diagram, multiple render options](recipes/render-options/README.md) compares LR/TD layouts, SVG, PNG, light and dark themes, transparency, Unicode, and ASCII using the same source.
 - [Architecture actions](recipes/architecture/README.md) demonstrates the difference between sidecar-only `apply` actions and source-changing `transform` actions with ready-to-run JSON files.

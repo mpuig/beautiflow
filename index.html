@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Turn Mermaid into diagrams worth sharing. A deterministic CLI and portable skill for coding agents, with SVG and PNG output and a read-only live preview.">
+  <meta name="description" content="Create and improve Mermaid diagrams with Claude Code, Codex, or Pi. Local diagram tools for SVG and PNG export, layout checks, and live preview.">
   <meta name="theme-color" content="#f4f1e8">
   <link rel="canonical" href="https://beautiflow.cc/">
   <link rel="preconnect" href="https://fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=bricolage-grotesque:500,600,700,800|source-sans-3:400,500,600,700" rel="stylesheet">
-  <title>Beautiflow — Diagrams worth sharing</title>
+  <title>Beautiflow — Mermaid diagrams with your coding agent</title>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -32,10 +32,10 @@
   <main id="main">
     <section class="shell hero" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <h1 id="hero-title">Diagrams worth <span>sharing.</span></h1>
-        <p>Turn Mermaid into clear architecture, workflows, and sequences. Your coding agent brings the ideas. Beautiflow handles the rendering and checks.</p>
+        <h1 id="hero-title">Mermaid diagrams.<span>With your agent.</span></h1>
+        <p>Give Claude Code, Codex, or Pi a local diagram toolkit. Start with an idea or an existing Mermaid file. Export SVG and PNG, improve supported layouts, and preview saved changes in your browser.</p>
         <div class="hero-actions"><a class="button" href="#start">Install Beautiflow</a><a href="examples.html">Explore the examples</a></div>
-        <p class="compatibility">CLI + portable skill · Pi, Claude Code &amp; Codex</p>
+        <p class="compatibility">A command-line tool + agent instructions. Your coding agent provides the AI.</p>
       </div>
       <div class="showcase" aria-label="Real diagrams rendered by Beautiflow">
         <div class="tabs" role="tablist" aria-label="Choose a diagram example">
@@ -45,11 +45,11 @@
         </div>
         <div id="panel-architecture" role="tabpanel" aria-labelledby="tab-architecture" tabindex="0">
           <a class="diagram-stage" href="examples/recipes/visual-quality/rendered/architecture.svg" aria-label="Open the full-size order platform architecture"><img src="examples/recipes/visual-quality/rendered/architecture.svg" alt="Customers call an Orders API connected to a database and a queue, worker, and notification path within a platform boundary" fetchpriority="high"></a>
-          <div class="diagram-caption"><p><strong>Order platform.</strong> Services, dependencies, and one clear boundary. Deterministic Pele architecture rendering; no automatic polish.</p><div class="artifact-links"><a href="examples/recipes/visual-quality/architecture.mmd">Mermaid source</a><a href="examples/recipes/visual-quality/rendered/architecture.svg">Full-size SVG</a></div></div>
+          <div class="diagram-caption"><p><strong>Order platform.</strong> Services, dependencies, and one clear boundary. Ask your agent to create the source, then render and inspect it. <a href="/docs/rendering/">See supported checks and edits.</a></p><div class="artifact-links"><a href="examples/recipes/visual-quality/architecture.mmd">Mermaid source</a><a href="examples/recipes/visual-quality/rendered/architecture.svg">Full-size SVG</a></div></div>
         </div>
         <div id="panel-sequence" role="tabpanel" aria-labelledby="tab-sequence" tabindex="0" hidden>
           <a class="diagram-stage" href="examples/recipes/visual-quality/rendered/cache.svg" aria-label="Open the full-size cache sequence"><img src="examples/recipes/visual-quality/rendered/cache.svg" alt="A browser request takes a cache-hit or database-fallback path before the API returns a response" loading="lazy"></a>
-          <div class="diagram-caption"><p><strong>Cache hit or miss?</strong> Follow the request and the response. Sequence diagrams support rendering, not flowchart audit or polish.</p><div class="artifact-links"><a href="examples/recipes/visual-quality/cache.mmd">Mermaid source</a><a href="examples/recipes/visual-quality/rendered/cache.svg">Full-size SVG</a></div></div>
+          <div class="diagram-caption"><p><strong>Cache hit or miss?</strong> Follow the request and the response. Choose a sequence diagram to explain ordering. <a href="/docs/rendering/">See capabilities by diagram type.</a></p><div class="artifact-links"><a href="examples/recipes/visual-quality/cache.mmd">Mermaid source</a><a href="examples/recipes/visual-quality/rendered/cache.svg">Full-size SVG</a></div></div>
         </div>
         <div id="panel-lifecycle" role="tabpanel" aria-labelledby="tab-lifecycle" tabindex="0" hidden>
           <a class="diagram-stage" href="examples/recipes/visual-quality/rendered/job-after.svg" aria-label="Open the full-size job lifecycle"><img src="examples/recipes/visual-quality/rendered/job-after.svg" alt="A queued job runs to completion or waits for a retry, with a separate terminal failure path" loading="lazy"></a>
@@ -59,28 +59,29 @@
     </section>
     <div class="shell trust-line"><span>Mermaid stays your source of truth</span><span>SVG &amp; PNG output</span><span>Read-only live preview</span><span>Open source · MIT</span></div>
     <section class="shell story" aria-labelledby="comparison-title">
-      <div class="section-head"><h2 id="comparison-title">Same meaning.<br>Clearer priorities.</h2><p>Make the happy path obvious without hiding the exception. Semantic emphasis changes the presentation, not the relationships.</p></div>
+      <div class="section-head"><h2 id="comparison-title">Same meaning.<br>Clearer priorities.</h2><p>Make the happy path obvious without hiding the exception. Emphasis changes how the diagram reads, while preserving its relationships.</p></div>
       <div class="comparison">
         <figure><a href="examples/recipes/visual-quality/rendered/approval-before.svg"><img src="examples/recipes/visual-quality/rendered/approval-before.svg" alt="Before: Draft reaches a Ready decision, with equally weighted Yes to Ship and No to Revise branches" loading="lazy"></a><figcaption><strong>Before: every path has equal weight.</strong>A valid diagram, without an explicit visual priority.</figcaption></figure>
         <figure><a href="examples/recipes/visual-quality/rendered/approval-after.svg"><img src="examples/recipes/visual-quality/rendered/approval-after.svg" alt="After: Draft to Ready to Ship is emphasized in blue, while the No to Revise branch is red and still explicitly labelled" loading="lazy"></a><figcaption><strong>After: the main path stands out.</strong>Four nodes. Three relationships. Every label preserved.</figcaption></figure>
       </div>
-      <p class="comparison-note">Real outputs from one semantic action pass—not a simulated before/after or a layout-score claim. <a href="examples/recipes/visual-quality/approval.mmd">Read the Mermaid source</a>, or <a href="examples/recipes/visual-quality/index.html">open the visual test gallery</a> for layout comparisons.</p>
+      <p class="comparison-note">Real outputs from one presentation change. The relationships stay intact; this example makes no layout-score improvement claim. <a href="examples/recipes/visual-quality/approval.mmd">Read the Mermaid source</a>, or <a href="examples/recipes/visual-quality/index.html">see more before &amp; after examples</a>.</p>
     </section>
     <section class="setup" id="start" aria-labelledby="setup-title"><div class="shell">
-      <div class="section-head"><h2 id="setup-title">Install once.<br>Ask your agent.</h2><p>A standalone runtime and a portable skill. No model keys in Beautiflow—your existing harness owns the conversation.</p></div>
+      <div class="section-head"><h2 id="setup-title">Install once.<br>Ask your agent.</h2><p>Install the local tools, add the agent instructions, and ask for your first diagram. Beautiflow has no AI subscription or model keys of its own.</p></div>
       <ol aria-label="Installation steps">
-        <li><div><h3>Install Beautiflow</h3><p>Download the standalone CLI.</p></div><div class="command"><code>curl -fsSL https://beautiflow.cc/install.sh | bash</code><button class="copy-button" data-copy="curl -fsSL https://beautiflow.cc/install.sh | bash" aria-label="Copy runtime installation command">Copy</button></div></li>
-        <li><div><h3>Add the agent skill</h3><p>Give your harness the diagram workflow.</p></div><div class="command"><code>beautiflow install-skill</code><button class="copy-button" data-copy="beautiflow install-skill" aria-label="Copy skill installation command">Copy</button></div></li>
-        <li><div><h3>Open your harness</h3><p>Ask for a diagram in Pi, Claude Code, or Codex.</p></div><div class="command"><code>Use Beautiflow to draw an order platform with an API, database, and background worker.</code><button class="copy-button" data-copy="Use Beautiflow to draw an order platform with an API, database, and background worker." aria-label="Copy example agent request">Copy</button></div></li>
+        <li><div><h3>Install Beautiflow</h3><p>Download the command-line tool for macOS Apple silicon or Linux x86-64.</p></div><div class="command"><code>curl -fsSL https://beautiflow.cc/install.sh | bash</code><button class="copy-button" data-copy="curl -fsSL https://beautiflow.cc/install.sh | bash" aria-label="Copy runtime installation command">Copy</button></div></li>
+        <li><div><h3>Add the agent instructions</h3><p>The skill teaches your coding agent how to use Beautiflow.</p></div><div class="command"><code>beautiflow install-skill</code><button class="copy-button" data-copy="beautiflow install-skill" aria-label="Copy skill installation command">Copy</button></div></li>
+        <li><div><h3>Ask your coding agent</h3><p>Open Pi, Claude Code, or Codex and paste this request.</p></div><div class="command"><code>Use Beautiflow to draw an order platform with an API, database, and background worker. Save order-platform.mmd and render order-platform.svg.</code><button class="copy-button" data-copy="Use Beautiflow to draw an order platform with an API, database, and background worker. Save order-platform.mmd and render order-platform.svg." aria-label="Copy example agent request">Copy</button></div></li>
       </ol>
-      <p class="install-note">Prefer to inspect the script first? <a href="install.sh">Read the installer</a>. For harness-specific skill paths and manual installation, <a href="/docs/agent-skill/">read the setup guide</a>.</p>
+      <p class="install-note"><strong>Your first result:</strong> an editable <code>order-platform.mmd</code> and a shareable <code>order-platform.svg</code>. Ask your agent to run <code>beautiflow server order-platform.mmd</code> for a read-only browser preview.</p>
+      <p class="install-note">Prefer to inspect the script first? <a href="install.sh">Read the installer</a>. For agent-specific setup and other platforms, <a href="/docs/agent-skill/">read the setup guide</a>.</p>
       <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
     </div></section>
     <section class="shell story" id="how" aria-labelledby="control-title">
       <div class="section-head"><h2 id="control-title">Agents supply judgment.<br>Beautiflow supplies control.</h2><p>The CLI is built for agents. Deterministic operations stay separate from model judgment—and a successful render is only part of the check.</p></div>
       <div class="principles">
-        <div><h3>Keep the meaning</h3><p>Mermaid holds the relationships. Sidecars hold layout overrides. Polishing never changes topology to make a diagram look better.</p><a href="/docs/sidecar/">How layout state works</a></div>
-        <div><h3>Check, then change</h3><p>A validated plan precedes each supported agent mutation. Receipts enforce verification, allow one named correction, and support rollback.</p><a href="/docs/agent-skill/">Read the agent protocol</a></div>
+        <div><h3>Keep the meaning</h3><p>Mermaid holds the relationships. A separate layout file holds presentation changes. Polishing does not remove or reconnect elements to improve appearance.</p><a href="/docs/sidecar/">How layout state works</a></div>
+        <div><h3>Check, then change</h3><p>A validated plan precedes each supported agent mutation. A saved operation record enforces checks, allows one targeted correction, and supports rollback.</p><a href="/docs/agent-skill/">Read the agent protocol</a></div>
         <div><h3>Know the limits</h3><p>Flowcharts and state diagrams support polish. Architecture supports measured audit and bounded transformations. All 32 diagram types render; additional types check SVG references without geometry scores.</p><a href="examples/recipes/diagram-types/index.html">Explore diagram types</a></div>
       </div>
     </section>

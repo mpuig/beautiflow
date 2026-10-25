@@ -29,7 +29,7 @@ describe('example Mermaid compatibility suite', () => {
     expect(svg).toBe(await Bun.file('examples/rendered/01-subscription-intake.svg').text())
   })
 
-  test('keeps the visual-quality lab fixtures reproducible and collision-free', async () => {
+  test('keeps comparison and supporting showcase fixtures reproducible and collision-free', async () => {
     const root = 'examples/recipes/visual-quality'
     const guide = await Bun.file(`${root}/README.md`).text()
     for (const name of ['release', 'job', 'approval', 'cache', 'architecture']) {

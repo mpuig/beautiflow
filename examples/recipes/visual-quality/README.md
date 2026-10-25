@@ -1,13 +1,15 @@
-# Visual quality lab
+# Before & after
 
-Open `index.html` in a browser. It works directly from disk, without a server or external assets. Expand each original layout, compare it with the final version, and click an image for its full-size SVG. All systems here are illustrative, not claims about this repository's architecture.
+Open `index.html` in a browser, or use `bun run preview:site` to see it within the assembled website. The page shares the site's stylesheet and navigation. Expand each original layout, compare it with the final version, and click an image for its full-size SVG. All systems here are illustrative, not claims about this repository's architecture.
+
+The public page focuses on release-workflow and job-lifecycle improvements. Architecture, sequence, and homepage approval fixtures remain here for reproducibility and regression coverage; their public showcases live on the homepage and [Examples page](../../../examples.html). The [diagram gallery](../diagram-types/index.html) helps choose a notation.
 
 | Example | Before | After | Purpose |
 | --- | --- | --- | --- |
 | [Release workflow](release.mmd) | 79 | 94 | An extra-wide flow becomes a vertical document diagram; one correction emphasizes the main path. |
 | [Job lifecycle](job.mmd) | 97 | 97 | Preserve a valid retry layout while distinguishing completion from waiting and failure. |
 | [Cache sequence](cache.mmd) | Not audited | Not audited | Choose sequence notation for request ordering; render only. |
-| [Order architecture](architecture.mmd) | No comparison | Native renderer | Six services, one platform boundary, and a queued notification path. |
+| [Order architecture](architecture.mmd) | No comparison | Pele renderer | Six services, one platform boundary, and a queued notification path. |
 
 Release and job report zero node overlaps, edge/node intersections, crossings, estimated label collisions, and shared routes. Scores measure geometry, not aesthetic perfection. Release is still tall, and job's retry path needs deliberate reading. These are visual smoke examples, not model benchmark results.
 
@@ -35,7 +37,7 @@ Stop with Ctrl-C before opening another example. Substitute `job.mmd` or `cache.
 ./dist/beautiflow audit examples/recipes/visual-quality/job.mmd --json
 ```
 
-Sequence auditing is unsupported; do not interpret a successful render as a geometry audit.
+Sequence audit checks SVG references only, with no geometry score; do not interpret a successful render as a geometry audit.
 
 Architecture supports `inspect`, `diagnose`, measured `audit`, bounded architecture-specific `transform`, and `server`, but not `polish` or layout `apply`. Pele owns placement. A pinned additive renderer extension supplies geometry and integrity evidence; edge-label boxes and browser glyph ink remain outside coverage, so inspect the output visually. The platform boundary here is illustrative, not a security assurance.
 
@@ -45,7 +47,7 @@ The committed release and job sidecars are deterministic output from one receipt
 
 Use the checked-in sidecars and run from the repository root (replace `beautiflow` with `./dist/beautiflow` if it is not on PATH):
 
-Committed PNGs also carry text metadata identifying their source and renderer. Regenerating them does not preserve that optional provenance metadata; raster text also depends on available system fonts. Graph and sequence SVG fixtures are checked byte-for-byte. The native architecture fixture normalizes the shared viewport translation and coordinate precision to six decimal places. Group boundary dimensions and header placement allow up to four pixels of platform font-metric variation; service positions, routes, labels, icons, and styling remain exact after normalization. Repeated native renders on the same host must still match byte-for-byte.
+Committed PNGs also carry text metadata identifying their source and renderer. Regenerating them does not preserve that optional provenance metadata; raster text also depends on available system fonts. Graph, sequence, and Pele architecture SVG fixtures are checked byte-for-byte, with no viewport or font-metric tolerances.
 
 ```bash
 beautiflow render examples/recipes/visual-quality/release.mmd --format svg --theme github-light --output examples/recipes/visual-quality/rendered/release-after.svg

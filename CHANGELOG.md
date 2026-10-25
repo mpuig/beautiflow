@@ -2,6 +2,8 @@
 
 ## 1.0.1
 
+- Clarified first-time setup, supported platforms, agent responsibilities, and expected output files on the homepage. Consolidated comparison evidence into a shared-style “Before & after” page without removing regression fixtures.
+
 - Exposed 32 diagram types supported by Pele, preserving existing family renderers and keeping new families render-only.
 - Added 23 original scenario-led examples with reproducible SVGs, PNG checks, capability checks, and terminal-output boundaries. The HTML gallery gives wide diagrams a full row and portrait diagrams a taller stage; sample data is explicitly illustrative.
 - Added architecture structural diagnostics, model-to-render integrity, and measured geometry via a pinned additive Pele module extension with byte-exact upstream SVG parity.
