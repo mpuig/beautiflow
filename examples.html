@@ -16,14 +16,14 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header><nav class="shell nav" aria-label="Main navigation">
     <a class="brand" href="./" aria-label="Beautiflow home"><svg viewBox="0 0 40 28" aria-hidden="true"><circle cx="8" cy="14" r="6" fill="currentColor"/><path d="M15 14h20m-7-7 7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Beautiflow</a>
-    <div class="nav-links"><a href="examples.html" aria-current="page">Examples</a><a class="nav-docs" href="/docs/">Docs</a><a class="nav-github" href="https://github.com/mpuig/beautiflow">GitHub</a><a class="button" href="index.html#start">Install Beautiflow</a></div>
+    <div class="nav-links"><a href="examples.html" aria-current="page">Examples</a><a class="nav-docs" href="/docs/">Docs</a><a href="/boring-diagrams/">Boring AWS</a><a class="nav-github" href="https://github.com/mpuig/beautiflow">GitHub</a><a class="button" href="index.html#start">Install Beautiflow</a></div>
   </nav></header>
 
   <main id="main">
     <section class="shell gallery-intro" aria-labelledby="examples-title">
       <div class="section-head">
-        <h1 id="examples-title">Portable diagrams. Verified outcomes.</h1>
-        <div class="hero-copy"><p>Every example starts as ordinary Mermaid and remains reproducible without a model.</p><div class="hero-actions"><a class="button" href="index.html#start">Install Beautiflow</a><a href="examples/recipes/diagram-types/index.html">Explore diagram types</a><a href="examples/recipes/visual-quality/index.html">Before &amp; after</a></div></div>
+        <h1 id="examples-title">Architecture examples and references.</h1>
+        <div class="hero-copy"><p>Every example starts as ordinary Mermaid and remains reproducible without a model.</p><div class="hero-actions"><a class="button" href="index.html#start">Install Beautiflow</a><a href="examples/recipes/diagram-types/index.html">Explore diagram types</a><a href="examples/recipes/visual-quality/index.html">Before &amp; after</a><a href="#aws-references">AWS reference architectures</a></div></div>
       </div>
     </section>
 
@@ -46,7 +46,7 @@
 
         <article class="example-row">
           <div class="example-copy">
-            <h2>Production AWS architecture</h2>
+            <h2>A detailed AWS architecture walkthrough</h2>
             <p>A complete 26-service reference with explicit ports, measured icon and label geometry, and nested boundaries. Relationships stay neutral: the renderer does not guess which path carries requests.</p>
             <pre class="source">architecture-beta
 
@@ -62,6 +62,58 @@ service waf(logos:aws-waf)[WAF]</pre>
           <figure class="showcase example-figure">
           <a class="art" href="examples/recipes/aws-architecture/rendered/step-6-production-architecture.svg" aria-label="Open full AWS architecture render"><img src="examples/recipes/aws-architecture/rendered/step-6-production-architecture.svg" alt="Beautiflow production AWS architecture render" width="1993" height="1067"></a>
             <figcaption class="diagram-caption"><a href="examples/recipes/aws-architecture/rendered/step-6-production-architecture.svg">Open full-size SVG</a></figcaption>
+          </figure>
+        </article>
+
+        <article class="example-row aws-reference" id="aws-references">
+          <div class="example-copy">
+            <h2>Industrial connectivity with EOT Twin Talk</h2>
+            <p>A reconstruction of AWS’s published industrial connectivity reference: 13 services across industrial and AWS boundaries. Time-series data goes directly to SiteWise; asset metadata follows a separate S3, Lambda and DynamoDB path.</p>
+            <p>This is source-backed, not an AWS-authored or pixel-identical diagram. Two measured shared-route findings remain. <a href="examples/recipes/aws-reference-architectures/README.md">Read the reconstruction notes and reproduction commands</a>.</p>
+            <div class="artifact-links"><a href="https://docs.aws.amazon.com/reference-architecture-diagrams/latest/industrial-machine-connectivity-eot/industrial-machine-connectivity-eot.html">AWS reference ↗</a><a href="examples/recipes/aws-reference-architectures/sources/industrial-machine-connectivity-eot.mmd">Mermaid source</a><a href="examples/recipes/aws-reference-architectures/rendered/industrial-machine-connectivity-eot.png">PNG</a><a href="examples/recipes/aws-reference-architectures/evidence/industrial-machine-connectivity-eot.json">Audit evidence</a></div>
+          </div>
+          <figure class="showcase example-figure">
+            <a class="art" href="examples/recipes/aws-reference-architectures/rendered/industrial-machine-connectivity-eot.svg" aria-label="Open full industrial connectivity reconstruction"><img src="examples/recipes/aws-reference-architectures/rendered/industrial-machine-connectivity-eot.svg" alt="EOT Twin Talk sends time series to SiteWise and asset metadata through a separate converter pipeline, with property updates delivered to an S3 data lake" loading="lazy" width="1765" height="648"></a>
+            <figcaption class="diagram-caption"><a href="examples/recipes/aws-reference-architectures/rendered/industrial-machine-connectivity-eot.svg">Open full-size SVG</a> · Reconstructed from the AWS reference; routing findings remain.</figcaption>
+          </figure>
+        </article>
+
+        <article class="example-row aws-reference">
+          <div class="example-copy">
+            <h2>Eleven accounts for a data platform</h2>
+            <p>All eleven account roles from AWS’s account and security strategy, with 62 service nodes covering management, security, networking, ingestion, analytics, ML, logging, dashboards, DevOps and shared services.</p>
+            <p><strong>Partial topology:</strong> ambiguous shared-bus connections are omitted rather than guessed. One measured header crossing remains. This is an account inventory and partial reconstruction, not verified IAM or data governance.</p>
+            <div class="artifact-links"><a href="https://docs.aws.amazon.com/reference-architecture-diagrams/latest/account-security-data-platform/account-security-data-platform.html">AWS reference ↗</a><a href="examples/recipes/aws-reference-architectures/sources/account-security-data-platform.mmd">Mermaid source</a><a href="examples/recipes/aws-reference-architectures/rendered/account-security-data-platform.png">PNG</a><a href="examples/recipes/aws-reference-architectures/evidence/account-security-data-platform.json">Audit evidence</a></div>
+          </div>
+          <figure class="showcase example-figure">
+            <a class="art" href="examples/recipes/aws-reference-architectures/rendered/account-security-data-platform.svg" aria-label="Open full account and security reconstruction"><img src="examples/recipes/aws-reference-architectures/rendered/account-security-data-platform.svg" alt="Eleven AWS accounts containing management, security, network, ML, audit, dashboards, DevOps, analytics, ingestion and shared-service inventories" loading="lazy" width="2703" height="2465"></a>
+            <figcaption class="diagram-caption"><a href="examples/recipes/aws-reference-architectures/rendered/account-security-data-platform.svg">Open full-size SVG</a> · Large inventory: open at full size to read the labels.</figcaption>
+          </figure>
+        </article>
+
+        <article class="example-row aws-reference">
+          <div class="example-copy">
+            <h2>Adobe Commerce and Magento across two AZs</h2>
+            <p>A 22-service reconstruction with public and private subnets, two load balancers, optional Varnish and Magento fleets, shared OpenSearch, Redis and Aurora clusters, and one regional EFS filesystem.</p>
+            <p>Fleet membership and cross-AZ cluster placement use labels where Mermaid cannot express overlapping boundaries. Four measured shared-route findings remain. DNS and WAF sequencing is explanatory, not a chain of HTTP proxies.</p>
+            <div class="artifact-links"><a href="https://docs.aws.amazon.com/reference-architecture-diagrams/latest/magento-ecommerce-on-aws/magento-ecommerce-on-aws.html">AWS reference ↗</a><a href="examples/recipes/aws-reference-architectures/sources/magento-ecommerce-on-aws.mmd">Mermaid source</a><a href="examples/recipes/aws-reference-architectures/rendered/magento-ecommerce-on-aws.png">PNG</a><a href="examples/recipes/aws-reference-architectures/evidence/magento-ecommerce-on-aws.json">Audit evidence</a></div>
+          </div>
+          <figure class="showcase example-figure">
+            <a class="art" href="examples/recipes/aws-reference-architectures/rendered/magento-ecommerce-on-aws.svg" aria-label="Open full Magento reconstruction"><img src="examples/recipes/aws-reference-architectures/rendered/magento-ecommerce-on-aws.svg" alt="Two-AZ Magento architecture with optional Varnish caching, application fleets, Aurora writer and replica, Redis, OpenSearch and EFS mount targets" loading="lazy" width="2426" height="1302"></a>
+            <figcaption class="diagram-caption"><a href="examples/recipes/aws-reference-architectures/rendered/magento-ecommerce-on-aws.svg">Open full-size SVG</a> · Replica relationships are not a deployment or failover guarantee.</figcaption>
+          </figure>
+        </article>
+
+        <article class="example-row aws-reference">
+          <div class="example-copy">
+            <h2>Distribution management on AWS Outposts</h2>
+            <p>Twenty service nodes across two corporate sites, two Outposts racks and the parent AWS Region. Local OT gateways remain distinct from service links; each rack is homed to a different regional AZ.</p>
+            <p>VPC fragments share explicit labels instead of overlapping physical boundaries. A label collision, a header crossing and a shared-route finding remain. No database replication, failover protocol or analytics pipeline is invented.</p>
+            <div class="artifact-links"><a href="https://docs.aws.amazon.com/reference-architecture-diagrams/latest/advanced-distribution-management-system/advanced-distribution-management-system.html">AWS reference ↗</a><a href="examples/recipes/aws-reference-architectures/sources/advanced-distribution-management-system.mmd">Mermaid source</a><a href="examples/recipes/aws-reference-architectures/rendered/advanced-distribution-management-system.png">PNG</a><a href="examples/recipes/aws-reference-architectures/evidence/advanced-distribution-management-system.json">Audit evidence</a></div>
+          </div>
+          <figure class="showcase example-figure">
+            <a class="art" href="examples/recipes/aws-reference-architectures/rendered/advanced-distribution-management-system.svg" aria-label="Open full ADMS Outposts reconstruction"><img src="examples/recipes/aws-reference-architectures/rendered/advanced-distribution-management-system.svg" alt="ADMS at two physical Outposts sites connected through local gateways and separate service links to regional DERMS, with regional analytics services shown as inventory" loading="lazy" width="2232" height="1293"></a>
+            <figcaption class="diagram-caption"><a href="examples/recipes/aws-reference-architectures/rendered/advanced-distribution-management-system.svg">Open full-size SVG</a> · Physical sites are separate from their parent-Region AZs.</figcaption>
           </figure>
         </article>
 

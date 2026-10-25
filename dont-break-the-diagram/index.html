@@ -1,0 +1,3481 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Replay real Beautiflow CLI transactions: a supported edit, two refusals and an exact rollback. Inspect the source, receipts and hashes."><title>Don’t Break the Diagram — Beautiflow</title><link rel="stylesheet" href="site.css"><script src="app.js" defer></script></head>
+<body><a class="skip-link" href="#bench">Skip to evidence bench</a>
+<header><a class="brand" href="../">Beautiflow</a><nav aria-label="Related sites"><a href="../examples.html#workflows">Examples</a><a href="../boring-diagrams/">Boring AWS Diagrams</a><a href="../docs/cli/">CLI reference</a></nav></header>
+<main><div class="intro"><h1>Don’t break<br>the diagram.</h1><div><p class="lead">Give your agent an edit.<br>Make the runtime check it.</p><p>Replay four real CLI runs. Compare the diagram, source diff and receipt at every step. Nothing on this page edits a file.</p><a href="#bench" class="jump">Inspect the evidence</a></div></div>
+<nav class="case-index" aria-label="Recorded cases"><a href="#safe" data-case="safe"><strong>Make a supported edit</strong><span>complete</span></a><a href="#unsafe" data-case="unsafe"><strong>Refuse an injected statement</strong><span>blocked</span></a><a href="#stale" data-case="stale"><strong>Keep the newer source</strong><span>stale</span></a><a href="#rollback" data-case="rollback"><strong>Restore the original bytes</strong><span>rolled-back</span></a></nav>
+<div id="bench" tabindex="-1"><p class="replay-note">Recorded evidence, not a live terminal. Choose a step to inspect its captured state.</p><noscript><p>JavaScript is off. Showing the final snapshot of all four cases; sources, evidence and reproduction downloads still work.</p></noscript>
+<section class="case" id="safe" aria-labelledby="safe-title"><div class="case-heading"><h2 id="safe-title">Make a supported edit</h2><p>Rename the API identifier and label. Keep the comment, group membership, explicit graphical ports and relationships.</p></div>
+<div class="step-rail" hidden role="group" aria-label="Make a supported edit: recorded steps"><button type="button" data-step="0" aria-controls="safe-stage-0" aria-pressed="false"><span>1</span>Original source</button><button type="button" data-step="1" aria-controls="safe-stage-1" aria-pressed="false"><span>2</span>Plan validated</button><button type="button" data-step="2" aria-controls="safe-stage-2" aria-pressed="false"><span>3</span>Edit applied</button><button type="button" data-step="3" aria-controls="safe-stage-3" aria-pressed="false"><span>4</span>Mechanically verified</button><button type="button" data-step="4" aria-controls="safe-stage-4" aria-pressed="true"><span>5</span>Finished without visual attestation</button></div>
+<div class="step-controls" hidden><button type="button" data-previous>Previous step</button><p class="step-status" aria-live="polite"></p><button type="button" data-next>Next step</button></div>
+<div class="stage" id="safe-stage-0" hidden>
+    <div class="stage-title"><h3>Original source</h3><span class="state ">original</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/safe/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/safe/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/safe/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/safe/step-0.svg" alt="Original source: original diagram unchanged." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Source matches original bytes.</strong><a href="recording/safe/step-0.mmd" download>Download this source</a></div>
+    
+    <p class="start-note">Starting fixture. No CLI operation has run yet.</p>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context">No source changes from the original.</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd></dl><p>Equal hashes accompany an exact byte comparison in the recorder.</p><a href="recording/safe/step-0.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response (none for this step)</summary><pre tabindex="0"><code>null</code></pre></details>
+    <details><summary>Receipt snapshot · no receipt written</summary><pre tabindex="0"><code>null</code></pre></details>
+  </div><div class="stage" id="safe-stage-1" hidden>
+    <div class="stage-title"><h3>Plan validated</h3><span class="state ">validated · exit 0</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/safe/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/safe/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/safe/step-1.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/safe/step-1.svg" alt="Plan validated: original diagram unchanged." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Source matches original bytes.</strong><a href="recording/safe/step-1.mmd" download>Download this source</a></div>
+    
+    <pre class="command" tabindex="0" aria-label="Recorded command"><code>$ beautiflow agent plan source.mmd --operation transform --actions actions.json --receipt receipt.json --json</code></pre>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context">No source changes from the original.</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd></dl><p>Equal hashes accompany an exact byte comparison in the recorder.</p><a href="recording/safe/step-1.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response</summary><pre tabindex="0"><code>{
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;ok&quot;: true,
+  &quot;operation&quot;: &quot;agent-plan&quot;,
+  &quot;state&quot;: &quot;validated&quot;,
+  &quot;changed&quot;: true,
+  &quot;diagramChanged&quot;: false,
+  &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/receipt.json&quot;,
+  &quot;files&quot;: {
+    &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.mmd&quot;,
+    &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.beautiflow.json&quot;,
+    &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/receipt.json&quot;,
+    &quot;actions&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/actions.json&quot;
+  },
+  &quot;evidence&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice gateway(aws:api-gateway)[Tenant API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:gateway\ngateway:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;actionsApplied&quot;: 1,
+    &quot;before&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;audit&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    }
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 1,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  },
+  &quot;warnings&quot;: [],
+  &quot;nextAction&quot;: {
+    &quot;operation&quot;: &quot;agent-commit&quot;,
+    &quot;argv&quot;: [
+      &quot;beautiflow&quot;,
+      &quot;agent&quot;,
+      &quot;commit&quot;,
+      &quot;--receipt&quot;,
+      &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/receipt.json&quot;,
+      &quot;--json&quot;
+    ],
+    &quot;reason&quot;: &quot;Commit the validated plan while its hashes remain current&quot;,
+    &quot;requiresConfirmation&quot;: false
+  }
+}</code></pre></details>
+    <details><summary>Receipt snapshot · validated</summary><pre tabindex="0"><code>{
+  &quot;receiptVersion&quot;: 1,
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;state&quot;: &quot;validated&quot;,
+  &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.mmd&quot;,
+  &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.beautiflow.json&quot;,
+  &quot;initialOperation&quot;: &quot;transform&quot;,
+  &quot;pendingOperation&quot;: &quot;transform&quot;,
+  &quot;actions&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/actions.json&quot;,
+  &quot;hashes&quot;: {
+    &quot;sourceBefore&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarBefore&quot;: null,
+    &quot;actions&quot;: &quot;45b57c51122fe691513147818367ddd5e9178d2da24632e6404591eac7eaca28&quot;,
+    &quot;sourceCurrent&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarCurrent&quot;: null
+  },
+  &quot;snapshot&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice api(aws:api-gateway)[Cell API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:api\napi:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;sidecar&quot;: null
+  },
+  &quot;expected&quot;: {
+    &quot;score&quot;: 100,
+    &quot;metrics&quot;: {
+      &quot;detachedEndpoints&quot;: 0,
+      &quot;portViolations&quot;: 0,
+      &quot;nodeOverlaps&quot;: 0,
+      &quot;labelCollisions&quot;: 0,
+      &quot;edgeNodeIntersections&quot;: 0,
+      &quot;headerCrossings&quot;: 0,
+      &quot;excessiveBends&quot;: 0,
+      &quot;sharedSegments&quot;: 0
+    },
+    &quot;semanticScore&quot;: 100,
+    &quot;baselineScore&quot;: 100
+  },
+  &quot;evidence&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice gateway(aws:api-gateway)[Tenant API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:gateway\ngateway:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;actionsApplied&quot;: 1,
+    &quot;before&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;audit&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    }
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 1,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  }
+}</code></pre></details>
+  </div><div class="stage" id="safe-stage-2" hidden>
+    <div class="stage-title"><h3>Edit applied</h3><span class="state ">applied · exit 0</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/safe/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/safe/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/safe/step-2.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/safe/step-2.svg" alt="Edit applied: API renamed to Tenant API; relationships retained." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Source changed; relationships retained.</strong><a href="recording/safe/step-2.mmd" download>Download this source</a></div>
+    
+    <pre class="command" tabindex="0" aria-label="Recorded command"><code>$ beautiflow agent commit --receipt receipt.json --json</code></pre>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context"> architecture-beta</span>
+<span class="context"> accTitle: Hotel tenant request path</span>
+<span class="context"> accDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.</span>
+<span class="context"> %% api in this comment is documentation, not a rename target.</span>
+<span class="context"> group cell(cloud)[Pooled cell]</span>
+<span class="context"> service staff(lucide:users)[Hotel staff]</span>
+<span class="removed">-service api(aws:api-gateway)[Cell API] in cell</span>
+<span class="added">+service gateway(aws:api-gateway)[Tenant API] in cell</span>
+<span class="context"> service membership(aws:fargate)[Membership check] in cell</span>
+<span class="context"> service records(aws:aurora)[Tenant records] in cell</span>
+<span class="removed">-staff:R --&gt; L:api</span>
+<span class="removed">-api:R --&gt; L:membership</span>
+<span class="added">+staff:R --&gt; L:gateway</span>
+<span class="added">+gateway:R --&gt; L:membership</span>
+<span class="context"> membership:R --&gt; L:records</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>506220c161062bfcb8cfac0c6e892ecb2c65dfd6752375d440ad93f27274489c</code></dd></dl><p>The receipt also binds the action file hash. Open its snapshot below.</p><a href="recording/safe/step-2.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response</summary><pre tabindex="0"><code>{
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;ok&quot;: true,
+  &quot;operation&quot;: &quot;agent-commit&quot;,
+  &quot;state&quot;: &quot;applied&quot;,
+  &quot;changed&quot;: true,
+  &quot;diagramChanged&quot;: true,
+  &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/receipt.json&quot;,
+  &quot;files&quot;: {
+    &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.mmd&quot;,
+    &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.beautiflow.json&quot;,
+    &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/receipt.json&quot;
+  },
+  &quot;evidence&quot;: {
+    &quot;actionsApplied&quot;: 1,
+    &quot;score&quot;: 100,
+    &quot;metrics&quot;: {
+      &quot;detachedEndpoints&quot;: 0,
+      &quot;portViolations&quot;: 0,
+      &quot;nodeOverlaps&quot;: 0,
+      &quot;labelCollisions&quot;: 0,
+      &quot;edgeNodeIntersections&quot;: 0,
+      &quot;headerCrossings&quot;: 0,
+      &quot;excessiveBends&quot;: 0,
+      &quot;sharedSegments&quot;: 0
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    }
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 0,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  },
+  &quot;warnings&quot;: [],
+  &quot;nextAction&quot;: {
+    &quot;operation&quot;: &quot;agent-verify&quot;,
+    &quot;argv&quot;: [
+      &quot;beautiflow&quot;,
+      &quot;agent&quot;,
+      &quot;verify&quot;,
+      &quot;--receipt&quot;,
+      &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/receipt.json&quot;,
+      &quot;--json&quot;
+    ],
+    &quot;reason&quot;: &quot;Verify final geometry and semantics against the validated plan&quot;,
+    &quot;requiresConfirmation&quot;: false
+  }
+}</code></pre></details>
+    <details><summary>Receipt snapshot · applied</summary><pre tabindex="0"><code>{
+  &quot;receiptVersion&quot;: 1,
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;state&quot;: &quot;applied&quot;,
+  &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.mmd&quot;,
+  &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.beautiflow.json&quot;,
+  &quot;initialOperation&quot;: &quot;transform&quot;,
+  &quot;pendingOperation&quot;: &quot;transform&quot;,
+  &quot;actions&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/actions.json&quot;,
+  &quot;hashes&quot;: {
+    &quot;sourceBefore&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarBefore&quot;: null,
+    &quot;actions&quot;: &quot;45b57c51122fe691513147818367ddd5e9178d2da24632e6404591eac7eaca28&quot;,
+    &quot;sourceCurrent&quot;: &quot;506220c161062bfcb8cfac0c6e892ecb2c65dfd6752375d440ad93f27274489c&quot;,
+    &quot;sidecarCurrent&quot;: null
+  },
+  &quot;snapshot&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice api(aws:api-gateway)[Cell API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:api\napi:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;sidecar&quot;: null
+  },
+  &quot;expected&quot;: {
+    &quot;score&quot;: 100,
+    &quot;metrics&quot;: {
+      &quot;detachedEndpoints&quot;: 0,
+      &quot;portViolations&quot;: 0,
+      &quot;nodeOverlaps&quot;: 0,
+      &quot;labelCollisions&quot;: 0,
+      &quot;edgeNodeIntersections&quot;: 0,
+      &quot;headerCrossings&quot;: 0,
+      &quot;excessiveBends&quot;: 0,
+      &quot;sharedSegments&quot;: 0
+    },
+    &quot;semanticScore&quot;: 100,
+    &quot;baselineScore&quot;: 100
+  },
+  &quot;evidence&quot;: {
+    &quot;actionsApplied&quot;: 1,
+    &quot;score&quot;: 100,
+    &quot;metrics&quot;: {
+      &quot;detachedEndpoints&quot;: 0,
+      &quot;portViolations&quot;: 0,
+      &quot;nodeOverlaps&quot;: 0,
+      &quot;labelCollisions&quot;: 0,
+      &quot;edgeNodeIntersections&quot;: 0,
+      &quot;headerCrossings&quot;: 0,
+      &quot;excessiveBends&quot;: 0,
+      &quot;sharedSegments&quot;: 0
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    }
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 0,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  }
+}</code></pre></details>
+  </div><div class="stage" id="safe-stage-3" hidden>
+    <div class="stage-title"><h3>Mechanically verified</h3><span class="state ">verified · exit 0</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/safe/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/safe/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/safe/step-3.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/safe/step-3.svg" alt="Mechanically verified: API renamed to Tenant API; relationships retained." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Source changed; relationships retained.</strong><a href="recording/safe/step-3.mmd" download>Download this source</a></div>
+    
+    <pre class="command" tabindex="0" aria-label="Recorded command"><code>$ beautiflow agent verify --receipt receipt.json --json</code></pre>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context"> architecture-beta</span>
+<span class="context"> accTitle: Hotel tenant request path</span>
+<span class="context"> accDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.</span>
+<span class="context"> %% api in this comment is documentation, not a rename target.</span>
+<span class="context"> group cell(cloud)[Pooled cell]</span>
+<span class="context"> service staff(lucide:users)[Hotel staff]</span>
+<span class="removed">-service api(aws:api-gateway)[Cell API] in cell</span>
+<span class="added">+service gateway(aws:api-gateway)[Tenant API] in cell</span>
+<span class="context"> service membership(aws:fargate)[Membership check] in cell</span>
+<span class="context"> service records(aws:aurora)[Tenant records] in cell</span>
+<span class="removed">-staff:R --&gt; L:api</span>
+<span class="removed">-api:R --&gt; L:membership</span>
+<span class="added">+staff:R --&gt; L:gateway</span>
+<span class="added">+gateway:R --&gt; L:membership</span>
+<span class="context"> membership:R --&gt; L:records</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>506220c161062bfcb8cfac0c6e892ecb2c65dfd6752375d440ad93f27274489c</code></dd></dl><p>The receipt also binds the action file hash. Open its snapshot below.</p><a href="recording/safe/step-3.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response</summary><pre tabindex="0"><code>{
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;ok&quot;: true,
+  &quot;operation&quot;: &quot;agent-verify&quot;,
+  &quot;state&quot;: &quot;verified&quot;,
+  &quot;changed&quot;: true,
+  &quot;diagramChanged&quot;: false,
+  &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/receipt.json&quot;,
+  &quot;files&quot;: {
+    &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.mmd&quot;,
+    &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.beautiflow.json&quot;,
+    &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/receipt.json&quot;
+  },
+  &quot;evidence&quot;: {
+    &quot;audit&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    },
+    &quot;regressions&quot;: []
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 0,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  },
+  &quot;warnings&quot;: [],
+  &quot;nextAction&quot;: {
+    &quot;operation&quot;: &quot;agent-finish&quot;,
+    &quot;argv&quot;: [
+      &quot;beautiflow&quot;,
+      &quot;agent&quot;,
+      &quot;finish&quot;,
+      &quot;--receipt&quot;,
+      &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/receipt.json&quot;,
+      &quot;--json&quot;
+    ],
+    &quot;reason&quot;: &quot;Inspect one final render when vision is available, then record completion&quot;,
+    &quot;requiresConfirmation&quot;: false
+  }
+}</code></pre></details>
+    <details><summary>Receipt snapshot · verified</summary><pre tabindex="0"><code>{
+  &quot;receiptVersion&quot;: 1,
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;state&quot;: &quot;verified&quot;,
+  &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.mmd&quot;,
+  &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.beautiflow.json&quot;,
+  &quot;initialOperation&quot;: &quot;transform&quot;,
+  &quot;pendingOperation&quot;: &quot;transform&quot;,
+  &quot;actions&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/actions.json&quot;,
+  &quot;hashes&quot;: {
+    &quot;sourceBefore&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarBefore&quot;: null,
+    &quot;actions&quot;: &quot;45b57c51122fe691513147818367ddd5e9178d2da24632e6404591eac7eaca28&quot;,
+    &quot;sourceCurrent&quot;: &quot;506220c161062bfcb8cfac0c6e892ecb2c65dfd6752375d440ad93f27274489c&quot;,
+    &quot;sidecarCurrent&quot;: null
+  },
+  &quot;snapshot&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice api(aws:api-gateway)[Cell API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:api\napi:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;sidecar&quot;: null
+  },
+  &quot;expected&quot;: {
+    &quot;score&quot;: 100,
+    &quot;metrics&quot;: {
+      &quot;detachedEndpoints&quot;: 0,
+      &quot;portViolations&quot;: 0,
+      &quot;nodeOverlaps&quot;: 0,
+      &quot;labelCollisions&quot;: 0,
+      &quot;edgeNodeIntersections&quot;: 0,
+      &quot;headerCrossings&quot;: 0,
+      &quot;excessiveBends&quot;: 0,
+      &quot;sharedSegments&quot;: 0
+    },
+    &quot;semanticScore&quot;: 100,
+    &quot;baselineScore&quot;: 100
+  },
+  &quot;evidence&quot;: {
+    &quot;audit&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    },
+    &quot;regressions&quot;: []
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 0,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  }
+}</code></pre></details>
+  </div><div class="stage" id="safe-stage-4" >
+    <div class="stage-title"><h3>Finished without visual attestation</h3><span class="state ">complete · exit 0</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/safe/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/safe/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/safe/step-4.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/safe/step-4.svg" alt="Finished without visual attestation: API renamed to Tenant API; relationships retained." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Source changed; relationships retained.</strong><a href="recording/safe/step-4.mmd" download>Download this source</a></div>
+    
+    <pre class="command" tabindex="0" aria-label="Recorded command"><code>$ beautiflow agent finish --receipt receipt.json --json</code></pre>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context"> architecture-beta</span>
+<span class="context"> accTitle: Hotel tenant request path</span>
+<span class="context"> accDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.</span>
+<span class="context"> %% api in this comment is documentation, not a rename target.</span>
+<span class="context"> group cell(cloud)[Pooled cell]</span>
+<span class="context"> service staff(lucide:users)[Hotel staff]</span>
+<span class="removed">-service api(aws:api-gateway)[Cell API] in cell</span>
+<span class="added">+service gateway(aws:api-gateway)[Tenant API] in cell</span>
+<span class="context"> service membership(aws:fargate)[Membership check] in cell</span>
+<span class="context"> service records(aws:aurora)[Tenant records] in cell</span>
+<span class="removed">-staff:R --&gt; L:api</span>
+<span class="removed">-api:R --&gt; L:membership</span>
+<span class="added">+staff:R --&gt; L:gateway</span>
+<span class="added">+gateway:R --&gt; L:membership</span>
+<span class="context"> membership:R --&gt; L:records</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>506220c161062bfcb8cfac0c6e892ecb2c65dfd6752375d440ad93f27274489c</code></dd></dl><p>The receipt also binds the action file hash. Open its snapshot below.</p><a href="recording/safe/step-4.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response</summary><pre tabindex="0"><code>{
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;ok&quot;: true,
+  &quot;operation&quot;: &quot;agent-finish&quot;,
+  &quot;state&quot;: &quot;complete&quot;,
+  &quot;changed&quot;: true,
+  &quot;diagramChanged&quot;: false,
+  &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/receipt.json&quot;,
+  &quot;evidence&quot;: {
+    &quot;verification&quot;: {
+      &quot;audit&quot;: {
+        &quot;score&quot;: 100,
+        &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+        &quot;metrics&quot;: {
+          &quot;detachedEndpoints&quot;: 0,
+          &quot;portViolations&quot;: 0,
+          &quot;nodeOverlaps&quot;: 0,
+          &quot;labelCollisions&quot;: 0,
+          &quot;edgeNodeIntersections&quot;: 0,
+          &quot;headerCrossings&quot;: 0,
+          &quot;excessiveBends&quot;: 0,
+          &quot;sharedSegments&quot;: 0
+        },
+        &quot;integrity&quot;: {
+          &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+          &quot;elementsChecked&quot;: 8,
+          &quot;labelsChecked&quot;: 4,
+          &quot;issues&quot;: [],
+          &quot;limitations&quot;: [
+            &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+          ]
+        },
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+          &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+        ]
+      },
+      &quot;semantic&quot;: {
+        &quot;family&quot;: &quot;architecture&quot;,
+        &quot;score&quot;: 100,
+        &quot;nodes&quot;: [
+          {
+            &quot;id&quot;: &quot;staff&quot;,
+            &quot;type&quot;: &quot;service&quot;,
+            &quot;icon&quot;: &quot;lucide:users&quot;,
+            &quot;title&quot;: &quot;Hotel staff&quot;
+          },
+          {
+            &quot;id&quot;: &quot;gateway&quot;,
+            &quot;type&quot;: &quot;service&quot;,
+            &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+            &quot;title&quot;: &quot;Tenant API&quot;,
+            &quot;in&quot;: &quot;cell&quot;
+          },
+          {
+            &quot;id&quot;: &quot;membership&quot;,
+            &quot;type&quot;: &quot;service&quot;,
+            &quot;icon&quot;: &quot;aws:fargate&quot;,
+            &quot;title&quot;: &quot;Membership check&quot;,
+            &quot;in&quot;: &quot;cell&quot;
+          },
+          {
+            &quot;id&quot;: &quot;records&quot;,
+            &quot;type&quot;: &quot;service&quot;,
+            &quot;icon&quot;: &quot;aws:aurora&quot;,
+            &quot;title&quot;: &quot;Tenant records&quot;,
+            &quot;in&quot;: &quot;cell&quot;
+          }
+        ],
+        &quot;groups&quot;: [
+          {
+            &quot;id&quot;: &quot;cell&quot;,
+            &quot;icon&quot;: &quot;cloud&quot;,
+            &quot;title&quot;: &quot;Pooled cell&quot;
+          }
+        ],
+        &quot;edges&quot;: [
+          {
+            &quot;lhsId&quot;: &quot;staff&quot;,
+            &quot;lhsDir&quot;: &quot;R&quot;,
+            &quot;lhsInto&quot;: false,
+            &quot;lhsGroup&quot;: false,
+            &quot;rhsId&quot;: &quot;gateway&quot;,
+            &quot;rhsDir&quot;: &quot;L&quot;,
+            &quot;rhsInto&quot;: true,
+            &quot;rhsGroup&quot;: false
+          },
+          {
+            &quot;lhsId&quot;: &quot;gateway&quot;,
+            &quot;lhsDir&quot;: &quot;R&quot;,
+            &quot;lhsInto&quot;: false,
+            &quot;lhsGroup&quot;: false,
+            &quot;rhsId&quot;: &quot;membership&quot;,
+            &quot;rhsDir&quot;: &quot;L&quot;,
+            &quot;rhsInto&quot;: true,
+            &quot;rhsGroup&quot;: false
+          },
+          {
+            &quot;lhsId&quot;: &quot;membership&quot;,
+            &quot;lhsDir&quot;: &quot;R&quot;,
+            &quot;lhsInto&quot;: false,
+            &quot;lhsGroup&quot;: false,
+            &quot;rhsId&quot;: &quot;records&quot;,
+            &quot;rhsDir&quot;: &quot;L&quot;,
+            &quot;rhsInto&quot;: true,
+            &quot;rhsGroup&quot;: false
+          }
+        ],
+        &quot;alignmentHints&quot;: [],
+        &quot;metrics&quot;: {
+          &quot;services&quot;: 4,
+          &quot;junctions&quot;: 0,
+          &quot;groups&quot;: 1,
+          &quot;relationships&quot;: 3,
+          &quot;components&quot;: 1,
+          &quot;isolatedServices&quot;: 0,
+          &quot;maxDepth&quot;: 1
+        },
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+        ]
+      },
+      &quot;regressions&quot;: []
+    },
+    &quot;visualInspected&quot;: false
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 0,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 0
+  },
+  &quot;warnings&quot;: [],
+  &quot;nextAction&quot;: null
+}</code></pre></details>
+    <details><summary>Receipt snapshot · complete</summary><pre tabindex="0"><code>{
+  &quot;receiptVersion&quot;: 1,
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;state&quot;: &quot;complete&quot;,
+  &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.mmd&quot;,
+  &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.beautiflow.json&quot;,
+  &quot;initialOperation&quot;: &quot;transform&quot;,
+  &quot;pendingOperation&quot;: &quot;transform&quot;,
+  &quot;actions&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/actions.json&quot;,
+  &quot;hashes&quot;: {
+    &quot;sourceBefore&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarBefore&quot;: null,
+    &quot;actions&quot;: &quot;45b57c51122fe691513147818367ddd5e9178d2da24632e6404591eac7eaca28&quot;,
+    &quot;sourceCurrent&quot;: &quot;506220c161062bfcb8cfac0c6e892ecb2c65dfd6752375d440ad93f27274489c&quot;,
+    &quot;sidecarCurrent&quot;: null
+  },
+  &quot;snapshot&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice api(aws:api-gateway)[Cell API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:api\napi:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;sidecar&quot;: null
+  },
+  &quot;expected&quot;: {
+    &quot;score&quot;: 100,
+    &quot;metrics&quot;: {
+      &quot;detachedEndpoints&quot;: 0,
+      &quot;portViolations&quot;: 0,
+      &quot;nodeOverlaps&quot;: 0,
+      &quot;labelCollisions&quot;: 0,
+      &quot;edgeNodeIntersections&quot;: 0,
+      &quot;headerCrossings&quot;: 0,
+      &quot;excessiveBends&quot;: 0,
+      &quot;sharedSegments&quot;: 0
+    },
+    &quot;semanticScore&quot;: 100,
+    &quot;baselineScore&quot;: 100
+  },
+  &quot;evidence&quot;: {
+    &quot;verification&quot;: {
+      &quot;audit&quot;: {
+        &quot;score&quot;: 100,
+        &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+        &quot;metrics&quot;: {
+          &quot;detachedEndpoints&quot;: 0,
+          &quot;portViolations&quot;: 0,
+          &quot;nodeOverlaps&quot;: 0,
+          &quot;labelCollisions&quot;: 0,
+          &quot;edgeNodeIntersections&quot;: 0,
+          &quot;headerCrossings&quot;: 0,
+          &quot;excessiveBends&quot;: 0,
+          &quot;sharedSegments&quot;: 0
+        },
+        &quot;integrity&quot;: {
+          &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+          &quot;elementsChecked&quot;: 8,
+          &quot;labelsChecked&quot;: 4,
+          &quot;issues&quot;: [],
+          &quot;limitations&quot;: [
+            &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+          ]
+        },
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+          &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+        ]
+      },
+      &quot;semantic&quot;: {
+        &quot;family&quot;: &quot;architecture&quot;,
+        &quot;score&quot;: 100,
+        &quot;nodes&quot;: [
+          {
+            &quot;id&quot;: &quot;staff&quot;,
+            &quot;type&quot;: &quot;service&quot;,
+            &quot;icon&quot;: &quot;lucide:users&quot;,
+            &quot;title&quot;: &quot;Hotel staff&quot;
+          },
+          {
+            &quot;id&quot;: &quot;gateway&quot;,
+            &quot;type&quot;: &quot;service&quot;,
+            &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+            &quot;title&quot;: &quot;Tenant API&quot;,
+            &quot;in&quot;: &quot;cell&quot;
+          },
+          {
+            &quot;id&quot;: &quot;membership&quot;,
+            &quot;type&quot;: &quot;service&quot;,
+            &quot;icon&quot;: &quot;aws:fargate&quot;,
+            &quot;title&quot;: &quot;Membership check&quot;,
+            &quot;in&quot;: &quot;cell&quot;
+          },
+          {
+            &quot;id&quot;: &quot;records&quot;,
+            &quot;type&quot;: &quot;service&quot;,
+            &quot;icon&quot;: &quot;aws:aurora&quot;,
+            &quot;title&quot;: &quot;Tenant records&quot;,
+            &quot;in&quot;: &quot;cell&quot;
+          }
+        ],
+        &quot;groups&quot;: [
+          {
+            &quot;id&quot;: &quot;cell&quot;,
+            &quot;icon&quot;: &quot;cloud&quot;,
+            &quot;title&quot;: &quot;Pooled cell&quot;
+          }
+        ],
+        &quot;edges&quot;: [
+          {
+            &quot;lhsId&quot;: &quot;staff&quot;,
+            &quot;lhsDir&quot;: &quot;R&quot;,
+            &quot;lhsInto&quot;: false,
+            &quot;lhsGroup&quot;: false,
+            &quot;rhsId&quot;: &quot;gateway&quot;,
+            &quot;rhsDir&quot;: &quot;L&quot;,
+            &quot;rhsInto&quot;: true,
+            &quot;rhsGroup&quot;: false
+          },
+          {
+            &quot;lhsId&quot;: &quot;gateway&quot;,
+            &quot;lhsDir&quot;: &quot;R&quot;,
+            &quot;lhsInto&quot;: false,
+            &quot;lhsGroup&quot;: false,
+            &quot;rhsId&quot;: &quot;membership&quot;,
+            &quot;rhsDir&quot;: &quot;L&quot;,
+            &quot;rhsInto&quot;: true,
+            &quot;rhsGroup&quot;: false
+          },
+          {
+            &quot;lhsId&quot;: &quot;membership&quot;,
+            &quot;lhsDir&quot;: &quot;R&quot;,
+            &quot;lhsInto&quot;: false,
+            &quot;lhsGroup&quot;: false,
+            &quot;rhsId&quot;: &quot;records&quot;,
+            &quot;rhsDir&quot;: &quot;L&quot;,
+            &quot;rhsInto&quot;: true,
+            &quot;rhsGroup&quot;: false
+          }
+        ],
+        &quot;alignmentHints&quot;: [],
+        &quot;metrics&quot;: {
+          &quot;services&quot;: 4,
+          &quot;junctions&quot;: 0,
+          &quot;groups&quot;: 1,
+          &quot;relationships&quot;: 3,
+          &quot;components&quot;: 1,
+          &quot;isolatedServices&quot;: 0,
+          &quot;maxDepth&quot;: 1
+        },
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+        ]
+      },
+      &quot;regressions&quot;: []
+    },
+    &quot;visualInspected&quot;: false
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 0,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 0
+  }
+}</code></pre></details>
+  </div>
+<details class="reproduce"><summary>Reproduce this case locally</summary><p>Download these three files into a <strong>new directory</strong> with Beautiflow 1.0.1 on your PATH. Read the script before running it. It edits <code>source.mmd</code> and writes a local receipt. For refused operations, the script expects exit code 2.</p><div class="downloads"><a download href="recording/safe/original.mmd">original.mmd</a><a download href="recording/safe/actions.json">actions.json</a><a download href="recording/safe/reproduce.sh">reproduce.sh</a></div><pre tabindex="0"><code>sh reproduce.sh</code></pre></details>
+</section><section class="case" id="unsafe" aria-labelledby="unsafe-title"><div class="case-heading"><h2 id="unsafe-title">Refuse an injected statement</h2><p>A label tries to close its bracket and insert a new service. Validation refuses the action before writing a receipt or source.</p></div>
+<div class="step-rail" hidden role="group" aria-label="Refuse an injected statement: recorded steps"><button type="button" data-step="0" aria-controls="unsafe-stage-0" aria-pressed="false"><span>1</span>Original source</button><button type="button" data-step="1" aria-controls="unsafe-stage-1" aria-pressed="true"><span>2</span>Plan refused</button></div>
+<div class="step-controls" hidden><button type="button" data-previous>Previous step</button><p class="step-status" aria-live="polite"></p><button type="button" data-next>Next step</button></div>
+<div class="stage" id="unsafe-stage-0" hidden>
+    <div class="stage-title"><h3>Original source</h3><span class="state ">original</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/unsafe/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/unsafe/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/unsafe/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/unsafe/step-0.svg" alt="Original source: original diagram unchanged." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Source matches original bytes.</strong><a href="recording/unsafe/step-0.mmd" download>Download this source</a></div>
+    
+    <p class="start-note">Starting fixture. No CLI operation has run yet.</p>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context">No source changes from the original.</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd></dl><p>Equal hashes accompany an exact byte comparison in the recorder.</p><a href="recording/unsafe/step-0.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response (none for this step)</summary><pre tabindex="0"><code>null</code></pre></details>
+    <details><summary>Receipt snapshot · no receipt written</summary><pre tabindex="0"><code>null</code></pre></details>
+  </div><div class="stage" id="unsafe-stage-1" >
+    <div class="stage-title"><h3>Plan refused</h3><span class="state refused">blocked · exit 2</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/unsafe/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/unsafe/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/unsafe/step-1.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/unsafe/step-1.svg" alt="Plan refused: original diagram unchanged." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Source matches original bytes.</strong><a href="recording/unsafe/step-1.mmd" download>Download this source</a></div>
+    <p class="refusal"><strong>INVALID_INPUT</strong> Invalid architecture-rename.label</p>
+    <pre class="command" tabindex="0" aria-label="Recorded command"><code>$ beautiflow agent plan source.mmd --operation transform --actions actions.json --receipt receipt.json --json</code></pre>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context">No source changes from the original.</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd></dl><p>Equal hashes accompany an exact byte comparison in the recorder.</p><a href="recording/unsafe/step-1.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response</summary><pre tabindex="0"><code>{
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;ok&quot;: false,
+  &quot;operation&quot;: &quot;agent-plan&quot;,
+  &quot;state&quot;: &quot;blocked&quot;,
+  &quot;changed&quot;: false,
+  &quot;error&quot;: {
+    &quot;code&quot;: &quot;INVALID_INPUT&quot;,
+    &quot;message&quot;: &quot;Invalid architecture-rename.label&quot;,
+    &quot;retryable&quot;: false
+  },
+  &quot;warnings&quot;: [],
+  &quot;nextAction&quot;: null
+}</code></pre></details>
+    <details><summary>Receipt snapshot · no receipt written</summary><pre tabindex="0"><code>null</code></pre></details>
+  </div>
+<details class="reproduce"><summary>Reproduce this case locally</summary><p>Download these three files into a <strong>new directory</strong> with Beautiflow 1.0.1 on your PATH. Read the script before running it. It edits <code>source.mmd</code> and writes a local receipt. For refused operations, the script expects exit code 2.</p><div class="downloads"><a download href="recording/unsafe/original.mmd">original.mmd</a><a download href="recording/unsafe/actions.json">actions.json</a><a download href="recording/unsafe/reproduce.sh">reproduce.sh</a></div><pre tabindex="0"><code>sh reproduce.sh</code></pre></details>
+</section><section class="case" id="stale" aria-labelledby="stale-title"><div class="case-heading"><h2 id="stale-title">Keep the newer source</h2><p>After planning, a simulated collaborator adds a source comment. Commit refuses the outdated plan and preserves that edit.</p></div>
+<div class="step-rail" hidden role="group" aria-label="Keep the newer source: recorded steps"><button type="button" data-step="0" aria-controls="stale-stage-0" aria-pressed="false"><span>1</span>Original source</button><button type="button" data-step="1" aria-controls="stale-stage-1" aria-pressed="false"><span>2</span>Plan validated</button><button type="button" data-step="2" aria-controls="stale-stage-2" aria-pressed="false"><span>3</span>Collaborator edits source</button><button type="button" data-step="3" aria-controls="stale-stage-3" aria-pressed="true"><span>4</span>Commit refused</button></div>
+<div class="step-controls" hidden><button type="button" data-previous>Previous step</button><p class="step-status" aria-live="polite"></p><button type="button" data-next>Next step</button></div>
+<div class="stage" id="stale-stage-0" hidden>
+    <div class="stage-title"><h3>Original source</h3><span class="state ">original</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/stale/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/stale/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/stale/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/stale/step-0.svg" alt="Original source: original diagram unchanged." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Source matches original bytes.</strong><a href="recording/stale/step-0.mmd" download>Download this source</a></div>
+    
+    <p class="start-note">Starting fixture. No CLI operation has run yet.</p>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context">No source changes from the original.</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd></dl><p>Equal hashes accompany an exact byte comparison in the recorder.</p><a href="recording/stale/step-0.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response (none for this step)</summary><pre tabindex="0"><code>null</code></pre></details>
+    <details><summary>Receipt snapshot · no receipt written</summary><pre tabindex="0"><code>null</code></pre></details>
+  </div><div class="stage" id="stale-stage-1" hidden>
+    <div class="stage-title"><h3>Plan validated</h3><span class="state ">validated · exit 0</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/stale/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/stale/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/stale/step-1.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/stale/step-1.svg" alt="Plan validated: original diagram unchanged." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Source matches original bytes.</strong><a href="recording/stale/step-1.mmd" download>Download this source</a></div>
+    
+    <pre class="command" tabindex="0" aria-label="Recorded command"><code>$ beautiflow agent plan source.mmd --operation transform --actions actions.json --receipt receipt.json --json</code></pre>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context">No source changes from the original.</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd></dl><p>Equal hashes accompany an exact byte comparison in the recorder.</p><a href="recording/stale/step-1.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response</summary><pre tabindex="0"><code>{
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;ok&quot;: true,
+  &quot;operation&quot;: &quot;agent-plan&quot;,
+  &quot;state&quot;: &quot;validated&quot;,
+  &quot;changed&quot;: true,
+  &quot;diagramChanged&quot;: false,
+  &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/stale/receipt.json&quot;,
+  &quot;files&quot;: {
+    &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/stale/source.mmd&quot;,
+    &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/stale/source.beautiflow.json&quot;,
+    &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/stale/receipt.json&quot;,
+    &quot;actions&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/stale/actions.json&quot;
+  },
+  &quot;evidence&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice gateway(aws:api-gateway)[Tenant API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:gateway\ngateway:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;actionsApplied&quot;: 1,
+    &quot;before&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;audit&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    }
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 1,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  },
+  &quot;warnings&quot;: [],
+  &quot;nextAction&quot;: {
+    &quot;operation&quot;: &quot;agent-commit&quot;,
+    &quot;argv&quot;: [
+      &quot;beautiflow&quot;,
+      &quot;agent&quot;,
+      &quot;commit&quot;,
+      &quot;--receipt&quot;,
+      &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/stale/receipt.json&quot;,
+      &quot;--json&quot;
+    ],
+    &quot;reason&quot;: &quot;Commit the validated plan while its hashes remain current&quot;,
+    &quot;requiresConfirmation&quot;: false
+  }
+}</code></pre></details>
+    <details><summary>Receipt snapshot · validated</summary><pre tabindex="0"><code>{
+  &quot;receiptVersion&quot;: 1,
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;state&quot;: &quot;validated&quot;,
+  &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/stale/source.mmd&quot;,
+  &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/stale/source.beautiflow.json&quot;,
+  &quot;initialOperation&quot;: &quot;transform&quot;,
+  &quot;pendingOperation&quot;: &quot;transform&quot;,
+  &quot;actions&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/stale/actions.json&quot;,
+  &quot;hashes&quot;: {
+    &quot;sourceBefore&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarBefore&quot;: null,
+    &quot;actions&quot;: &quot;45b57c51122fe691513147818367ddd5e9178d2da24632e6404591eac7eaca28&quot;,
+    &quot;sourceCurrent&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarCurrent&quot;: null
+  },
+  &quot;snapshot&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice api(aws:api-gateway)[Cell API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:api\napi:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;sidecar&quot;: null
+  },
+  &quot;expected&quot;: {
+    &quot;score&quot;: 100,
+    &quot;metrics&quot;: {
+      &quot;detachedEndpoints&quot;: 0,
+      &quot;portViolations&quot;: 0,
+      &quot;nodeOverlaps&quot;: 0,
+      &quot;labelCollisions&quot;: 0,
+      &quot;edgeNodeIntersections&quot;: 0,
+      &quot;headerCrossings&quot;: 0,
+      &quot;excessiveBends&quot;: 0,
+      &quot;sharedSegments&quot;: 0
+    },
+    &quot;semanticScore&quot;: 100,
+    &quot;baselineScore&quot;: 100
+  },
+  &quot;evidence&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice gateway(aws:api-gateway)[Tenant API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:gateway\ngateway:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;actionsApplied&quot;: 1,
+    &quot;before&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;audit&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    }
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 1,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  }
+}</code></pre></details>
+  </div><div class="stage" id="stale-stage-2" hidden>
+    <div class="stage-title"><h3>Collaborator edits source</h3><span class="state ">validated</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/stale/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/stale/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/stale/step-2.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/stale/step-2.svg" alt="Collaborator edits source: diagram unchanged; collaborator comment retained in source." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Collaborator’s source retained.</strong><a href="recording/stale/step-2.mmd" download>Download this source</a></div>
+    
+    <pre class="command" tabindex="0" aria-label="Recorded command"><code>$ printf &#39;%s\n&#39; &#39;%% Collaborator: review tenant policy before release.&#39; &gt;&gt; source.mmd</code></pre>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context"> architecture-beta</span>
+<span class="context"> accTitle: Hotel tenant request path</span>
+<span class="context"> accDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.</span>
+<span class="context"> %% api in this comment is documentation, not a rename target.</span>
+<span class="context"> group cell(cloud)[Pooled cell]</span>
+<span class="context"> service staff(lucide:users)[Hotel staff]</span>
+<span class="context"> service api(aws:api-gateway)[Cell API] in cell</span>
+<span class="context"> service membership(aws:fargate)[Membership check] in cell</span>
+<span class="context"> service records(aws:aurora)[Tenant records] in cell</span>
+<span class="context"> staff:R --&gt; L:api</span>
+<span class="context"> api:R --&gt; L:membership</span>
+<span class="context"> membership:R --&gt; L:records</span>
+<span class="added">+%% Collaborator: review tenant policy before release.</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>271a9ba7f8faae27f1344b0180c230d3140ffec64b11e114cd06ab7da848f5fb</code></dd></dl><p>The receipt also binds the action file hash. Open its snapshot below.</p><a href="recording/stale/step-2.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response (none for this step)</summary><pre tabindex="0"><code>null</code></pre></details>
+    <details><summary>Receipt snapshot · validated</summary><pre tabindex="0"><code>{
+  &quot;receiptVersion&quot;: 1,
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;state&quot;: &quot;validated&quot;,
+  &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/stale/source.mmd&quot;,
+  &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/stale/source.beautiflow.json&quot;,
+  &quot;initialOperation&quot;: &quot;transform&quot;,
+  &quot;pendingOperation&quot;: &quot;transform&quot;,
+  &quot;actions&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/stale/actions.json&quot;,
+  &quot;hashes&quot;: {
+    &quot;sourceBefore&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarBefore&quot;: null,
+    &quot;actions&quot;: &quot;45b57c51122fe691513147818367ddd5e9178d2da24632e6404591eac7eaca28&quot;,
+    &quot;sourceCurrent&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarCurrent&quot;: null
+  },
+  &quot;snapshot&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice api(aws:api-gateway)[Cell API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:api\napi:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;sidecar&quot;: null
+  },
+  &quot;expected&quot;: {
+    &quot;score&quot;: 100,
+    &quot;metrics&quot;: {
+      &quot;detachedEndpoints&quot;: 0,
+      &quot;portViolations&quot;: 0,
+      &quot;nodeOverlaps&quot;: 0,
+      &quot;labelCollisions&quot;: 0,
+      &quot;edgeNodeIntersections&quot;: 0,
+      &quot;headerCrossings&quot;: 0,
+      &quot;excessiveBends&quot;: 0,
+      &quot;sharedSegments&quot;: 0
+    },
+    &quot;semanticScore&quot;: 100,
+    &quot;baselineScore&quot;: 100
+  },
+  &quot;evidence&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice gateway(aws:api-gateway)[Tenant API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:gateway\ngateway:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;actionsApplied&quot;: 1,
+    &quot;before&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;audit&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    }
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 1,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  }
+}</code></pre></details>
+  </div><div class="stage" id="stale-stage-3" >
+    <div class="stage-title"><h3>Commit refused</h3><span class="state refused">stale · exit 2</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/stale/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/stale/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/stale/step-3.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/stale/step-3.svg" alt="Commit refused: diagram unchanged; collaborator comment retained in source." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Collaborator’s source retained.</strong><a href="recording/stale/step-3.mmd" download>Download this source</a></div>
+    <p class="refusal"><strong>STALE_RECEIPT</strong> Agent receipt is stale because the source, sidecar, or action file changed after validation</p>
+    <pre class="command" tabindex="0" aria-label="Recorded command"><code>$ beautiflow agent commit --receipt receipt.json --json</code></pre>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context"> architecture-beta</span>
+<span class="context"> accTitle: Hotel tenant request path</span>
+<span class="context"> accDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.</span>
+<span class="context"> %% api in this comment is documentation, not a rename target.</span>
+<span class="context"> group cell(cloud)[Pooled cell]</span>
+<span class="context"> service staff(lucide:users)[Hotel staff]</span>
+<span class="context"> service api(aws:api-gateway)[Cell API] in cell</span>
+<span class="context"> service membership(aws:fargate)[Membership check] in cell</span>
+<span class="context"> service records(aws:aurora)[Tenant records] in cell</span>
+<span class="context"> staff:R --&gt; L:api</span>
+<span class="context"> api:R --&gt; L:membership</span>
+<span class="context"> membership:R --&gt; L:records</span>
+<span class="added">+%% Collaborator: review tenant policy before release.</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>271a9ba7f8faae27f1344b0180c230d3140ffec64b11e114cd06ab7da848f5fb</code></dd></dl><p>The current hash differs from the planned hash. Refusal is the expected result, not a failed demonstration.</p><a href="recording/stale/step-3.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response</summary><pre tabindex="0"><code>{
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;ok&quot;: false,
+  &quot;operation&quot;: &quot;agent-commit&quot;,
+  &quot;state&quot;: &quot;blocked&quot;,
+  &quot;changed&quot;: false,
+  &quot;error&quot;: {
+    &quot;code&quot;: &quot;STALE_RECEIPT&quot;,
+    &quot;message&quot;: &quot;Agent receipt is stale because the source, sidecar, or action file changed after validation&quot;,
+    &quot;retryable&quot;: false
+  },
+  &quot;warnings&quot;: [],
+  &quot;nextAction&quot;: null
+}</code></pre></details>
+    <details><summary>Receipt snapshot · stale</summary><pre tabindex="0"><code>{
+  &quot;receiptVersion&quot;: 1,
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;state&quot;: &quot;stale&quot;,
+  &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/stale/source.mmd&quot;,
+  &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/stale/source.beautiflow.json&quot;,
+  &quot;initialOperation&quot;: &quot;transform&quot;,
+  &quot;pendingOperation&quot;: &quot;transform&quot;,
+  &quot;actions&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/stale/actions.json&quot;,
+  &quot;hashes&quot;: {
+    &quot;sourceBefore&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarBefore&quot;: null,
+    &quot;actions&quot;: &quot;45b57c51122fe691513147818367ddd5e9178d2da24632e6404591eac7eaca28&quot;,
+    &quot;sourceCurrent&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarCurrent&quot;: null
+  },
+  &quot;snapshot&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice api(aws:api-gateway)[Cell API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:api\napi:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;sidecar&quot;: null
+  },
+  &quot;expected&quot;: {
+    &quot;score&quot;: 100,
+    &quot;metrics&quot;: {
+      &quot;detachedEndpoints&quot;: 0,
+      &quot;portViolations&quot;: 0,
+      &quot;nodeOverlaps&quot;: 0,
+      &quot;labelCollisions&quot;: 0,
+      &quot;edgeNodeIntersections&quot;: 0,
+      &quot;headerCrossings&quot;: 0,
+      &quot;excessiveBends&quot;: 0,
+      &quot;sharedSegments&quot;: 0
+    },
+    &quot;semanticScore&quot;: 100,
+    &quot;baselineScore&quot;: 100
+  },
+  &quot;evidence&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice gateway(aws:api-gateway)[Tenant API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:gateway\ngateway:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;actionsApplied&quot;: 1,
+    &quot;before&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;audit&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    }
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 1,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  }
+}</code></pre></details>
+  </div>
+<details class="reproduce"><summary>Reproduce this case locally</summary><p>Download these three files into a <strong>new directory</strong> with Beautiflow 1.0.1 on your PATH. Read the script before running it. It edits <code>source.mmd</code> and writes a local receipt. For refused operations, the script expects exit code 2.</p><div class="downloads"><a download href="recording/stale/original.mmd">original.mmd</a><a download href="recording/stale/actions.json">actions.json</a><a download href="recording/stale/reproduce.sh">reproduce.sh</a></div><pre tabindex="0"><code>sh reproduce.sh</code></pre></details>
+</section><section class="case" id="rollback" aria-labelledby="rollback-title"><div class="case-heading"><h2 id="rollback-title">Restore the original bytes</h2><p>Apply and verify the rename, then explicitly restore the original snapshot. Compare the full SHA-256, not just the picture.</p></div>
+<div class="step-rail" hidden role="group" aria-label="Restore the original bytes: recorded steps"><button type="button" data-step="0" aria-controls="rollback-stage-0" aria-pressed="false"><span>1</span>Original source</button><button type="button" data-step="1" aria-controls="rollback-stage-1" aria-pressed="false"><span>2</span>Plan validated</button><button type="button" data-step="2" aria-controls="rollback-stage-2" aria-pressed="false"><span>3</span>Edit applied</button><button type="button" data-step="3" aria-controls="rollback-stage-3" aria-pressed="false"><span>4</span>Mechanically verified</button><button type="button" data-step="4" aria-controls="rollback-stage-4" aria-pressed="true"><span>5</span>Snapshot restored</button></div>
+<div class="step-controls" hidden><button type="button" data-previous>Previous step</button><p class="step-status" aria-live="polite"></p><button type="button" data-next>Next step</button></div>
+<div class="stage" id="rollback-stage-0" hidden>
+    <div class="stage-title"><h3>Original source</h3><span class="state ">original</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/rollback/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/rollback/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/rollback/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/rollback/step-0.svg" alt="Original source: original diagram unchanged." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Source matches original bytes.</strong><a href="recording/rollback/step-0.mmd" download>Download this source</a></div>
+    
+    <p class="start-note">Starting fixture. No CLI operation has run yet.</p>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context">No source changes from the original.</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd></dl><p>Equal hashes accompany an exact byte comparison in the recorder.</p><a href="recording/rollback/step-0.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response (none for this step)</summary><pre tabindex="0"><code>null</code></pre></details>
+    <details><summary>Receipt snapshot · no receipt written</summary><pre tabindex="0"><code>null</code></pre></details>
+  </div><div class="stage" id="rollback-stage-1" hidden>
+    <div class="stage-title"><h3>Plan validated</h3><span class="state ">validated · exit 0</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/rollback/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/rollback/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/rollback/step-1.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/rollback/step-1.svg" alt="Plan validated: original diagram unchanged." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Source matches original bytes.</strong><a href="recording/rollback/step-1.mmd" download>Download this source</a></div>
+    
+    <pre class="command" tabindex="0" aria-label="Recorded command"><code>$ beautiflow agent plan source.mmd --operation transform --actions actions.json --receipt receipt.json --json</code></pre>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context">No source changes from the original.</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd></dl><p>Equal hashes accompany an exact byte comparison in the recorder.</p><a href="recording/rollback/step-1.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response</summary><pre tabindex="0"><code>{
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;ok&quot;: true,
+  &quot;operation&quot;: &quot;agent-plan&quot;,
+  &quot;state&quot;: &quot;validated&quot;,
+  &quot;changed&quot;: true,
+  &quot;diagramChanged&quot;: false,
+  &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/receipt.json&quot;,
+  &quot;files&quot;: {
+    &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.mmd&quot;,
+    &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.beautiflow.json&quot;,
+    &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/receipt.json&quot;,
+    &quot;actions&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/actions.json&quot;
+  },
+  &quot;evidence&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice gateway(aws:api-gateway)[Tenant API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:gateway\ngateway:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;actionsApplied&quot;: 1,
+    &quot;before&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;audit&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    }
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 1,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  },
+  &quot;warnings&quot;: [],
+  &quot;nextAction&quot;: {
+    &quot;operation&quot;: &quot;agent-commit&quot;,
+    &quot;argv&quot;: [
+      &quot;beautiflow&quot;,
+      &quot;agent&quot;,
+      &quot;commit&quot;,
+      &quot;--receipt&quot;,
+      &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/receipt.json&quot;,
+      &quot;--json&quot;
+    ],
+    &quot;reason&quot;: &quot;Commit the validated plan while its hashes remain current&quot;,
+    &quot;requiresConfirmation&quot;: false
+  }
+}</code></pre></details>
+    <details><summary>Receipt snapshot · validated</summary><pre tabindex="0"><code>{
+  &quot;receiptVersion&quot;: 1,
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;state&quot;: &quot;validated&quot;,
+  &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.mmd&quot;,
+  &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.beautiflow.json&quot;,
+  &quot;initialOperation&quot;: &quot;transform&quot;,
+  &quot;pendingOperation&quot;: &quot;transform&quot;,
+  &quot;actions&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/actions.json&quot;,
+  &quot;hashes&quot;: {
+    &quot;sourceBefore&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarBefore&quot;: null,
+    &quot;actions&quot;: &quot;45b57c51122fe691513147818367ddd5e9178d2da24632e6404591eac7eaca28&quot;,
+    &quot;sourceCurrent&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarCurrent&quot;: null
+  },
+  &quot;snapshot&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice api(aws:api-gateway)[Cell API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:api\napi:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;sidecar&quot;: null
+  },
+  &quot;expected&quot;: {
+    &quot;score&quot;: 100,
+    &quot;metrics&quot;: {
+      &quot;detachedEndpoints&quot;: 0,
+      &quot;portViolations&quot;: 0,
+      &quot;nodeOverlaps&quot;: 0,
+      &quot;labelCollisions&quot;: 0,
+      &quot;edgeNodeIntersections&quot;: 0,
+      &quot;headerCrossings&quot;: 0,
+      &quot;excessiveBends&quot;: 0,
+      &quot;sharedSegments&quot;: 0
+    },
+    &quot;semanticScore&quot;: 100,
+    &quot;baselineScore&quot;: 100
+  },
+  &quot;evidence&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice gateway(aws:api-gateway)[Tenant API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:gateway\ngateway:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;actionsApplied&quot;: 1,
+    &quot;before&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;audit&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    }
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 1,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  }
+}</code></pre></details>
+  </div><div class="stage" id="rollback-stage-2" hidden>
+    <div class="stage-title"><h3>Edit applied</h3><span class="state ">applied · exit 0</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/rollback/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/rollback/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/rollback/step-2.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/rollback/step-2.svg" alt="Edit applied: API renamed to Tenant API; relationships retained." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Source changed; relationships retained.</strong><a href="recording/rollback/step-2.mmd" download>Download this source</a></div>
+    
+    <pre class="command" tabindex="0" aria-label="Recorded command"><code>$ beautiflow agent commit --receipt receipt.json --json</code></pre>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context"> architecture-beta</span>
+<span class="context"> accTitle: Hotel tenant request path</span>
+<span class="context"> accDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.</span>
+<span class="context"> %% api in this comment is documentation, not a rename target.</span>
+<span class="context"> group cell(cloud)[Pooled cell]</span>
+<span class="context"> service staff(lucide:users)[Hotel staff]</span>
+<span class="removed">-service api(aws:api-gateway)[Cell API] in cell</span>
+<span class="added">+service gateway(aws:api-gateway)[Tenant API] in cell</span>
+<span class="context"> service membership(aws:fargate)[Membership check] in cell</span>
+<span class="context"> service records(aws:aurora)[Tenant records] in cell</span>
+<span class="removed">-staff:R --&gt; L:api</span>
+<span class="removed">-api:R --&gt; L:membership</span>
+<span class="added">+staff:R --&gt; L:gateway</span>
+<span class="added">+gateway:R --&gt; L:membership</span>
+<span class="context"> membership:R --&gt; L:records</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>506220c161062bfcb8cfac0c6e892ecb2c65dfd6752375d440ad93f27274489c</code></dd></dl><p>The receipt also binds the action file hash. Open its snapshot below.</p><a href="recording/rollback/step-2.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response</summary><pre tabindex="0"><code>{
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;ok&quot;: true,
+  &quot;operation&quot;: &quot;agent-commit&quot;,
+  &quot;state&quot;: &quot;applied&quot;,
+  &quot;changed&quot;: true,
+  &quot;diagramChanged&quot;: true,
+  &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/receipt.json&quot;,
+  &quot;files&quot;: {
+    &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.mmd&quot;,
+    &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.beautiflow.json&quot;,
+    &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/receipt.json&quot;
+  },
+  &quot;evidence&quot;: {
+    &quot;actionsApplied&quot;: 1,
+    &quot;score&quot;: 100,
+    &quot;metrics&quot;: {
+      &quot;detachedEndpoints&quot;: 0,
+      &quot;portViolations&quot;: 0,
+      &quot;nodeOverlaps&quot;: 0,
+      &quot;labelCollisions&quot;: 0,
+      &quot;edgeNodeIntersections&quot;: 0,
+      &quot;headerCrossings&quot;: 0,
+      &quot;excessiveBends&quot;: 0,
+      &quot;sharedSegments&quot;: 0
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    }
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 0,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  },
+  &quot;warnings&quot;: [],
+  &quot;nextAction&quot;: {
+    &quot;operation&quot;: &quot;agent-verify&quot;,
+    &quot;argv&quot;: [
+      &quot;beautiflow&quot;,
+      &quot;agent&quot;,
+      &quot;verify&quot;,
+      &quot;--receipt&quot;,
+      &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/receipt.json&quot;,
+      &quot;--json&quot;
+    ],
+    &quot;reason&quot;: &quot;Verify final geometry and semantics against the validated plan&quot;,
+    &quot;requiresConfirmation&quot;: false
+  }
+}</code></pre></details>
+    <details><summary>Receipt snapshot · applied</summary><pre tabindex="0"><code>{
+  &quot;receiptVersion&quot;: 1,
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;state&quot;: &quot;applied&quot;,
+  &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.mmd&quot;,
+  &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.beautiflow.json&quot;,
+  &quot;initialOperation&quot;: &quot;transform&quot;,
+  &quot;pendingOperation&quot;: &quot;transform&quot;,
+  &quot;actions&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/actions.json&quot;,
+  &quot;hashes&quot;: {
+    &quot;sourceBefore&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarBefore&quot;: null,
+    &quot;actions&quot;: &quot;45b57c51122fe691513147818367ddd5e9178d2da24632e6404591eac7eaca28&quot;,
+    &quot;sourceCurrent&quot;: &quot;506220c161062bfcb8cfac0c6e892ecb2c65dfd6752375d440ad93f27274489c&quot;,
+    &quot;sidecarCurrent&quot;: null
+  },
+  &quot;snapshot&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice api(aws:api-gateway)[Cell API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:api\napi:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;sidecar&quot;: null
+  },
+  &quot;expected&quot;: {
+    &quot;score&quot;: 100,
+    &quot;metrics&quot;: {
+      &quot;detachedEndpoints&quot;: 0,
+      &quot;portViolations&quot;: 0,
+      &quot;nodeOverlaps&quot;: 0,
+      &quot;labelCollisions&quot;: 0,
+      &quot;edgeNodeIntersections&quot;: 0,
+      &quot;headerCrossings&quot;: 0,
+      &quot;excessiveBends&quot;: 0,
+      &quot;sharedSegments&quot;: 0
+    },
+    &quot;semanticScore&quot;: 100,
+    &quot;baselineScore&quot;: 100
+  },
+  &quot;evidence&quot;: {
+    &quot;actionsApplied&quot;: 1,
+    &quot;score&quot;: 100,
+    &quot;metrics&quot;: {
+      &quot;detachedEndpoints&quot;: 0,
+      &quot;portViolations&quot;: 0,
+      &quot;nodeOverlaps&quot;: 0,
+      &quot;labelCollisions&quot;: 0,
+      &quot;edgeNodeIntersections&quot;: 0,
+      &quot;headerCrossings&quot;: 0,
+      &quot;excessiveBends&quot;: 0,
+      &quot;sharedSegments&quot;: 0
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    }
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 0,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  }
+}</code></pre></details>
+  </div><div class="stage" id="rollback-stage-3" hidden>
+    <div class="stage-title"><h3>Mechanically verified</h3><span class="state ">verified · exit 0</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/rollback/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/rollback/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/rollback/step-3.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/rollback/step-3.svg" alt="Mechanically verified: API renamed to Tenant API; relationships retained." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Source changed; relationships retained.</strong><a href="recording/rollback/step-3.mmd" download>Download this source</a></div>
+    
+    <pre class="command" tabindex="0" aria-label="Recorded command"><code>$ beautiflow agent verify --receipt receipt.json --json</code></pre>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context"> architecture-beta</span>
+<span class="context"> accTitle: Hotel tenant request path</span>
+<span class="context"> accDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.</span>
+<span class="context"> %% api in this comment is documentation, not a rename target.</span>
+<span class="context"> group cell(cloud)[Pooled cell]</span>
+<span class="context"> service staff(lucide:users)[Hotel staff]</span>
+<span class="removed">-service api(aws:api-gateway)[Cell API] in cell</span>
+<span class="added">+service gateway(aws:api-gateway)[Tenant API] in cell</span>
+<span class="context"> service membership(aws:fargate)[Membership check] in cell</span>
+<span class="context"> service records(aws:aurora)[Tenant records] in cell</span>
+<span class="removed">-staff:R --&gt; L:api</span>
+<span class="removed">-api:R --&gt; L:membership</span>
+<span class="added">+staff:R --&gt; L:gateway</span>
+<span class="added">+gateway:R --&gt; L:membership</span>
+<span class="context"> membership:R --&gt; L:records</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>506220c161062bfcb8cfac0c6e892ecb2c65dfd6752375d440ad93f27274489c</code></dd></dl><p>The receipt also binds the action file hash. Open its snapshot below.</p><a href="recording/rollback/step-3.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response</summary><pre tabindex="0"><code>{
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;ok&quot;: true,
+  &quot;operation&quot;: &quot;agent-verify&quot;,
+  &quot;state&quot;: &quot;verified&quot;,
+  &quot;changed&quot;: true,
+  &quot;diagramChanged&quot;: false,
+  &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/receipt.json&quot;,
+  &quot;files&quot;: {
+    &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.mmd&quot;,
+    &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.beautiflow.json&quot;,
+    &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/receipt.json&quot;
+  },
+  &quot;evidence&quot;: {
+    &quot;audit&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    },
+    &quot;regressions&quot;: []
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 0,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  },
+  &quot;warnings&quot;: [],
+  &quot;nextAction&quot;: {
+    &quot;operation&quot;: &quot;agent-finish&quot;,
+    &quot;argv&quot;: [
+      &quot;beautiflow&quot;,
+      &quot;agent&quot;,
+      &quot;finish&quot;,
+      &quot;--receipt&quot;,
+      &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/receipt.json&quot;,
+      &quot;--json&quot;
+    ],
+    &quot;reason&quot;: &quot;Inspect one final render when vision is available, then record completion&quot;,
+    &quot;requiresConfirmation&quot;: false
+  }
+}</code></pre></details>
+    <details><summary>Receipt snapshot · verified</summary><pre tabindex="0"><code>{
+  &quot;receiptVersion&quot;: 1,
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;state&quot;: &quot;verified&quot;,
+  &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.mmd&quot;,
+  &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.beautiflow.json&quot;,
+  &quot;initialOperation&quot;: &quot;transform&quot;,
+  &quot;pendingOperation&quot;: &quot;transform&quot;,
+  &quot;actions&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/actions.json&quot;,
+  &quot;hashes&quot;: {
+    &quot;sourceBefore&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarBefore&quot;: null,
+    &quot;actions&quot;: &quot;45b57c51122fe691513147818367ddd5e9178d2da24632e6404591eac7eaca28&quot;,
+    &quot;sourceCurrent&quot;: &quot;506220c161062bfcb8cfac0c6e892ecb2c65dfd6752375d440ad93f27274489c&quot;,
+    &quot;sidecarCurrent&quot;: null
+  },
+  &quot;snapshot&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice api(aws:api-gateway)[Cell API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:api\napi:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;sidecar&quot;: null
+  },
+  &quot;expected&quot;: {
+    &quot;score&quot;: 100,
+    &quot;metrics&quot;: {
+      &quot;detachedEndpoints&quot;: 0,
+      &quot;portViolations&quot;: 0,
+      &quot;nodeOverlaps&quot;: 0,
+      &quot;labelCollisions&quot;: 0,
+      &quot;edgeNodeIntersections&quot;: 0,
+      &quot;headerCrossings&quot;: 0,
+      &quot;excessiveBends&quot;: 0,
+      &quot;sharedSegments&quot;: 0
+    },
+    &quot;semanticScore&quot;: 100,
+    &quot;baselineScore&quot;: 100
+  },
+  &quot;evidence&quot;: {
+    &quot;audit&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    },
+    &quot;regressions&quot;: []
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 0,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  }
+}</code></pre></details>
+  </div><div class="stage" id="rollback-stage-4" >
+    <div class="stage-title"><h3>Snapshot restored</h3><span class="state ">rolled-back · exit 0</span></div>
+    <p class="pan-note">On small screens, scroll each diagram sideways or open its SVG.</p><div class="comparison">
+      <figure><figcaption>Original <a href="recording/rollback/step-0.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Original diagram. Scroll sideways on small screens."><img src="recording/rollback/step-0.svg" alt="Original hotel request path: staff, cell API, membership check and tenant records." width="900" height="260" loading="lazy"></div></figure>
+      <figure><figcaption>Selected step <a href="recording/rollback/step-4.svg" target="_blank" rel="noopener">Open SVG</a></figcaption><div class="diagram-window" tabindex="0" role="group" aria-label="Selected diagram. Scroll sideways on small screens."><img src="recording/rollback/step-4.svg" alt="Snapshot restored: original diagram unchanged." width="900" height="260" loading="lazy"></div></figure>
+    </div>
+    <div class="proof-line"><strong>Source matches original bytes.</strong><a href="recording/rollback/step-4.mmd" download>Download this source</a></div>
+    
+    <pre class="command" tabindex="0" aria-label="Recorded command"><code>$ beautiflow agent rollback --receipt receipt.json --json</code></pre>
+    <div class="evidence-grid">
+      <div><h4>Source diff <span>original → selected step</span></h4><pre class="diff" tabindex="0" aria-label="Source diff"><code><span class="context">No source changes from the original.</span></code></pre></div>
+      <div class="fingerprints"><h4>SHA-256 <span>full source bytes</span></h4><dl><dt>Original</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd><dt>Selected step</dt><dd><code>87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a</code></dd></dl><p>Equal hashes accompany an exact byte comparison in the recorder.</p><a href="recording/rollback/step-4.json" download>Download step evidence</a></div>
+    </div>
+    <details><summary>Actual CLI response</summary><pre tabindex="0"><code>{
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;ok&quot;: true,
+  &quot;operation&quot;: &quot;agent-rollback&quot;,
+  &quot;state&quot;: &quot;rolled-back&quot;,
+  &quot;changed&quot;: true,
+  &quot;diagramChanged&quot;: true,
+  &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/receipt.json&quot;,
+  &quot;files&quot;: {
+    &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.mmd&quot;,
+    &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.beautiflow.json&quot;,
+    &quot;receipt&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/receipt.json&quot;
+  },
+  &quot;warnings&quot;: [],
+  &quot;nextAction&quot;: null
+}</code></pre></details>
+    <details><summary>Receipt snapshot · rolled-back</summary><pre tabindex="0"><code>{
+  &quot;receiptVersion&quot;: 1,
+  &quot;protocolVersion&quot;: &quot;1.1&quot;,
+  &quot;state&quot;: &quot;rolled-back&quot;,
+  &quot;source&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.mmd&quot;,
+  &quot;sidecar&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/source.beautiflow.json&quot;,
+  &quot;initialOperation&quot;: &quot;transform&quot;,
+  &quot;pendingOperation&quot;: &quot;transform&quot;,
+  &quot;actions&quot;: &quot;/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/rollback/actions.json&quot;,
+  &quot;hashes&quot;: {
+    &quot;sourceBefore&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarBefore&quot;: null,
+    &quot;actions&quot;: &quot;45b57c51122fe691513147818367ddd5e9178d2da24632e6404591eac7eaca28&quot;,
+    &quot;sourceCurrent&quot;: &quot;87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a&quot;,
+    &quot;sidecarCurrent&quot;: null
+  },
+  &quot;snapshot&quot;: {
+    &quot;source&quot;: &quot;architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice api(aws:api-gateway)[Cell API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --&gt; L:api\napi:R --&gt; L:membership\nmembership:R --&gt; L:records\n&quot;,
+    &quot;sidecar&quot;: null
+  },
+  &quot;expected&quot;: {
+    &quot;score&quot;: 100,
+    &quot;metrics&quot;: {
+      &quot;detachedEndpoints&quot;: 0,
+      &quot;portViolations&quot;: 0,
+      &quot;nodeOverlaps&quot;: 0,
+      &quot;labelCollisions&quot;: 0,
+      &quot;edgeNodeIntersections&quot;: 0,
+      &quot;headerCrossings&quot;: 0,
+      &quot;excessiveBends&quot;: 0,
+      &quot;sharedSegments&quot;: 0
+    },
+    &quot;semanticScore&quot;: 100,
+    &quot;baselineScore&quot;: 100
+  },
+  &quot;evidence&quot;: {
+    &quot;audit&quot;: {
+      &quot;score&quot;: 100,
+      &quot;coverage&quot;: &quot;pele-positioned-geometry&quot;,
+      &quot;metrics&quot;: {
+        &quot;detachedEndpoints&quot;: 0,
+        &quot;portViolations&quot;: 0,
+        &quot;nodeOverlaps&quot;: 0,
+        &quot;labelCollisions&quot;: 0,
+        &quot;edgeNodeIntersections&quot;: 0,
+        &quot;headerCrossings&quot;: 0,
+        &quot;excessiveBends&quot;: 0,
+        &quot;sharedSegments&quot;: 0
+      },
+      &quot;integrity&quot;: {
+        &quot;coverage&quot;: &quot;architecture-elements-and-svg-references&quot;,
+        &quot;elementsChecked&quot;: 8,
+        &quot;labelsChecked&quot;: 4,
+        &quot;issues&quot;: [],
+        &quot;limitations&quot;: [
+          &quot;Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics.&quot;
+        ]
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.&quot;,
+        &quot;Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics.&quot;
+      ]
+    },
+    &quot;semantic&quot;: {
+      &quot;family&quot;: &quot;architecture&quot;,
+      &quot;score&quot;: 100,
+      &quot;nodes&quot;: [
+        {
+          &quot;id&quot;: &quot;staff&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;lucide:users&quot;,
+          &quot;title&quot;: &quot;Hotel staff&quot;
+        },
+        {
+          &quot;id&quot;: &quot;gateway&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:api-gateway&quot;,
+          &quot;title&quot;: &quot;Tenant API&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;membership&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:fargate&quot;,
+          &quot;title&quot;: &quot;Membership check&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        },
+        {
+          &quot;id&quot;: &quot;records&quot;,
+          &quot;type&quot;: &quot;service&quot;,
+          &quot;icon&quot;: &quot;aws:aurora&quot;,
+          &quot;title&quot;: &quot;Tenant records&quot;,
+          &quot;in&quot;: &quot;cell&quot;
+        }
+      ],
+      &quot;groups&quot;: [
+        {
+          &quot;id&quot;: &quot;cell&quot;,
+          &quot;icon&quot;: &quot;cloud&quot;,
+          &quot;title&quot;: &quot;Pooled cell&quot;
+        }
+      ],
+      &quot;edges&quot;: [
+        {
+          &quot;lhsId&quot;: &quot;staff&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;gateway&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;gateway&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;membership&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        },
+        {
+          &quot;lhsId&quot;: &quot;membership&quot;,
+          &quot;lhsDir&quot;: &quot;R&quot;,
+          &quot;lhsInto&quot;: false,
+          &quot;lhsGroup&quot;: false,
+          &quot;rhsId&quot;: &quot;records&quot;,
+          &quot;rhsDir&quot;: &quot;L&quot;,
+          &quot;rhsInto&quot;: true,
+          &quot;rhsGroup&quot;: false
+        }
+      ],
+      &quot;alignmentHints&quot;: [],
+      &quot;metrics&quot;: {
+        &quot;services&quot;: 4,
+        &quot;junctions&quot;: 0,
+        &quot;groups&quot;: 1,
+        &quot;relationships&quot;: 3,
+        &quot;components&quot;: 1,
+        &quot;isolatedServices&quot;: 0,
+        &quot;maxDepth&quot;: 1
+      },
+      &quot;issues&quot;: [],
+      &quot;limitations&quot;: [
+        &quot;Structural observations are informational and do not validate cloud-provider semantics or authorize deletion.&quot;
+      ]
+    },
+    &quot;regressions&quot;: []
+  },
+  &quot;budget&quot;: {
+    &quot;initialOperations&quot;: 0,
+    &quot;targetedCorrections&quot;: 1,
+    &quot;visualInspections&quot;: 1
+  }
+}</code></pre></details>
+  </div>
+<details class="reproduce"><summary>Reproduce this case locally</summary><p>Download these three files into a <strong>new directory</strong> with Beautiflow 1.0.1 on your PATH. Read the script before running it. It edits <code>source.mmd</code> and writes a local receipt. For refused operations, the script expects exit code 2.</p><div class="downloads"><a download href="recording/rollback/original.mmd">original.mmd</a><a download href="recording/rollback/actions.json">actions.json</a><a download href="recording/rollback/reproduce.sh">reproduce.sh</a></div><pre tabindex="0"><code>sh reproduce.sh</code></pre><p>To compare the restored file directly: <code>cmp original.mmd source.mmd</code>. Exit 0 means the bytes match.</p></details>
+</section></div>
+<section class="limits"><h2>What the evidence proves.</h2><div><p>These runs demonstrate source-preserving architecture transforms, input-hash checks, mechanical verification and explicit rollback. The hotel path is an illustrative, deliberately small fixture, not a projection of the complete AWS gallery.</p><p><strong>No visual attestation.</strong> The finished receipt records <code>visualInspected: false</code>. A mechanical check does not establish visual quality, working tenant isolation, IAM policy or deployed AWS correctness. Architecture does not support automatic polish.</p><p><strong>Rollback is explicit.</strong> It restores the recorded snapshot; it is not a merge or a guarantee against overwriting later work. Inspect current files before requesting rollback. Receipts are local control files, not signed security attestations.</p><p><strong>Raw evidence.</strong> Downloaded receipt snapshots contain absolute paths from a temporary recording workspace. Do not commit those receipts into your own project or try to resume them. Reproduce with the inputs and script to create fresh local receipts.</p></div></section>
+<footer><div><strong>beautiflow 1.0.1</strong><p>Recorded 2026-10-25T16:00:46.418Z. Replay is read-only and works from static files.</p><a download href="recording/recording.json">Download the complete recording</a></div><details><summary>Recording provenance</summary><p>Real compiled-CLI executions in disposable local directories. Outputs and receipt snapshots are unmodified; absolute paths identify the recording workspace, not a portable receipt. Illustrative hotel system; no visual attestation or deployed AWS validation.</p><p>Executable SHA-256</p><code>1d69d9dbd53a72d681386316a26c906c32db45ae2e995272ce6411fd445cc22d</code></details><a href="../">Back to Beautiflow</a></footer>
+</main></body></html>

@@ -1,0 +1,507 @@
+{
+  "source": "sources/advanced-distribution-management-system.mmd",
+  "sourceSha256": "544f3550dc6ef23f68e415afc14ff259b01517381fecb29a74153000803601b2",
+  "svgSha256": "43038267eca3cf42323d551d220576dceb71148d47cc4f53fb5faff64ed50ef3",
+  "pngSha256": "10a15c5e3b43ef2e9b93a05cbfc13bb01cf6adfc80e0e3713c7094c42b42825b",
+  "executable": {
+    "version": "beautiflow 1.0.1",
+    "sha256": "09b18c50d8e3f120030a05306d6ac2006c3e51c5beb3cc677d2483ef1fea8f03"
+  },
+  "reference": "https://docs.aws.amazon.com/reference-architecture-diagrams/latest/advanced-distribution-management-system/advanced-distribution-management-system.html",
+  "referenceImage": "https://docs.aws.amazon.com/images/reference-architecture-diagrams/latest/advanced-distribution-management-system/images/advanced-distribution-management-system.png",
+  "geometryAcceptedAsClean": false,
+  "visualReview": {
+    "attestedByGenerator": false,
+    "note": "The generator does not perform visual review. See README for the separate manual-review scope and limitations."
+  },
+  "audit": {
+    "ok": true,
+    "operation": "audit",
+    "changed": false,
+    "family": "architecture",
+    "score": 70,
+    "coverage": "pele-positioned-geometry",
+    "metrics": {
+      "detachedEndpoints": 0,
+      "portViolations": 0,
+      "nodeOverlaps": 0,
+      "labelCollisions": 1,
+      "edgeNodeIntersections": 0,
+      "headerCrossings": 1,
+      "excessiveBends": 0,
+      "sharedSegments": 1
+    },
+    "integrity": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 50,
+      "labelsChecked": 20,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    },
+    "issues": [
+      {
+        "severity": "high",
+        "type": "labelCollisions",
+        "message": "1 measured architecture geometry findings: labelCollisions"
+      },
+      {
+        "severity": "high",
+        "type": "headerCrossings",
+        "message": "1 measured architecture geometry findings: headerCrossings"
+      },
+      {
+        "severity": "high",
+        "type": "sharedSegments",
+        "message": "1 measured architecture geometry findings: sharedSegments"
+      }
+    ],
+    "limitations": [
+      "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+      "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+    ],
+    "warnings": [
+      {
+        "severity": "high",
+        "type": "labelCollisions",
+        "message": "1 measured architecture geometry findings: labelCollisions"
+      },
+      {
+        "severity": "high",
+        "type": "headerCrossings",
+        "message": "1 measured architecture geometry findings: headerCrossings"
+      },
+      {
+        "severity": "high",
+        "type": "sharedSegments",
+        "message": "1 measured architecture geometry findings: sharedSegments"
+      }
+    ],
+    "nextAction": null
+  },
+  "inspection": {
+    "source": "/Users/puigmarc/code/beautiflow/examples/recipes/aws-reference-architectures/sources/advanced-distribution-management-system.mmd",
+    "family": "architecture",
+    "score": 100,
+    "nodes": [
+      {
+        "id": "field",
+        "type": "service",
+        "icon": "lucide:radio-tower",
+        "title": "Field sensors and actuators"
+      },
+      {
+        "id": "pi1",
+        "type": "service",
+        "icon": "server",
+        "title": "PI server DC1",
+        "in": "other1"
+      },
+      {
+        "id": "corp1",
+        "type": "service",
+        "icon": "server",
+        "title": "Corporate IT DC1",
+        "in": "other1"
+      },
+      {
+        "id": "pi2",
+        "type": "service",
+        "icon": "server",
+        "title": "PI server DC2",
+        "in": "other2"
+      },
+      {
+        "id": "corp2",
+        "type": "service",
+        "icon": "server",
+        "title": "Corporate IT DC2",
+        "in": "other2"
+      },
+      {
+        "id": "compute1",
+        "type": "service",
+        "icon": "aws:ec2",
+        "title": "ADMS on EC2 site 1",
+        "in": "adms1"
+      },
+      {
+        "id": "db1",
+        "type": "service",
+        "icon": "database",
+        "title": "Vendor supported DB site 1",
+        "in": "adms1"
+      },
+      {
+        "id": "compute2",
+        "type": "service",
+        "icon": "aws:ec2",
+        "title": "ADMS on EC2 site 2",
+        "in": "adms2"
+      },
+      {
+        "id": "db2",
+        "type": "service",
+        "icon": "database",
+        "title": "Vendor supported DB site 2",
+        "in": "adms2"
+      },
+      {
+        "id": "lgw1",
+        "type": "service",
+        "icon": "lucide:router",
+        "title": "Outposts local gateway 1",
+        "in": "rack1"
+      },
+      {
+        "id": "lgw2",
+        "type": "service",
+        "icon": "lucide:router",
+        "title": "Outposts local gateway 2",
+        "in": "rack2"
+      },
+      {
+        "id": "link1",
+        "type": "service",
+        "icon": "lucide:cable",
+        "title": "Outposts service link 1",
+        "in": "rack1"
+      },
+      {
+        "id": "link2",
+        "type": "service",
+        "icon": "lucide:cable",
+        "title": "Outposts service link 2",
+        "in": "rack2"
+      },
+      {
+        "id": "wan",
+        "type": "service",
+        "icon": "lucide:network",
+        "title": "WAN link - service link transport"
+      },
+      {
+        "id": "derms1",
+        "type": "service",
+        "icon": "server",
+        "title": "DERMS AZ1",
+        "in": "regional1"
+      },
+      {
+        "id": "derms2",
+        "type": "service",
+        "icon": "server",
+        "title": "DERMS AZ2",
+        "in": "regional2"
+      },
+      {
+        "id": "s3",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Amazon S3",
+        "in": "analytics"
+      },
+      {
+        "id": "athena",
+        "type": "service",
+        "icon": "aws:athena",
+        "title": "Amazon Athena",
+        "in": "analytics"
+      },
+      {
+        "id": "quick",
+        "type": "service",
+        "icon": "aws:quicksight",
+        "title": "Amazon QuickSight",
+        "in": "analytics"
+      },
+      {
+        "id": "sagemaker",
+        "type": "service",
+        "icon": "aws:sagemaker",
+        "title": "Amazon SageMaker",
+        "in": "analytics"
+      }
+    ],
+    "groups": [
+      {
+        "id": "dc1",
+        "icon": "cloud",
+        "title": "Corporate data center 1"
+      },
+      {
+        "id": "dc2",
+        "icon": "cloud",
+        "title": "Corporate data center 2"
+      },
+      {
+        "id": "other1",
+        "icon": "server",
+        "title": "Other infrastructure DC1",
+        "in": "dc1"
+      },
+      {
+        "id": "other2",
+        "icon": "server",
+        "title": "Other infrastructure DC2",
+        "in": "dc2"
+      },
+      {
+        "id": "rack1",
+        "icon": "server",
+        "title": "Outposts rack 1 - home AZ1",
+        "in": "dc1"
+      },
+      {
+        "id": "rack2",
+        "icon": "server",
+        "title": "Outposts rack 2 - home AZ2",
+        "in": "dc2"
+      },
+      {
+        "id": "subnet1",
+        "icon": "server",
+        "title": "VPC1 - Outposts subnet",
+        "in": "rack1"
+      },
+      {
+        "id": "subnet2",
+        "icon": "server",
+        "title": "VPC2 - Outposts subnet",
+        "in": "rack2"
+      },
+      {
+        "id": "adms1",
+        "icon": "server",
+        "title": "ADMS site 1",
+        "in": "subnet1"
+      },
+      {
+        "id": "adms2",
+        "icon": "server",
+        "title": "ADMS site 2",
+        "in": "subnet2"
+      },
+      {
+        "id": "region",
+        "icon": "cloud",
+        "title": "AWS Region"
+      },
+      {
+        "id": "az1",
+        "icon": "cloud",
+        "title": "Availability Zone 1",
+        "in": "region"
+      },
+      {
+        "id": "az2",
+        "icon": "cloud",
+        "title": "Availability Zone 2",
+        "in": "region"
+      },
+      {
+        "id": "regional1",
+        "icon": "server",
+        "title": "VPC1 - Region subnet",
+        "in": "az1"
+      },
+      {
+        "id": "regional2",
+        "icon": "server",
+        "title": "VPC2 - Region subnet",
+        "in": "az2"
+      },
+      {
+        "id": "analytics",
+        "icon": "server",
+        "title": "Regional analytics and ML",
+        "in": "region"
+      }
+    ],
+    "edges": [
+      {
+        "lhsId": "field",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "lgw1",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "Local OT network"
+      },
+      {
+        "lhsId": "field",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "lgw2",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "Local OT network"
+      },
+      {
+        "lhsId": "pi1",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "lgw1",
+        "rhsDir": "L",
+        "rhsInto": false,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "corp1",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "lgw1",
+        "rhsDir": "B",
+        "rhsInto": false,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "pi2",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "lgw2",
+        "rhsDir": "B",
+        "rhsInto": false,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "corp2",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "lgw2",
+        "rhsDir": "B",
+        "rhsInto": false,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "lgw1",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "compute1",
+        "rhsDir": "L",
+        "rhsInto": false,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "lgw2",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "compute2",
+        "rhsDir": "L",
+        "rhsInto": false,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "compute1",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "link1",
+        "rhsDir": "B",
+        "rhsInto": false,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "compute2",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "link2",
+        "rhsDir": "T",
+        "rhsInto": false,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "link1",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "derms1",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "VPC1 home AZ1"
+      },
+      {
+        "lhsId": "link2",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "derms2",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "VPC2 home AZ2"
+      },
+      {
+        "lhsId": "link1",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "wan",
+        "rhsDir": "B",
+        "rhsInto": false,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "link2",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "wan",
+        "rhsDir": "B",
+        "rhsInto": false,
+        "rhsGroup": false
+      }
+    ],
+    "alignmentHints": [],
+    "metrics": {
+      "services": 20,
+      "junctions": 0,
+      "groups": 16,
+      "relationships": 14,
+      "components": 7,
+      "isolatedServices": 6,
+      "maxDepth": 4
+    },
+    "issues": [
+      {
+        "severity": "info",
+        "type": "isolated-services",
+        "nodes": [
+          "db1",
+          "db2",
+          "s3",
+          "athena",
+          "quick",
+          "sagemaker"
+        ],
+        "message": "6 services or junctions have no relationships"
+      },
+      {
+        "severity": "info",
+        "type": "disconnected-components",
+        "message": "7 disconnected components; confirm that separate views are intentional"
+      },
+      {
+        "severity": "info",
+        "type": "deep-containment",
+        "message": "4 containment levels may be difficult to read"
+      }
+    ],
+    "limitations": [
+      "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+    ]
+  }
+}

@@ -9,11 +9,14 @@ const sourceDirectory = resolve(root, 'docs')
 const outputDirectory = resolve(root, process.argv[2] ?? 'dist/docs')
 
 const pages = [
-  { file: 'README.md', slug: '', label: 'Overview', description: 'Start here: bounded agent execution, capability levels, and the technical documentation map.' },
+  { file: 'getting-started.md', slug: 'getting-started', label: 'Your first diagram', description: 'Install, connect your agent, and create a diagram.' },
+  { file: 'how-it-works.md', slug: 'how-it-works', label: 'How it works', description: 'What your agent does, what Beautiflow checks, and which files to keep.' },
+  { file: 'diagram-types.md', slug: 'diagram-types', label: 'Diagram types', description: 'All 32 supported notations, examples and capability boundaries.' },
+  { file: 'README.md', slug: '', label: 'Overview', description: 'Start with your first diagram. Find guides, supported types and precise technical references.' },
   { file: 'cli.md', slug: 'cli', label: 'CLI reference', description: 'Commands, machine-readable evidence, options, and exit behavior.' },
   { file: 'agent-skill.md', slug: 'agent-skill', label: 'Agent Skill', description: 'Bounded capability discovery, safe mutation, validation, and stop conditions.' },
   { file: 'rendering.md', slug: 'rendering', label: 'Rendering', description: 'Family detection, Mermaid pipelines, SVG, PNG, themes, and architecture rendering.' },
-  { file: 'architecture.md', slug: 'architecture', label: 'Architecture', description: 'Process boundaries, data ownership, determinism, and standalone compilation.' },
+  { file: 'architecture.md', slug: 'architecture', label: 'Runtime internals', description: 'Process boundaries, data ownership, determinism, and standalone compilation.' },
   { file: 'quality.md', slug: 'quality', label: 'Quality', description: 'Geometric audits, semantic diagnostics, and polish regression gates.' },
   { file: 'transformations.md', slug: 'transformations', label: 'Transformations', description: 'Transactional graph edits, source preservation, and rollback.' },
   { file: 'sidecar.md', slug: 'sidecar', label: 'Layout sidecar', description: 'Persistent presentation state, roles, pins, and source reconciliation.' },
@@ -55,11 +58,18 @@ function rewriteLinks(html: string) {
 }
 
 function navigation(currentSlug: string) {
-  return pages.map((page) => {
+  const groups = [
+    ['Start here', ['', 'getting-started', 'how-it-works']],
+    ['Guides', ['agent-skill', 'rendering', 'server', 'quality']],
+    ['Reference', ['diagram-types', 'cli', 'transformations', 'sidecar']],
+    ['Contributing', ['architecture', 'development']],
+  ] as const
+  return groups.map(([label, slugs]) => `<li class="nav-group">${label}<ol>${slugs.map(slug => {
+    const page = pages.find(page => page.slug === slug)!
     const active = page.slug === currentSlug
     const href = `/docs/${page.slug ? `${page.slug}/` : ''}`
     return `<li><a href="${href}"${active ? ' aria-current="page"' : ''}><span>${escapeHtml(page.label)}</span></a></li>`
-  }).join('')
+  }).join('')}</ol></li>`).join('')
 }
 
 function layout(page: typeof pages[number], titleHeading: string, article: string, headings: Array<{ level: number; text: string; id: string }>) {
@@ -81,17 +91,10 @@ function layout(page: typeof pages[number], titleHeading: string, article: strin
   <link href="https://fonts.bunny.net/css?family=bricolage-grotesque:500,600,700,800|source-sans-3:400,500,600,700" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f5c46'/%3E%3Ccircle cx='18' cy='32' r='7' fill='%23c8ff62'/%3E%3Cpath d='M25 32h19m-7-8 8 8-8 8' fill='none' stroke='%23f4f1e8' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="/docs/docs.css">
+  <link rel="stylesheet" href="/reading.css">
   <title>${escapeHtml(title)}</title>
 </head>
 <body class="${page.slug ? '' : 'page-index'}">
-  <!--
-  THESIS: Documentation should feel like following a validated route, not searching a card catalog.
-  OWN-WORLD: Drafting paper, evergreen rails, lime state, coral action, and crisp graph geometry extend Beautiflow's landing page.
-  STORY: Find the right technical surface, understand its contract, copy a command, and return to the diagram.
-  FIRST VIEWPORT: Persistent product header, connected chapter rail, broad reading column, and local contents at desktop scale.
-  FORM: A technical field manual inside the established Beautiflow world; seed key docs-read-route.
-  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md.
-  -->
   <a class="skip-link" href="#content">Skip to documentation</a>
   <header class="site-header">
     <div class="header-inner">
@@ -102,6 +105,7 @@ function layout(page: typeof pages[number], titleHeading: string, article: strin
       <nav class="header-nav" aria-label="Primary">
         <a href="/docs/" aria-current="page">Docs</a>
         <a href="/examples.html">Examples</a>
+        <a href="/boring-diagrams/">Boring AWS</a>
         <a class="github-link" href="https://github.com/mpuig/beautiflow">GitHub <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4h9v9M16 4 7 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </nav>
     </div>
@@ -143,10 +147,11 @@ await mkdir(outputDirectory, { recursive: true })
 await Promise.all([
   writeFile(resolve(outputDirectory, 'docs.css'), css),
   writeFile(resolve(outputDirectory, 'docs.js'), javascript),
+  writeFile(resolve(outputDirectory, '..', 'reading.css'), await readFile(resolve(root, 'reading.css'), 'utf8')),
 ])
 
 for (const page of pages) {
-  const source = await readFile(resolve(sourceDirectory, page.file), 'utf8')
+  const source = page.slug === 'diagram-types' ? await (await import('./site-catalogue.ts')).typeReference() : await readFile(resolve(sourceDirectory, page.file), 'utf8')
   let article = String(await marked.parse(source, { gfm: true }))
   article = rewriteLinks(article)
   const seen = new Map<string, number>()

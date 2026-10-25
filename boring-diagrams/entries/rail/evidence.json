@@ -1,0 +1,332 @@
+{
+  "engine": "Beautiflow architecture pipeline: Pele + local positioned-geometry extension",
+  "sourceHash": "6b68974ffb83ef6c7cf481f77b099cc300a417a3e91058db40b37488fbf65d90",
+  "scope": "Geometry audit of the native layout; each styled drawing additionally checks elements, plain service labels, IDs, and SVG references. Decorative ink and cloud-provider semantics are not measured.",
+  "annotations": {
+    "coverage": "authored-annotations-and-containment-only",
+    "boundaries": 5,
+    "relationships": 14,
+    "configurationValidated": false
+  },
+  "structure": {
+    "family": "architecture",
+    "score": 100,
+    "nodes": [
+      {
+        "id": "source",
+        "type": "service",
+        "icon": "aws:eventbridge",
+        "title": "Authorized departure feed",
+        "in": "sourceRegion"
+      },
+      {
+        "id": "bus",
+        "type": "service",
+        "icon": "aws:eventbridge",
+        "title": "Passenger event ingress",
+        "in": "primary"
+      },
+      {
+        "id": "stream",
+        "type": "service",
+        "icon": "aws:kinesis",
+        "title": "Ordered departure stream",
+        "in": "primary"
+      },
+      {
+        "id": "reducer",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Versioned state reducer",
+        "in": "primary"
+      },
+      {
+        "id": "state",
+        "type": "service",
+        "icon": "aws:dynamodb",
+        "title": "Current departures",
+        "in": "primary"
+      },
+      {
+        "id": "broadcast",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Primary broadcaster",
+        "in": "primary"
+      },
+      {
+        "id": "socket",
+        "type": "service",
+        "icon": "aws:api-gateway",
+        "title": "Primary WebSocket API",
+        "in": "primary"
+      },
+      {
+        "id": "snapshot",
+        "type": "service",
+        "icon": "aws:api-gateway",
+        "title": "Snapshot HTTP API",
+        "in": "primary"
+      },
+      {
+        "id": "replica",
+        "type": "service",
+        "icon": "aws:dynamodb",
+        "title": "Regional departure replica",
+        "in": "secondary"
+      },
+      {
+        "id": "broadcastB",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Regional broadcaster",
+        "in": "secondary"
+      },
+      {
+        "id": "socketB",
+        "type": "service",
+        "icon": "aws:api-gateway",
+        "title": "Regional WebSocket API",
+        "in": "secondary"
+      },
+      {
+        "id": "auth",
+        "type": "service",
+        "icon": "aws:cognito",
+        "title": "Station identity",
+        "in": "primary"
+      },
+      {
+        "id": "boards",
+        "type": "service",
+        "icon": "lucide:monitor",
+        "title": "Authenticated displays"
+      }
+    ],
+    "groups": [
+      {
+        "id": "operations",
+        "icon": "cloud",
+        "title": "Account: Rail operations"
+      },
+      {
+        "id": "sourceRegion",
+        "icon": "cloud",
+        "title": "Region: Feed authority",
+        "in": "operations"
+      },
+      {
+        "id": "public",
+        "icon": "cloud",
+        "title": "Account: Passenger service"
+      },
+      {
+        "id": "primary",
+        "icon": "cloud",
+        "title": "Region: Primary service",
+        "in": "public"
+      },
+      {
+        "id": "secondary",
+        "icon": "cloud",
+        "title": "Region: Regional replica",
+        "in": "public"
+      }
+    ],
+    "edges": [
+      {
+        "lhsId": "source",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "bus",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "bus",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "stream",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "stream",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "reducer",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "reducer",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "state",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "state",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "broadcast",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "broadcast",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "socket",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "socket",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "boards",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "state",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "replica",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "replica",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "broadcastB",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "broadcastB",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "socketB",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "socketB",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "boards",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "auth",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "boards",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "boards",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "snapshot",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "snapshot",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "state",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      }
+    ],
+    "alignmentHints": [],
+    "metrics": {
+      "services": 13,
+      "junctions": 0,
+      "groups": 5,
+      "relationships": 14,
+      "components": 1,
+      "isolatedServices": 0,
+      "maxDepth": 2
+    },
+    "issues": [],
+    "limitations": [
+      "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+    ]
+  },
+  "audit": {
+    "score": 100,
+    "coverage": "pele-positioned-geometry",
+    "metrics": {
+      "detachedEndpoints": 0,
+      "portViolations": 0,
+      "nodeOverlaps": 0,
+      "labelCollisions": 0,
+      "edgeNodeIntersections": 0,
+      "headerCrossings": 0,
+      "excessiveBends": 0,
+      "sharedSegments": 0
+    },
+    "integrity": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 32,
+      "labelsChecked": 13,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    },
+    "issues": [],
+    "limitations": [
+      "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+      "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+    ]
+  },
+  "styledIntegrity": {
+    "transit": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 32,
+      "labelsChecked": 13,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Layout sidecar
 
-Beautiflow stores visual state beside Mermaid source:
+For flowcharts and state diagrams, Beautiflow stores visual state beside Mermaid source. Architecture and render-only types do not use layout sidecars:
 
 ```text
 architecture.mmd

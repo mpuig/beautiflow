@@ -1,0 +1,312 @@
+{
+  "engine": "Beautiflow architecture pipeline: Pele + local positioned-geometry extension",
+  "sourceHash": "b5819e6fb604b0a15053b00f5f2d23abfd228c681e778c43a765547ce927f7fb",
+  "scope": "Geometry audit of the native layout; each styled drawing additionally checks elements, plain service labels, IDs, and SVG references. Decorative ink and cloud-provider semantics are not measured.",
+  "annotations": {
+    "coverage": "authored-annotations-and-containment-only",
+    "boundaries": 8,
+    "relationships": 11,
+    "configurationValidated": false
+  },
+  "structure": {
+    "family": "architecture",
+    "score": 100,
+    "nodes": [
+      {
+        "id": "staff",
+        "type": "service",
+        "icon": "lucide:users",
+        "title": "Hotel staff"
+      },
+      {
+        "id": "login",
+        "type": "service",
+        "icon": "aws:cognito",
+        "title": "Federated sign-in",
+        "in": "identityRegion"
+      },
+      {
+        "id": "pooledApi",
+        "type": "service",
+        "icon": "aws:api-gateway",
+        "title": "Shared JWT API",
+        "in": "primary"
+      },
+      {
+        "id": "pooledLink",
+        "type": "service",
+        "icon": "aws:api-gateway",
+        "title": "Shared VPC Link",
+        "in": "primary"
+      },
+      {
+        "id": "pooledAlb",
+        "type": "service",
+        "icon": "aws:elb",
+        "title": "Internal shared ALB",
+        "in": "pooledVpc"
+      },
+      {
+        "id": "pooledApp",
+        "type": "service",
+        "icon": "aws:fargate",
+        "title": "Membership and RLS",
+        "in": "pooledVpc"
+      },
+      {
+        "id": "pooledDb",
+        "type": "service",
+        "icon": "aws:aurora",
+        "title": "Shared tenant records",
+        "in": "pooledVpc"
+      },
+      {
+        "id": "dedicatedApi",
+        "type": "service",
+        "icon": "aws:api-gateway",
+        "title": "Enterprise JWT API",
+        "in": "dedicatedRegion"
+      },
+      {
+        "id": "dedicatedLink",
+        "type": "service",
+        "icon": "aws:api-gateway",
+        "title": "Dedicated VPC Link",
+        "in": "dedicatedRegion"
+      },
+      {
+        "id": "dedicatedAlb",
+        "type": "service",
+        "icon": "aws:elb",
+        "title": "Internal tenant ALB",
+        "in": "dedicatedVpc"
+      },
+      {
+        "id": "dedicatedApp",
+        "type": "service",
+        "icon": "aws:fargate",
+        "title": "Enterprise allowlist",
+        "in": "dedicatedVpc"
+      },
+      {
+        "id": "dedicatedDb",
+        "type": "service",
+        "icon": "aws:aurora",
+        "title": "Enterprise records",
+        "in": "dedicatedVpc"
+      }
+    ],
+    "groups": [
+      {
+        "id": "identityAccount",
+        "icon": "cloud",
+        "title": "Account: Control plane"
+      },
+      {
+        "id": "identityRegion",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "identityAccount"
+      },
+      {
+        "id": "pooled",
+        "icon": "cloud",
+        "title": "Account: Pooled production"
+      },
+      {
+        "id": "primary",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "pooled"
+      },
+      {
+        "id": "pooledVpc",
+        "icon": "cloud",
+        "title": "VPC: Shared workloads",
+        "in": "primary"
+      },
+      {
+        "id": "dedicated",
+        "icon": "cloud",
+        "title": "Account: Enterprise hotel"
+      },
+      {
+        "id": "dedicatedRegion",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "dedicated"
+      },
+      {
+        "id": "dedicatedVpc",
+        "icon": "cloud",
+        "title": "VPC: Dedicated workloads",
+        "in": "dedicatedRegion"
+      }
+    ],
+    "edges": [
+      {
+        "lhsId": "staff",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "login",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "login",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "pooledApi",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "login",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "dedicatedApi",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "pooledApi",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "pooledLink",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "pooledLink",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "pooledAlb",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "pooledAlb",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "pooledApp",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "pooledApp",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "pooledDb",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "dedicatedApi",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "dedicatedLink",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "dedicatedLink",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "dedicatedAlb",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "dedicatedAlb",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "dedicatedApp",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "dedicatedApp",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "dedicatedDb",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      }
+    ],
+    "alignmentHints": [],
+    "metrics": {
+      "services": 12,
+      "junctions": 0,
+      "groups": 8,
+      "relationships": 11,
+      "components": 1,
+      "isolatedServices": 0,
+      "maxDepth": 3
+    },
+    "issues": [],
+    "limitations": [
+      "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+    ]
+  },
+  "audit": {
+    "score": 100,
+    "coverage": "pele-positioned-geometry",
+    "metrics": {
+      "detachedEndpoints": 0,
+      "portViolations": 0,
+      "nodeOverlaps": 0,
+      "labelCollisions": 0,
+      "edgeNodeIntersections": 0,
+      "headerCrossings": 0,
+      "excessiveBends": 0,
+      "sharedSegments": 0
+    },
+    "integrity": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 31,
+      "labelsChecked": 12,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    },
+    "issues": [],
+    "limitations": [
+      "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+      "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+    ]
+  },
+  "styledIntegrity": {
+    "deco": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 31,
+      "labelsChecked": 12,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    }
+  }
+}

@@ -1,0 +1,355 @@
+{
+  "engine": "Beautiflow architecture pipeline: Pele + local positioned-geometry extension",
+  "sourceHash": "f34b572d66f750bbadeae56e9336a2bfe7ba6a0efd9cd0249a91d0a806223755",
+  "scope": "Geometry audit of the native layout; each styled drawing additionally checks elements, plain service labels, IDs, and SVG references. Decorative ink and cloud-provider semantics are not measured.",
+  "annotations": {
+    "coverage": "authored-annotations-and-containment-only",
+    "boundaries": 9,
+    "relationships": 12,
+    "configurationValidated": false
+  },
+  "structure": {
+    "family": "architecture",
+    "score": 100,
+    "nodes": [
+      {
+        "id": "stores",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Store sync connector",
+        "in": "branchRegion"
+      },
+      {
+        "id": "api",
+        "type": "service",
+        "icon": "aws:api-gateway",
+        "title": "Store identity API",
+        "in": "primary"
+      },
+      {
+        "id": "ingest",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Validate and deduplicate",
+        "in": "primary"
+      },
+      {
+        "id": "journal",
+        "type": "service",
+        "icon": "aws:dynamodb",
+        "title": "Versioned stock journal",
+        "in": "primary"
+      },
+      {
+        "id": "schedule",
+        "type": "service",
+        "icon": "aws:eventbridge",
+        "title": "Nightly schedule",
+        "in": "primary"
+      },
+      {
+        "id": "flow",
+        "type": "service",
+        "icon": "aws:step-functions",
+        "title": "Reconcile and approve",
+        "in": "primary"
+      },
+      {
+        "id": "taskA",
+        "type": "service",
+        "icon": "aws:fargate",
+        "title": "Reconcile tasks A",
+        "in": "aza"
+      },
+      {
+        "id": "taskB",
+        "type": "service",
+        "icon": "aws:fargate",
+        "title": "Reconcile tasks B",
+        "in": "azb"
+      },
+      {
+        "id": "db",
+        "type": "service",
+        "icon": "aws:aurora",
+        "title": "Transactional stock DB",
+        "in": "vpc"
+      },
+      {
+        "id": "supervisor",
+        "type": "service",
+        "icon": "aws:cognito",
+        "title": "Supervisor sign-in",
+        "in": "primary"
+      },
+      {
+        "id": "review",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Approve supplier draft",
+        "in": "primary"
+      },
+      {
+        "id": "failures",
+        "type": "service",
+        "icon": "aws:sns",
+        "title": "Operator failure alert",
+        "in": "primary"
+      },
+      {
+        "id": "vault",
+        "type": "service",
+        "icon": "aws:backup",
+        "title": "Inventory backup vault",
+        "in": "backupRegion"
+      }
+    ],
+    "groups": [
+      {
+        "id": "branches",
+        "icon": "cloud",
+        "title": "Account: Store integrations"
+      },
+      {
+        "id": "branchRegion",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "branches"
+      },
+      {
+        "id": "production",
+        "icon": "cloud",
+        "title": "Account: Inventory platform"
+      },
+      {
+        "id": "primary",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "production"
+      },
+      {
+        "id": "vpc",
+        "icon": "cloud",
+        "title": "VPC: Stock processing",
+        "in": "primary"
+      },
+      {
+        "id": "aza",
+        "icon": "cloud",
+        "title": "AZ: A - private tasks",
+        "in": "vpc"
+      },
+      {
+        "id": "azb",
+        "icon": "cloud",
+        "title": "AZ: B - private tasks",
+        "in": "vpc"
+      },
+      {
+        "id": "backups",
+        "icon": "cloud",
+        "title": "Account: Recovery archive"
+      },
+      {
+        "id": "backupRegion",
+        "icon": "cloud",
+        "title": "Region: Backup destination",
+        "in": "backups"
+      }
+    ],
+    "edges": [
+      {
+        "lhsId": "stores",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "api",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "api",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "ingest",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "ingest",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "journal",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "schedule",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "flow",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "flow",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "taskA",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "flow",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "taskB",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "taskA",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "db",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "taskB",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "db",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "supervisor",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "review",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "review",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "flow",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "flow",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "failures",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "db",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "vault",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      }
+    ],
+    "alignmentHints": [],
+    "metrics": {
+      "services": 13,
+      "junctions": 0,
+      "groups": 9,
+      "relationships": 12,
+      "components": 2,
+      "isolatedServices": 0,
+      "maxDepth": 4
+    },
+    "issues": [
+      {
+        "severity": "info",
+        "type": "disconnected-components",
+        "message": "2 disconnected components; confirm that separate views are intentional"
+      },
+      {
+        "severity": "info",
+        "type": "deep-containment",
+        "message": "4 containment levels may be difficult to read"
+      },
+      {
+        "severity": "info",
+        "type": "high-connectivity",
+        "nodes": [
+          "flow"
+        ],
+        "message": "flow has 5 neighbours; inspect its visual focus"
+      }
+    ],
+    "limitations": [
+      "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+    ]
+  },
+  "audit": {
+    "score": 100,
+    "coverage": "pele-positioned-geometry",
+    "metrics": {
+      "detachedEndpoints": 0,
+      "portViolations": 0,
+      "nodeOverlaps": 0,
+      "labelCollisions": 0,
+      "edgeNodeIntersections": 0,
+      "headerCrossings": 0,
+      "excessiveBends": 0,
+      "sharedSegments": 0
+    },
+    "integrity": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 34,
+      "labelsChecked": 13,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    },
+    "issues": [],
+    "limitations": [
+      "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+      "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+    ]
+  },
+  "styledIntegrity": {
+    "diner": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 34,
+      "labelsChecked": 13,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    }
+  }
+}

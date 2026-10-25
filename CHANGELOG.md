@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.2
+
+- Reorganized the website around Docs, Examples, and Boring AWS, with a complete 32-type reference, individual example pages, and practical getting-started guides.
+- Added ten fictional Boring AWS views with downloadable native and artistic renderings, source, and measured evidence.
+- Added four source-backed AWS reference reconstructions with provenance, omissions, and remaining geometry findings disclosed.
+- Added a static replay of real compiled-CLI safe edits, invalid-input refusal, stale-receipt rejection, and byte-exact rollback.
+- Added compact, expandable, copyable prompt cards above diagrams throughout the examples and homepage; removed repeated explanatory notes from the cards.
+
 ## 1.0.1
 
 - Clarified first-time setup, supported platforms, agent responsibilities, and expected output files on the homepage. Consolidated comparison evidence into a shared-style “Before & after” page without removing regression fixtures.

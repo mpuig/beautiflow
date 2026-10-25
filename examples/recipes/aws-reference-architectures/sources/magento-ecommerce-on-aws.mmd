@@ -1,0 +1,68 @@
+architecture-beta
+accTitle: Adobe Commerce and Magento on AWS - reference reconstruction
+accDescr: Two-AZ Magento deployment with DNS, WAF and CloudFront; public and internal load balancers; optional Varnish; EC2 Magento instances; OpenSearch, Redis, Aurora and EFS. Regional multi-AZ services are not independent zonal deployments.
+%% Source: https://docs.aws.amazon.com/reference-architecture-diagrams/latest/magento-ecommerce-on-aws/magento-ecommerce-on-aws.html
+%% Follow the reference's included optional Varnish tier; do not infer a bypass route.
+group aws(cloud)[AWS Cloud]
+group vpc(cloud)[VPC] in aws
+group az1(cloud)[Availability Zone 1] in vpc
+group az2(cloud)[Availability Zone 2] in vpc
+group public1(server)[Public subnet 1] in az1
+group public2(server)[Public subnet 2] in az2
+group private1(server)[Private subnet 1] in az1
+group private2(server)[Private subnet 2] in az2
+group searchCluster(server)[OpenSearch cluster - spans AZs] in vpc
+group redisCluster(server)[ElastiCache Redis - spans AZs] in vpc
+group auroraCluster(database)[Aurora cluster - spans AZs] in vpc
+service users(lucide:users)[Users]
+service dns(aws:route53)[Route 53 DNS] in aws
+service waf(aws:waf)[AWS WAF] in aws
+service cdn(aws:cloudfront)[CloudFront] in aws
+service igw(lucide:network)[Internet gateway] in vpc
+service externalAlb(aws:elb)[Internet facing ALB] in vpc
+service internalAlb(aws:elb)[Internal ALB] in vpc
+service nat1(aws:nat-gateway)[NAT gateway AZ1] in public1
+service nat2(aws:nat-gateway)[NAT gateway AZ2] in public2
+service varnish1(aws:ec2)[Varnish ASG member AZ1 - optional] in private1
+service varnish2(aws:ec2)[Varnish ASG member AZ2 - optional] in private2
+service magento1(aws:ec2)[Magento ASG member AZ1] in private1
+service magento2(aws:ec2)[Magento ASG member AZ2] in private2
+service search1(aws:open-search)[OpenSearch AZ1] in searchCluster
+service search2(aws:open-search)[OpenSearch AZ2] in searchCluster
+service redis1(aws:elasticache)[Redis AZ1] in redisCluster
+service redis2(aws:elasticache)[Redis AZ2] in redisCluster
+service writer(aws:aurora)[Aurora writer AZ1] in auroraCluster
+service reader(aws:aurora)[Aurora replica AZ2] in auroraCluster
+service mount1(lucide:folder-open)[EFS mount target AZ1] in private1
+service mount2(lucide:folder-open)[EFS mount target AZ2] in private2
+service efs(lucide:folder-tree)[Amazon EFS - regional] in aws
+%% DNS and WAF arrows are explanatory reference sequencing, not reverse-proxy hops.
+users:R -[DNS lookup]-> L:dns
+dns:B -[Reference sequence]-> T:waf
+waf:B -[Web ACL protection]-> T:cdn
+cdn:T --> T:externalAlb
+externalAlb:L --> R:varnish1
+externalAlb:R --> B:varnish2
+varnish1:B --> T:internalAlb
+varnish2:B --> B:internalAlb
+internalAlb:T --> T:magento1
+internalAlb:B --> B:magento2
+magento1:T --> B:search1
+magento2:T --> R:search2
+magento1:B --> T:redis1
+magento2:B --> R:redis2
+magento1:R -[Writes]-> L:writer
+magento2:T -[Writes]-> B:writer
+magento1:B -[Reads]-> B:reader
+magento2:R -[Reads]-> B:reader
+writer:R -[Replica relationship]-> L:reader
+redis1:L -[Async replication]-> T:redis2
+%% EFS content is shared with both Auto Scaling tiers, not only the application fleet.
+varnish1:T --> L:mount1
+varnish2:R --> T:mount2
+magento1:R --> T:mount1
+magento2:L --> B:mount2
+mount1:B --> B:efs
+mount2:R --> L:efs
+%% Dashed cluster/ASG outlines and cross-cutting AZ placement are documented in the guide.
+%% NAT and IGW are shown as network context; no invented egress paths or security rules.

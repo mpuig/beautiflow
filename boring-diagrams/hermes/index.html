@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hermes’ Delivery Office — Boring AWS Diagrams</title><meta name="description" content="Which tenant is allowed to publish, consume and replay each message?">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../site.css">
+<link rel="preload" href="../fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script type="module" src="../app.js"></script></head><body><a class="skip-link" href="#diagram">Skip to the diagram</a>
+<header class="masthead"><a class="wordmark" href="../" aria-label="Boring AWS Diagrams home">B/AWS</a><nav aria-label="Main"><a href="../#collection">Collection</a><a href="../#method">Our drawing process</a><a href="../../">Beautiflow ↗</a></nav></header>
+<main class="diagram-page"><nav class="page-navigation" aria-label="Collection navigation"><a href="../#collection">Back to all ten diagrams</a><div><a rel="prev" href="../aurora/">Previous diagram</a><a rel="next" href="../disco/">Next diagram</a></div></nav>
+<article class="exhibit" id="hermes" data-style="ancient" data-base="../entries/hermes">
+<div class="exhibit-heading"><h1>Hermes’ Delivery Office</h1><p class="treatment">Terracotta &amp; ink</p></div><p class="story">Hermes serves two customer accounts. Standard deliveries use a shared worker cell across two AZs; an enterprise customer gets a separate account, queue, worker and ledger.</p>
+<nav class="process-navigation" aria-label="Explore the authoring process"><a href="#prompt"><strong>Authoring prompt</strong><span>The brief that shaped this view</span></a><a href="#source"><strong>Mermaid source</strong><span>15 services · 15 relationships</span></a><a href="#evidence"><strong>Measured evidence</strong><span>Geometry, integrity &amp; limits</span></a></nav>
+<div class="diagram-workspace"><figure id="diagram"><div class="drawing-tools"><p>Which tenant is allowed to publish, consume and replay each message?</p><div class="view-controls" hidden><button type="button" data-view="art" aria-pressed="true">Drawing</button><button type="button" data-view="native" aria-pressed="false">Native layout</button><button type="button" class="fit-toggle" data-fit-toggle aria-pressed="true">Fit whole diagram</button></div></div>
+<p class="pan-hint" data-fit-hint>Whole diagram fitted. For larger labels, turn off “Fit whole diagram” and pan, or open the full-size SVG.</p><div class="drawing-window" data-fit="true" style="--drawing-width:1313px" tabindex="0" role="region" aria-label="Hermes’ Delivery Office architecture viewer"><img src="../entries/hermes/rendered/ancient.svg" width="1313" height="1658" alt="Hermes’ Delivery Office: Tenant A publisher, Tenant B publisher, Operator sign-in, Tenant controller, Authorized ingress, Pooled delivery queue, Pooled failed work, Delivery tasks A, Delivery tasks B, Pooled tenant ledger, Tenant B ingress, Tenant B queue, Tenant B worker, Tenant B ledger, Tenant B failed work. Relationships and limits are explained below." loading="eager"></div>
+<figcaption><a class="svg-download" href="../entries/hermes/rendered/ancient.svg" download="hermes-ancient.svg">Download SVG</a><a href="../entries/hermes/rendered/ancient.svg">Open full drawing ↗</a><a href="../entries/hermes/rendered/native.svg">Open native render ↗</a></figcaption></figure>
+<aside class="authoring-prompt" id="prompt" aria-labelledby="prompt-title"><h2 id="prompt-title">Authoring prompt</h2><p class="process-description">The design brief for this example.</p><blockquote>Design a fictional cross-account messaging SaaS. Bind authenticated publisher accounts to tenants; never trust a tenant ID in event detail. Show operator authentication, tenant-route administration, a pooled SQS worker cell with Fargate consumers in two private AZ placements, and a dedicated delivery account with its own bus, queue, Lambda, ledger and DLQ. Keep SQS and DynamoDB regional, outside AZ boxes.</blockquote><div class="prompt-actions"><a href="#source">Read the Mermaid source</a><a href="#evidence">Inspect measured evidence</a></div></aside></div>
+<div class="process-materials"><section id="source" class="source-panel" aria-labelledby="source-title"><div class="section-heading"><h2 id="source-title">Mermaid source</h2><a href="../entries/hermes/source.mmd" download="hermes.mmd">Download .mmd</a></div><p>Semantic content and gallery-only boundary/flow annotations stay in this file. The drawing treatment is applied after layout.</p><pre tabindex="0" aria-label="Hermes’ Delivery Office Mermaid source"><code>architecture-beta
+%% Fictional multi-tenant messaging. Account identity, not caller-supplied event detail, selects tenant routes.
+%% @boundary customerA account
+%% @boundary customerAr region
+%% @boundary customerB account
+%% @boundary customerBr region
+%% @boundary platform account
+%% @boundary primary region
+%% @boundary admin logical
+%% @boundary workersVpc vpc
+%% @boundary zoneA az
+%% @boundary zoneB az
+%% @boundary silo account
+%% @boundary siloRegion region
+group customerA(cloud)[Account: Tenant A]
+group customerAr(cloud)[Region: Primary] in customerA
+group customerB(cloud)[Account: Tenant B]
+group customerBr(cloud)[Region: Primary] in customerB
+group platform(cloud)[Account: Delivery platform]
+group primary(cloud)[Region: Primary] in platform
+group admin(cloud)[Logical: Tenant administration] in primary
+group workersVpc(cloud)[VPC: Worker cell] in primary
+group zoneA(cloud)[AZ: A - private tasks] in workersVpc
+group zoneB(cloud)[AZ: B - private tasks] in workersVpc
+group silo(cloud)[Account: Tenant B silo]
+group siloRegion(cloud)[Region: Primary] in silo
+service publisherA(aws:lambda)[Tenant A publisher] in customerAr
+service publisherB(aws:lambda)[Tenant B publisher] in customerBr
+service identity(aws:cognito)[Operator sign-in] in admin
+service controller(aws:lambda)[Tenant controller] in admin
+service bus(aws:eventbridge)[Authorized ingress] in primary
+service queue(aws:sqs)[Pooled delivery queue] in primary
+service dlq(aws:sqs)[Pooled failed work] in primary
+service workerA(aws:fargate)[Delivery tasks A] in zoneA
+service workerB(aws:fargate)[Delivery tasks B] in zoneB
+service ledger(aws:dynamodb)[Pooled tenant ledger] in primary
+service siloBus(aws:eventbridge)[Tenant B ingress] in siloRegion
+service siloQueue(aws:sqs)[Tenant B queue] in siloRegion
+service siloWorker(aws:lambda)[Tenant B worker] in siloRegion
+service siloLedger(aws:dynamodb)[Tenant B ledger] in siloRegion
+service siloDlq(aws:sqs)[Tenant B failed work] in siloRegion
+%% @edge publisherA bus event | SigV4 PutEvents under Tenant A workload role; bus policy restricts allowed principal/account and source.
+publisherA:R --&gt; L:bus
+%% @edge publisherB bus event | Tenant B publishes under its own role; account-to-tenant bindings are configured by the platform.
+publisherB:R --&gt; T:bus
+%% @edge identity controller identity | Authenticated operator JWT authorizes tenant administration; this is credential flow, not a Cognito RPC.
+identity:R --&gt; L:controller
+%% @edge controller bus control | Installs allowlisted account-to-tenant routes; do not trust a tenant ID supplied in event detail.
+controller:B --&gt; B:bus
+%% @edge bus queue event | Rules select the pooled tenant route and deliver through a queue resource policy.
+bus:R --&gt; L:queue
+%% @edge queue workerA event | Private tasks poll SQS over a configured interface endpoint; delivery is at least once.
+queue:R --&gt; L:workerA
+%% @edge queue workerB event | A second AZ runs independent consumers of the regional queue.
+queue:B --&gt; B:workerB
+%% @edge workerA ledger request | Conditional idempotency records and tenant-keyed state via a DynamoDB gateway endpoint.
+workerA:B --&gt; T:ledger
+%% @edge workerB ledger request | Same regional tenant ledger; no per-AZ DynamoDB clone is implied.
+workerB:L --&gt; R:ledger
+%% @edge queue dlq event | Configured redrive after unsuccessful receives; controlled replay is a separate operation.
+queue:T --&gt; B:dlq
+%% @edge bus siloBus event | Cross-account EventBridge forwarding needs a sender role and destination bus policy.
+bus:B --&gt; L:siloBus
+%% @edge siloBus siloQueue event | Dedicated account queue receives only the allowlisted Tenant B route.
+siloBus:R --&gt; L:siloQueue
+%% @edge siloQueue siloWorker event | Lambda event-source mapping polls the dedicated regional queue.
+siloQueue:R --&gt; L:siloWorker
+%% @edge siloWorker siloLedger request | Dedicated state and execution role; no pooled-data access is required.
+siloWorker:R --&gt; L:siloLedger
+%% @edge siloQueue siloDlq event | Dedicated redrive destination with an explicit source-queue allow policy.
+siloQueue:B --&gt; T:siloDlq
+</code></pre><p>Reproduce this collection from the Beautiflow repository:</p><pre tabindex="0"><code>bun scripts/build-boring-diagrams.ts</code></pre><div class="source-links"><a href="../entries/hermes/scene.json">Positioned scene JSON</a><a href="../draw.js">Drawing program</a></div></section>
+<section id="evidence" class="evidence-panel" aria-labelledby="evidence-title"><div class="section-heading"><h2 id="evidence-title">Measured evidence</h2><a href="../entries/hermes/evidence.json">Full evidence JSON</a></div><dl class="evidence-summary"><div><dt>Native geometry</dt><dd>0 findings across 8 measured checks</dd></div><div><dt>Styled render integrity</dt><dd>0 element, plain-label, ID or reference findings</dd></div><div><dt>Authored annotations</dt><dd>12 boundaries · 15 relationship meanings</dd></div><div><dt>AWS configuration</dt><dd>Not validated</dd></div></dl><p class="evidence-limits">These checks do not establish visual quality, every decorative mark, browser glyph ink, edge-label boxes or deployed AWS correctness. Architecture has guarded transforms, not automatic polish.</p><h3>Source SHA-256</h3><code class="source-hash">732f53f787b48a2bd31f6e07e28afead4778745970bf7d1878aa6837315c5051</code><div class="source-links"><a href="../entries/hermes/capabilities.json">Agent capabilities JSON</a><a href="../entries/hermes/scene.json">Positioned scene JSON</a></div></section></div>
+
+<details class="relationships"><summary>Read all 15 relationships</summary><p>Line patterns distinguish requests, credentials, events, replication, configuration/control and recovery. Hover a styled connector for its meaning. Native layout preserves routes but does not include these gallery annotations.</p><div class="flow-scroll" tabindex="0" role="region" aria-label="Relationships for Hermes’ Delivery Office"><table><caption>Authored flow meanings, not deployed AWS configuration evidence</caption><thead><tr><th scope="col">From</th><th scope="col">To</th><th scope="col">Kind</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td>Tenant A publisher</td><td>Authorized ingress</td><td>event</td><td>SigV4 PutEvents under Tenant A workload role; bus policy restricts allowed principal/account and source.</td></tr><tr><td>Tenant B publisher</td><td>Authorized ingress</td><td>event</td><td>Tenant B publishes under its own role; account-to-tenant bindings are configured by the platform.</td></tr><tr><td>Operator sign-in</td><td>Tenant controller</td><td>identity</td><td>Authenticated operator JWT authorizes tenant administration; this is credential flow, not a Cognito RPC.</td></tr><tr><td>Tenant controller</td><td>Authorized ingress</td><td>control</td><td>Installs allowlisted account-to-tenant routes; do not trust a tenant ID supplied in event detail.</td></tr><tr><td>Authorized ingress</td><td>Pooled delivery queue</td><td>event</td><td>Rules select the pooled tenant route and deliver through a queue resource policy.</td></tr><tr><td>Pooled delivery queue</td><td>Delivery tasks A</td><td>event</td><td>Private tasks poll SQS over a configured interface endpoint; delivery is at least once.</td></tr><tr><td>Pooled delivery queue</td><td>Delivery tasks B</td><td>event</td><td>A second AZ runs independent consumers of the regional queue.</td></tr><tr><td>Delivery tasks A</td><td>Pooled tenant ledger</td><td>request</td><td>Conditional idempotency records and tenant-keyed state via a DynamoDB gateway endpoint.</td></tr><tr><td>Delivery tasks B</td><td>Pooled tenant ledger</td><td>request</td><td>Same regional tenant ledger; no per-AZ DynamoDB clone is implied.</td></tr><tr><td>Pooled delivery queue</td><td>Pooled failed work</td><td>event</td><td>Configured redrive after unsuccessful receives; controlled replay is a separate operation.</td></tr><tr><td>Authorized ingress</td><td>Tenant B ingress</td><td>event</td><td>Cross-account EventBridge forwarding needs a sender role and destination bus policy.</td></tr><tr><td>Tenant B ingress</td><td>Tenant B queue</td><td>event</td><td>Dedicated account queue receives only the allowlisted Tenant B route.</td></tr><tr><td>Tenant B queue</td><td>Tenant B worker</td><td>event</td><td>Lambda event-source mapping polls the dedicated regional queue.</td></tr><tr><td>Tenant B worker</td><td>Tenant B ledger</td><td>request</td><td>Dedicated state and execution role; no pooled-data access is required.</td></tr><tr><td>Tenant B queue</td><td>Tenant B failed work</td><td>event</td><td>Dedicated redrive destination with an explicit source-queue allow policy.</td></tr></tbody></table></div></details>
+<details class="architecture-notes"><summary>Architecture assumptions &amp; omissions</summary><ul><li>Tenant A and B are illustrative customers. Workload roles sign PutEvents; resource policies and an account-to-tenant allowlist constrain ingress and routing. Multi-tenant publishers within a single customer account would need a separately validated ingress contract.</li><li>AZ A/B contain private Fargate tasks, not independent SQS or DynamoDB instances. Assumed SQS interface endpoints have ENIs in enabled AZs; DynamoDB uses a gateway endpoint. Endpoint and security-group configuration is not drawn.</li><li>Cross-account bus forwarding requires a sender role, destination bus policy and explicit target permissions. Dedicated workers have no intended pooled-state access. These policies are design requirements, not validated IAM documents.</li><li>Queue arrows denote polling and configured redrive. Consumers need idempotency, tenant-scoped state access and a privileged, audited replay process. A shared queue is a noisy-neighbour trade-off; stricter service tiers may need more queue partitions. Recipient transport and autoscaling policies are omitted.</li></ul></details>
+<nav class="end-navigation" aria-label="Continue exploring"><a href="../#collection">Back to the collection</a><a rel="next" href="../disco/">Next: Saturday Night Queue ↗</a></nav></article></main><footer><a href="../">Boring AWS Diagrams</a><p>Less box dragging. More interesting systems.</p><a href="https://github.com/mpuig/beautiflow">Source on GitHub ↗</a></footer><p id="drawing-status" class="sr-only" aria-live="polite"></p></body></html>

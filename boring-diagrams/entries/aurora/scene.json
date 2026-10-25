@@ -1,0 +1,1284 @@
+{
+  "family": "architecture",
+  "title": "The Grand Aurora Hotel",
+  "description": "Scope: deployment overview. Cell services and Aurora clusters are aggregates, not single-AZ instances. The companion views expand identity/isolation and one pooled cell’s availability/recovery design. They are authored views, not automatic projections. Assumptions: tenant onboarding writes an authoritative tenant-to-cell directory; discovery returns an endpoint to the browser. Each cell independently verifies identity, tenant assignment and membership. Discovery is not a trusted authorization shortcut. The enterprise account has separate credentials, application resources and database. Pooled isolation additionally needs transaction-local validated tenant context, a non-owner database role, forced row-level policies and tests for bypass paths. Provisioning uses an allowlisted cross-account role and CloudFormation. Organization-trail coverage, central bucket policy, KMS permissions and retention must be configured; API audit capture is not application-log capture. No deployed configuration is supplied.",
+  "sourceHash": "27cb9a76757c0f0ad7d04976961674812846964ba716cbe8d067eb0b5c879b09",
+  "width": 961,
+  "height": 1474,
+  "geometry": {
+    "services": [
+      {
+        "id": "identity",
+        "icon": {
+          "x": 56,
+          "y": 508,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 44.424,
+          "y": 560,
+          "width": 71.152,
+          "height": 42
+        }
+      },
+      {
+        "id": "discovery",
+        "icon": {
+          "x": 217,
+          "y": 508,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 207.216,
+          "y": 560,
+          "width": 67.568,
+          "height": 42
+        }
+      },
+      {
+        "id": "tenants",
+        "icon": {
+          "x": 369,
+          "y": 508,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 362.328,
+          "y": 560,
+          "width": 61.344,
+          "height": 42
+        }
+      },
+      {
+        "id": "provision",
+        "icon": {
+          "x": 56,
+          "y": 642,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 40.88,
+          "y": 694,
+          "width": 78.24,
+          "height": 42
+        }
+      },
+      {
+        "id": "sharedIngress",
+        "icon": {
+          "x": 217,
+          "y": 1058,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 200.984,
+          "y": 1110,
+          "width": 80.032,
+          "height": 42
+        }
+      },
+      {
+        "id": "sharedApp",
+        "icon": {
+          "x": 369,
+          "y": 1058,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 351.64,
+          "y": 1110,
+          "width": 82.72,
+          "height": 42
+        }
+      },
+      {
+        "id": "sharedDb",
+        "icon": {
+          "x": 369,
+          "y": 924,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 351.648,
+          "y": 976,
+          "width": 82.704,
+          "height": 42
+        }
+      },
+      {
+        "id": "dedicatedIngress",
+        "icon": {
+          "x": 369,
+          "y": 242,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 342.76,
+          "y": 294,
+          "width": 100.48,
+          "height": 42
+        }
+      },
+      {
+        "id": "dedicatedApp",
+        "icon": {
+          "x": 677,
+          "y": 242,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 649.4159999999999,
+          "y": 294,
+          "width": 103.168,
+          "height": 42
+        }
+      },
+      {
+        "id": "dedicatedDb",
+        "icon": {
+          "x": 815,
+          "y": 242,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 797.648,
+          "y": 294,
+          "width": 82.704,
+          "height": 42
+        }
+      },
+      {
+        "id": "deployRole",
+        "icon": {
+          "x": 217,
+          "y": 72,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 201.43200000000002,
+          "y": 124,
+          "width": 79.136,
+          "height": 42
+        }
+      },
+      {
+        "id": "stack",
+        "icon": {
+          "x": 677,
+          "y": 72,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 666.328,
+          "y": 124,
+          "width": 69.344,
+          "height": 24
+        }
+      },
+      {
+        "id": "trail",
+        "icon": {
+          "x": 677,
+          "y": 1324,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 655.648,
+          "y": 1376,
+          "width": 90.704,
+          "height": 42
+        }
+      },
+      {
+        "id": "logs",
+        "icon": {
+          "x": 815,
+          "y": 1324,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 793.648,
+          "y": 1376,
+          "width": 90.704,
+          "height": 42
+        }
+      }
+    ],
+    "routes": [
+      {
+        "source": "identity",
+        "target": "discovery",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 104,
+          "y": 532
+        },
+        "targetAnchor": {
+          "x": 217,
+          "y": 532
+        },
+        "points": [
+          {
+            "x": 104,
+            "y": 532
+          },
+          {
+            "x": 217,
+            "y": 532
+          }
+        ]
+      },
+      {
+        "source": "discovery",
+        "target": "tenants",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 265,
+          "y": 532
+        },
+        "targetAnchor": {
+          "x": 369,
+          "y": 532
+        },
+        "points": [
+          {
+            "x": 265,
+            "y": 532
+          },
+          {
+            "x": 369,
+            "y": 532
+          }
+        ]
+      },
+      {
+        "source": "discovery",
+        "target": "sharedIngress",
+        "sourcePort": "B",
+        "targetPort": "T",
+        "sourceAnchor": {
+          "x": 241,
+          "y": 604
+        },
+        "targetAnchor": {
+          "x": 241,
+          "y": 1058
+        },
+        "points": [
+          {
+            "x": 241,
+            "y": 604
+          },
+          {
+            "x": 241,
+            "y": 1058
+          }
+        ]
+      },
+      {
+        "source": "discovery",
+        "target": "dedicatedIngress",
+        "sourcePort": "T",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 241,
+          "y": 508
+        },
+        "targetAnchor": {
+          "x": 369,
+          "y": 266
+        },
+        "points": [
+          {
+            "x": 241,
+            "y": 508
+          },
+          {
+            "x": 241,
+            "y": 266
+          },
+          {
+            "x": 369,
+            "y": 266
+          }
+        ]
+      },
+      {
+        "source": "sharedIngress",
+        "target": "sharedApp",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 265,
+          "y": 1082
+        },
+        "targetAnchor": {
+          "x": 369,
+          "y": 1082
+        },
+        "points": [
+          {
+            "x": 265,
+            "y": 1082
+          },
+          {
+            "x": 369,
+            "y": 1082
+          }
+        ]
+      },
+      {
+        "source": "sharedApp",
+        "target": "sharedDb",
+        "sourcePort": "T",
+        "targetPort": "B",
+        "sourceAnchor": {
+          "x": 393,
+          "y": 1058
+        },
+        "targetAnchor": {
+          "x": 393,
+          "y": 1020
+        },
+        "points": [
+          {
+            "x": 393,
+            "y": 1058
+          },
+          {
+            "x": 393,
+            "y": 1020
+          }
+        ]
+      },
+      {
+        "source": "dedicatedIngress",
+        "target": "dedicatedApp",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 417,
+          "y": 266
+        },
+        "targetAnchor": {
+          "x": 677,
+          "y": 266
+        },
+        "points": [
+          {
+            "x": 417,
+            "y": 266
+          },
+          {
+            "x": 677,
+            "y": 266
+          }
+        ]
+      },
+      {
+        "source": "dedicatedApp",
+        "target": "dedicatedDb",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 725,
+          "y": 266
+        },
+        "targetAnchor": {
+          "x": 815,
+          "y": 266
+        },
+        "points": [
+          {
+            "x": 725,
+            "y": 266
+          },
+          {
+            "x": 815,
+            "y": 266
+          }
+        ]
+      },
+      {
+        "source": "provision",
+        "target": "deployRole",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 104,
+          "y": 666
+        },
+        "targetAnchor": {
+          "x": 217,
+          "y": 96
+        },
+        "points": [
+          {
+            "x": 104,
+            "y": 666
+          },
+          {
+            "x": 160.5,
+            "y": 666
+          },
+          {
+            "x": 160.5,
+            "y": 96
+          },
+          {
+            "x": 217,
+            "y": 96
+          }
+        ]
+      },
+      {
+        "source": "deployRole",
+        "target": "stack",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 265,
+          "y": 96
+        },
+        "targetAnchor": {
+          "x": 677,
+          "y": 96
+        },
+        "points": [
+          {
+            "x": 265,
+            "y": 96
+          },
+          {
+            "x": 677,
+            "y": 96
+          }
+        ]
+      },
+      {
+        "source": "stack",
+        "target": "dedicatedApp",
+        "sourcePort": "B",
+        "targetPort": "T",
+        "sourceAnchor": {
+          "x": 701,
+          "y": 150
+        },
+        "targetAnchor": {
+          "x": 701,
+          "y": 242
+        },
+        "points": [
+          {
+            "x": 701,
+            "y": 150
+          },
+          {
+            "x": 701,
+            "y": 242
+          }
+        ]
+      },
+      {
+        "source": "sharedApp",
+        "target": "trail",
+        "sourcePort": "B",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 393,
+          "y": 1154
+        },
+        "targetAnchor": {
+          "x": 677,
+          "y": 1348
+        },
+        "points": [
+          {
+            "x": 393,
+            "y": 1154
+          },
+          {
+            "x": 393,
+            "y": 1348
+          },
+          {
+            "x": 677,
+            "y": 1348
+          }
+        ]
+      },
+      {
+        "source": "dedicatedApp",
+        "target": "trail",
+        "sourcePort": "B",
+        "targetPort": "T",
+        "sourceAnchor": {
+          "x": 701,
+          "y": 338
+        },
+        "targetAnchor": {
+          "x": 701,
+          "y": 1324
+        },
+        "points": [
+          {
+            "x": 701,
+            "y": 338
+          },
+          {
+            "x": 701,
+            "y": 1324
+          }
+        ]
+      },
+      {
+        "source": "trail",
+        "target": "logs",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 725,
+          "y": 1348
+        },
+        "targetAnchor": {
+          "x": 815,
+          "y": 1348
+        },
+        "points": [
+          {
+            "x": 725,
+            "y": 1348
+          },
+          {
+            "x": 815,
+            "y": 1348
+          }
+        ]
+      }
+    ],
+    "headers": [
+      {
+        "x": 247,
+        "y": 442,
+        "width": 187.856,
+        "height": 24
+      },
+      {
+        "x": 247,
+        "y": 478,
+        "width": 140.688,
+        "height": 24
+      },
+      {
+        "x": 247,
+        "y": 822,
+        "width": 221.664,
+        "height": 24
+      },
+      {
+        "x": 247,
+        "y": 858,
+        "width": 140.688,
+        "height": 24
+      },
+      {
+        "x": 332,
+        "y": 894,
+        "width": 186.96,
+        "height": 24
+      },
+      {
+        "x": 190,
+        "y": 6,
+        "width": 204.752,
+        "height": 24
+      },
+      {
+        "x": 332,
+        "y": 42,
+        "width": 140.688,
+        "height": 24
+      },
+      {
+        "x": 707,
+        "y": 212,
+        "width": 168.272,
+        "height": 24
+      },
+      {
+        "x": 707,
+        "y": 1258,
+        "width": 206.512,
+        "height": 24
+      },
+      {
+        "x": 707,
+        "y": 1294,
+        "width": 140.688,
+        "height": 24
+      }
+    ],
+    "offset": {
+      "x": 8,
+      "y": 8
+    }
+  },
+  "nodes": [
+    {
+      "id": "identity",
+      "label": "Staff federation",
+      "icon": "aws:cognito",
+      "parent": "controlRegion",
+      "transform": "translate(80,508)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:cognito\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-db964a2578c4-11-SVGYPnorcPn\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#bd0816\"/><stop offset=\"100%\" stop-color=\"#ff5252\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-db964a2578c4-11-SVGYPnorcPn)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M54.283 114.585H95.58v-6.344H54.283zm142.119 46.154l4.491 4.485l-23.59 23.556a3.18 3.18 0 0 1-4.491 0l-11.868-11.848l4.491-4.485l9.623 9.605zm14.619 17.481c-.725 5.964-3.152 11.511-7.03 16.048a30.6 30.6 0 0 1-10.058 7.701a30 30 0 0 1-16.506 2.665a30.05 30.05 0 0 1-15.06-6.29c-8.33-6.614-12.535-16.87-11.255-27.436a30.3 30.3 0 0 1 16.185-23.301a29.9 29.9 0 0 1 13.726-3.337c1.223 0 2.456.076 3.685.225c9.962 1.215 18.65 7.302 23.231 16.282a30.24 30.24 0 0 1 3.082 17.443m2.58-20.32c-5.544-10.868-16.059-18.233-28.124-19.702a36.25 36.25 0 0 0-21.096 3.772a36.64 36.64 0 0 0-19.578 28.177c-1.544 12.768 3.542 25.167 13.612 33.164a36.4 36.4 0 0 0 18.24 7.62q2.221.27 4.438.269a36.3 36.3 0 0 0 15.566-3.502a36.9 36.9 0 0 0 12.163-9.313c4.692-5.488 7.634-12.197 8.508-19.404a36.54 36.54 0 0 0-3.73-21.081M86.05 133.618h12.706v-6.344H86.05zm-31.768 0h25.414v-6.344H54.283zM51.54 51.144h142.086c3.742 0 6.786 3.702 6.786 8.25v23.47h-9.53v-15.86a3.173 3.173 0 0 0-3.177-3.172H114.64a3.173 3.173 0 0 0-3.176 3.172v15.86h-66.71v-23.47c0-4.472 3.11-8.25 6.785-8.25m99.68 30.8c7.377 0 13.378 5.933 13.378 13.222c0 4.806-2.653 9.228-6.922 11.543a13.6 13.6 0 0 1-12.939.003c-4.253-2.322-6.893-6.744-6.893-11.546c0-7.29 5.997-13.221 13.377-13.221M44.754 150.748V89.209h66.71v53.925a3.17 3.17 0 0 0 3.177 3.172h33.21v-6.344h-26.532c.276-12.695 8.716-23.66 20.87-27.163c5.617 2.624 12.323 2.65 18.025-.003c6.919 1.999 12.973 6.62 16.725 12.815l5.435-3.286c-3.85-6.347-9.692-11.302-16.467-14.182c3.176-3.521 5.044-8.102 5.044-12.977c0-10.788-8.853-19.565-19.73-19.565c-10.88 0-19.73 8.777-19.73 19.565c0 4.856 1.848 9.421 5.003 12.942a35.17 35.17 0 0 0-18.676 18.525V70.176h66.71v50.753h6.354V89.21h9.53l.003 47.58h6.353l-.003-77.394c0-8.048-5.893-14.595-13.139-14.595H51.54c-7.246 0-13.139 6.547-13.139 14.595v91.352c0 8.047 5.893 14.591 13.139 14.591h85.338v-6.344H51.539c-3.676 0-6.786-3.775-6.786-8.247\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Staff</tspan><tspan x=\"0\" y=\"89.1\">federation</tspan></text>"
+    },
+    {
+      "id": "discovery",
+      "label": "Tenant discovery",
+      "icon": "aws:lambda",
+      "parent": "controlRegion",
+      "transform": "translate(241,508)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:lambda\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-3621c043acaa-12-SVGeyciVcvH\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#c8511b\"/><stop offset=\"100%\" stop-color=\"#f90\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-3621c043acaa-12-SVGeyciVcvH)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M89.624 211.2H49.89l43.945-91.853l19.912 40.992zm7.079-100.63a3.22 3.22 0 0 0-2.887-1.805h-.01a3.2 3.2 0 0 0-2.886 1.82L41.913 213.022a3.203 3.203 0 0 0 2.893 4.58l46.848-.001a3.21 3.21 0 0 0 2.9-1.83l25.65-54.08a3.18 3.18 0 0 0-.016-2.762zM207.985 211.2h-39.477L105.174 78.624a3.21 3.21 0 0 0-2.897-1.824h-25.83l.03-32h50.626l63.042 132.573a3.21 3.21 0 0 0 2.897 1.827h14.943zm3.208-38.4h-16.121L132.03 40.227a3.21 3.21 0 0 0-2.9-1.827H73.273a3.206 3.206 0 0 0-3.208 3.197l-.035 38.4c0 .851.333 1.664.94 2.265c.6.602 1.414.938 2.267.938h27.017l63.337 132.576a3.2 3.2 0 0 0 2.893 1.824h44.709a3.203 3.203 0 0 0 3.207-3.2V176c0-1.766-1.434-3.2-3.207-3.2\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Tenant</tspan><tspan x=\"0\" y=\"89.1\">discovery</tspan></text>"
+    },
+    {
+      "id": "tenants",
+      "label": "Tenant directory",
+      "icon": "aws:dynamodb",
+      "parent": "controlRegion",
+      "transform": "translate(393,508)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:dynamodb\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-bf36248ccf12-13-SVGte2wIbLN\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#2e27ad\"/><stop offset=\"100%\" stop-color=\"#527fff\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-bf36248ccf12-13-SVGte2wIbLN)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M166.675 175.52c-10.682 8.637-33.091 13.2-54.534 13.2c-21.447 0-43.863-4.566-54.541-13.202v17.392h.003c0 8.675 22.397 18.342 54.538 18.342c32.115 0 54.499-9.655 54.534-18.323zm.003-33.049l6.4-.035v.035c0 3.866-1.936 7.475-5.705 10.779c4.57 4.021 5.705 7.966 5.705 10.775c0 .02-.003.035-.003.054v28.831h.003c0 16.035-31.398 24.69-60.937 24.69c-29.469 0-60.781-8.617-60.931-24.578c0-.016-.01-.032-.01-.048v-28.958c0-.007.006-.016.006-.026c.01-2.809 1.15-6.738 5.712-10.75c-4.534-4.005-5.686-7.912-5.715-10.699h.003c0-.013-.006-.022-.006-.035v-28.958c0-.01.006-.02.006-.029c.01-2.809 1.152-6.738 5.716-10.743c-4.538-4.009-5.69-7.92-5.719-10.703h.003c0-.012-.006-.025-.006-.038V63.08c0-.01.006-.019.006-.029C51.261 47.04 82.624 38.4 112.141 38.4c16.675 0 32.694 2.65 43.948 7.271l-2.448 5.866c-10.505-4.314-25.632-6.79-41.5-6.79c-32.141 0-54.538 9.668-54.538 18.349c0 8.677 22.397 18.345 54.538 18.345c.867.01 1.715 0 2.573-.032l.268 6.342c-.947.038-1.894.038-2.841.038c-21.447 0-43.863-4.568-54.541-13.204V91.97h.003v.073c.032 3.329 3.447 6.236 6.307 8.083c8.608 5.488 24.032 9.236 41.232 10.014l-.29 6.341c-17.425-.79-32.682-4.405-42.503-9.946c-2.42 1.809-4.746 4.256-4.746 7.03c0 8.677 22.397 18.345 54.538 18.345c3.152 0 6.281-.105 9.305-.315l.445 6.332c-3.168.22-6.451.33-9.75.33c-21.447 0-43.863-4.567-54.541-13.203v17.383h.003c.032 3.403 3.447 6.307 6.307 8.157c9.844 6.281 28.327 10.192 48.23 10.192h1.409v6.347h-1.408c-20.221 0-38.599-3.754-49.837-10.099c-2.406 1.806-4.7 4.24-4.7 6.992c0 8.677 22.396 18.348 54.537 18.348c32.115 0 54.499-9.655 54.534-18.326v-.035c-.006-2.758-2.31-5.192-4.723-6.998a45 45 0 0 1-5.14 2.523l-2.45-5.865c2.323-.955 4.339-1.987 5.993-3.072c2.886-1.883 6.323-4.825 6.323-8.129m27.411-46.418h-17.932c-1.06 0-2.055-.52-2.647-1.39a3.14 3.14 0 0 1-.33-2.951l10.91-27.27h-41.31l-19.2 38.086h20.423c1.02 0 1.98.486 2.586 1.301c.598.82.774 1.87.464 2.838l-18.228 56.818zm9.821-.974l-79.996 82.648a3.22 3.22 0 0 1-2.31.974a3.2 3.2 0 0 1-1.636-.444a3.16 3.16 0 0 1-1.414-3.692l21.075-65.69h-21.226a3.21 3.21 0 0 1-2.723-1.504a3.15 3.15 0 0 1-.138-3.088l22.4-44.434a3.2 3.2 0 0 1 2.861-1.755h48a3.21 3.21 0 0 1 2.646 1.39a3.15 3.15 0 0 1 .33 2.955L180.87 89.706h20.73c1.28 0 2.441.761 2.944 1.93a3.16 3.16 0 0 1-.634 3.443M62.256 194.158c4.534 2.555 10.243 4.703 16.966 6.38l1.562-6.158c-6.077-1.514-11.389-3.5-15.366-5.742zm16.966-44.403l1.562-6.154c-6.077-1.517-11.389-3.504-15.366-5.745l-3.162 5.52c4.534 2.555 10.24 4.704 16.966 6.38M62.256 92.594l3.162-5.52c3.97 2.241 9.286 4.225 15.366 5.745l-1.562 6.154c-6.732-1.679-12.438-3.827-16.966-6.38\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Tenant</tspan><tspan x=\"0\" y=\"89.1\">directory</tspan></text>"
+    },
+    {
+      "id": "provision",
+      "label": "Cell provisioner",
+      "icon": "aws:step-functions",
+      "parent": "controlRegion",
+      "transform": "translate(80,642)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:step-functions\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-a7b869691c58-14-SVGyDrnJbhE\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#b0084d\"/><stop offset=\"100%\" stop-color=\"#ff4f8b\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-a7b869691c58-14-SVGyDrnJbhE)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M144 140.8h67.2v-22.4H144zm70.4-28.8h-73.6a3.2 3.2 0 0 0-3.2 3.2V144a3.2 3.2 0 0 0 3.2 3.2h73.6a3.2 3.2 0 0 0 3.2-3.2v-28.8a3.2 3.2 0 0 0-3.2-3.2m-75.2 88c0 6.176-5.024 11.2-11.2 11.2s-11.2-5.024-11.2-11.2s5.024-11.2 11.2-11.2s11.2 5.024 11.2 11.2m-94.4-49.6h57.6v-12.8H44.8zm0-32h57.6v-12.8H44.8zm72-62.4c0-6.176 5.024-11.2 11.2-11.2s11.2 5.024 11.2 11.2s-5.024 11.2-11.2 11.2s-11.2-5.024-11.2-11.2m62.4 113.6H76.8v-12.8h28.8a3.2 3.2 0 0 0 3.2-3.2v-19.2a3.2 3.2 0 0 0-3.2-3.2H76.8v-6.4h28.8a3.2 3.2 0 0 0 3.2-3.2v-19.2a3.2 3.2 0 0 0-3.2-3.2H76.8v-9.6h102.4v12.8h6.4v-16a3.2 3.2 0 0 0-3.2-3.2h-51.2v-9.907c8.18-1.51 14.4-8.682 14.4-17.293c0-9.706-7.898-17.6-17.6-17.6s-17.6 7.894-17.6 17.6c0 8.611 6.22 15.782 14.4 17.293V83.2H73.6a3.2 3.2 0 0 0-3.2 3.2v12.8H41.6a3.2 3.2 0 0 0-3.2 3.2v19.2a3.2 3.2 0 0 0 3.2 3.2h28.8v6.4H41.6a3.2 3.2 0 0 0-3.2 3.2v19.2a3.2 3.2 0 0 0 3.2 3.2h28.8v16a3.2 3.2 0 0 0 3.2 3.2h51.2v6.707c-8.18 1.51-14.4 8.682-14.4 17.293c0 9.706 7.898 17.6 17.6 17.6s17.6-7.894 17.6-17.6c0-8.611-6.22-15.782-14.4-17.293V176h51.2a3.2 3.2 0 0 0 3.2-3.2v-15.914h-6.4z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Cell</tspan><tspan x=\"0\" y=\"89.1\">provisioner</tspan></text>"
+    },
+    {
+      "id": "sharedIngress",
+      "label": "Shared cell API",
+      "icon": "aws:api-gateway",
+      "parent": "pooledRegion",
+      "transform": "translate(241,1058)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:api-gateway\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-a3df41a88d39-15-SVGyDrnJbhE\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#b0084d\"/><stop offset=\"100%\" stop-color=\"#ff4f8b\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-a3df41a88d39-15-SVGyDrnJbhE)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M109.008 178.024h9.392v-6.455h-9.392zm15.792 0h9.6v-6.455h-9.6zM86.4 46.814L44.8 67.463v128.356l41.6 14.068zm6.4 40.845v83.91h9.6v6.455h-9.6v36.349a3.24 3.24 0 0 1-1.331 2.62a3.18 3.18 0 0 1-2.887.44l-48-16.23a3.23 3.23 0 0 1-2.182-3.06V65.452c0-1.226.694-2.353 1.789-2.895l48-23.824a3.16 3.16 0 0 1 3.1.155a3.23 3.23 0 0 1 1.511 2.74v39.576h9.6v6.455zm48 90.365h9.6v-6.455h-9.6zm.208-90.365h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zM211.2 67.463l-41.6-20.649v163.073l41.6-14.068zm6.4 130.68a3.23 3.23 0 0 1-2.182 3.06l-48 16.23a3.17 3.17 0 0 1-2.887-.44a3.24 3.24 0 0 1-1.331-2.62v-36.35h-6.192v-6.454h6.192v-83.91h-6.192v-6.455h6.192V41.628c0-1.117.573-2.153 1.51-2.74a3.16 3.16 0 0 1 3.101-.155l48 23.824a3.23 3.23 0 0 1 1.789 2.895zm-80.211-89.962l-5.978-2.317l-16 41.955l5.978 2.317zm21.673 20.487a3.243 3.243 0 0 0 0-4.563l-12.8-12.91l-4.524 4.564l10.537 10.628l-10.537 10.627l4.524 4.564zm-49.324 12.91l-12.8-12.91a3.243 3.243 0 0 1 0-4.563l12.8-12.91l4.524 4.564l-10.537 10.628l10.537 10.627z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Shared cell</tspan><tspan x=\"0\" y=\"89.1\">API</tspan></text>"
+    },
+    {
+      "id": "sharedApp",
+      "label": "Shared app service",
+      "icon": "aws:fargate",
+      "parent": "pooledVpc",
+      "transform": "translate(393,1058)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:fargate\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-76c4685dabad-16-SVGeyciVcvH\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#c8511b\"/><stop offset=\"100%\" stop-color=\"#f90\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-76c4685dabad-16-SVGeyciVcvH)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M166.4 180.874v-15.508l9.6-3.84v15.508zm-16-19.348l9.6 3.84v15.508l-9.6-3.84zm-19.2 41.748v-15.508l9.6-3.84v15.508zm-16-19.348l9.6 3.84v15.508l-9.6-3.84zM96 180.874v-15.508l9.6-3.84v15.508zm-16-19.348l9.6 3.84v15.508l-9.6-3.84zm12.8-7.68l7.386 2.954l-7.386 2.954l-7.386-2.954zm35.2 22.4l7.386 2.954l-7.386 2.954l-7.386-2.954zm35.2-22.4l7.386 2.954l-7.386 2.954l-7.386-2.954zm17.187-.019l-16-6.4c-.761-.3-1.613-.3-2.374 0l-16 6.4A3.205 3.205 0 0 0 144 156.8v18.954l-14.813-5.927c-.761-.3-1.613-.3-2.374 0L112 175.754V156.8a3.205 3.205 0 0 0-2.013-2.973l-16-6.4c-.761-.3-1.613-.3-2.374 0l-16 6.4A3.205 3.205 0 0 0 73.6 156.8v22.4c0 1.309.797 2.483 2.013 2.973l16 6.4c.38.15.784.227 1.187.227s.806-.077 1.187-.227l14.813-5.927V201.6c0 1.309.797 2.483 2.013 2.973l16 6.4c.38.15.784.227 1.187.227s.806-.077 1.187-.227l16-6.4a3.205 3.205 0 0 0 2.013-2.973v-18.954l14.813 5.927c.38.15.784.227 1.187.227s.806-.077 1.187-.227l16-6.4a3.205 3.205 0 0 0 2.013-2.973v-22.4a3.205 3.205 0 0 0-2.013-2.973M208 115.002c0 18.704-41.22 28.8-80 28.8s-80-10.096-80-28.8c0-8.932 9.904-16.794 27.888-22.141l1.824 6.134c-14.38 4.275-23.312 10.41-23.312 16.007c0 10.595 30.224 22.4 73.6 22.4s73.6-11.805 73.6-22.4c0-5.597-8.931-11.732-23.312-16.007l1.824-6.134C198.096 98.208 208 106.07 208 115m-80-60.375L160.685 67.2L128 79.773L95.315 67.2zm33.856 63.267c-6.035 2.701-16.166 5.847-30.656 6.27V85.397l35.2-13.536v39.012c0 3.043-1.78 5.798-4.544 7.02m-72.256-7.02V71.862l35.2 13.536v38.765c-14.49-.422-24.62-3.568-30.669-6.275c-2.752-1.216-4.531-3.971-4.531-7.014m1.933 12.86c7.043 3.152 19.088 6.912 36.467 6.912c17.38 0 29.424-3.76 36.458-6.905c5.068-2.243 8.342-7.293 8.342-12.867V67.2a3.2 3.2 0 0 0-2.051-2.989l-41.6-16a3.23 3.23 0 0 0-2.298 0l-41.6 16A3.2 3.2 0 0 0 83.2 67.2v43.674c0 5.574 3.274 10.624 8.333 12.86\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Shared app</tspan><tspan x=\"0\" y=\"89.1\">service</tspan></text>"
+    },
+    {
+      "id": "sharedDb",
+      "label": "Pooled booking DB",
+      "icon": "aws:aurora",
+      "parent": "pooledVpc",
+      "transform": "translate(393,924)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:aurora\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-51dff7986b04-17-SVGte2wIbLN\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#2e27ad\"/><stop offset=\"100%\" stop-color=\"#527fff\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-51dff7986b04-17-SVGte2wIbLN)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M144.292 57.744h-9.626v-6.457h9.626V41.6h6.417v9.687h9.625v6.457h-9.625v9.687h-6.417zm38.502 35.518h-9.625v-6.458h9.625v-9.686h6.418v9.686h9.625v6.458h-9.625v9.687h-6.418zm-16.71 102.046c-6.128-15.57-20.272-29.803-35.75-35.973c15.478-6.167 29.622-20.4 35.75-35.973c6.129 15.573 20.272 29.806 35.747 35.973c-15.475 6.17-29.618 20.403-35.747 35.973m51.507-39.202c-22.569 0-48.298-25.893-48.298-48.605a3.22 3.22 0 0 0-3.209-3.228a3.22 3.22 0 0 0-3.208 3.228c0 22.712-25.733 48.605-48.302 48.605c-1.771 0-3.209 1.446-3.209 3.229a3.22 3.22 0 0 0 3.209 3.229c22.569 0 48.302 25.892 48.302 48.607a3.22 3.22 0 0 0 3.208 3.229a3.22 3.22 0 0 0 3.209-3.229c0-22.715 25.73-48.607 48.298-48.607a3.22 3.22 0 0 0 3.209-3.23a3.22 3.22 0 0 0-3.209-3.228M41.617 92.49c9.344 6.84 27.498 10.459 44.92 10.459s35.577-3.62 44.92-10.459v30.927c-4.623 6.186-21.626 12.282-44.278 12.282c-26.076 0-45.562-8.201-45.562-15.534zm44.92-25.059c27.831 0 44.92 8.463 44.92 14.53s-17.089 14.53-44.92 14.53s-44.92-8.463-44.92-14.53s17.089-14.53 44.92-14.53m44.92 121.183c0 7.443-19.216 15.77-44.936 15.77c-25.7 0-44.904-8.327-44.904-15.77v-20.632c9.459 7.22 27.976 11.042 45.745 11.042c12.356 0 24.305-1.756 33.632-4.946l-2.06-6.116c-8.682 2.968-19.896 4.605-31.572 4.605c-26.182 0-45.745-8.202-45.745-15.535v-25.898c9.433 7.206 27.87 11.023 45.562 11.023c18.956 0 35.214-3.93 44.278-10.152v9.69h6.417V81.961c0-13.632-26.448-20.988-51.337-20.988c-23.875 0-49.123 6.787-51.138 19.374H35.2v108.267c0 14.436 26.442 22.228 51.321 22.228c24.895 0 51.353-7.792 51.353-22.228v-11.401h-6.417z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Pooled</tspan><tspan x=\"0\" y=\"89.1\">booking DB</tspan></text>"
+    },
+    {
+      "id": "dedicatedIngress",
+      "label": "Dedicated cell API",
+      "icon": "aws:api-gateway",
+      "parent": "enterpriseRegion",
+      "transform": "translate(393,242)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:api-gateway\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-a3df41a88d39-18-SVGyDrnJbhE\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#b0084d\"/><stop offset=\"100%\" stop-color=\"#ff4f8b\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-a3df41a88d39-18-SVGyDrnJbhE)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M109.008 178.024h9.392v-6.455h-9.392zm15.792 0h9.6v-6.455h-9.6zM86.4 46.814L44.8 67.463v128.356l41.6 14.068zm6.4 40.845v83.91h9.6v6.455h-9.6v36.349a3.24 3.24 0 0 1-1.331 2.62a3.18 3.18 0 0 1-2.887.44l-48-16.23a3.23 3.23 0 0 1-2.182-3.06V65.452c0-1.226.694-2.353 1.789-2.895l48-23.824a3.16 3.16 0 0 1 3.1.155a3.23 3.23 0 0 1 1.511 2.74v39.576h9.6v6.455zm48 90.365h9.6v-6.455h-9.6zm.208-90.365h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zM211.2 67.463l-41.6-20.649v163.073l41.6-14.068zm6.4 130.68a3.23 3.23 0 0 1-2.182 3.06l-48 16.23a3.17 3.17 0 0 1-2.887-.44a3.24 3.24 0 0 1-1.331-2.62v-36.35h-6.192v-6.454h6.192v-83.91h-6.192v-6.455h6.192V41.628c0-1.117.573-2.153 1.51-2.74a3.16 3.16 0 0 1 3.101-.155l48 23.824a3.23 3.23 0 0 1 1.789 2.895zm-80.211-89.962l-5.978-2.317l-16 41.955l5.978 2.317zm21.673 20.487a3.243 3.243 0 0 0 0-4.563l-12.8-12.91l-4.524 4.564l10.537 10.628l-10.537 10.627l4.524 4.564zm-49.324 12.91l-12.8-12.91a3.243 3.243 0 0 1 0-4.563l12.8-12.91l4.524 4.564l-10.537 10.628l10.537 10.627z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Dedicated cell</tspan><tspan x=\"0\" y=\"89.1\">API</tspan></text>"
+    },
+    {
+      "id": "dedicatedApp",
+      "label": "Dedicated app service",
+      "icon": "aws:fargate",
+      "parent": "enterpriseVpc",
+      "transform": "translate(701,242)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:fargate\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-76c4685dabad-19-SVGeyciVcvH\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#c8511b\"/><stop offset=\"100%\" stop-color=\"#f90\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-76c4685dabad-19-SVGeyciVcvH)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M166.4 180.874v-15.508l9.6-3.84v15.508zm-16-19.348l9.6 3.84v15.508l-9.6-3.84zm-19.2 41.748v-15.508l9.6-3.84v15.508zm-16-19.348l9.6 3.84v15.508l-9.6-3.84zM96 180.874v-15.508l9.6-3.84v15.508zm-16-19.348l9.6 3.84v15.508l-9.6-3.84zm12.8-7.68l7.386 2.954l-7.386 2.954l-7.386-2.954zm35.2 22.4l7.386 2.954l-7.386 2.954l-7.386-2.954zm35.2-22.4l7.386 2.954l-7.386 2.954l-7.386-2.954zm17.187-.019l-16-6.4c-.761-.3-1.613-.3-2.374 0l-16 6.4A3.205 3.205 0 0 0 144 156.8v18.954l-14.813-5.927c-.761-.3-1.613-.3-2.374 0L112 175.754V156.8a3.205 3.205 0 0 0-2.013-2.973l-16-6.4c-.761-.3-1.613-.3-2.374 0l-16 6.4A3.205 3.205 0 0 0 73.6 156.8v22.4c0 1.309.797 2.483 2.013 2.973l16 6.4c.38.15.784.227 1.187.227s.806-.077 1.187-.227l14.813-5.927V201.6c0 1.309.797 2.483 2.013 2.973l16 6.4c.38.15.784.227 1.187.227s.806-.077 1.187-.227l16-6.4a3.205 3.205 0 0 0 2.013-2.973v-18.954l14.813 5.927c.38.15.784.227 1.187.227s.806-.077 1.187-.227l16-6.4a3.205 3.205 0 0 0 2.013-2.973v-22.4a3.205 3.205 0 0 0-2.013-2.973M208 115.002c0 18.704-41.22 28.8-80 28.8s-80-10.096-80-28.8c0-8.932 9.904-16.794 27.888-22.141l1.824 6.134c-14.38 4.275-23.312 10.41-23.312 16.007c0 10.595 30.224 22.4 73.6 22.4s73.6-11.805 73.6-22.4c0-5.597-8.931-11.732-23.312-16.007l1.824-6.134C198.096 98.208 208 106.07 208 115m-80-60.375L160.685 67.2L128 79.773L95.315 67.2zm33.856 63.267c-6.035 2.701-16.166 5.847-30.656 6.27V85.397l35.2-13.536v39.012c0 3.043-1.78 5.798-4.544 7.02m-72.256-7.02V71.862l35.2 13.536v38.765c-14.49-.422-24.62-3.568-30.669-6.275c-2.752-1.216-4.531-3.971-4.531-7.014m1.933 12.86c7.043 3.152 19.088 6.912 36.467 6.912c17.38 0 29.424-3.76 36.458-6.905c5.068-2.243 8.342-7.293 8.342-12.867V67.2a3.2 3.2 0 0 0-2.051-2.989l-41.6-16a3.23 3.23 0 0 0-2.298 0l-41.6 16A3.2 3.2 0 0 0 83.2 67.2v43.674c0 5.574 3.274 10.624 8.333 12.86\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Dedicated app</tspan><tspan x=\"0\" y=\"89.1\">service</tspan></text>"
+    },
+    {
+      "id": "dedicatedDb",
+      "label": "Dedicated booking DB",
+      "icon": "aws:aurora",
+      "parent": "enterpriseVpc",
+      "transform": "translate(839,242)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:aurora\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-51dff7986b04-20-SVGte2wIbLN\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#2e27ad\"/><stop offset=\"100%\" stop-color=\"#527fff\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-51dff7986b04-20-SVGte2wIbLN)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M144.292 57.744h-9.626v-6.457h9.626V41.6h6.417v9.687h9.625v6.457h-9.625v9.687h-6.417zm38.502 35.518h-9.625v-6.458h9.625v-9.686h6.418v9.686h9.625v6.458h-9.625v9.687h-6.418zm-16.71 102.046c-6.128-15.57-20.272-29.803-35.75-35.973c15.478-6.167 29.622-20.4 35.75-35.973c6.129 15.573 20.272 29.806 35.747 35.973c-15.475 6.17-29.618 20.403-35.747 35.973m51.507-39.202c-22.569 0-48.298-25.893-48.298-48.605a3.22 3.22 0 0 0-3.209-3.228a3.22 3.22 0 0 0-3.208 3.228c0 22.712-25.733 48.605-48.302 48.605c-1.771 0-3.209 1.446-3.209 3.229a3.22 3.22 0 0 0 3.209 3.229c22.569 0 48.302 25.892 48.302 48.607a3.22 3.22 0 0 0 3.208 3.229a3.22 3.22 0 0 0 3.209-3.229c0-22.715 25.73-48.607 48.298-48.607a3.22 3.22 0 0 0 3.209-3.23a3.22 3.22 0 0 0-3.209-3.228M41.617 92.49c9.344 6.84 27.498 10.459 44.92 10.459s35.577-3.62 44.92-10.459v30.927c-4.623 6.186-21.626 12.282-44.278 12.282c-26.076 0-45.562-8.201-45.562-15.534zm44.92-25.059c27.831 0 44.92 8.463 44.92 14.53s-17.089 14.53-44.92 14.53s-44.92-8.463-44.92-14.53s17.089-14.53 44.92-14.53m44.92 121.183c0 7.443-19.216 15.77-44.936 15.77c-25.7 0-44.904-8.327-44.904-15.77v-20.632c9.459 7.22 27.976 11.042 45.745 11.042c12.356 0 24.305-1.756 33.632-4.946l-2.06-6.116c-8.682 2.968-19.896 4.605-31.572 4.605c-26.182 0-45.745-8.202-45.745-15.535v-25.898c9.433 7.206 27.87 11.023 45.562 11.023c18.956 0 35.214-3.93 44.278-10.152v9.69h6.417V81.961c0-13.632-26.448-20.988-51.337-20.988c-23.875 0-49.123 6.787-51.138 19.374H35.2v108.267c0 14.436 26.442 22.228 51.321 22.228c24.895 0 51.353-7.792 51.353-22.228v-11.401h-6.417z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Dedicated</tspan><tspan x=\"0\" y=\"89.1\">booking DB</tspan></text>"
+    },
+    {
+      "id": "deployRole",
+      "label": "Cell deploy role",
+      "icon": "aws:iam",
+      "parent": "enterprise",
+      "transform": "translate(241,72)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:iam\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-9aa655428c12-21-SVGYPnorcPn\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#bd0816\"/><stop offset=\"100%\" stop-color=\"#ff5252\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-9aa655428c12-21-SVGYPnorcPn)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M44.8 188.8h166.4V67.2H44.8zM217.6 64v128a3.2 3.2 0 0 1-3.2 3.2H41.6a3.2 3.2 0 0 1-3.2-3.2V64a3.2 3.2 0 0 1 3.2-3.2h172.8a3.2 3.2 0 0 1 3.2 3.2m-76.8 89.6h48v-6.4h-48zm41.6-19.2h16V128h-16zm-41.6 0h25.6V128h-25.6zm-48 12.8c0-1.763-1.434-3.2-3.2-3.2a3.203 3.203 0 0 0-3.2 3.2c0 1.763 1.434 3.2 3.2 3.2s3.2-1.437 3.2-3.2m6.4 0c0 4.166-2.685 7.683-6.4 9.011v6.989h-6.4v-6.992c-3.715-1.325-6.4-4.842-6.4-9.008c0-5.293 4.307-9.6 9.6-9.6s9.6 4.307 9.6 9.6m-38.4 25.578l57.58.022l.007-12.8H105.6v-6.4h12.787l.007-9.6H105.6v-6.4h12.797l.003-9.578L60.82 128zm9.6-51.175l38.4.016V99.2c.003-7.37-8.97-13.834-19.2-13.84h-.013c-10.214 0-19.174 6.467-19.18 13.84zm-16 54.371l.02-51.174a3.2 3.2 0 0 1 3.2-3.2l6.38.003l.006-22.403c.007-11.162 11.482-20.24 25.581-20.24h.013c14.118.006 25.603 9.088 25.6 20.24v22.422l6.4.004a3.2 3.2 0 0 1 3.2 3.2L124.78 176a3.2 3.2 0 0 1-3.2 3.2l-63.98-.026a3.2 3.2 0 0 1-3.2-3.2M192 115.2h6.4v-6.4H192zm-51.2 0H176v-6.4h-35.2z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Cell deploy</tspan><tspan x=\"0\" y=\"89.1\">role</tspan></text>"
+    },
+    {
+      "id": "stack",
+      "label": "Cell stack",
+      "icon": "aws:cloudformation",
+      "parent": "enterpriseRegion",
+      "transform": "translate(701,72)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:cloudformation\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-98eb2f16c685-22-SVGyDrnJbhE\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#b0084d\"/><stop offset=\"100%\" stop-color=\"#ff4f8b\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-98eb2f16c685-22-SVGyDrnJbhE)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M169.6 127.882h16v-6.41h-16zm-80 38.46h16v-6.41h-16zm-32 0H80v-6.41H57.6zm0-19.23H96v-6.41H57.6zm0-38.46h28.8v-6.409H57.6zm0 19.23h105.6v-6.41H57.6zm60.8 70.508H44.8V89.423h73.6v25.64h6.4V86.218a3.204 3.204 0 0 0-3.2-3.204h-80a3.2 3.2 0 0 0-3.2 3.204v115.377a3.2 3.2 0 0 0 3.2 3.205h80c1.766 0 3.2-1.436 3.2-3.205v-64.098h-6.4zm99.2-80.122c0 20.71-18.646 27.914-28.506 28.83l-51.494.014v-6.41h51.2c.624-.074 22.4-2.423 22.4-22.434c0-18.224-16.438-21.922-19.731-22.48a3.2 3.2 0 0 1-2.656-3.426q.006-.09.016-.176c-.176-10.297-6.49-13.515-9.226-14.425c-5.107-1.699-10.8-.074-13.811 3.964a3.17 3.17 0 0 1-3.037 1.253a3.2 3.2 0 0 1-2.537-2.092c-1.988-5.57-4.87-9.18-8.88-13.195c-10.03-9.967-23.642-12.72-36.378-7.362c-6.682 2.817-12.522 9.202-16.01 17.518l-5.9-2.487c4.134-9.842 11.219-17.476 19.43-20.937c15.216-6.407 31.427-3.141 43.373 8.727c3.424 3.432 6.259 6.775 8.467 11.101c4.778-3.538 11.222-4.595 17.302-2.573c7.783 2.59 12.704 9.349 13.498 18.335c10.9 2.75 22.48 11.464 22.48 28.255\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" x=\"0\" y=\"69.6\" text-anchor=\"middle\">Cell stack</text>"
+    },
+    {
+      "id": "trail",
+      "label": "Organization trail",
+      "icon": "aws:cloudtrail",
+      "parent": "securityRegion",
+      "transform": "translate(701,1324)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:cloudtrail\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-72badab87a33-23-SVGyDrnJbhE\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#b0084d\"/><stop offset=\"100%\" stop-color=\"#ff4f8b\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-72badab87a33-23-SVGyDrnJbhE)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M80 169.587h12.8v-6.406H80zm111.907-47.464c-.72-9.718-5.472-16.874-13.02-19.402c-6.077-2.027-12.772-.595-17.87 3.56c-3.09-6.096-7.737-12.067-11.57-15.85c-13.748-13.569-28.91-17.028-45.076-10.285C89.94 86.15 76.8 105.88 76.8 121.54v.609c-8.662 2.927-15.651 9.289-18.963 17.4l5.926 2.42c4.221-10.336 14.1-13.577 17.027-14.324a3.2 3.2 0 0 0 2.41-3.104v-3.001c0-12.944 11.702-30.516 23.632-35.481c13.744-5.73 26.218-2.822 38.122 8.933c5.062 4.994 10.012 12.403 12.038 18.024a3.196 3.196 0 0 0 5.565.84c3.536-4.703 9.27-6.74 14.304-5.058c5.552 1.86 8.739 7.671 8.739 15.945a3.2 3.2 0 0 0 2.675 3.158c2.346.391 22.925 4.424 22.925 25.67c0 22.006-21.5 22.416-22.4 22.423h-73.6v6.406h73.606c9.959-.02 28.794-6.067 28.794-28.828c0-19.863-15.107-28.806-25.693-31.449M99.2 169.587H144v-6.406H99.2zM86.4 182.4h19.2v-6.406H86.4zm-48 0H48v-6.406h-9.6zm9.6-25.625h28.8v-6.407H48zm-6.4 12.812h32v-6.406h-32zm44.8-12.812h22.4v-6.407H86.4zm-32 25.625H80v-6.406H54.4z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Organization</tspan><tspan x=\"0\" y=\"89.1\">trail</tspan></text>"
+    },
+    {
+      "id": "logs",
+      "label": "Central audit logs",
+      "icon": "aws:s3",
+      "parent": "securityRegion",
+      "transform": "translate(839,1324)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:s3\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-7f235ed572b5-24-SVG7R6tZwZW\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#1b660f\"/><stop offset=\"100%\" stop-color=\"#6cae3e\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-7f235ed572b5-24-SVG7R6tZwZW)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"m194.675 137.256l1.229-8.652c11.33 6.787 11.478 9.59 11.475 9.667c-.02.016-1.952 1.629-12.704-1.015m-6.218-1.728c-19.584-5.926-46.857-18.438-57.894-23.654c0-.045.013-.086.013-.131c0-4.24-3.45-7.69-7.693-7.69c-4.237 0-7.687 3.45-7.687 7.69s3.45 7.69 7.687 7.69c1.862 0 3.552-.695 4.886-1.8c12.986 6.148 40.048 18.478 59.776 24.302l-7.801 55.059q-.033.225-.032.451c0 4.848-21.463 13.754-56.532 13.754c-35.44 0-57.13-8.906-57.13-13.754q0-.22-.028-.435l-16.3-119.062c14.108 9.712 44.454 14.85 73.478 14.85c28.979 0 59.273-5.12 73.41-14.802zM48 65.528c.23-4.21 24.428-20.73 75.2-20.73c50.764 0 74.966 16.516 75.2 20.73v1.437c-2.784 9.443-34.144 19.434-75.2 19.434c-41.127 0-72.503-10.023-75.2-19.479zm156.8.07c0-11.087-31.79-27.2-81.6-27.2c-49.812 0-81.6 16.113-81.6 27.2l.3 2.414l17.754 129.676c.426 14.503 39.1 19.91 63.526 19.91c30.31 0 62.512-6.969 62.928-19.9l7.668-54.07c4.265 1.02 7.776 1.542 10.595 1.542c3.785 0 6.345-.925 7.897-2.774c1.274-1.517 1.76-3.354 1.396-5.31c-.83-4.428-6.087-9.202-16.794-15.311l7.603-53.639z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Central audit</tspan><tspan x=\"0\" y=\"89.1\">logs</tspan></text>"
+    }
+  ],
+  "groups": [
+    {
+      "id": "control",
+      "label": "Account: Control plane",
+      "kind": "account",
+      "box": {
+        "x": 0,
+        "y": 436,
+        "width": 484,
+        "height": 340,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"247\" y=\"444\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"353.93\" y=\"459.6\" text-anchor=\"middle\">Account: Control plane</text>"
+    },
+    {
+      "id": "controlRegion",
+      "label": "Region: Primary",
+      "kind": "region",
+      "parent": "control",
+      "box": {
+        "x": 20,
+        "y": 472,
+        "width": 444,
+        "height": 284,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"247\" y=\"480\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"330.34\" y=\"495.6\" text-anchor=\"middle\">Region: Primary</text>"
+    },
+    {
+      "id": "pooled",
+      "label": "Account: Pooled production",
+      "kind": "account",
+      "box": {
+        "x": 160,
+        "y": 816,
+        "width": 409,
+        "height": 396,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"247\" y=\"824\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"370.83\" y=\"839.6\" text-anchor=\"middle\">Account: Pooled production</text>"
+    },
+    {
+      "id": "pooledRegion",
+      "label": "Region: Primary",
+      "kind": "region",
+      "parent": "pooled",
+      "box": {
+        "x": 180,
+        "y": 852,
+        "width": 369,
+        "height": 340,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"247\" y=\"860\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"330.34\" y=\"875.6\" text-anchor=\"middle\">Region: Primary</text>"
+    },
+    {
+      "id": "pooledVpc",
+      "label": "VPC: Shared hotel cell",
+      "kind": "vpc",
+      "parent": "pooledRegion",
+      "box": {
+        "x": 322,
+        "y": 888,
+        "width": 207,
+        "height": 284,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"332\" y=\"896\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"438.48\" y=\"911.6\" text-anchor=\"middle\">VPC: Shared hotel cell</text>"
+    },
+    {
+      "id": "enterprise",
+      "label": "Account: Enterprise hotel",
+      "kind": "account",
+      "box": {
+        "x": 180,
+        "y": 0,
+        "width": 765,
+        "height": 396,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"190\" y=\"8\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"305.38\" y=\"23.6\" text-anchor=\"middle\">Account: Enterprise hotel</text>"
+    },
+    {
+      "id": "enterpriseRegion",
+      "label": "Region: Primary",
+      "kind": "region",
+      "parent": "enterprise",
+      "box": {
+        "x": 322,
+        "y": 36,
+        "width": 603,
+        "height": 340,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"332\" y=\"44\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"415.34\" y=\"59.6\" text-anchor=\"middle\">Region: Primary</text>"
+    },
+    {
+      "id": "enterpriseVpc",
+      "label": "VPC: Dedicated cell",
+      "kind": "vpc",
+      "parent": "enterpriseRegion",
+      "box": {
+        "x": 629,
+        "y": 206,
+        "width": 276,
+        "height": 150,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"707\" y=\"214\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"804.14\" y=\"229.6\" text-anchor=\"middle\">VPC: Dedicated cell</text>"
+    },
+    {
+      "id": "security",
+      "label": "Account: Security archive",
+      "kind": "account",
+      "box": {
+        "x": 609,
+        "y": 1252,
+        "width": 316,
+        "height": 206,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"707\" y=\"1260\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"823.26\" y=\"1275.6\" text-anchor=\"middle\">Account: Security archive</text>"
+    },
+    {
+      "id": "securityRegion",
+      "label": "Region: Primary",
+      "kind": "region",
+      "parent": "security",
+      "box": {
+        "x": 629,
+        "y": 1288,
+        "width": 276,
+        "height": 150,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"707\" y=\"1296\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"790.34\" y=\"1311.6\" text-anchor=\"middle\">Region: Primary</text>"
+    }
+  ],
+  "edges": [
+    {
+      "id": "identity-discovery",
+      "source": "identity",
+      "target": "discovery",
+      "kind": "identity",
+      "meaning": "Staff presents issued JWT; discovery verifies issuer, audience and tenant membership.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M104,532L210,532",
+          "marker": false
+        },
+        {
+          "d": "M217,532L209,535.36L209,528.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "discovery-tenants",
+      "source": "discovery",
+      "target": "tenants",
+      "kind": "request",
+      "meaning": "Resolve validated tenant to its cell; directory is not an authorization bypass.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M265,532L362,532",
+          "marker": false
+        },
+        {
+          "d": "M369,532L361,535.36L361,528.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "discovery-sharedIngress",
+      "source": "discovery",
+      "target": "sharedIngress",
+      "kind": "control",
+      "meaning": "Return pooled-cell API endpoint to the browser; not a server proxy request.",
+      "sourcePort": "B",
+      "targetPort": "T",
+      "paths": [
+        {
+          "d": "M241,604L241,1051",
+          "marker": false
+        },
+        {
+          "d": "M241,1058L237.64,1050L244.36,1050Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "discovery-dedicatedIngress",
+      "source": "discovery",
+      "target": "dedicatedIngress",
+      "kind": "control",
+      "meaning": "Return enterprise-cell API endpoint to the browser; each cell reauthorizes the tenant.",
+      "sourcePort": "T",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M241,508L241,272Q241,266 247,266L362,266",
+          "marker": false
+        },
+        {
+          "d": "M369,266L361,269.36L361,262.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "sharedIngress-sharedApp",
+      "source": "sharedIngress",
+      "target": "sharedApp",
+      "kind": "request",
+      "meaning": "API private integration reaches application tasks; VPC Link and internal ALB are expanded in the identity view.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M265,1082L362,1082",
+          "marker": false
+        },
+        {
+          "d": "M369,1082L361,1085.36L361,1078.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "sharedApp-sharedDb",
+      "source": "sharedApp",
+      "target": "sharedDb",
+      "kind": "request",
+      "meaning": "Transactional booking access with server-derived tenant context and database policies.",
+      "sourcePort": "T",
+      "targetPort": "B",
+      "paths": [
+        {
+          "d": "M393,1058L393,1027",
+          "marker": false
+        },
+        {
+          "d": "M393,1020L396.36,1028L389.64,1028Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "dedicatedIngress-dedicatedApp",
+      "source": "dedicatedIngress",
+      "target": "dedicatedApp",
+      "kind": "request",
+      "meaning": "Dedicated API private integration reaches its own application service; same-account network detail is expanded separately.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M417,266L670,266",
+          "marker": false
+        },
+        {
+          "d": "M677,266L669,269.36L669,262.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "dedicatedApp-dedicatedDb",
+      "source": "dedicatedApp",
+      "target": "dedicatedDb",
+      "kind": "request",
+      "meaning": "Separate account and database isolate the enterprise data plane.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M725,266L808,266",
+          "marker": false
+        },
+        {
+          "d": "M815,266L807,269.36L807,262.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "provision-deployRole",
+      "source": "provision",
+      "target": "deployRole",
+      "kind": "control",
+      "meaning": "Provisioner assumes a tightly scoped cross-account deployment role.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M104,666L154.5,666Q160.5,666 160.5,660L160.5,102Q160.5,96 166.5,96L210,96",
+          "marker": false
+        },
+        {
+          "d": "M217,96L209,99.36L209,92.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "deployRole-stack",
+      "source": "deployRole",
+      "target": "stack",
+      "kind": "control",
+      "meaning": "Assumed role authorizes CloudFormation in the dedicated account.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M265,96L670,96",
+          "marker": false
+        },
+        {
+          "d": "M677,96L669,99.36L669,92.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "stack-dedicatedApp",
+      "source": "stack",
+      "target": "dedicatedApp",
+      "kind": "control",
+      "meaning": "Stack owns cell resources; arrow summarizes provisioning, not runtime traffic.",
+      "sourcePort": "B",
+      "targetPort": "T",
+      "paths": [
+        {
+          "d": "M701,150L701,235",
+          "marker": false
+        },
+        {
+          "d": "M701,242L697.64,234L704.36,234Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "sharedApp-trail",
+      "source": "sharedApp",
+      "target": "trail",
+      "kind": "control",
+      "meaning": "AWS API activity is captured by the configured organization trail, not application log streaming.",
+      "sourcePort": "B",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M393,1154L393,1342Q393,1348 399,1348L670,1348",
+          "marker": false
+        },
+        {
+          "d": "M677,1348L669,1351.36L669,1344.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "dedicatedApp-trail",
+      "source": "dedicatedApp",
+      "target": "trail",
+      "kind": "control",
+      "meaning": "Organization coverage includes the enterprise account; application logs are separate.",
+      "sourcePort": "B",
+      "targetPort": "T",
+      "paths": [
+        {
+          "d": "M701,338L701,1317",
+          "marker": false
+        },
+        {
+          "d": "M701,1324L697.64,1316L704.36,1316Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "trail-logs",
+      "source": "trail",
+      "target": "logs",
+      "kind": "event",
+      "meaning": "Central S3 delivery requires organization-trail bucket and encryption-key policies.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M725,1348L808,1348",
+          "marker": false
+        },
+        {
+          "d": "M815,1348L807,1351.36L807,1344.64Z",
+          "marker": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,338 @@
+{
+  "engine": "Beautiflow architecture pipeline: Pele + local positioned-geometry extension",
+  "sourceHash": "503455c92c317a9ae5b073916647c1c2b6ad8369ae3e68e21de64199916fdf19",
+  "scope": "Geometry audit of the native layout; each styled drawing additionally checks elements, plain service labels, IDs, and SVG references. Decorative ink and cloud-provider semantics are not measured.",
+  "annotations": {
+    "coverage": "authored-annotations-and-containment-only",
+    "boundaries": 8,
+    "relationships": 12,
+    "configurationValidated": false
+  },
+  "structure": {
+    "family": "architecture",
+    "score": 100,
+    "nodes": [
+      {
+        "id": "training",
+        "type": "service",
+        "icon": "aws:sagemaker",
+        "title": "Model training job",
+        "in": "researchRegion"
+      },
+      {
+        "id": "models",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Versioned model artifacts",
+        "in": "researchRegion"
+      },
+      {
+        "id": "promotion",
+        "type": "service",
+        "icon": "aws:step-functions",
+        "title": "Approved model promotion",
+        "in": "researchRegion"
+      },
+      {
+        "id": "endpoint",
+        "type": "service",
+        "icon": "aws:sagemaker",
+        "title": "Private inference endpoint",
+        "in": "primary"
+      },
+      {
+        "id": "raw",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Raw survey photographs",
+        "in": "primary"
+      },
+      {
+        "id": "workflow",
+        "type": "service",
+        "icon": "aws:step-functions",
+        "title": "Survey review workflow",
+        "in": "primary"
+      },
+      {
+        "id": "reviewA",
+        "type": "service",
+        "icon": "aws:fargate",
+        "title": "Review app tasks A",
+        "in": "azA"
+      },
+      {
+        "id": "reviewB",
+        "type": "service",
+        "icon": "aws:fargate",
+        "title": "Review app tasks B",
+        "in": "azB"
+      },
+      {
+        "id": "auth",
+        "type": "service",
+        "icon": "aws:cognito",
+        "title": "Researcher sign-in",
+        "in": "primary"
+      },
+      {
+        "id": "alb",
+        "type": "service",
+        "icon": "aws:elb",
+        "title": "Internal review ALB",
+        "in": "privateVpc"
+      },
+      {
+        "id": "publish",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Publish accepted result",
+        "in": "accepted"
+      },
+      {
+        "id": "records",
+        "type": "service",
+        "icon": "aws:dynamodb",
+        "title": "Reviewed catalogue",
+        "in": "accepted"
+      }
+    ],
+    "groups": [
+      {
+        "id": "research",
+        "icon": "cloud",
+        "title": "Account: Research training"
+      },
+      {
+        "id": "researchRegion",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "research"
+      },
+      {
+        "id": "production",
+        "icon": "cloud",
+        "title": "Account: Survey production"
+      },
+      {
+        "id": "primary",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "production"
+      },
+      {
+        "id": "privateVpc",
+        "icon": "cloud",
+        "title": "VPC: Private review service",
+        "in": "primary"
+      },
+      {
+        "id": "azA",
+        "icon": "cloud",
+        "title": "AZ: A - private tasks",
+        "in": "privateVpc"
+      },
+      {
+        "id": "azB",
+        "icon": "cloud",
+        "title": "AZ: B - private tasks",
+        "in": "privateVpc"
+      },
+      {
+        "id": "accepted",
+        "icon": "cloud",
+        "title": "Logical: Accepted evidence",
+        "in": "primary"
+      }
+    ],
+    "edges": [
+      {
+        "lhsId": "training",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "models",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "models",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "promotion",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "promotion",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "endpoint",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "raw",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "workflow",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "workflow",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "endpoint",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "auth",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "alb",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "alb",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "reviewA",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "alb",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "reviewB",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "reviewA",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "workflow",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "reviewB",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "workflow",
+        "rhsDir": "R",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "workflow",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "publish",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "publish",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "records",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      }
+    ],
+    "alignmentHints": [],
+    "metrics": {
+      "services": 12,
+      "junctions": 0,
+      "groups": 8,
+      "relationships": 12,
+      "components": 1,
+      "isolatedServices": 0,
+      "maxDepth": 4
+    },
+    "issues": [
+      {
+        "severity": "info",
+        "type": "deep-containment",
+        "message": "4 containment levels may be difficult to read"
+      },
+      {
+        "severity": "info",
+        "type": "high-connectivity",
+        "nodes": [
+          "workflow"
+        ],
+        "message": "workflow has 5 neighbours; inspect its visual focus"
+      }
+    ],
+    "limitations": [
+      "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+    ]
+  },
+  "audit": {
+    "score": 100,
+    "coverage": "pele-positioned-geometry",
+    "metrics": {
+      "detachedEndpoints": 0,
+      "portViolations": 0,
+      "nodeOverlaps": 0,
+      "labelCollisions": 0,
+      "edgeNodeIntersections": 0,
+      "headerCrossings": 0,
+      "excessiveBends": 0,
+      "sharedSegments": 0
+    },
+    "integrity": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 32,
+      "labelsChecked": 12,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    },
+    "issues": [],
+    "limitations": [
+      "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+      "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+    ]
+  },
+  "styledIntegrity": {
+    "pastel": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 32,
+      "labelsChecked": 12,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    }
+  }
+}

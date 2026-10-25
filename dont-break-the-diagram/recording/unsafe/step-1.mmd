@@ -1,0 +1,12 @@
+architecture-beta
+accTitle: Hotel tenant request path
+accDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.
+%% api in this comment is documentation, not a rename target.
+group cell(cloud)[Pooled cell]
+service staff(lucide:users)[Hotel staff]
+service api(aws:api-gateway)[Cell API] in cell
+service membership(aws:fargate)[Membership check] in cell
+service records(aws:aurora)[Tenant records] in cell
+staff:R --> L:api
+api:R --> L:membership
+membership:R --> L:records

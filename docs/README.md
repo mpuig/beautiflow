@@ -1,53 +1,34 @@
-# Beautiflow agent runtime documentation
+# Documentation
 
-Beautiflow is the deterministic diagram runtime for coding agents. The harness owns intent and optional visual judgment; Beautiflow discovers mutation authority, validates a receipt-backed plan, commits exact evidence, verifies the result, and enforces correction and stop budgets. The CLI is intended for agents and exposes machine-first contracts. Humans can still invoke it directly when useful, and the read-only browser preview remains available alongside either workflow.
+Create and maintain Mermaid diagrams with your coding agent. Start with a working diagram, then use the references when you need precise commands or capability boundaries.
 
-## Start here
+## Getting started
 
-- [Architecture](architecture.md): process boundaries and source tree
-- [CLI reference](cli.md): commands, output, and exit behavior
-- [Rendering pipeline](rendering.md): family detection, Beautiful Mermaid, SVG, and PNG
-- [Layout sidecar](sidecar.md): persisted presentation state and reconciliation
-- [Transformations](transformations.md): semantic graph editing and source-preserving writes
-- [Auditing and diagnostics](quality.md): geometric and semantic checks
-- [Live preview server](server.md): file watching, SSE, recovery, and security boundary
-- [Agent Skill](agent-skill.md): Pi, Claude Code, Codex, `FLOW.md`, and action contracts
-- [Development](development.md): building, testing, vendoring, and releases
+- [Your first diagram](getting-started.md): install the runtime, connect your agent and export a result.
+- [How it works](how-it-works.md): responsibilities, source files, checks and safe changes.
+- [Diagram types](diagram-types.md): all 32 notations and their capabilities.
+- [Examples](/examples.html): sources, walkthroughs and recorded demonstrations.
 
-## Agent-first workflow
+## Guides
 
-The harness discovers capabilities and schemas, then enters the enforced receipt state machine before any mutation:
+- [Agent integration](agent-skill.md): Pi, Claude Code, Codex and the bounded workflow.
+- [Rendering and export](rendering.md): SVG, PNG, themes and renderer limitations.
+- [Live preview](server.md): follow saved changes in a read-only viewer.
+- [Quality checks](quality.md): audits, diagnostics and flowchart/state polish.
 
-```bash
-beautiflow inspect diagram.mmd --agent --json
-beautiflow schema --json
-beautiflow agent plan diagram.mmd --operation polish --json
-```
+## Reference
 
-It follows the returned `nextAction.argv` through `commit`, `verify`, optional visual inspection or one targeted correction, and `finish`. The task is complete only when the receipt reaches `complete`.
+- [CLI reference](cli.md): commands, options, JSON output and exit behavior.
+- [Transformations](transformations.md): source-preserving edits and architecture actions.
+- [Layout sidecars](sidecar.md): flowchart/state presentation and reconciliation.
 
-Direct human operation is supported, although it is not the primary interface:
+## Contributing
 
-```bash
-beautiflow polish diagram.mmd
-beautiflow server diagram.mmd
-```
+- [Runtime internals](architecture.md): process boundaries, modules and data ownership.
+- [Development](development.md): build, test, vendor and release.
 
-The server reflects saved source and sidecar changes without mutating either file.
+## Capability boundaries
 
-## Current capability levels
+All types support SVG/PNG, inspection and read-only preview. Flowcharts and state diagrams support measured geometry, source transformations, layout sidecars and polish. Architecture supports measured audit and bounded transforms, but no sidecar layout or automatic polish. Other types have SVG-reference checks, not geometry scores or source-editing authority.
 
-| Diagram family | SVG/PNG render | Layout/audit | Diagnose/transform/polish |
-| --- | --- | --- | --- |
-| Flowchart | Yes | Yes | Yes |
-| State diagram | Yes | Yes | Yes |
-| Sequence | Yes | Render only | No |
-| Class | Yes | Render only | No |
-| ER | Yes | Render only | No |
-| XY chart | Yes | Render only | No |
-| Pie | Yes | Render only | No |
-| GitGraph | Yes | Render only | No |
-| Architecture (`architecture-beta`) | Yes | Measured audit; no layout actions | Diagnose and bounded transform; no polish |
-| All other diagram types | Yes | SVG reference checks only, no geometry score | No |
-
-All families can be inspected and audited for SVG-reference integrity. Only flowchart/state and architecture have measured geometry audits. The distinction is intentional: do not apply flowchart mutation semantics or quality scores to other families. See [Rendering](rendering.md) for the complete diagram type list and coverage limitations, or browse the [diagram types gallery](../examples/recipes/diagram-types/README.md).
+See the [complete type reference](diagram-types.md) and [coverage limitations](quality.md). Rendering, geometry, visual quality and deployed-system correctness are different claims.

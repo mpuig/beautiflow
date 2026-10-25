@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Mixtape Archive — Boring AWS Diagrams</title><meta name="description" content="Who can upload a master, process it, and make a recording public?">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../site.css">
+<link rel="preload" href="../fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script type="module" src="../app.js"></script></head><body><a class="skip-link" href="#diagram">Skip to the diagram</a>
+<header class="masthead"><a class="wordmark" href="../" aria-label="Boring AWS Diagrams home">B/AWS</a><nav aria-label="Main"><a href="../#collection">Collection</a><a href="../#method">Our drawing process</a><a href="../../">Beautiflow ↗</a></nav></header>
+<main class="diagram-page"><nav class="page-navigation" aria-label="Collection navigation"><a href="../#collection">Back to all ten diagrams</a><div><a rel="prev" href="../rail/">Previous diagram</a><a rel="next" href="../aurora-identity/">Next diagram</a></div></nav>
+<article class="exhibit" id="mixtape" data-style="zine" data-base="../entries/mixtape">
+<div class="exhibit-heading"><h1>The Mixtape Archive</h1><p class="treatment">Two-colour music zine</p></div><p class="story">Ingestion, processing, publication and recovery each have a different account. A successful transcode is still unpublished until the release gate approves it.</p>
+<nav class="process-navigation" aria-label="Explore the authoring process"><a href="#prompt"><strong>Authoring prompt</strong><span>The brief that shaped this view</span></a><a href="#source"><strong>Mermaid source</strong><span>11 services · 10 relationships</span></a><a href="#evidence"><strong>Measured evidence</strong><span>Geometry, integrity &amp; limits</span></a></nav>
+<div class="diagram-workspace"><figure id="diagram"><div class="drawing-tools"><p>Who can upload a master, process it, and make a recording public?</p><div class="view-controls" hidden><button type="button" data-view="art" aria-pressed="true">Drawing</button><button type="button" data-view="native" aria-pressed="false">Native layout</button><button type="button" class="fit-toggle" data-fit-toggle aria-pressed="true">Fit whole diagram</button></div></div>
+<p class="pan-hint" data-fit-hint>Whole diagram fitted. For larger labels, turn off “Fit whole diagram” and pan, or open the full-size SVG.</p><div class="drawing-window" data-fit="true" style="--drawing-width:1428px" tabindex="0" role="region" aria-label="The Mixtape Archive architecture viewer"><img src="../entries/mixtape/rendered/zine.svg" width="1428" height="981" alt="The Mixtape Archive: Artist identity, Scoped upload broker, Quarantined masters, Authorized job workflow, MediaConvert jobs, Unpublished renditions, Rights and release gate, Approved playback files, Published catalogue, Signed CloudFront playback, Versioned master replica. Relationships and limits are explained below." loading="eager"></div>
+<figcaption><a class="svg-download" href="../entries/mixtape/rendered/zine.svg" download="mixtape-zine.svg">Download SVG</a><a href="../entries/mixtape/rendered/zine.svg">Open full drawing ↗</a><a href="../entries/mixtape/rendered/native.svg">Open native render ↗</a></figcaption></figure>
+<aside class="authoring-prompt" id="prompt" aria-labelledby="prompt-title"><h2 id="prompt-title">Authoring prompt</h2><p class="process-description">The design brief for this example.</p><blockquote>Design a fictional cross-account original-music platform with artist identity, a tenant-scoped temporary upload capability, quarantine, controlled MediaConvert jobs, unpublished renditions, human rights/release approval, a private published origin with signed CloudFront playback, and versioned cross-region master replication.</blockquote><div class="prompt-actions"><a href="#source">Read the Mermaid source</a><a href="#evidence">Inspect measured evidence</a></div></aside></div>
+<div class="process-materials"><section id="source" class="source-panel" aria-labelledby="source-title"><div class="section-heading"><h2 id="source-title">Mermaid source</h2><a href="../entries/mixtape/source.mmd" download="mixtape.mmd">Download .mmd</a></div><p>Semantic content and gallery-only boundary/flow annotations stay in this file. The drawing treatment is applied after layout.</p><pre tabindex="0" aria-label="The Mixtape Archive Mermaid source"><code>architecture-beta
+%% Fictional cross-account publishing. Masters and unpublished renditions are not public CDN origins.
+%% @boundary ingestion account
+%% @boundary ingestRegion region
+%% @boundary processing account
+%% @boundary processingRegion region
+%% @boundary publishAccount account
+%% @boundary publishRegion region
+%% @boundary archiveAccount account
+%% @boundary archiveRegion region
+group ingestion(cloud)[Account: Artist ingestion]
+group ingestRegion(cloud)[Region: Primary] in ingestion
+group processing(cloud)[Account: Audio processing]
+group processingRegion(cloud)[Region: Primary] in processing
+group publishAccount(cloud)[Account: Publication]
+group publishRegion(cloud)[Region: Primary] in publishAccount
+group archiveAccount(cloud)[Account: Master archive]
+group archiveRegion(cloud)[Region: Recovery] in archiveAccount
+service auth(aws:cognito)[Artist identity] in ingestRegion
+service broker(aws:lambda)[Scoped upload broker] in ingestRegion
+service masters(aws:s3)[Quarantined masters] in ingestRegion
+service submit(aws:step-functions)[Authorized job workflow] in processingRegion
+service encode(lucide:audio-lines)[MediaConvert jobs] in processingRegion
+service staged(aws:s3)[Unpublished renditions] in processingRegion
+service approve(aws:lambda)[Rights and release gate] in publishRegion
+service published(aws:s3)[Approved playback files] in publishRegion
+service catalogue(aws:dynamodb)[Published catalogue] in publishRegion
+service cdn(aws:cloudfront)[Signed CloudFront playback] in publishAccount
+service archive(aws:s3)[Versioned master replica] in archiveRegion
+%% @edge auth broker identity | Verified artist subject maps to an allowed tenant prefix; client-supplied object keys are not authority.
+auth:R --&gt; L:broker
+%% @edge broker masters identity | Broker grants a short-lived upload capability scoped to a server-selected object key; browser performs the upload.
+broker:R --&gt; L:masters
+%% @edge masters submit event | Configured S3 EventBridge forwarding starts the cross-account workflow under a constrained role.
+masters:R --&gt; L:submit
+%% @edge submit encode control | Scoped role submits an asynchronous job with explicit cross-account source bucket and KMS permissions.
+submit:R --&gt; L:encode
+%% @edge encode staged request | Writes derived renditions; a completed file alone is not a published recording.
+encode:R --&gt; L:staged
+%% @edge staged approve control | Successful job event plus human rights approval unlocks release; this is workflow progression, not S3 granting rights.
+staged:B --&gt; T:approve
+%% @edge approve published request | Release service copies approved assets through explicit cross-account read and destination write policies.
+approve:L --&gt; T:published
+%% @edge approve catalogue request | Catalogue becomes visible only after successful approved asset publication; reconciliation handles partial failures.
+approve:B --&gt; L:catalogue
+%% @edge cdn published request | Origin access control and source-distribution bucket policy permit private reads; requests use signed viewer URLs.
+cdn:R --&gt; B:published
+%% @edge masters archive replication | Cross-account, cross-region S3 replication with versioning and KMS grants; deletion and retention policies are explicit configuration.
+masters:B --&gt; L:archive
+</code></pre><p>Reproduce this collection from the Beautiflow repository:</p><pre tabindex="0"><code>bun scripts/build-boring-diagrams.ts</code></pre><div class="source-links"><a href="../entries/mixtape/scene.json">Positioned scene JSON</a><a href="../draw.js">Drawing program</a></div></section>
+<section id="evidence" class="evidence-panel" aria-labelledby="evidence-title"><div class="section-heading"><h2 id="evidence-title">Measured evidence</h2><a href="../entries/mixtape/evidence.json">Full evidence JSON</a></div><dl class="evidence-summary"><div><dt>Native geometry</dt><dd>0 findings across 8 measured checks</dd></div><div><dt>Styled render integrity</dt><dd>0 element, plain-label, ID or reference findings</dd></div><div><dt>Authored annotations</dt><dd>8 boundaries · 10 relationship meanings</dd></div><div><dt>AWS configuration</dt><dd>Not validated</dd></div></dl><p class="evidence-limits">These checks do not establish visual quality, every decorative mark, browser glyph ink, edge-label boxes or deployed AWS correctness. Architecture has guarded transforms, not automatic polish.</p><h3>Source SHA-256</h3><code class="source-hash">2bcfb2407e0a03ff4998d429a5aaa4d03b713f79fff9a6fa299d7cd67e89952b</code><div class="source-links"><a href="../entries/mixtape/capabilities.json">Agent capabilities JSON</a><a href="../entries/mixtape/scene.json">Positioned scene JSON</a></div></section></div>
+
+<details class="relationships"><summary>Read all 10 relationships</summary><p>Line patterns distinguish requests, credentials, events, replication, configuration/control and recovery. Hover a styled connector for its meaning. Native layout preserves routes but does not include these gallery annotations.</p><div class="flow-scroll" tabindex="0" role="region" aria-label="Relationships for The Mixtape Archive"><table><caption>Authored flow meanings, not deployed AWS configuration evidence</caption><thead><tr><th scope="col">From</th><th scope="col">To</th><th scope="col">Kind</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td>Artist identity</td><td>Scoped upload broker</td><td>identity</td><td>Verified artist subject maps to an allowed tenant prefix; client-supplied object keys are not authority.</td></tr><tr><td>Scoped upload broker</td><td>Quarantined masters</td><td>identity</td><td>Broker grants a short-lived upload capability scoped to a server-selected object key; browser performs the upload.</td></tr><tr><td>Quarantined masters</td><td>Authorized job workflow</td><td>event</td><td>Configured S3 EventBridge forwarding starts the cross-account workflow under a constrained role.</td></tr><tr><td>Authorized job workflow</td><td>MediaConvert jobs</td><td>control</td><td>Scoped role submits an asynchronous job with explicit cross-account source bucket and KMS permissions.</td></tr><tr><td>MediaConvert jobs</td><td>Unpublished renditions</td><td>request</td><td>Writes derived renditions; a completed file alone is not a published recording.</td></tr><tr><td>Unpublished renditions</td><td>Rights and release gate</td><td>control</td><td>Successful job event plus human rights approval unlocks release; this is workflow progression, not S3 granting rights.</td></tr><tr><td>Rights and release gate</td><td>Approved playback files</td><td>request</td><td>Release service copies approved assets through explicit cross-account read and destination write policies.</td></tr><tr><td>Rights and release gate</td><td>Published catalogue</td><td>request</td><td>Catalogue becomes visible only after successful approved asset publication; reconciliation handles partial failures.</td></tr><tr><td>Signed CloudFront playback</td><td>Approved playback files</td><td>request</td><td>Origin access control and source-distribution bucket policy permit private reads; requests use signed viewer URLs.</td></tr><tr><td>Quarantined masters</td><td>Versioned master replica</td><td>replication</td><td>Cross-account, cross-region S3 replication with versioning and KMS grants; deletion and retention policies are explicit configuration.</td></tr></tbody></table></div></details>
+<details class="architecture-notes"><summary>Architecture assumptions &amp; omissions</summary><ul><li>The upload broker derives allowed tenant/object keys from verified identity and issues bounded temporary capabilities. The browser uploads; the identity arrow does not mean Lambda streams the audio.</li><li>Cross-account workflow and MediaConvert roles need explicit source, destination and KMS policies. Job completion and human rights approval are separate preconditions; neither S3 presence nor successful encoding grants publication authority.</li><li>Publication copies approved objects and updates the catalogue with reconciliation for partial failures. CloudFront origin access control authorizes private origin reads; signed viewer URLs separately authorize listeners.</li><li>Master replication assumes source/destination versioning, replication roles, KMS grants and deliberate delete-marker/retention policies. It is asynchronous and is not a substitute for protected backups. No real music or rights claims are made.</li></ul></details>
+<nav class="end-navigation" aria-label="Continue exploring"><a href="../#collection">Back to the collection</a><a rel="next" href="../aurora-identity/">Next: Grand Aurora: Tenant Isolation ↗</a></nav></article></main><footer><a href="../">Boring AWS Diagrams</a><p>Less box dragging. More interesting systems.</p><a href="https://github.com/mpuig/beautiflow">Source on GitHub ↗</a></footer><p id="drawing-status" class="sr-only" aria-live="polite"></p></body></html>

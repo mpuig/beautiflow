@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Saturday Night Queue — Boring AWS Diagrams</title><meta name="description" content="Can a flash sale survive retries without selling the same capacity twice?">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../site.css">
+<link rel="preload" href="../fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script type="module" src="../app.js"></script></head><body><a class="skip-link" href="#diagram">Skip to the diagram</a>
+<header class="masthead"><a class="wordmark" href="../" aria-label="Boring AWS Diagrams home">B/AWS</a><nav aria-label="Main"><a href="../#collection">Collection</a><a href="../#method">Our drawing process</a><a href="../../">Beautiflow ↗</a></nav></header>
+<main class="diagram-page"><nav class="page-navigation" aria-label="Collection navigation"><a href="../#collection">Back to all ten diagrams</a><div><a rel="prev" href="../hermes/">Previous diagram</a><a rel="next" href="../moonshot/">Next diagram</a></div></nav>
+<article class="exhibit" id="disco" data-style="disco" data-base="../entries/disco">
+<div class="exhibit-heading"><h1>Saturday Night Queue</h1><p class="treatment">1970s dance-floor poster</p></div><p class="story">The club has a protected edge, authenticated buyers, an authoritative sales region, asynchronous consumers and a regional recovery copy. A second region is not a second ticket counter.</p>
+<nav class="process-navigation" aria-label="Explore the authoring process"><a href="#prompt"><strong>Authoring prompt</strong><span>The brief that shaped this view</span></a><a href="#source"><strong>Mermaid source</strong><span>13 services · 12 relationships</span></a><a href="#evidence"><strong>Measured evidence</strong><span>Geometry, integrity &amp; limits</span></a></nav>
+<div class="diagram-workspace"><figure id="diagram"><div class="drawing-tools"><p>Can a flash sale survive retries without selling the same capacity twice?</p><div class="view-controls" hidden><button type="button" data-view="art" aria-pressed="true">Drawing</button><button type="button" data-view="native" aria-pressed="false">Native layout</button><button type="button" class="fit-toggle" data-fit-toggle aria-pressed="true">Fit whole diagram</button></div></div>
+<p class="pan-hint" data-fit-hint>Whole diagram fitted. For larger labels, turn off “Fit whole diagram” and pan, or open the full-size SVG.</p><div class="drawing-window" data-fit="true" style="--drawing-width:1700px" tabindex="0" role="region" aria-label="Saturday Night Queue architecture viewer"><img src="../entries/disco/rendered/disco.svg" width="1700" height="1032" alt="Saturday Night Queue: Protected ticket site, Edge WAF policy, Ticket buyer sign-in, JWT ticket API, Reserve capacity, Reservations and outbox, Streams to event bus, Committed purchases, Door-list projector, Ticket delivery queue, Failed ticket delivery, Read-only sales replica, Protected audit archive. Relationships and limits are explained below." loading="eager"></div>
+<figcaption><a class="svg-download" href="../entries/disco/rendered/disco.svg" download="disco-disco.svg">Download SVG</a><a href="../entries/disco/rendered/disco.svg">Open full drawing ↗</a><a href="../entries/disco/rendered/native.svg">Open native render ↗</a></figcaption></figure>
+<aside class="authoring-prompt" id="prompt" aria-labelledby="prompt-title"><h2 id="prompt-title">Authoring prompt</h2><p class="process-description">The design brief for this example.</p><blockquote>Design a fictional flash-sale ticketing platform with CloudFront/WAF, Cognito, JWT API, transactional reservation and outbox, stream-driven independent consumers, separate audit account and asynchronous read-only recovery replica. Show one authoritative writer region; do not claim globally consistent active-active inventory.</blockquote><div class="prompt-actions"><a href="#source">Read the Mermaid source</a><a href="#evidence">Inspect measured evidence</a></div></aside></div>
+<div class="process-materials"><section id="source" class="source-panel" aria-labelledby="source-title"><div class="section-heading"><h2 id="source-title">Mermaid source</h2><a href="../entries/disco/source.mmd" download="disco.mmd">Download .mmd</a></div><p>Semantic content and gallery-only boundary/flow annotations stay in this file. The drawing treatment is applied after layout.</p><pre tabindex="0" aria-label="Saturday Night Queue Mermaid source"><code>architecture-beta
+%% Illustrative flash-sale design. Only the primary region accepts inventory-changing commands.
+%% @boundary prod account
+%% @boundary primary region
+%% @boundary projections logical
+%% @boundary recovery region
+%% @boundary security account
+%% @boundary auditRegion region
+group prod(cloud)[Account: Ticket production]
+group primary(cloud)[Region: Authoritative sales] in prod
+group projections(cloud)[Logical: Async consumers] in primary
+group recovery(cloud)[Region: Read-only recovery] in prod
+group security(cloud)[Account: Security]
+group auditRegion(cloud)[Region: Audit archive] in security
+service edge(aws:cloudfront)[Protected ticket site] in prod
+service waf(aws:waf)[Edge WAF policy] in prod
+service auth(aws:cognito)[Ticket buyer sign-in] in primary
+service api(aws:api-gateway)[JWT ticket API] in primary
+service reserve(aws:lambda)[Reserve capacity] in primary
+service sales(aws:dynamodb)[Reservations and outbox] in primary
+service pipe(aws:eventbridge)[Streams to event bus] in primary
+service bus(aws:eventbridge)[Committed purchases] in primary
+service door(aws:lambda)[Door-list projector] in projections
+service mail(aws:sqs)[Ticket delivery queue] in projections
+service failed(aws:sqs)[Failed ticket delivery] in projections
+service replica(aws:dynamodb)[Read-only sales replica] in recovery
+service audit(aws:s3)[Protected audit archive] in auditRegion
+%% @edge waf edge control | WAF web ACL is associated with the distribution; not an extra request proxy hop.
+waf:R --&gt; L:edge
+%% @edge edge auth identity | Browser starts user-pool login; identity data is not cached as site content.
+edge:R --&gt; L:auth
+%% @edge auth api identity | Browser presents scoped access token; authorizer verifies issuer and audience.
+auth:R --&gt; L:api
+%% @edge api reserve request | Authenticated booking command; server validates event, buyer and purchase limits.
+api:R --&gt; L:reserve
+%% @edge reserve sales request | Transactional conditional capacity update and outbox record; application expiry, not TTL deletion, releases holds.
+reserve:R --&gt; L:sales
+%% @edge sales pipe event | DynamoDB Streams feed a configured EventBridge Pipe with duplicate-tolerant processing.
+sales:T --&gt; B:pipe
+%% @edge pipe bus event | Filter committed purchases; do not independently dual-write from reservation code.
+pipe:R --&gt; L:bus
+%% @edge bus door event | Door-list projection can lag and must deduplicate event versions.
+bus:R --&gt; L:door
+%% @edge bus mail event | Independent delivery queue decouples email work from the reservation transaction.
+bus:T --&gt; B:mail
+%% @edge mail failed event | Configured SQS redrive after failed consumer attempts; mail worker is omitted from this projection view.
+mail:R --&gt; L:failed
+%% @edge sales replica replication | Asynchronous global-table replica is read-only by application policy; no active-active capacity allocation.
+sales:B --&gt; L:replica
+%% @edge reserve audit control | Audit pipeline records sensitive booking actions in a separate account; transport and KMS policies require implementation.
+reserve:T --&gt; L:audit
+</code></pre><p>Reproduce this collection from the Beautiflow repository:</p><pre tabindex="0"><code>bun scripts/build-boring-diagrams.ts</code></pre><div class="source-links"><a href="../entries/disco/scene.json">Positioned scene JSON</a><a href="../draw.js">Drawing program</a></div></section>
+<section id="evidence" class="evidence-panel" aria-labelledby="evidence-title"><div class="section-heading"><h2 id="evidence-title">Measured evidence</h2><a href="../entries/disco/evidence.json">Full evidence JSON</a></div><dl class="evidence-summary"><div><dt>Native geometry</dt><dd>0 findings across 8 measured checks</dd></div><div><dt>Styled render integrity</dt><dd>0 element, plain-label, ID or reference findings</dd></div><div><dt>Authored annotations</dt><dd>6 boundaries · 12 relationship meanings</dd></div><div><dt>AWS configuration</dt><dd>Not validated</dd></div></dl><p class="evidence-limits">These checks do not establish visual quality, every decorative mark, browser glyph ink, edge-label boxes or deployed AWS correctness. Architecture has guarded transforms, not automatic polish.</p><h3>Source SHA-256</h3><code class="source-hash">3d0dc22e540c66daf688205e91b6f5076bdf8c1b123cabe57af292b0ea780d04</code><div class="source-links"><a href="../entries/disco/capabilities.json">Agent capabilities JSON</a><a href="../entries/disco/scene.json">Positioned scene JSON</a></div></section></div>
+
+<details class="relationships"><summary>Read all 12 relationships</summary><p>Line patterns distinguish requests, credentials, events, replication, configuration/control and recovery. Hover a styled connector for its meaning. Native layout preserves routes but does not include these gallery annotations.</p><div class="flow-scroll" tabindex="0" role="region" aria-label="Relationships for Saturday Night Queue"><table><caption>Authored flow meanings, not deployed AWS configuration evidence</caption><thead><tr><th scope="col">From</th><th scope="col">To</th><th scope="col">Kind</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td>Edge WAF policy</td><td>Protected ticket site</td><td>control</td><td>WAF web ACL is associated with the distribution; not an extra request proxy hop.</td></tr><tr><td>Protected ticket site</td><td>Ticket buyer sign-in</td><td>identity</td><td>Browser starts user-pool login; identity data is not cached as site content.</td></tr><tr><td>Ticket buyer sign-in</td><td>JWT ticket API</td><td>identity</td><td>Browser presents scoped access token; authorizer verifies issuer and audience.</td></tr><tr><td>JWT ticket API</td><td>Reserve capacity</td><td>request</td><td>Authenticated booking command; server validates event, buyer and purchase limits.</td></tr><tr><td>Reserve capacity</td><td>Reservations and outbox</td><td>request</td><td>Transactional conditional capacity update and outbox record; application expiry, not TTL deletion, releases holds.</td></tr><tr><td>Reservations and outbox</td><td>Streams to event bus</td><td>event</td><td>DynamoDB Streams feed a configured EventBridge Pipe with duplicate-tolerant processing.</td></tr><tr><td>Streams to event bus</td><td>Committed purchases</td><td>event</td><td>Filter committed purchases; do not independently dual-write from reservation code.</td></tr><tr><td>Committed purchases</td><td>Door-list projector</td><td>event</td><td>Door-list projection can lag and must deduplicate event versions.</td></tr><tr><td>Committed purchases</td><td>Ticket delivery queue</td><td>event</td><td>Independent delivery queue decouples email work from the reservation transaction.</td></tr><tr><td>Ticket delivery queue</td><td>Failed ticket delivery</td><td>event</td><td>Configured SQS redrive after failed consumer attempts; mail worker is omitted from this projection view.</td></tr><tr><td>Reservations and outbox</td><td>Read-only sales replica</td><td>replication</td><td>Asynchronous global-table replica is read-only by application policy; no active-active capacity allocation.</td></tr><tr><td>Reserve capacity</td><td>Protected audit archive</td><td>control</td><td>Audit pipeline records sensitive booking actions in a separate account; transport and KMS policies require implementation.</td></tr></tbody></table></div></details>
+<details class="architecture-notes"><summary>Architecture assumptions &amp; omissions</summary><ul><li>Reservation code must atomically enforce capacity, purchase idempotency and outbox insertion. Hold expiry is application logic; asynchronous DynamoDB TTL deletion is not a booking clock.</li><li>The Streams-to-bus element aggregates an EventBridge Pipe and its configured target. Consumers tolerate duplicate events, lag and version changes. The mail worker and connection details are omitted.</li><li>The illustrated global-table replica is read-only by application/IAM policy, not an inherently read-only DynamoDB service mode. Failover needs fencing of the old writer, reconciliation and an explicit sales-resumption decision.</li><li>CloudFront/WAF are global account resources; Cognito, SQS and DynamoDB are regional. Edge login arrows show browser identity progression. The audit arrow summarizes a separately configured pipeline, not Lambda writing directly across accounts without permission.</li></ul></details>
+<nav class="end-navigation" aria-label="Continue exploring"><a href="../#collection">Back to the collection</a><a rel="next" href="../moonshot/">Next: Moonshot Mission Control ↗</a></nav></article></main><footer><a href="../">Boring AWS Diagrams</a><p>Less box dragging. More interesting systems.</p><a href="https://github.com/mpuig/beautiflow">Source on GitHub ↗</a></footer><p id="drawing-status" class="sr-only" aria-live="polite"></p></body></html>

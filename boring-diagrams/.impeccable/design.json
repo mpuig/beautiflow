@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 2,
+  "title": "Design System: Boring AWS Diagrams",
+  "extensions": {
+    "breakpoints": [{"name":"stacked-tools","value":"1000px"},{"name":"single-column","value":"650px"}],
+    "typographyMeta": {
+      "display":{"displayName":"Archivo Black display","purpose":"Self-hosted heavy compact titles, distinct from the parent website."},
+      "diagram":{"displayName":"Measured architecture lettering","purpose":"Preserved native Arial; changing its metrics requires new layout."}
+    }
+  },
+  "components": [
+    {"name":"Selected view","kind":"button","refersTo":"selected-view","description":"Pressed-state native/drawing comparison, separate from fit/read mode; never a source edit.","html":"<button class=\"ds-selected\" aria-pressed=\"true\">Drawing</button>","css":".ds-selected{font:600 13px 'Public Sans',sans-serif;padding:9px 14px;min-height:40px;border:1px solid var(--blue,#253bd5);background:var(--blue,#253bd5);color:var(--paper,#f2f2f9);cursor:pointer}.ds-selected:hover{filter:brightness(.92)}.ds-selected:focus-visible{outline:3px solid #b1426c;outline-offset:4px}"},
+    {"name":"Unselected view","kind":"button","refersTo":"unselected-view","description":"Switches the visible render and download target.","html":"<button class=\"ds-view\" aria-pressed=\"false\">Native layout</button>","css":".ds-view{font:400 13px 'Public Sans',sans-serif;padding:9px 14px;min-height:40px;border:1px solid var(--blue,#253bd5);background:transparent;color:var(--blue,#253bd5);cursor:pointer}.ds-view:hover{background:#dfe1f9}.ds-view:focus-visible{outline:3px solid #b1426c;outline-offset:4px}"},
+    {"name":"Collection disclosure","kind":"nav","description":"Native disclosure remains usable without JavaScript.","html":"<details class=\"ds-index\"><summary>Explore all ten diagrams</summary><a href=\"#hermes\">Hermes’ Delivery Office</a></details>","css":".ds-index{font:14px/1.6 'Public Sans',sans-serif;color:var(--blue,#253bd5);background:#e4e5f4;padding:0 20px}.ds-index summary{cursor:pointer;padding:15px 0;font-weight:600}.ds-index a{display:block;padding:12px 0;text-underline-offset:.23em}.ds-index a:hover{text-decoration-thickness:2px}.ds-index :focus-visible{outline:3px solid #b1426c;outline-offset:4px}"},
+    {"name":"Source disclosure","kind":"custom","description":"Semantic expandable notes; no modal or generated-code execution.","html":"<details class=\"ds-source\"><summary>Prompt, source &amp; evidence</summary><p>Inspect the authoring prompt, Mermaid and measured checks.</p></details>","css":".ds-source{font:14px/1.6 'Public Sans',sans-serif;border-top:1px solid #c4c6de;color:var(--ink,#25263d)}.ds-source summary{padding:14px 0;min-height:48px;cursor:pointer;font-weight:600;color:var(--blue,#253bd5)}.ds-source p{max-width:70ch}.ds-source summary:hover{text-decoration:underline;text-underline-offset:.23em}.ds-source summary:focus-visible{outline:3px solid #b1426c;outline-offset:4px}"},
+    {"name":"Exhibit heading","kind":"custom","description":"An open specimen sheet, not a card container.","html":"<h2 class=\"ds-heading\">Moonshot Mission Control</h2>","css":".ds-heading{font:400 clamp(30px,3.3vw,46px)/1.14 'Archivo Black',sans-serif;letter-spacing:-.025em;color:var(--ink,#25263d);max-width:22ch;margin:0;text-wrap:balance}"}
+  ],
+  "narrative": {
+    "northStar":"The architecture print studio",
+    "overview":"A separately branded microsite inside the Beautiflow repository. Cobalt fields and heavy, compact lettering frame an open collection of vector architecture specimens. It deliberately replaces the parent site's paper/evergreen/Bricolage identity within this route only.",
+    "keyCharacteristics":["Saturated cobalt navigation and opening.","Self-hosted display and reading faces.","Open exhibit sheets, not nested cards.","Native geometry and recognizable service glyphs.","Inspectable source, notes and measured evidence."],
+    "rules":[{"name":"The Two Layers Rule","body":"Website identity frames the collection; drawing identity belongs to the individual specimen.","section":"colors"}],
+    "dos":["Do preserve glyphs, measured labels, containment, explicit ports and connector paths.","Do distinguish native geometry checks from decorative readability and cloud correctness."],
+    "donts":["Don't inherit the parent website's identity into this microsite.","Don't treat logical groups as VPC or security boundaries.","Don't add runtime models or execute visitor-supplied code."]
+  }
+}

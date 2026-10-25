@@ -1,0 +1,41 @@
+architecture-beta
+accTitle: Industrial machine connectivity - reconstruction of the AWS reference
+accDescr: EOT Twin Talk sends time-series data directly to SiteWise and asset metadata through S3, Lambda and DynamoDB. SiteWise updates flow through IoT Core and Firehose to an industrial data lake. Reconstruction, not an AWS-authored diagram.
+%% Source: https://docs.aws.amazon.com/reference-architecture-diagrams/latest/industrial-machine-connectivity-eot/industrial-machine-connectivity-eot.html
+%% The original diagram, not only its prose, distinguishes metadata from time-series ingestion.
+group industrial(cloud)[Industrial refineries and wells]
+group historians(server)[Supported historians and SCADA] in industrial
+group edge(server)[Industrial PC] in industrial
+group aws(cloud)[AWS Cloud]
+group amc(server)[Asset Model Converter - AMC] in aws
+service sensors(lucide:radio-tower)[Devices and sensors] in industrial
+service pi(server)[OSIsoft PI] in historians
+service cygnet(server)[CygNet OPC and SCADA] in historians
+service legacy(database)[Legacy historians] in historians
+service twin(server)[EOT Twin Talk Express] in edge
+service incoming(aws:s3)[AMC incoming bucket] in amc
+service convert(aws:lambda)[AMC1 normalize model] in amc
+service definitions(aws:dynamodb)[Asset model definitions] in amc
+service create(aws:lambda)[AMC2 create assets] in amc
+service sitewise(lucide:factory)[AWS IoT SiteWise] in aws
+service core(lucide:network)[AWS IoT Core rule] in aws
+service firehose(lucide:workflow)[Amazon Data Firehose] in aws
+service lake(aws:s3)[Industrial data lake] in aws
+%% Steps 1-2: collector protocols and multiplicity are aggregated, not deployment instructions.
+sensors:R --> L:pi
+sensors:B --> B:cygnet
+sensors:B --> B:legacy
+pi:B --> R:twin
+cygnet:B --> B:twin
+legacy:B --> B:twin
+%% Independent paths shown in the original: time series direct to SiteWise, metadata via AMC.
+twin:L -[Time series]-> R:sitewise
+twin:B -[Asset metadata]-> L:incoming
+incoming:R --> L:convert
+convert:R --> L:definitions
+definitions:R -[DynamoDB Streams]-> L:create
+create:T --> B:sitewise
+sitewise:T -[Property updates]-> B:core
+core:R --> L:firehose
+firehose:R --> L:lake
+%% ML and third-party consumers are described in step 10 but are not drawn in the original.

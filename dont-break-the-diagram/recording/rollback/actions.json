@@ -1,0 +1,10 @@
+{
+  "actions": [
+    {
+      "type": "architecture-rename",
+      "id": "api",
+      "newId": "gateway",
+      "label": "Tenant API"
+    }
+  ]
+}

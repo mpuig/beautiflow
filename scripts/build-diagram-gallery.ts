@@ -78,7 +78,7 @@ ${head}
       <p><a href="../../../examples.html">Examples</a> / Diagram types</p>
       <div class="section-head">
         <h1 id="gallery-title">Diagram gallery</h1>
-        <div class="hero-copy"><p>Explore ${examples.length} additional diagram types. Each has a practical scenario, its Mermaid source, and an exact render command. All scenarios and data are illustrative.</p><a href="../../../examples.html">See flowchart, sequence, and architecture examples</a></div>
+        <div class="hero-copy"><p>Explore ${examples.length} additional diagram types. Each has a practical scenario, its Mermaid source, and an exact render command. All scenarios and data are illustrative.</p><a href="/docs/diagram-types/">Compare all 32 diagram types</a> · <a href="/examples/diagrams/">Browse all diagram examples</a></div>
       </div>
     </section>
     <div class="shell">

@@ -1,6 +1,6 @@
 {
   "name": "beautiflow",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Render, arrange, audit, and polish Mermaid diagrams.",
   "license": "MIT",
   "repository": {

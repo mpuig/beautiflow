@@ -1,0 +1,368 @@
+{
+  "engine": "Beautiflow architecture pipeline: Pele + local positioned-geometry extension",
+  "sourceHash": "27cb9a76757c0f0ad7d04976961674812846964ba716cbe8d067eb0b5c879b09",
+  "scope": "Geometry audit of the native layout; each styled drawing additionally checks elements, plain service labels, IDs, and SVG references. Decorative ink and cloud-provider semantics are not measured.",
+  "annotations": {
+    "coverage": "authored-annotations-and-containment-only",
+    "boundaries": 10,
+    "relationships": 14,
+    "configurationValidated": false
+  },
+  "structure": {
+    "family": "architecture",
+    "score": 100,
+    "nodes": [
+      {
+        "id": "identity",
+        "type": "service",
+        "icon": "aws:cognito",
+        "title": "Staff federation",
+        "in": "controlRegion"
+      },
+      {
+        "id": "discovery",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Tenant discovery",
+        "in": "controlRegion"
+      },
+      {
+        "id": "tenants",
+        "type": "service",
+        "icon": "aws:dynamodb",
+        "title": "Tenant directory",
+        "in": "controlRegion"
+      },
+      {
+        "id": "provision",
+        "type": "service",
+        "icon": "aws:step-functions",
+        "title": "Cell provisioner",
+        "in": "controlRegion"
+      },
+      {
+        "id": "sharedIngress",
+        "type": "service",
+        "icon": "aws:api-gateway",
+        "title": "Shared cell API",
+        "in": "pooledRegion"
+      },
+      {
+        "id": "sharedApp",
+        "type": "service",
+        "icon": "aws:fargate",
+        "title": "Shared app service",
+        "in": "pooledVpc"
+      },
+      {
+        "id": "sharedDb",
+        "type": "service",
+        "icon": "aws:aurora",
+        "title": "Pooled booking DB",
+        "in": "pooledVpc"
+      },
+      {
+        "id": "dedicatedIngress",
+        "type": "service",
+        "icon": "aws:api-gateway",
+        "title": "Dedicated cell API",
+        "in": "enterpriseRegion"
+      },
+      {
+        "id": "dedicatedApp",
+        "type": "service",
+        "icon": "aws:fargate",
+        "title": "Dedicated app service",
+        "in": "enterpriseVpc"
+      },
+      {
+        "id": "dedicatedDb",
+        "type": "service",
+        "icon": "aws:aurora",
+        "title": "Dedicated booking DB",
+        "in": "enterpriseVpc"
+      },
+      {
+        "id": "deployRole",
+        "type": "service",
+        "icon": "aws:iam",
+        "title": "Cell deploy role",
+        "in": "enterprise"
+      },
+      {
+        "id": "stack",
+        "type": "service",
+        "icon": "aws:cloudformation",
+        "title": "Cell stack",
+        "in": "enterpriseRegion"
+      },
+      {
+        "id": "trail",
+        "type": "service",
+        "icon": "aws:cloudtrail",
+        "title": "Organization trail",
+        "in": "securityRegion"
+      },
+      {
+        "id": "logs",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Central audit logs",
+        "in": "securityRegion"
+      }
+    ],
+    "groups": [
+      {
+        "id": "control",
+        "icon": "cloud",
+        "title": "Account: Control plane"
+      },
+      {
+        "id": "controlRegion",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "control"
+      },
+      {
+        "id": "pooled",
+        "icon": "cloud",
+        "title": "Account: Pooled production"
+      },
+      {
+        "id": "pooledRegion",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "pooled"
+      },
+      {
+        "id": "pooledVpc",
+        "icon": "cloud",
+        "title": "VPC: Shared hotel cell",
+        "in": "pooledRegion"
+      },
+      {
+        "id": "enterprise",
+        "icon": "cloud",
+        "title": "Account: Enterprise hotel"
+      },
+      {
+        "id": "enterpriseRegion",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "enterprise"
+      },
+      {
+        "id": "enterpriseVpc",
+        "icon": "cloud",
+        "title": "VPC: Dedicated cell",
+        "in": "enterpriseRegion"
+      },
+      {
+        "id": "security",
+        "icon": "cloud",
+        "title": "Account: Security archive"
+      },
+      {
+        "id": "securityRegion",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "security"
+      }
+    ],
+    "edges": [
+      {
+        "lhsId": "identity",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "discovery",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "discovery",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "tenants",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "discovery",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "sharedIngress",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "discovery",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "dedicatedIngress",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "sharedIngress",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "sharedApp",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "sharedApp",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "sharedDb",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "dedicatedIngress",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "dedicatedApp",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "dedicatedApp",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "dedicatedDb",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "provision",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "deployRole",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "deployRole",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "stack",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "stack",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "dedicatedApp",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "sharedApp",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "trail",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "dedicatedApp",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "trail",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "trail",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "logs",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      }
+    ],
+    "alignmentHints": [],
+    "metrics": {
+      "services": 14,
+      "junctions": 0,
+      "groups": 10,
+      "relationships": 14,
+      "components": 1,
+      "isolatedServices": 0,
+      "maxDepth": 3
+    },
+    "issues": [],
+    "limitations": [
+      "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+    ]
+  },
+  "audit": {
+    "score": 100,
+    "coverage": "pele-positioned-geometry",
+    "metrics": {
+      "detachedEndpoints": 0,
+      "portViolations": 0,
+      "nodeOverlaps": 0,
+      "labelCollisions": 0,
+      "edgeNodeIntersections": 0,
+      "headerCrossings": 0,
+      "excessiveBends": 0,
+      "sharedSegments": 0
+    },
+    "integrity": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 38,
+      "labelsChecked": 14,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    },
+    "issues": [],
+    "limitations": [
+      "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+      "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+    ]
+  },
+  "styledIntegrity": {
+    "deco": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 38,
+      "labelsChecked": 14,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    }
+  }
+}

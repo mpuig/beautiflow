@@ -1,0 +1,375 @@
+{
+  "name": "Plan validated",
+  "command": "beautiflow agent plan source.mmd --operation transform --actions actions.json --receipt receipt.json --json",
+  "exitCode": 0,
+  "output": {
+    "protocolVersion": "1.1",
+    "ok": true,
+    "operation": "agent-plan",
+    "state": "validated",
+    "changed": true,
+    "diagramChanged": false,
+    "receipt": "/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/receipt.json",
+    "files": {
+      "source": "/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.mmd",
+      "sidecar": "/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.beautiflow.json",
+      "receipt": "/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/receipt.json",
+      "actions": "/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/actions.json"
+    },
+    "evidence": {
+      "source": "architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice gateway(aws:api-gateway)[Tenant API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --> L:gateway\ngateway:R --> L:membership\nmembership:R --> L:records\n",
+      "actionsApplied": 1,
+      "before": {
+        "score": 100,
+        "coverage": "pele-positioned-geometry",
+        "metrics": {
+          "detachedEndpoints": 0,
+          "portViolations": 0,
+          "nodeOverlaps": 0,
+          "labelCollisions": 0,
+          "edgeNodeIntersections": 0,
+          "headerCrossings": 0,
+          "excessiveBends": 0,
+          "sharedSegments": 0
+        },
+        "integrity": {
+          "coverage": "architecture-elements-and-svg-references",
+          "elementsChecked": 8,
+          "labelsChecked": 4,
+          "issues": [],
+          "limitations": [
+            "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+          ]
+        },
+        "issues": [],
+        "limitations": [
+          "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+          "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+        ]
+      },
+      "audit": {
+        "score": 100,
+        "coverage": "pele-positioned-geometry",
+        "metrics": {
+          "detachedEndpoints": 0,
+          "portViolations": 0,
+          "nodeOverlaps": 0,
+          "labelCollisions": 0,
+          "edgeNodeIntersections": 0,
+          "headerCrossings": 0,
+          "excessiveBends": 0,
+          "sharedSegments": 0
+        },
+        "integrity": {
+          "coverage": "architecture-elements-and-svg-references",
+          "elementsChecked": 8,
+          "labelsChecked": 4,
+          "issues": [],
+          "limitations": [
+            "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+          ]
+        },
+        "issues": [],
+        "limitations": [
+          "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+          "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+        ]
+      },
+      "semantic": {
+        "family": "architecture",
+        "score": 100,
+        "nodes": [
+          {
+            "id": "staff",
+            "type": "service",
+            "icon": "lucide:users",
+            "title": "Hotel staff"
+          },
+          {
+            "id": "gateway",
+            "type": "service",
+            "icon": "aws:api-gateway",
+            "title": "Tenant API",
+            "in": "cell"
+          },
+          {
+            "id": "membership",
+            "type": "service",
+            "icon": "aws:fargate",
+            "title": "Membership check",
+            "in": "cell"
+          },
+          {
+            "id": "records",
+            "type": "service",
+            "icon": "aws:aurora",
+            "title": "Tenant records",
+            "in": "cell"
+          }
+        ],
+        "groups": [
+          {
+            "id": "cell",
+            "icon": "cloud",
+            "title": "Pooled cell"
+          }
+        ],
+        "edges": [
+          {
+            "lhsId": "staff",
+            "lhsDir": "R",
+            "lhsInto": false,
+            "lhsGroup": false,
+            "rhsId": "gateway",
+            "rhsDir": "L",
+            "rhsInto": true,
+            "rhsGroup": false
+          },
+          {
+            "lhsId": "gateway",
+            "lhsDir": "R",
+            "lhsInto": false,
+            "lhsGroup": false,
+            "rhsId": "membership",
+            "rhsDir": "L",
+            "rhsInto": true,
+            "rhsGroup": false
+          },
+          {
+            "lhsId": "membership",
+            "lhsDir": "R",
+            "lhsInto": false,
+            "lhsGroup": false,
+            "rhsId": "records",
+            "rhsDir": "L",
+            "rhsInto": true,
+            "rhsGroup": false
+          }
+        ],
+        "alignmentHints": [],
+        "metrics": {
+          "services": 4,
+          "junctions": 0,
+          "groups": 1,
+          "relationships": 3,
+          "components": 1,
+          "isolatedServices": 0,
+          "maxDepth": 1
+        },
+        "issues": [],
+        "limitations": [
+          "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+        ]
+      }
+    },
+    "budget": {
+      "initialOperations": 1,
+      "targetedCorrections": 1,
+      "visualInspections": 1
+    },
+    "warnings": [],
+    "nextAction": {
+      "operation": "agent-commit",
+      "argv": [
+        "beautiflow",
+        "agent",
+        "commit",
+        "--receipt",
+        "/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/receipt.json",
+        "--json"
+      ],
+      "reason": "Commit the validated plan while its hashes remain current",
+      "requiresConfirmation": false
+    }
+  },
+  "receipt": {
+    "receiptVersion": 1,
+    "protocolVersion": "1.1",
+    "state": "validated",
+    "source": "/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.mmd",
+    "sidecar": "/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/source.beautiflow.json",
+    "initialOperation": "transform",
+    "pendingOperation": "transform",
+    "actions": "/private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/beautiflow-safety-cplE8i/safe/actions.json",
+    "hashes": {
+      "sourceBefore": "87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a",
+      "sidecarBefore": null,
+      "actions": "45b57c51122fe691513147818367ddd5e9178d2da24632e6404591eac7eaca28",
+      "sourceCurrent": "87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a",
+      "sidecarCurrent": null
+    },
+    "snapshot": {
+      "source": "architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice api(aws:api-gateway)[Cell API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --> L:api\napi:R --> L:membership\nmembership:R --> L:records\n",
+      "sidecar": null
+    },
+    "expected": {
+      "score": 100,
+      "metrics": {
+        "detachedEndpoints": 0,
+        "portViolations": 0,
+        "nodeOverlaps": 0,
+        "labelCollisions": 0,
+        "edgeNodeIntersections": 0,
+        "headerCrossings": 0,
+        "excessiveBends": 0,
+        "sharedSegments": 0
+      },
+      "semanticScore": 100,
+      "baselineScore": 100
+    },
+    "evidence": {
+      "source": "architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice gateway(aws:api-gateway)[Tenant API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --> L:gateway\ngateway:R --> L:membership\nmembership:R --> L:records\n",
+      "actionsApplied": 1,
+      "before": {
+        "score": 100,
+        "coverage": "pele-positioned-geometry",
+        "metrics": {
+          "detachedEndpoints": 0,
+          "portViolations": 0,
+          "nodeOverlaps": 0,
+          "labelCollisions": 0,
+          "edgeNodeIntersections": 0,
+          "headerCrossings": 0,
+          "excessiveBends": 0,
+          "sharedSegments": 0
+        },
+        "integrity": {
+          "coverage": "architecture-elements-and-svg-references",
+          "elementsChecked": 8,
+          "labelsChecked": 4,
+          "issues": [],
+          "limitations": [
+            "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+          ]
+        },
+        "issues": [],
+        "limitations": [
+          "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+          "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+        ]
+      },
+      "audit": {
+        "score": 100,
+        "coverage": "pele-positioned-geometry",
+        "metrics": {
+          "detachedEndpoints": 0,
+          "portViolations": 0,
+          "nodeOverlaps": 0,
+          "labelCollisions": 0,
+          "edgeNodeIntersections": 0,
+          "headerCrossings": 0,
+          "excessiveBends": 0,
+          "sharedSegments": 0
+        },
+        "integrity": {
+          "coverage": "architecture-elements-and-svg-references",
+          "elementsChecked": 8,
+          "labelsChecked": 4,
+          "issues": [],
+          "limitations": [
+            "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+          ]
+        },
+        "issues": [],
+        "limitations": [
+          "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+          "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+        ]
+      },
+      "semantic": {
+        "family": "architecture",
+        "score": 100,
+        "nodes": [
+          {
+            "id": "staff",
+            "type": "service",
+            "icon": "lucide:users",
+            "title": "Hotel staff"
+          },
+          {
+            "id": "gateway",
+            "type": "service",
+            "icon": "aws:api-gateway",
+            "title": "Tenant API",
+            "in": "cell"
+          },
+          {
+            "id": "membership",
+            "type": "service",
+            "icon": "aws:fargate",
+            "title": "Membership check",
+            "in": "cell"
+          },
+          {
+            "id": "records",
+            "type": "service",
+            "icon": "aws:aurora",
+            "title": "Tenant records",
+            "in": "cell"
+          }
+        ],
+        "groups": [
+          {
+            "id": "cell",
+            "icon": "cloud",
+            "title": "Pooled cell"
+          }
+        ],
+        "edges": [
+          {
+            "lhsId": "staff",
+            "lhsDir": "R",
+            "lhsInto": false,
+            "lhsGroup": false,
+            "rhsId": "gateway",
+            "rhsDir": "L",
+            "rhsInto": true,
+            "rhsGroup": false
+          },
+          {
+            "lhsId": "gateway",
+            "lhsDir": "R",
+            "lhsInto": false,
+            "lhsGroup": false,
+            "rhsId": "membership",
+            "rhsDir": "L",
+            "rhsInto": true,
+            "rhsGroup": false
+          },
+          {
+            "lhsId": "membership",
+            "lhsDir": "R",
+            "lhsInto": false,
+            "lhsGroup": false,
+            "rhsId": "records",
+            "rhsDir": "L",
+            "rhsInto": true,
+            "rhsGroup": false
+          }
+        ],
+        "alignmentHints": [],
+        "metrics": {
+          "services": 4,
+          "junctions": 0,
+          "groups": 1,
+          "relationships": 3,
+          "components": 1,
+          "isolatedServices": 0,
+          "maxDepth": 1
+        },
+        "issues": [],
+        "limitations": [
+          "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+        ]
+      }
+    },
+    "budget": {
+      "initialOperations": 1,
+      "targetedCorrections": 1,
+      "visualInspections": 1
+    }
+  },
+  "source": "architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice api(aws:api-gateway)[Cell API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --> L:api\napi:R --> L:membership\nmembership:R --> L:records\n",
+  "hash": "87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a",
+  "diagram": "safe/step-1.svg"
+}

@@ -1,0 +1,370 @@
+{
+  "source": "sources/industrial-machine-connectivity-eot.mmd",
+  "sourceSha256": "4ba01d5d8385d7251ad60017ea94ad9df26cf3b9e7f4021f1aa8aa50d551eaa0",
+  "svgSha256": "a42675363972afae8231dbbd9ee9ec9b2072021178e1246ab750085db8627baf",
+  "pngSha256": "b837b1b552a2e40bff66de6a8b6495d9a76802b44713aff030716c90a48df686",
+  "executable": {
+    "version": "beautiflow 1.0.1",
+    "sha256": "09b18c50d8e3f120030a05306d6ac2006c3e51c5beb3cc677d2483ef1fea8f03"
+  },
+  "reference": "https://docs.aws.amazon.com/reference-architecture-diagrams/latest/industrial-machine-connectivity-eot/industrial-machine-connectivity-eot.html",
+  "referenceImage": "https://docs.aws.amazon.com/images/reference-architecture-diagrams/latest/industrial-machine-connectivity-eot/images/cygnet-and-pi-data-to-sitewise-ra.png",
+  "geometryAcceptedAsClean": false,
+  "visualReview": {
+    "attestedByGenerator": false,
+    "note": "The generator does not perform visual review. See README for the separate manual-review scope and limitations."
+  },
+  "audit": {
+    "ok": true,
+    "operation": "audit",
+    "changed": false,
+    "family": "architecture",
+    "score": 80,
+    "coverage": "pele-positioned-geometry",
+    "metrics": {
+      "detachedEndpoints": 0,
+      "portViolations": 0,
+      "nodeOverlaps": 0,
+      "labelCollisions": 0,
+      "edgeNodeIntersections": 0,
+      "headerCrossings": 0,
+      "excessiveBends": 0,
+      "sharedSegments": 2
+    },
+    "integrity": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 33,
+      "labelsChecked": 13,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    },
+    "issues": [
+      {
+        "severity": "high",
+        "type": "sharedSegments",
+        "message": "2 measured architecture geometry findings: sharedSegments"
+      }
+    ],
+    "limitations": [
+      "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+      "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+    ],
+    "warnings": [
+      {
+        "severity": "high",
+        "type": "sharedSegments",
+        "message": "2 measured architecture geometry findings: sharedSegments"
+      }
+    ],
+    "nextAction": null
+  },
+  "inspection": {
+    "source": "/Users/puigmarc/code/beautiflow/examples/recipes/aws-reference-architectures/sources/industrial-machine-connectivity-eot.mmd",
+    "family": "architecture",
+    "score": 100,
+    "nodes": [
+      {
+        "id": "sensors",
+        "type": "service",
+        "icon": "lucide:radio-tower",
+        "title": "Devices and sensors",
+        "in": "industrial"
+      },
+      {
+        "id": "pi",
+        "type": "service",
+        "icon": "server",
+        "title": "OSIsoft PI",
+        "in": "historians"
+      },
+      {
+        "id": "cygnet",
+        "type": "service",
+        "icon": "server",
+        "title": "CygNet OPC and SCADA",
+        "in": "historians"
+      },
+      {
+        "id": "legacy",
+        "type": "service",
+        "icon": "database",
+        "title": "Legacy historians",
+        "in": "historians"
+      },
+      {
+        "id": "twin",
+        "type": "service",
+        "icon": "server",
+        "title": "EOT Twin Talk Express",
+        "in": "edge"
+      },
+      {
+        "id": "incoming",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "AMC incoming bucket",
+        "in": "amc"
+      },
+      {
+        "id": "convert",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "AMC1 normalize model",
+        "in": "amc"
+      },
+      {
+        "id": "definitions",
+        "type": "service",
+        "icon": "aws:dynamodb",
+        "title": "Asset model definitions",
+        "in": "amc"
+      },
+      {
+        "id": "create",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "AMC2 create assets",
+        "in": "amc"
+      },
+      {
+        "id": "sitewise",
+        "type": "service",
+        "icon": "lucide:factory",
+        "title": "AWS IoT SiteWise",
+        "in": "aws"
+      },
+      {
+        "id": "core",
+        "type": "service",
+        "icon": "lucide:network",
+        "title": "AWS IoT Core rule",
+        "in": "aws"
+      },
+      {
+        "id": "firehose",
+        "type": "service",
+        "icon": "lucide:workflow",
+        "title": "Amazon Data Firehose",
+        "in": "aws"
+      },
+      {
+        "id": "lake",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Industrial data lake",
+        "in": "aws"
+      }
+    ],
+    "groups": [
+      {
+        "id": "industrial",
+        "icon": "cloud",
+        "title": "Industrial refineries and wells"
+      },
+      {
+        "id": "historians",
+        "icon": "server",
+        "title": "Supported historians and SCADA",
+        "in": "industrial"
+      },
+      {
+        "id": "edge",
+        "icon": "server",
+        "title": "Industrial PC",
+        "in": "industrial"
+      },
+      {
+        "id": "aws",
+        "icon": "cloud",
+        "title": "AWS Cloud"
+      },
+      {
+        "id": "amc",
+        "icon": "server",
+        "title": "Asset Model Converter - AMC",
+        "in": "aws"
+      }
+    ],
+    "edges": [
+      {
+        "lhsId": "sensors",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "pi",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "sensors",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "cygnet",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "sensors",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "legacy",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "pi",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "twin",
+        "rhsDir": "R",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "cygnet",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "twin",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "legacy",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "twin",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "twin",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "sitewise",
+        "rhsDir": "R",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "Time series"
+      },
+      {
+        "lhsId": "twin",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "incoming",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "Asset metadata"
+      },
+      {
+        "lhsId": "incoming",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "convert",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "convert",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "definitions",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "definitions",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "create",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "DynamoDB Streams"
+      },
+      {
+        "lhsId": "create",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "sitewise",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "sitewise",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "core",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "Property updates"
+      },
+      {
+        "lhsId": "core",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "firehose",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "firehose",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "lake",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      }
+    ],
+    "alignmentHints": [],
+    "metrics": {
+      "services": 13,
+      "junctions": 0,
+      "groups": 5,
+      "relationships": 15,
+      "components": 1,
+      "isolatedServices": 0,
+      "maxDepth": 2
+    },
+    "issues": [
+      {
+        "severity": "info",
+        "type": "high-connectivity",
+        "nodes": [
+          "twin"
+        ],
+        "message": "twin has 5 neighbours; inspect its visual focus"
+      }
+    ],
+    "limitations": [
+      "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+    ]
+  }
+}

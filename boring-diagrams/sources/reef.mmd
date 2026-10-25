@@ -1,0 +1,54 @@
+architecture-beta
+%% Fictional private ML review. All predictions require human acceptance before publication.
+%% @boundary research account
+%% @boundary researchRegion region
+%% @boundary production account
+%% @boundary primary region
+%% @boundary privateVpc vpc
+%% @boundary azA az
+%% @boundary azB az
+%% @boundary accepted logical
+group research(cloud)[Account: Research training]
+group researchRegion(cloud)[Region: Primary] in research
+group production(cloud)[Account: Survey production]
+group primary(cloud)[Region: Primary] in production
+group privateVpc(cloud)[VPC: Private review service] in primary
+group azA(cloud)[AZ: A - private tasks] in privateVpc
+group azB(cloud)[AZ: B - private tasks] in privateVpc
+group accepted(cloud)[Logical: Accepted evidence] in primary
+service training(aws:sagemaker)[Model training job] in researchRegion
+service models(aws:s3)[Versioned model artifacts] in researchRegion
+service promotion(aws:step-functions)[Approved model promotion] in researchRegion
+service endpoint(aws:sagemaker)[Private inference endpoint] in primary
+service raw(aws:s3)[Raw survey photographs] in primary
+service workflow(aws:step-functions)[Survey review workflow] in primary
+service reviewA(aws:fargate)[Review app tasks A] in azA
+service reviewB(aws:fargate)[Review app tasks B] in azB
+service auth(aws:cognito)[Researcher sign-in] in primary
+service alb(aws:elb)[Internal review ALB] in privateVpc
+service publish(aws:lambda)[Publish accepted result] in accepted
+service records(aws:dynamodb)[Reviewed catalogue] in accepted
+%% @edge training models request | Training role writes versioned model artifacts; accuracy is not established by this diagram.
+training:R --> L:models
+%% @edge models promotion control | Human-approved version is selected for promotion; S3 presence alone is not approval.
+models:R --> L:promotion
+%% @edge promotion endpoint control | Approved deployment assumes a scoped cross-account role and explicit artifact/key permissions.
+promotion:B --> T:endpoint
+%% @edge raw workflow event | Configured S3 EventBridge rule starts execution; EventBridge node is omitted in this focused deployment view.
+raw:T --> L:workflow
+%% @edge workflow endpoint request | Workflow invokes the custom-trained endpoint through its execution role; VPC endpoints constrain service access.
+workflow:R --> B:endpoint
+%% @edge auth alb identity | Browser or corporate network presents identity to the review application; no public ALB is implied.
+auth:R --> L:alb
+%% @edge alb reviewA request | Private staff access reaches review tasks in AZ A through authorized network connectivity.
+alb:R --> L:reviewA
+%% @edge alb reviewB request | Independent task placement in AZ B; user identity is verified by the application.
+alb:B --> L:reviewB
+%% @edge reviewA workflow control | Approved reviewer action uses an authenticated backend and task-token callback; token never becomes public authority.
+reviewA:R --> T:workflow
+%% @edge reviewB workflow control | Rejected results do not advance to publication; review policy and audit are required.
+reviewB:R --> R:workflow
+%% @edge workflow publish control | Only the successful human-approval branch invokes publication.
+workflow:B --> L:publish
+%% @edge publish records request | Writes accepted labels with provenance; predictions and raw objects remain separate.
+publish:R --> L:records

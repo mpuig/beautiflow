@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grand Aurora: Tenant Isolation — Boring AWS Diagrams</title><meta name="description" content="Why is a valid login token insufficient to access another hotel’s records?">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../site.css">
+<link rel="preload" href="../fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script type="module" src="../app.js"></script></head><body><a class="skip-link" href="#diagram">Skip to the diagram</a>
+<header class="masthead"><a class="wordmark" href="../" aria-label="Boring AWS Diagrams home">B/AWS</a><nav aria-label="Main"><a href="../#collection">Collection</a><a href="../#method">Our drawing process</a><a href="../../">Beautiflow ↗</a></nav></header>
+<main class="diagram-page"><nav class="page-navigation" aria-label="Collection navigation"><a href="../#collection">Back to all ten diagrams</a><div><a rel="prev" href="../mixtape/">Previous diagram</a><a rel="next" href="../aurora-recovery/">Next diagram</a></div></nav>
+<article class="exhibit" id="aurora-identity" data-style="deco" data-base="../entries/aurora-identity">
+<div class="exhibit-heading"><h1>Grand Aurora: Tenant Isolation</h1><p class="treatment">Art Deco · focused identity view</p></div><p class="story">One issuer, two application accounts, and independent authorization at each cell. The pooled path binds a validated tenant to a transaction; the dedicated path also checks its cell allowlist.</p>
+<nav class="process-navigation" aria-label="Explore the authoring process"><a href="#prompt"><strong>Authoring prompt</strong><span>The brief that shaped this view</span></a><a href="#source"><strong>Mermaid source</strong><span>12 services · 11 relationships</span></a><a href="#evidence"><strong>Measured evidence</strong><span>Geometry, integrity &amp; limits</span></a></nav>
+<div class="diagram-workspace"><figure id="diagram"><div class="drawing-tools"><p>Why is a valid login token insufficient to access another hotel’s records?</p><div class="view-controls" hidden><button type="button" data-view="art" aria-pressed="true">Drawing</button><button type="button" data-view="native" aria-pressed="false">Native layout</button><button type="button" class="fit-toggle" data-fit-toggle aria-pressed="true">Fit whole diagram</button></div></div>
+<p class="pan-hint" data-fit-hint>Whole diagram fitted. For larger labels, turn off “Fit whole diagram” and pan, or open the full-size SVG.</p><div class="drawing-window" data-fit="true" style="--drawing-width:1202px" tabindex="0" role="region" aria-label="Grand Aurora: Tenant Isolation architecture viewer"><img src="../entries/aurora-identity/rendered/deco.svg" width="1202" height="764" alt="Grand Aurora: Tenant Isolation: Hotel staff, Federated sign-in, Shared JWT API, Shared VPC Link, Internal shared ALB, Membership and RLS, Shared tenant records, Enterprise JWT API, Dedicated VPC Link, Internal tenant ALB, Enterprise allowlist, Enterprise records. Relationships and limits are explained below." loading="eager"></div>
+<figcaption><a class="svg-download" href="../entries/aurora-identity/rendered/deco.svg" download="aurora-identity-deco.svg">Download SVG</a><a href="../entries/aurora-identity/rendered/deco.svg">Open full drawing ↗</a><a href="../entries/aurora-identity/rendered/native.svg">Open native render ↗</a></figcaption></figure>
+<aside class="authoring-prompt" id="prompt" aria-labelledby="prompt-title"><h2 id="prompt-title">Authoring prompt</h2><p class="process-description">The design brief for this example.</p><blockquote>Expand Grand Aurora identity/isolation. Show staff login, shared Cognito issuer, separate JWT APIs and same-account VPC Links/internal ALBs, private application membership checks, pooled Aurora row policies, and separate enterprise data. Do not assume that discovery, a JWT alone, or a client tenant header authorizes record access.</blockquote><div class="prompt-actions"><a href="#source">Read the Mermaid source</a><a href="#evidence">Inspect measured evidence</a></div></aside></div>
+<div class="process-materials"><section id="source" class="source-panel" aria-labelledby="source-title"><div class="section-heading"><h2 id="source-title">Mermaid source</h2><a href="../entries/aurora-identity/source.mmd" download="aurora-identity.mmd">Download .mmd</a></div><p>Semantic content and gallery-only boundary/flow annotations stay in this file. The drawing treatment is applied after layout.</p><pre tabindex="0" aria-label="Grand Aurora: Tenant Isolation Mermaid source"><code>architecture-beta
+%% Focused companion: pooled and dedicated cells validate the same issuer but enforce different tenant allowlists.
+%% @boundary identityAccount account
+%% @boundary identityRegion region
+%% @boundary pooled account
+%% @boundary primary region
+%% @boundary pooledVpc vpc
+%% @boundary dedicated account
+%% @boundary dedicatedRegion region
+%% @boundary dedicatedVpc vpc
+group identityAccount(cloud)[Account: Control plane]
+group identityRegion(cloud)[Region: Primary] in identityAccount
+group pooled(cloud)[Account: Pooled production]
+group primary(cloud)[Region: Primary] in pooled
+group pooledVpc(cloud)[VPC: Shared workloads] in primary
+group dedicated(cloud)[Account: Enterprise hotel]
+group dedicatedRegion(cloud)[Region: Primary] in dedicated
+group dedicatedVpc(cloud)[VPC: Dedicated workloads] in dedicatedRegion
+service staff(lucide:users)[Hotel staff]
+service login(aws:cognito)[Federated sign-in] in identityRegion
+service pooledApi(aws:api-gateway)[Shared JWT API] in primary
+service pooledLink(aws:api-gateway)[Shared VPC Link] in primary
+service pooledAlb(aws:elb)[Internal shared ALB] in pooledVpc
+service pooledApp(aws:fargate)[Membership and RLS] in pooledVpc
+service pooledDb(aws:aurora)[Shared tenant records] in pooledVpc
+service dedicatedApi(aws:api-gateway)[Enterprise JWT API] in dedicatedRegion
+service dedicatedLink(aws:api-gateway)[Dedicated VPC Link] in dedicatedRegion
+service dedicatedAlb(aws:elb)[Internal tenant ALB] in dedicatedVpc
+service dedicatedApp(aws:fargate)[Enterprise allowlist] in dedicatedVpc
+service dedicatedDb(aws:aurora)[Enterprise records] in dedicatedVpc
+%% @edge staff login identity | Browser authenticates with the federated user pool; MFA and federation must be configured.
+staff:R --&gt; L:login
+%% @edge login pooledApi identity | Browser presents access token; API validates issuer, audience, expiry and required scopes using cached keys.
+login:R --&gt; L:pooledApi
+%% @edge login dedicatedApi identity | Same issuer may serve dedicated tenants, but this API has its own audience and cell authorization policy.
+login:B --&gt; L:dedicatedApi
+%% @edge pooledApi pooledLink request | Authorized HTTP integration uses a VPC Link in the same account and region as its load balancer.
+pooledApi:R --&gt; L:pooledLink
+%% @edge pooledLink pooledAlb request | Private integration reaches the internal ALB; no direct public app endpoint.
+pooledLink:R --&gt; L:pooledAlb
+%% @edge pooledAlb pooledApp request | App derives subject from verified identity and validates selected hotel membership.
+pooledAlb:R --&gt; L:pooledApp
+%% @edge pooledApp pooledDb request | Server-validated tenant context is transaction-local; non-owner database role and forced RLS enforce row policies.
+pooledApp:R --&gt; L:pooledDb
+%% @edge dedicatedApi dedicatedLink request | Dedicated cell has its own same-account private integration.
+dedicatedApi:R --&gt; L:dedicatedLink
+%% @edge dedicatedLink dedicatedAlb request | Private load balancer stays inside the enterprise account.
+dedicatedLink:R --&gt; L:dedicatedAlb
+%% @edge dedicatedAlb dedicatedApp request | App rejects valid tokens for tenants not assigned to this cell.
+dedicatedAlb:R --&gt; L:dedicatedApp
+%% @edge dedicatedApp dedicatedDb request | Separate credentials and database; no pooled database route is authorized.
+dedicatedApp:R --&gt; L:dedicatedDb
+</code></pre><p>Reproduce this collection from the Beautiflow repository:</p><pre tabindex="0"><code>bun scripts/build-boring-diagrams.ts</code></pre><div class="source-links"><a href="../entries/aurora-identity/scene.json">Positioned scene JSON</a><a href="../draw.js">Drawing program</a></div></section>
+<section id="evidence" class="evidence-panel" aria-labelledby="evidence-title"><div class="section-heading"><h2 id="evidence-title">Measured evidence</h2><a href="../entries/aurora-identity/evidence.json">Full evidence JSON</a></div><dl class="evidence-summary"><div><dt>Native geometry</dt><dd>0 findings across 8 measured checks</dd></div><div><dt>Styled render integrity</dt><dd>0 element, plain-label, ID or reference findings</dd></div><div><dt>Authored annotations</dt><dd>8 boundaries · 11 relationship meanings</dd></div><div><dt>AWS configuration</dt><dd>Not validated</dd></div></dl><p class="evidence-limits">These checks do not establish visual quality, every decorative mark, browser glyph ink, edge-label boxes or deployed AWS correctness. Architecture has guarded transforms, not automatic polish.</p><h3>Source SHA-256</h3><code class="source-hash">b5819e6fb604b0a15053b00f5f2d23abfd228c681e778c43a765547ce927f7fb</code><div class="source-links"><a href="../entries/aurora-identity/capabilities.json">Agent capabilities JSON</a><a href="../entries/aurora-identity/scene.json">Positioned scene JSON</a></div></section></div>
+<nav class="related-views" aria-label="Related views for Grand Aurora: Tenant Isolation"><strong>Related views</strong><a href="../aurora/">The Grand Aurora Hotel</a><a href="../aurora-recovery/">Grand Aurora: Failure &amp; Recovery</a></nav>
+<details class="relationships"><summary>Read all 11 relationships</summary><p>Line patterns distinguish requests, credentials, events, replication, configuration/control and recovery. Hover a styled connector for its meaning. Native layout preserves routes but does not include these gallery annotations.</p><div class="flow-scroll" tabindex="0" role="region" aria-label="Relationships for Grand Aurora: Tenant Isolation"><table><caption>Authored flow meanings, not deployed AWS configuration evidence</caption><thead><tr><th scope="col">From</th><th scope="col">To</th><th scope="col">Kind</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td>Hotel staff</td><td>Federated sign-in</td><td>identity</td><td>Browser authenticates with the federated user pool; MFA and federation must be configured.</td></tr><tr><td>Federated sign-in</td><td>Shared JWT API</td><td>identity</td><td>Browser presents access token; API validates issuer, audience, expiry and required scopes using cached keys.</td></tr><tr><td>Federated sign-in</td><td>Enterprise JWT API</td><td>identity</td><td>Same issuer may serve dedicated tenants, but this API has its own audience and cell authorization policy.</td></tr><tr><td>Shared JWT API</td><td>Shared VPC Link</td><td>request</td><td>Authorized HTTP integration uses a VPC Link in the same account and region as its load balancer.</td></tr><tr><td>Shared VPC Link</td><td>Internal shared ALB</td><td>request</td><td>Private integration reaches the internal ALB; no direct public app endpoint.</td></tr><tr><td>Internal shared ALB</td><td>Membership and RLS</td><td>request</td><td>App derives subject from verified identity and validates selected hotel membership.</td></tr><tr><td>Membership and RLS</td><td>Shared tenant records</td><td>request</td><td>Server-validated tenant context is transaction-local; non-owner database role and forced RLS enforce row policies.</td></tr><tr><td>Enterprise JWT API</td><td>Dedicated VPC Link</td><td>request</td><td>Dedicated cell has its own same-account private integration.</td></tr><tr><td>Dedicated VPC Link</td><td>Internal tenant ALB</td><td>request</td><td>Private load balancer stays inside the enterprise account.</td></tr><tr><td>Internal tenant ALB</td><td>Enterprise allowlist</td><td>request</td><td>App rejects valid tokens for tenants not assigned to this cell.</td></tr><tr><td>Enterprise allowlist</td><td>Enterprise records</td><td>request</td><td>Separate credentials and database; no pooled database route is authorized.</td></tr></tbody></table></div></details>
+<details class="architecture-notes"><summary>Architecture assumptions &amp; omissions</summary><ul><li>Identity lines show browser-carried credentials, not Cognito initiating calls into the APIs. Each API validates issuer, audience, expiry and scopes. VPC Link integrations and internal ALBs remain in their own account/region.</li><li>The app derives the subject from verified identity, checks selected-hotel membership and assigned-cell policy, and sets tenant context locally within a transaction. A client-supplied tenant ID is a selection, not evidence of entitlement.</li><li>Pooled PostgreSQL isolation assumes non-owner/non-BYPASSRLS roles, forced row policies, safe transaction pooling and tests covering raw SQL, background workers and administrative paths. The picture does not prove those controls.</li><li>Separate enterprise credentials/database/account reduce shared-data-plane exposure; the app still rejects other tenants. Identity federation, revocation, privileged operations and complete networking are not implementation artifacts here. This is a focused authored view of the overview’s cell aggregates.</li></ul></details>
+<nav class="end-navigation" aria-label="Continue exploring"><a href="../#collection">Back to the collection</a><a rel="next" href="../aurora-recovery/">Next: Grand Aurora: Failure &amp; Recovery ↗</a></nav></article></main><footer><a href="../">Boring AWS Diagrams</a><p>Less box dragging. More interesting systems.</p><a href="https://github.com/mpuig/beautiflow">Source on GitHub ↗</a></footer><p id="drawing-status" class="sr-only" aria-live="polite"></p></body></html>

@@ -61,7 +61,7 @@ The vendored Beautiful Mermaid renderer owns node shapes, clipping, labels, grou
 
 ## PNG
 
-PNG is rendered from the final SVG with `@resvg/resvg-js` at 2× scale. System fonts are enabled with Arial as the final fallback. The native resvg dependency makes compiled executables host-targeted. Architecture rendering requires no DOM runtime or canvas native library. JSDOM is test-only; the executable does not depend on the build machine's `node_modules`.
+PNG is rendered from the final SVG with `@resvg/resvg-js` at 2× scale. System fonts are enabled with Arial as the final fallback. The native resvg dependency makes compiled executables host-targeted. Architecture rendering requires no DOM runtime or canvas native library. JSDOM is development-only (tests and experimental site generation); the executable does not depend on the build machine's `node_modules`.
 
 ## Themes
 

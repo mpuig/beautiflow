@@ -1,0 +1,57 @@
+architecture-beta
+%% Fictional multi-location stock workflow. Suppliers receive proposals only after a human approval.
+%% @boundary branches account
+%% @boundary branchRegion region
+%% @boundary production account
+%% @boundary primary region
+%% @boundary vpc vpc
+%% @boundary aza az
+%% @boundary azb az
+%% @boundary backups account
+%% @boundary backupRegion region
+group branches(cloud)[Account: Store integrations]
+group branchRegion(cloud)[Region: Primary] in branches
+group production(cloud)[Account: Inventory platform]
+group primary(cloud)[Region: Primary] in production
+group vpc(cloud)[VPC: Stock processing] in primary
+group aza(cloud)[AZ: A - private tasks] in vpc
+group azb(cloud)[AZ: B - private tasks] in vpc
+group backups(cloud)[Account: Recovery archive]
+group backupRegion(cloud)[Region: Backup destination] in backups
+service stores(aws:lambda)[Store sync connector] in branchRegion
+service api(aws:api-gateway)[Store identity API] in primary
+service ingest(aws:lambda)[Validate and deduplicate] in primary
+service journal(aws:dynamodb)[Versioned stock journal] in primary
+service schedule(aws:eventbridge)[Nightly schedule] in primary
+service flow(aws:step-functions)[Reconcile and approve] in primary
+service taskA(aws:fargate)[Reconcile tasks A] in aza
+service taskB(aws:fargate)[Reconcile tasks B] in azb
+service db(aws:aurora)[Transactional stock DB] in vpc
+service supervisor(aws:cognito)[Supervisor sign-in] in primary
+service review(aws:lambda)[Approve supplier draft] in primary
+service failures(aws:sns)[Operator failure alert] in primary
+service vault(aws:backup)[Inventory backup vault] in backupRegion
+%% @edge stores api identity | Store workload signs requests with its own IAM role; configured API resource policy limits integration accounts.
+stores:R --> L:api
+%% @edge api ingest request | Connector includes store ID and monotonic event version; backend checks identity-to-store binding.
+api:R --> L:ingest
+%% @edge ingest journal request | Conditional event-ID insertion and version checks tolerate offline replay without double counting.
+ingest:R --> L:journal
+%% @edge schedule flow control | Scheduler starts a bounded execution, not an unbounded retry loop.
+schedule:L --> B:flow
+%% @edge flow taskA control | Orchestrator starts reconciliation work with explicit retry and timeout policies.
+flow:R --> L:taskA
+%% @edge flow taskB control | Alternative AZ placement is capacity, not a second execution of the same stock mutation.
+flow:B --> L:taskB
+%% @edge taskA db request | Transactional stock updates; a VPC endpoint permits journal reads that are omitted from the drawing.
+taskA:R --> L:db
+%% @edge taskB db request | Shared cluster enforces idempotent reconciliation checkpoints.
+taskB:R --> B:db
+%% @edge supervisor review identity | Verified supervisor membership authorizes a supplier-proposal approval, not unrestricted inventory writes.
+supervisor:R --> L:review
+%% @edge review flow control | Authenticated callback releases the approval step; supplier execution remains outside this view.
+review:R --> L:flow
+%% @edge flow failures event | Catch path notifies an operator with execution ID and failed checkpoint.
+flow:T --> L:failures
+%% @edge db vault recovery | Scheduled cross-account backup copy requires supported resources, backup roles and encryption permissions.
+db:R --> L:vault

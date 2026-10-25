@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Coral Reef Observatory — Boring AWS Diagrams</title><meta name="description" content="How does an experimental model become a controlled production tool?">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../site.css">
+<link rel="preload" href="../fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script type="module" src="../app.js"></script></head><body><a class="skip-link" href="#diagram">Skip to the diagram</a>
+<header class="masthead"><a class="wordmark" href="../" aria-label="Boring AWS Diagrams home">B/AWS</a><nav aria-label="Main"><a href="../#collection">Collection</a><a href="../#method">Our drawing process</a><a href="../../">Beautiflow ↗</a></nav></header>
+<main class="diagram-page"><nav class="page-navigation" aria-label="Collection navigation"><a href="../#collection">Back to all ten diagrams</a><div><a rel="prev" href="../moonshot/">Previous diagram</a><a rel="next" href="../diner/">Next diagram</a></div></nav>
+<article class="exhibit" id="reef" data-style="pastel" data-base="../entries/reef">
+<div class="exhibit-heading"><h1>The Coral Reef Observatory</h1><p class="treatment">Pastel specimen sheet</p></div><p class="story">Training and production live in different accounts. A promoted model can suggest a label; authenticated reviewers decide whether the record becomes accepted evidence.</p>
+<nav class="process-navigation" aria-label="Explore the authoring process"><a href="#prompt"><strong>Authoring prompt</strong><span>The brief that shaped this view</span></a><a href="#source"><strong>Mermaid source</strong><span>12 services · 12 relationships</span></a><a href="#evidence"><strong>Measured evidence</strong><span>Geometry, integrity &amp; limits</span></a></nav>
+<div class="diagram-workspace"><figure id="diagram"><div class="drawing-tools"><p>How does an experimental model become a controlled production tool?</p><div class="view-controls" hidden><button type="button" data-view="art" aria-pressed="true">Drawing</button><button type="button" data-view="native" aria-pressed="false">Native layout</button><button type="button" class="fit-toggle" data-fit-toggle aria-pressed="true">Fit whole diagram</button></div></div>
+<p class="pan-hint" data-fit-hint>Whole diagram fitted. For larger labels, turn off “Fit whole diagram” and pan, or open the full-size SVG.</p><div class="drawing-window" data-fit="true" style="--drawing-width:1148px" tabindex="0" role="region" aria-label="The Coral Reef Observatory architecture viewer"><img src="../entries/reef/rendered/pastel.svg" width="1148" height="1341" alt="The Coral Reef Observatory: Model training job, Versioned model artifacts, Approved model promotion, Private inference endpoint, Raw survey photographs, Survey review workflow, Review app tasks A, Review app tasks B, Researcher sign-in, Internal review ALB, Publish accepted result, Reviewed catalogue. Relationships and limits are explained below." loading="eager"></div>
+<figcaption><a class="svg-download" href="../entries/reef/rendered/pastel.svg" download="reef-pastel.svg">Download SVG</a><a href="../entries/reef/rendered/pastel.svg">Open full drawing ↗</a><a href="../entries/reef/rendered/native.svg">Open native render ↗</a></figcaption></figure>
+<aside class="authoring-prompt" id="prompt" aria-labelledby="prompt-title"><h2 id="prompt-title">Authoring prompt</h2><p class="process-description">The design brief for this example.</p><blockquote>Design a fictional private ML review platform with separate research and production accounts, versioned artifacts, human-approved model promotion, private inference access, a review service across two AZs, authenticated reviewers and a workflow-gated accepted catalogue. Distinguish deployment control from inference and approval requests.</blockquote><div class="prompt-actions"><a href="#source">Read the Mermaid source</a><a href="#evidence">Inspect measured evidence</a></div></aside></div>
+<div class="process-materials"><section id="source" class="source-panel" aria-labelledby="source-title"><div class="section-heading"><h2 id="source-title">Mermaid source</h2><a href="../entries/reef/source.mmd" download="reef.mmd">Download .mmd</a></div><p>Semantic content and gallery-only boundary/flow annotations stay in this file. The drawing treatment is applied after layout.</p><pre tabindex="0" aria-label="The Coral Reef Observatory Mermaid source"><code>architecture-beta
+%% Fictional private ML review. All predictions require human acceptance before publication.
+%% @boundary research account
+%% @boundary researchRegion region
+%% @boundary production account
+%% @boundary primary region
+%% @boundary privateVpc vpc
+%% @boundary azA az
+%% @boundary azB az
+%% @boundary accepted logical
+group research(cloud)[Account: Research training]
+group researchRegion(cloud)[Region: Primary] in research
+group production(cloud)[Account: Survey production]
+group primary(cloud)[Region: Primary] in production
+group privateVpc(cloud)[VPC: Private review service] in primary
+group azA(cloud)[AZ: A - private tasks] in privateVpc
+group azB(cloud)[AZ: B - private tasks] in privateVpc
+group accepted(cloud)[Logical: Accepted evidence] in primary
+service training(aws:sagemaker)[Model training job] in researchRegion
+service models(aws:s3)[Versioned model artifacts] in researchRegion
+service promotion(aws:step-functions)[Approved model promotion] in researchRegion
+service endpoint(aws:sagemaker)[Private inference endpoint] in primary
+service raw(aws:s3)[Raw survey photographs] in primary
+service workflow(aws:step-functions)[Survey review workflow] in primary
+service reviewA(aws:fargate)[Review app tasks A] in azA
+service reviewB(aws:fargate)[Review app tasks B] in azB
+service auth(aws:cognito)[Researcher sign-in] in primary
+service alb(aws:elb)[Internal review ALB] in privateVpc
+service publish(aws:lambda)[Publish accepted result] in accepted
+service records(aws:dynamodb)[Reviewed catalogue] in accepted
+%% @edge training models request | Training role writes versioned model artifacts; accuracy is not established by this diagram.
+training:R --&gt; L:models
+%% @edge models promotion control | Human-approved version is selected for promotion; S3 presence alone is not approval.
+models:R --&gt; L:promotion
+%% @edge promotion endpoint control | Approved deployment assumes a scoped cross-account role and explicit artifact/key permissions.
+promotion:B --&gt; T:endpoint
+%% @edge raw workflow event | Configured S3 EventBridge rule starts execution; EventBridge node is omitted in this focused deployment view.
+raw:T --&gt; L:workflow
+%% @edge workflow endpoint request | Workflow invokes the custom-trained endpoint through its execution role; VPC endpoints constrain service access.
+workflow:R --&gt; B:endpoint
+%% @edge auth alb identity | Browser or corporate network presents identity to the review application; no public ALB is implied.
+auth:R --&gt; L:alb
+%% @edge alb reviewA request | Private staff access reaches review tasks in AZ A through authorized network connectivity.
+alb:R --&gt; L:reviewA
+%% @edge alb reviewB request | Independent task placement in AZ B; user identity is verified by the application.
+alb:B --&gt; L:reviewB
+%% @edge reviewA workflow control | Approved reviewer action uses an authenticated backend and task-token callback; token never becomes public authority.
+reviewA:R --&gt; T:workflow
+%% @edge reviewB workflow control | Rejected results do not advance to publication; review policy and audit are required.
+reviewB:R --&gt; R:workflow
+%% @edge workflow publish control | Only the successful human-approval branch invokes publication.
+workflow:B --&gt; L:publish
+%% @edge publish records request | Writes accepted labels with provenance; predictions and raw objects remain separate.
+publish:R --&gt; L:records
+</code></pre><p>Reproduce this collection from the Beautiflow repository:</p><pre tabindex="0"><code>bun scripts/build-boring-diagrams.ts</code></pre><div class="source-links"><a href="../entries/reef/scene.json">Positioned scene JSON</a><a href="../draw.js">Drawing program</a></div></section>
+<section id="evidence" class="evidence-panel" aria-labelledby="evidence-title"><div class="section-heading"><h2 id="evidence-title">Measured evidence</h2><a href="../entries/reef/evidence.json">Full evidence JSON</a></div><dl class="evidence-summary"><div><dt>Native geometry</dt><dd>0 findings across 8 measured checks</dd></div><div><dt>Styled render integrity</dt><dd>0 element, plain-label, ID or reference findings</dd></div><div><dt>Authored annotations</dt><dd>8 boundaries · 12 relationship meanings</dd></div><div><dt>AWS configuration</dt><dd>Not validated</dd></div></dl><p class="evidence-limits">These checks do not establish visual quality, every decorative mark, browser glyph ink, edge-label boxes or deployed AWS correctness. Architecture has guarded transforms, not automatic polish.</p><h3>Source SHA-256</h3><code class="source-hash">503455c92c317a9ae5b073916647c1c2b6ad8369ae3e68e21de64199916fdf19</code><div class="source-links"><a href="../entries/reef/capabilities.json">Agent capabilities JSON</a><a href="../entries/reef/scene.json">Positioned scene JSON</a></div></section></div>
+
+<details class="relationships"><summary>Read all 12 relationships</summary><p>Line patterns distinguish requests, credentials, events, replication, configuration/control and recovery. Hover a styled connector for its meaning. Native layout preserves routes but does not include these gallery annotations.</p><div class="flow-scroll" tabindex="0" role="region" aria-label="Relationships for The Coral Reef Observatory"><table><caption>Authored flow meanings, not deployed AWS configuration evidence</caption><thead><tr><th scope="col">From</th><th scope="col">To</th><th scope="col">Kind</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td>Model training job</td><td>Versioned model artifacts</td><td>request</td><td>Training role writes versioned model artifacts; accuracy is not established by this diagram.</td></tr><tr><td>Versioned model artifacts</td><td>Approved model promotion</td><td>control</td><td>Human-approved version is selected for promotion; S3 presence alone is not approval.</td></tr><tr><td>Approved model promotion</td><td>Private inference endpoint</td><td>control</td><td>Approved deployment assumes a scoped cross-account role and explicit artifact/key permissions.</td></tr><tr><td>Raw survey photographs</td><td>Survey review workflow</td><td>event</td><td>Configured S3 EventBridge rule starts execution; EventBridge node is omitted in this focused deployment view.</td></tr><tr><td>Survey review workflow</td><td>Private inference endpoint</td><td>request</td><td>Workflow invokes the custom-trained endpoint through its execution role; VPC endpoints constrain service access.</td></tr><tr><td>Researcher sign-in</td><td>Internal review ALB</td><td>identity</td><td>Browser or corporate network presents identity to the review application; no public ALB is implied.</td></tr><tr><td>Internal review ALB</td><td>Review app tasks A</td><td>request</td><td>Private staff access reaches review tasks in AZ A through authorized network connectivity.</td></tr><tr><td>Internal review ALB</td><td>Review app tasks B</td><td>request</td><td>Independent task placement in AZ B; user identity is verified by the application.</td></tr><tr><td>Review app tasks A</td><td>Survey review workflow</td><td>control</td><td>Approved reviewer action uses an authenticated backend and task-token callback; token never becomes public authority.</td></tr><tr><td>Review app tasks B</td><td>Survey review workflow</td><td>control</td><td>Rejected results do not advance to publication; review policy and audit are required.</td></tr><tr><td>Survey review workflow</td><td>Publish accepted result</td><td>control</td><td>Only the successful human-approval branch invokes publication.</td></tr><tr><td>Publish accepted result</td><td>Reviewed catalogue</td><td>request</td><td>Writes accepted labels with provenance; predictions and raw objects remain separate.</td></tr></tbody></table></div></details>
+<details class="architecture-notes"><summary>Architecture assumptions &amp; omissions</summary><ul><li>Promotion assumes a reviewed artifact version, scoped cross-account deployment role and explicit bucket/key permissions. The diagram does not demonstrate model quality, safety or scientific validity.</li><li>SageMaker is shown as a regional managed service. Private inference access requires appropriate VPC endpoints and IAM/network configuration; training/inference infrastructure is not placed inside the review app’s AZ boxes.</li><li>The internal ALB is reachable only through assumed corporate/private connectivity. App-level identity verification and reviewer authorization remain necessary. Task-token callbacks go through an authenticated backend.</li><li>Only the successful approval branch publishes accepted records. Training data, predictions and accepted evidence have different retention/access policies. Training pipelines, endpoint HA settings, staff connectivity and complete audit infrastructure are omitted.</li></ul></details>
+<nav class="end-navigation" aria-label="Continue exploring"><a href="../#collection">Back to the collection</a><a rel="next" href="../diner/">Next: Midnight at the Diner ↗</a></nav></article></main><footer><a href="../">Boring AWS Diagrams</a><p>Less box dragging. More interesting systems.</p><a href="https://github.com/mpuig/beautiflow">Source on GitHub ↗</a></footer><p id="drawing-status" class="sr-only" aria-live="polite"></p></body></html>

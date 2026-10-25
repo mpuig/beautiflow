@@ -1,0 +1,53 @@
+architecture-beta
+%% Focused companion: one pooled cell. AZ names are symbolic; standby region is not an active booking writer.
+%% @boundary pooled account
+%% @boundary primary region
+%% @boundary vpc vpc
+%% @boundary aza az
+%% @boundary privateA subnet
+%% @boundary azb az
+%% @boundary privateB subnet
+%% @boundary standby region
+%% @boundary standbyVpc vpc
+%% @boundary backups account
+%% @boundary backupRegion region
+group pooled(cloud)[Account: Pooled production]
+group primary(cloud)[Region: Primary writer] in pooled
+group vpc(cloud)[VPC: Hotel cell] in primary
+group aza(cloud)[AZ: A] in vpc
+group privateA(cloud)[Subnet: Private A] in aza
+group azb(cloud)[AZ: B] in vpc
+group privateB(cloud)[Subnet: Private B] in azb
+group standby(cloud)[Region: Recovery] in pooled
+group standbyVpc(cloud)[VPC: Standby cell] in standby
+group backups(cloud)[Account: Backup archive]
+group backupRegion(cloud)[Region: Backup destination] in backups
+service alb(aws:elb)[Multi-AZ internal ALB] in vpc
+service appA(aws:fargate)[App tasks A] in privateA
+service appB(aws:fargate)[App tasks B] in privateB
+service writer(aws:aurora)[Aurora writer A] in privateA
+service reader(aws:aurora)[Aurora reader B] in privateB
+service volume(aws:aurora)[Shared cluster volume] in primary
+service standbyDb(aws:aurora)[Secondary DB cluster] in standbyVpc
+service standbyApp(aws:fargate)[Standby app service] in standbyVpc
+service vault(aws:backup)[Isolated backup vault] in backupRegion
+%% @edge alb appA request | ALB spans enabled AZ subnets and sends healthy requests to private tasks A.
+alb:T --> B:appA
+%% @edge alb appB request | Independent task replicas in another AZ; security groups constrain ingress.
+alb:B --> L:appB
+%% @edge appA writer request | Booking transactions use the cluster writer endpoint, not the reader endpoint.
+appA:R --> L:writer
+%% @edge appB writer request | Tasks in AZ B can reach the same writer through permitted intra-VPC traffic.
+appB:L --> B:writer
+%% @edge writer volume replication | Aurora writer persists to its distributed cluster volume; storage spans three AZs independently of app placement.
+writer:R --> L:volume
+%% @edge volume reader replication | Reader shares cluster storage and applies updates; not a second independent writable database.
+volume:B --> R:reader
+%% @edge reader writer recovery | Eligible reader promotion changes the writer role after failure; this is a recovery transition, not a reverse data stream.
+reader:L --> T:writer
+%% @edge volume standbyDb replication | Assumed Aurora Global Database asynchronously replicates to the supported recovery region; lag and data loss are possible.
+volume:R --> L:standbyDb
+%% @edge standbyApp standbyDb recovery | Standby activation follows fencing of the old writer and explicit database promotion.
+standbyApp:R --> T:standbyDb
+%% @edge volume vault recovery | Scheduled AWS Backup cross-account copy needs supported resources, organization configuration, backup role and KMS policies.
+volume:T --> L:vault

@@ -32,6 +32,8 @@ describe('documentation', () => {
       for (const match of source.matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {
         const target = match[1]!.split('#', 1)[0]!
         if (!target || target.includes('://') || target.startsWith('mailto:')) continue
+        // Absolute website routes are checked against the assembled site in site-catalogue.test.ts.
+        if (target.startsWith('/')) continue
         if (!existsSync(resolve(dirname(file), target))) broken.push(`${file}: ${target}`)
       }
     }

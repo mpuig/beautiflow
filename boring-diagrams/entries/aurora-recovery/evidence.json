@@ -1,0 +1,307 @@
+{
+  "engine": "Beautiflow architecture pipeline: Pele + local positioned-geometry extension",
+  "sourceHash": "35a88f454ffc8f34d907c198ff710e71aa4b67359f50df0747f80d74f878efb7",
+  "scope": "Geometry audit of the native layout; each styled drawing additionally checks elements, plain service labels, IDs, and SVG references. Decorative ink and cloud-provider semantics are not measured.",
+  "annotations": {
+    "coverage": "authored-annotations-and-containment-only",
+    "boundaries": 11,
+    "relationships": 10,
+    "configurationValidated": false
+  },
+  "structure": {
+    "family": "architecture",
+    "score": 100,
+    "nodes": [
+      {
+        "id": "alb",
+        "type": "service",
+        "icon": "aws:elb",
+        "title": "Multi-AZ internal ALB",
+        "in": "vpc"
+      },
+      {
+        "id": "appA",
+        "type": "service",
+        "icon": "aws:fargate",
+        "title": "App tasks A",
+        "in": "privateA"
+      },
+      {
+        "id": "appB",
+        "type": "service",
+        "icon": "aws:fargate",
+        "title": "App tasks B",
+        "in": "privateB"
+      },
+      {
+        "id": "writer",
+        "type": "service",
+        "icon": "aws:aurora",
+        "title": "Aurora writer A",
+        "in": "privateA"
+      },
+      {
+        "id": "reader",
+        "type": "service",
+        "icon": "aws:aurora",
+        "title": "Aurora reader B",
+        "in": "privateB"
+      },
+      {
+        "id": "volume",
+        "type": "service",
+        "icon": "aws:aurora",
+        "title": "Shared cluster volume",
+        "in": "primary"
+      },
+      {
+        "id": "standbyDb",
+        "type": "service",
+        "icon": "aws:aurora",
+        "title": "Secondary DB cluster",
+        "in": "standbyVpc"
+      },
+      {
+        "id": "standbyApp",
+        "type": "service",
+        "icon": "aws:fargate",
+        "title": "Standby app service",
+        "in": "standbyVpc"
+      },
+      {
+        "id": "vault",
+        "type": "service",
+        "icon": "aws:backup",
+        "title": "Isolated backup vault",
+        "in": "backupRegion"
+      }
+    ],
+    "groups": [
+      {
+        "id": "pooled",
+        "icon": "cloud",
+        "title": "Account: Pooled production"
+      },
+      {
+        "id": "primary",
+        "icon": "cloud",
+        "title": "Region: Primary writer",
+        "in": "pooled"
+      },
+      {
+        "id": "vpc",
+        "icon": "cloud",
+        "title": "VPC: Hotel cell",
+        "in": "primary"
+      },
+      {
+        "id": "aza",
+        "icon": "cloud",
+        "title": "AZ: A",
+        "in": "vpc"
+      },
+      {
+        "id": "privateA",
+        "icon": "cloud",
+        "title": "Subnet: Private A",
+        "in": "aza"
+      },
+      {
+        "id": "azb",
+        "icon": "cloud",
+        "title": "AZ: B",
+        "in": "vpc"
+      },
+      {
+        "id": "privateB",
+        "icon": "cloud",
+        "title": "Subnet: Private B",
+        "in": "azb"
+      },
+      {
+        "id": "standby",
+        "icon": "cloud",
+        "title": "Region: Recovery",
+        "in": "pooled"
+      },
+      {
+        "id": "standbyVpc",
+        "icon": "cloud",
+        "title": "VPC: Standby cell",
+        "in": "standby"
+      },
+      {
+        "id": "backups",
+        "icon": "cloud",
+        "title": "Account: Backup archive"
+      },
+      {
+        "id": "backupRegion",
+        "icon": "cloud",
+        "title": "Region: Backup destination",
+        "in": "backups"
+      }
+    ],
+    "edges": [
+      {
+        "lhsId": "alb",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "appA",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "alb",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "appB",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "appA",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "writer",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "appB",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "writer",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "writer",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "volume",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "volume",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "reader",
+        "rhsDir": "R",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "reader",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "writer",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "volume",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "standbyDb",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "standbyApp",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "standbyDb",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "volume",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "vault",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      }
+    ],
+    "alignmentHints": [],
+    "metrics": {
+      "services": 9,
+      "junctions": 0,
+      "groups": 11,
+      "relationships": 10,
+      "components": 1,
+      "isolatedServices": 0,
+      "maxDepth": 5
+    },
+    "issues": [
+      {
+        "severity": "info",
+        "type": "deep-containment",
+        "message": "5 containment levels may be difficult to read"
+      }
+    ],
+    "limitations": [
+      "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+    ]
+  },
+  "audit": {
+    "score": 100,
+    "coverage": "pele-positioned-geometry",
+    "metrics": {
+      "detachedEndpoints": 0,
+      "portViolations": 0,
+      "nodeOverlaps": 0,
+      "labelCollisions": 0,
+      "edgeNodeIntersections": 0,
+      "headerCrossings": 0,
+      "excessiveBends": 0,
+      "sharedSegments": 0
+    },
+    "integrity": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 30,
+      "labelsChecked": 9,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    },
+    "issues": [],
+    "limitations": [
+      "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+      "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+    ]
+  },
+  "styledIntegrity": {
+    "deco": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 30,
+      "labelsChecked": 9,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    }
+  }
+}

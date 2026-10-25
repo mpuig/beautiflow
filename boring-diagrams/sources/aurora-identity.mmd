@@ -1,0 +1,52 @@
+architecture-beta
+%% Focused companion: pooled and dedicated cells validate the same issuer but enforce different tenant allowlists.
+%% @boundary identityAccount account
+%% @boundary identityRegion region
+%% @boundary pooled account
+%% @boundary primary region
+%% @boundary pooledVpc vpc
+%% @boundary dedicated account
+%% @boundary dedicatedRegion region
+%% @boundary dedicatedVpc vpc
+group identityAccount(cloud)[Account: Control plane]
+group identityRegion(cloud)[Region: Primary] in identityAccount
+group pooled(cloud)[Account: Pooled production]
+group primary(cloud)[Region: Primary] in pooled
+group pooledVpc(cloud)[VPC: Shared workloads] in primary
+group dedicated(cloud)[Account: Enterprise hotel]
+group dedicatedRegion(cloud)[Region: Primary] in dedicated
+group dedicatedVpc(cloud)[VPC: Dedicated workloads] in dedicatedRegion
+service staff(lucide:users)[Hotel staff]
+service login(aws:cognito)[Federated sign-in] in identityRegion
+service pooledApi(aws:api-gateway)[Shared JWT API] in primary
+service pooledLink(aws:api-gateway)[Shared VPC Link] in primary
+service pooledAlb(aws:elb)[Internal shared ALB] in pooledVpc
+service pooledApp(aws:fargate)[Membership and RLS] in pooledVpc
+service pooledDb(aws:aurora)[Shared tenant records] in pooledVpc
+service dedicatedApi(aws:api-gateway)[Enterprise JWT API] in dedicatedRegion
+service dedicatedLink(aws:api-gateway)[Dedicated VPC Link] in dedicatedRegion
+service dedicatedAlb(aws:elb)[Internal tenant ALB] in dedicatedVpc
+service dedicatedApp(aws:fargate)[Enterprise allowlist] in dedicatedVpc
+service dedicatedDb(aws:aurora)[Enterprise records] in dedicatedVpc
+%% @edge staff login identity | Browser authenticates with the federated user pool; MFA and federation must be configured.
+staff:R --> L:login
+%% @edge login pooledApi identity | Browser presents access token; API validates issuer, audience, expiry and required scopes using cached keys.
+login:R --> L:pooledApi
+%% @edge login dedicatedApi identity | Same issuer may serve dedicated tenants, but this API has its own audience and cell authorization policy.
+login:B --> L:dedicatedApi
+%% @edge pooledApi pooledLink request | Authorized HTTP integration uses a VPC Link in the same account and region as its load balancer.
+pooledApi:R --> L:pooledLink
+%% @edge pooledLink pooledAlb request | Private integration reaches the internal ALB; no direct public app endpoint.
+pooledLink:R --> L:pooledAlb
+%% @edge pooledAlb pooledApp request | App derives subject from verified identity and validates selected hotel membership.
+pooledAlb:R --> L:pooledApp
+%% @edge pooledApp pooledDb request | Server-validated tenant context is transaction-local; non-owner database role and forced RLS enforce row policies.
+pooledApp:R --> L:pooledDb
+%% @edge dedicatedApi dedicatedLink request | Dedicated cell has its own same-account private integration.
+dedicatedApi:R --> L:dedicatedLink
+%% @edge dedicatedLink dedicatedAlb request | Private load balancer stays inside the enterprise account.
+dedicatedLink:R --> L:dedicatedAlb
+%% @edge dedicatedAlb dedicatedApp request | App rejects valid tokens for tenants not assigned to this cell.
+dedicatedAlb:R --> L:dedicatedApp
+%% @edge dedicatedApp dedicatedDb request | Separate credentials and database; no pooled database route is authorized.
+dedicatedApp:R --> L:dedicatedDb

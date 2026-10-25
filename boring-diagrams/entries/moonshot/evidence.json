@@ -1,0 +1,317 @@
+{
+  "engine": "Beautiflow architecture pipeline: Pele + local positioned-geometry extension",
+  "sourceHash": "21952bb1835eb1f7850b95150585d53760b735e0492ea808c45ef887b5235781",
+  "scope": "Geometry audit of the native layout; each styled drawing additionally checks elements, plain service labels, IDs, and SVG references. Decorative ink and cloud-provider semantics are not measured.",
+  "annotations": {
+    "coverage": "authored-annotations-and-containment-only",
+    "boundaries": 6,
+    "relationships": 12,
+    "configurationValidated": false
+  },
+  "structure": {
+    "family": "architecture",
+    "score": 100,
+    "nodes": [
+      {
+        "id": "devices",
+        "type": "service",
+        "icon": "lucide:satellite",
+        "title": "Mission devices"
+      },
+      {
+        "id": "ingest",
+        "type": "service",
+        "icon": "lucide:radio",
+        "title": "IoT Core certificate auth",
+        "in": "ingestRegion"
+      },
+      {
+        "id": "stream",
+        "type": "service",
+        "icon": "aws:kinesis",
+        "title": "Telemetry stream",
+        "in": "ingestRegion"
+      },
+      {
+        "id": "live",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Live metric processor",
+        "in": "ingestRegion"
+      },
+      {
+        "id": "alarms",
+        "type": "service",
+        "icon": "aws:cloudwatch",
+        "title": "CloudWatch alarms",
+        "in": "ingestRegion"
+      },
+      {
+        "id": "notify",
+        "type": "service",
+        "icon": "aws:sns",
+        "title": "Operator notifications",
+        "in": "ingestRegion"
+      },
+      {
+        "id": "firehose",
+        "type": "service",
+        "icon": "lucide:funnel",
+        "title": "Buffered Data Firehose",
+        "in": "ingestRegion"
+      },
+      {
+        "id": "raw",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Research telemetry lake",
+        "in": "analyticsRegion"
+      },
+      {
+        "id": "key",
+        "type": "service",
+        "icon": "aws:kms",
+        "title": "Research data key",
+        "in": "analyticsRegion"
+      },
+      {
+        "id": "analyst",
+        "type": "service",
+        "icon": "aws:cognito",
+        "title": "Researcher federation",
+        "in": "analyticsRegion"
+      },
+      {
+        "id": "athena",
+        "type": "service",
+        "icon": "aws:athena",
+        "title": "Scoped Athena queries",
+        "in": "analyticsRegion"
+      },
+      {
+        "id": "trail",
+        "type": "service",
+        "icon": "aws:cloudtrail",
+        "title": "Organization audit",
+        "in": "securityRegion"
+      },
+      {
+        "id": "archive",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Immutable audit store",
+        "in": "securityRegion"
+      }
+    ],
+    "groups": [
+      {
+        "id": "ingestAccount",
+        "icon": "cloud",
+        "title": "Account: Mission ingestion"
+      },
+      {
+        "id": "ingestRegion",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "ingestAccount"
+      },
+      {
+        "id": "analyticsAccount",
+        "icon": "cloud",
+        "title": "Account: Research analytics"
+      },
+      {
+        "id": "analyticsRegion",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "analyticsAccount"
+      },
+      {
+        "id": "security",
+        "icon": "cloud",
+        "title": "Account: Audit archive"
+      },
+      {
+        "id": "securityRegion",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "security"
+      }
+    ],
+    "edges": [
+      {
+        "lhsId": "devices",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "ingest",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "ingest",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "stream",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "stream",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "live",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "live",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "alarms",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "alarms",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "notify",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "stream",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "firehose",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "firehose",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "raw",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "key",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "raw",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "analyst",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "athena",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "athena",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "raw",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "ingest",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "trail",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "trail",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "archive",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      }
+    ],
+    "alignmentHints": [],
+    "metrics": {
+      "services": 13,
+      "junctions": 0,
+      "groups": 6,
+      "relationships": 12,
+      "components": 1,
+      "isolatedServices": 0,
+      "maxDepth": 2
+    },
+    "issues": [],
+    "limitations": [
+      "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+    ]
+  },
+  "audit": {
+    "score": 100,
+    "coverage": "pele-positioned-geometry",
+    "metrics": {
+      "detachedEndpoints": 0,
+      "portViolations": 0,
+      "nodeOverlaps": 0,
+      "labelCollisions": 0,
+      "edgeNodeIntersections": 0,
+      "headerCrossings": 0,
+      "excessiveBends": 0,
+      "sharedSegments": 0
+    },
+    "integrity": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 31,
+      "labelsChecked": 13,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    },
+    "issues": [],
+    "limitations": [
+      "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+      "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+    ]
+  },
+  "styledIntegrity": {
+    "blueprint": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 31,
+      "labelsChecked": 13,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    }
+  }
+}

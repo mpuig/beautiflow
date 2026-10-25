@@ -1,0 +1,617 @@
+{
+  "source": "sources/magento-ecommerce-on-aws.mmd",
+  "sourceSha256": "6f34fe84c946b771ae5f5cbd04a5ec43e54a41de29b16c7665ce3a263c836ff5",
+  "svgSha256": "e74207e7a56b2475e36032099dd2db22c63b664e51ab1e93f2ee2e03abf066b8",
+  "pngSha256": "a97d34c436373c2474798fd77da7bea5a4ae1ce8d595e789df8915113e94bb16",
+  "executable": {
+    "version": "beautiflow 1.0.1",
+    "sha256": "09b18c50d8e3f120030a05306d6ac2006c3e51c5beb3cc677d2483ef1fea8f03"
+  },
+  "reference": "https://docs.aws.amazon.com/reference-architecture-diagrams/latest/magento-ecommerce-on-aws/magento-ecommerce-on-aws.html",
+  "referenceImage": "https://docs.aws.amazon.com/images/reference-architecture-diagrams/latest/magento-ecommerce-on-aws/images/magento-ecommerce-on-aws.png",
+  "geometryAcceptedAsClean": false,
+  "visualReview": {
+    "attestedByGenerator": false,
+    "note": "The generator does not perform visual review. See README for the separate manual-review scope and limitations."
+  },
+  "audit": {
+    "ok": true,
+    "operation": "audit",
+    "changed": false,
+    "family": "architecture",
+    "score": 60,
+    "coverage": "pele-positioned-geometry",
+    "metrics": {
+      "detachedEndpoints": 0,
+      "portViolations": 0,
+      "nodeOverlaps": 0,
+      "labelCollisions": 0,
+      "edgeNodeIntersections": 0,
+      "headerCrossings": 0,
+      "excessiveBends": 0,
+      "sharedSegments": 4
+    },
+    "integrity": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 59,
+      "labelsChecked": 22,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    },
+    "issues": [
+      {
+        "severity": "high",
+        "type": "sharedSegments",
+        "message": "4 measured architecture geometry findings: sharedSegments"
+      }
+    ],
+    "limitations": [
+      "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+      "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+    ],
+    "warnings": [
+      {
+        "severity": "high",
+        "type": "sharedSegments",
+        "message": "4 measured architecture geometry findings: sharedSegments"
+      }
+    ],
+    "nextAction": null
+  },
+  "inspection": {
+    "source": "/Users/puigmarc/code/beautiflow/examples/recipes/aws-reference-architectures/sources/magento-ecommerce-on-aws.mmd",
+    "family": "architecture",
+    "score": 100,
+    "nodes": [
+      {
+        "id": "users",
+        "type": "service",
+        "icon": "lucide:users",
+        "title": "Users"
+      },
+      {
+        "id": "dns",
+        "type": "service",
+        "icon": "aws:route53",
+        "title": "Route 53 DNS",
+        "in": "aws"
+      },
+      {
+        "id": "waf",
+        "type": "service",
+        "icon": "aws:waf",
+        "title": "AWS WAF",
+        "in": "aws"
+      },
+      {
+        "id": "cdn",
+        "type": "service",
+        "icon": "aws:cloudfront",
+        "title": "CloudFront",
+        "in": "aws"
+      },
+      {
+        "id": "igw",
+        "type": "service",
+        "icon": "lucide:network",
+        "title": "Internet gateway",
+        "in": "vpc"
+      },
+      {
+        "id": "externalAlb",
+        "type": "service",
+        "icon": "aws:elb",
+        "title": "Internet facing ALB",
+        "in": "vpc"
+      },
+      {
+        "id": "internalAlb",
+        "type": "service",
+        "icon": "aws:elb",
+        "title": "Internal ALB",
+        "in": "vpc"
+      },
+      {
+        "id": "nat1",
+        "type": "service",
+        "icon": "aws:nat-gateway",
+        "title": "NAT gateway AZ1",
+        "in": "public1"
+      },
+      {
+        "id": "nat2",
+        "type": "service",
+        "icon": "aws:nat-gateway",
+        "title": "NAT gateway AZ2",
+        "in": "public2"
+      },
+      {
+        "id": "varnish1",
+        "type": "service",
+        "icon": "aws:ec2",
+        "title": "Varnish ASG member AZ1 - optional",
+        "in": "private1"
+      },
+      {
+        "id": "varnish2",
+        "type": "service",
+        "icon": "aws:ec2",
+        "title": "Varnish ASG member AZ2 - optional",
+        "in": "private2"
+      },
+      {
+        "id": "magento1",
+        "type": "service",
+        "icon": "aws:ec2",
+        "title": "Magento ASG member AZ1",
+        "in": "private1"
+      },
+      {
+        "id": "magento2",
+        "type": "service",
+        "icon": "aws:ec2",
+        "title": "Magento ASG member AZ2",
+        "in": "private2"
+      },
+      {
+        "id": "search1",
+        "type": "service",
+        "icon": "aws:open-search",
+        "title": "OpenSearch AZ1",
+        "in": "searchCluster"
+      },
+      {
+        "id": "search2",
+        "type": "service",
+        "icon": "aws:open-search",
+        "title": "OpenSearch AZ2",
+        "in": "searchCluster"
+      },
+      {
+        "id": "redis1",
+        "type": "service",
+        "icon": "aws:elasticache",
+        "title": "Redis AZ1",
+        "in": "redisCluster"
+      },
+      {
+        "id": "redis2",
+        "type": "service",
+        "icon": "aws:elasticache",
+        "title": "Redis AZ2",
+        "in": "redisCluster"
+      },
+      {
+        "id": "writer",
+        "type": "service",
+        "icon": "aws:aurora",
+        "title": "Aurora writer AZ1",
+        "in": "auroraCluster"
+      },
+      {
+        "id": "reader",
+        "type": "service",
+        "icon": "aws:aurora",
+        "title": "Aurora replica AZ2",
+        "in": "auroraCluster"
+      },
+      {
+        "id": "mount1",
+        "type": "service",
+        "icon": "lucide:folder-open",
+        "title": "EFS mount target AZ1",
+        "in": "private1"
+      },
+      {
+        "id": "mount2",
+        "type": "service",
+        "icon": "lucide:folder-open",
+        "title": "EFS mount target AZ2",
+        "in": "private2"
+      },
+      {
+        "id": "efs",
+        "type": "service",
+        "icon": "lucide:folder-tree",
+        "title": "Amazon EFS - regional",
+        "in": "aws"
+      }
+    ],
+    "groups": [
+      {
+        "id": "aws",
+        "icon": "cloud",
+        "title": "AWS Cloud"
+      },
+      {
+        "id": "vpc",
+        "icon": "cloud",
+        "title": "VPC",
+        "in": "aws"
+      },
+      {
+        "id": "az1",
+        "icon": "cloud",
+        "title": "Availability Zone 1",
+        "in": "vpc"
+      },
+      {
+        "id": "az2",
+        "icon": "cloud",
+        "title": "Availability Zone 2",
+        "in": "vpc"
+      },
+      {
+        "id": "public1",
+        "icon": "server",
+        "title": "Public subnet 1",
+        "in": "az1"
+      },
+      {
+        "id": "public2",
+        "icon": "server",
+        "title": "Public subnet 2",
+        "in": "az2"
+      },
+      {
+        "id": "private1",
+        "icon": "server",
+        "title": "Private subnet 1",
+        "in": "az1"
+      },
+      {
+        "id": "private2",
+        "icon": "server",
+        "title": "Private subnet 2",
+        "in": "az2"
+      },
+      {
+        "id": "searchCluster",
+        "icon": "server",
+        "title": "OpenSearch cluster - spans AZs",
+        "in": "vpc"
+      },
+      {
+        "id": "redisCluster",
+        "icon": "server",
+        "title": "ElastiCache Redis - spans AZs",
+        "in": "vpc"
+      },
+      {
+        "id": "auroraCluster",
+        "icon": "database",
+        "title": "Aurora cluster - spans AZs",
+        "in": "vpc"
+      }
+    ],
+    "edges": [
+      {
+        "lhsId": "users",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "dns",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "DNS lookup"
+      },
+      {
+        "lhsId": "dns",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "waf",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "Reference sequence"
+      },
+      {
+        "lhsId": "waf",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "cdn",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "Web ACL protection"
+      },
+      {
+        "lhsId": "cdn",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "externalAlb",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "externalAlb",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "varnish1",
+        "rhsDir": "R",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "externalAlb",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "varnish2",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "varnish1",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "internalAlb",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "varnish2",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "internalAlb",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "internalAlb",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "magento1",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "internalAlb",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "magento2",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "magento1",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "search1",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "magento2",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "search2",
+        "rhsDir": "R",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "magento1",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "redis1",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "magento2",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "redis2",
+        "rhsDir": "R",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "magento1",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "writer",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "Writes"
+      },
+      {
+        "lhsId": "magento2",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "writer",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "Writes"
+      },
+      {
+        "lhsId": "magento1",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "reader",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "Reads"
+      },
+      {
+        "lhsId": "magento2",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "reader",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "Reads"
+      },
+      {
+        "lhsId": "writer",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "reader",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "Replica relationship"
+      },
+      {
+        "lhsId": "redis1",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "redis2",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false,
+        "title": "Async replication"
+      },
+      {
+        "lhsId": "varnish1",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "mount1",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "varnish2",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "mount2",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "magento1",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "mount1",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "magento2",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "mount2",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "mount1",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "efs",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "mount2",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "efs",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      }
+    ],
+    "alignmentHints": [],
+    "metrics": {
+      "services": 22,
+      "junctions": 0,
+      "groups": 11,
+      "relationships": 26,
+      "components": 4,
+      "isolatedServices": 3,
+      "maxDepth": 4
+    },
+    "issues": [
+      {
+        "severity": "info",
+        "type": "isolated-services",
+        "nodes": [
+          "igw",
+          "nat1",
+          "nat2"
+        ],
+        "message": "3 services or junctions have no relationships"
+      },
+      {
+        "severity": "info",
+        "type": "disconnected-components",
+        "message": "4 disconnected components; confirm that separate views are intentional"
+      },
+      {
+        "severity": "info",
+        "type": "deep-containment",
+        "message": "4 containment levels may be difficult to read"
+      },
+      {
+        "severity": "info",
+        "type": "detail-budget",
+        "message": "22 elements; retain the full source and consider separate focused views"
+      },
+      {
+        "severity": "info",
+        "type": "high-connectivity",
+        "nodes": [
+          "magento1"
+        ],
+        "message": "magento1 has 6 neighbours; inspect its visual focus"
+      },
+      {
+        "severity": "info",
+        "type": "high-connectivity",
+        "nodes": [
+          "magento2"
+        ],
+        "message": "magento2 has 6 neighbours; inspect its visual focus"
+      }
+    ],
+    "limitations": [
+      "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+    ]
+  }
+}

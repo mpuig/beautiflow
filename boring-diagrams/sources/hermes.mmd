@@ -1,0 +1,71 @@
+architecture-beta
+%% Fictional multi-tenant messaging. Account identity, not caller-supplied event detail, selects tenant routes.
+%% @boundary customerA account
+%% @boundary customerAr region
+%% @boundary customerB account
+%% @boundary customerBr region
+%% @boundary platform account
+%% @boundary primary region
+%% @boundary admin logical
+%% @boundary workersVpc vpc
+%% @boundary zoneA az
+%% @boundary zoneB az
+%% @boundary silo account
+%% @boundary siloRegion region
+group customerA(cloud)[Account: Tenant A]
+group customerAr(cloud)[Region: Primary] in customerA
+group customerB(cloud)[Account: Tenant B]
+group customerBr(cloud)[Region: Primary] in customerB
+group platform(cloud)[Account: Delivery platform]
+group primary(cloud)[Region: Primary] in platform
+group admin(cloud)[Logical: Tenant administration] in primary
+group workersVpc(cloud)[VPC: Worker cell] in primary
+group zoneA(cloud)[AZ: A - private tasks] in workersVpc
+group zoneB(cloud)[AZ: B - private tasks] in workersVpc
+group silo(cloud)[Account: Tenant B silo]
+group siloRegion(cloud)[Region: Primary] in silo
+service publisherA(aws:lambda)[Tenant A publisher] in customerAr
+service publisherB(aws:lambda)[Tenant B publisher] in customerBr
+service identity(aws:cognito)[Operator sign-in] in admin
+service controller(aws:lambda)[Tenant controller] in admin
+service bus(aws:eventbridge)[Authorized ingress] in primary
+service queue(aws:sqs)[Pooled delivery queue] in primary
+service dlq(aws:sqs)[Pooled failed work] in primary
+service workerA(aws:fargate)[Delivery tasks A] in zoneA
+service workerB(aws:fargate)[Delivery tasks B] in zoneB
+service ledger(aws:dynamodb)[Pooled tenant ledger] in primary
+service siloBus(aws:eventbridge)[Tenant B ingress] in siloRegion
+service siloQueue(aws:sqs)[Tenant B queue] in siloRegion
+service siloWorker(aws:lambda)[Tenant B worker] in siloRegion
+service siloLedger(aws:dynamodb)[Tenant B ledger] in siloRegion
+service siloDlq(aws:sqs)[Tenant B failed work] in siloRegion
+%% @edge publisherA bus event | SigV4 PutEvents under Tenant A workload role; bus policy restricts allowed principal/account and source.
+publisherA:R --> L:bus
+%% @edge publisherB bus event | Tenant B publishes under its own role; account-to-tenant bindings are configured by the platform.
+publisherB:R --> T:bus
+%% @edge identity controller identity | Authenticated operator JWT authorizes tenant administration; this is credential flow, not a Cognito RPC.
+identity:R --> L:controller
+%% @edge controller bus control | Installs allowlisted account-to-tenant routes; do not trust a tenant ID supplied in event detail.
+controller:B --> B:bus
+%% @edge bus queue event | Rules select the pooled tenant route and deliver through a queue resource policy.
+bus:R --> L:queue
+%% @edge queue workerA event | Private tasks poll SQS over a configured interface endpoint; delivery is at least once.
+queue:R --> L:workerA
+%% @edge queue workerB event | A second AZ runs independent consumers of the regional queue.
+queue:B --> B:workerB
+%% @edge workerA ledger request | Conditional idempotency records and tenant-keyed state via a DynamoDB gateway endpoint.
+workerA:B --> T:ledger
+%% @edge workerB ledger request | Same regional tenant ledger; no per-AZ DynamoDB clone is implied.
+workerB:L --> R:ledger
+%% @edge queue dlq event | Configured redrive after unsuccessful receives; controlled replay is a separate operation.
+queue:T --> B:dlq
+%% @edge bus siloBus event | Cross-account EventBridge forwarding needs a sender role and destination bus policy.
+bus:B --> L:siloBus
+%% @edge siloBus siloQueue event | Dedicated account queue receives only the allowlisted Tenant B route.
+siloBus:R --> L:siloQueue
+%% @edge siloQueue siloWorker event | Lambda event-source mapping polls the dedicated regional queue.
+siloQueue:R --> L:siloWorker
+%% @edge siloWorker siloLedger request | Dedicated state and execution role; no pooled-data access is required.
+siloWorker:R --> L:siloLedger
+%% @edge siloQueue siloDlq event | Dedicated redrive destination with an explicit source-queue allow policy.
+siloQueue:B --> T:siloDlq

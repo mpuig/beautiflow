@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grand Aurora: Failure &amp; Recovery — Boring AWS Diagrams</title><meta name="description" content="Which failures do replicas, standby regions and backups actually cover?">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../site.css">
+<link rel="preload" href="../fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script type="module" src="../app.js"></script></head><body><a class="skip-link" href="#diagram">Skip to the diagram</a>
+<header class="masthead"><a class="wordmark" href="../" aria-label="Boring AWS Diagrams home">B/AWS</a><nav aria-label="Main"><a href="../#collection">Collection</a><a href="../#method">Our drawing process</a><a href="../../">Beautiflow ↗</a></nav></header>
+<main class="diagram-page"><nav class="page-navigation" aria-label="Collection navigation"><a href="../#collection">Back to all ten diagrams</a><div><a rel="prev" href="../aurora-identity/">Previous diagram</a></div></nav>
+<article class="exhibit" id="aurora-recovery" data-style="deco" data-base="../entries/aurora-recovery">
+<div class="exhibit-heading"><h1>Grand Aurora: Failure &amp; Recovery</h1><p class="treatment">Art Deco · focused resilience view</p></div><p class="story">Application replicas cover task/AZ failures. Aurora readers can become writers. A secondary region can lag. A separately controlled backup serves a different recovery purpose.</p>
+<nav class="process-navigation" aria-label="Explore the authoring process"><a href="#prompt"><strong>Authoring prompt</strong><span>The brief that shaped this view</span></a><a href="#source"><strong>Mermaid source</strong><span>9 services · 10 relationships</span></a><a href="#evidence"><strong>Measured evidence</strong><span>Geometry, integrity &amp; limits</span></a></nav>
+<div class="diagram-workspace"><figure id="diagram"><div class="drawing-tools"><p>Which failures do replicas, standby regions and backups actually cover?</p><div class="view-controls" hidden><button type="button" data-view="art" aria-pressed="true">Drawing</button><button type="button" data-view="native" aria-pressed="false">Native layout</button><button type="button" class="fit-toggle" data-fit-toggle aria-pressed="true">Fit whole diagram</button></div></div>
+<p class="pan-hint" data-fit-hint>Whole diagram fitted. For larger labels, turn off “Fit whole diagram” and pan, or open the full-size SVG.</p><div class="drawing-window" data-fit="true" style="--drawing-width:1385px" tabindex="0" role="region" aria-label="Grand Aurora: Failure &amp; Recovery architecture viewer"><img src="../entries/aurora-recovery/rendered/deco.svg" width="1385" height="1406" alt="Grand Aurora: Failure &amp; Recovery: Multi-AZ internal ALB, App tasks A, App tasks B, Aurora writer A, Aurora reader B, Shared cluster volume, Secondary DB cluster, Standby app service, Isolated backup vault. Relationships and limits are explained below." loading="eager"></div>
+<figcaption><a class="svg-download" href="../entries/aurora-recovery/rendered/deco.svg" download="aurora-recovery-deco.svg">Download SVG</a><a href="../entries/aurora-recovery/rendered/deco.svg">Open full drawing ↗</a><a href="../entries/aurora-recovery/rendered/native.svg">Open native render ↗</a></figcaption></figure>
+<aside class="authoring-prompt" id="prompt" aria-labelledby="prompt-title"><h2 id="prompt-title">Authoring prompt</h2><p class="process-description">The design brief for this example.</p><blockquote>Expand one Grand Aurora pooled cell. Show regional ALB, private tasks and Aurora writer/reader in two AZ/subnet placements, shared distributed Aurora storage, reader-promotion transition, asynchronous Global Database secondary, standby app activation and isolated cross-account backups. Distinguish request, replication and recovery arrows. Do not invent RTO/RPO or active-active booking writes.</blockquote><div class="prompt-actions"><a href="#source">Read the Mermaid source</a><a href="#evidence">Inspect measured evidence</a></div></aside></div>
+<div class="process-materials"><section id="source" class="source-panel" aria-labelledby="source-title"><div class="section-heading"><h2 id="source-title">Mermaid source</h2><a href="../entries/aurora-recovery/source.mmd" download="aurora-recovery.mmd">Download .mmd</a></div><p>Semantic content and gallery-only boundary/flow annotations stay in this file. The drawing treatment is applied after layout.</p><pre tabindex="0" aria-label="Grand Aurora: Failure &amp; Recovery Mermaid source"><code>architecture-beta
+%% Focused companion: one pooled cell. AZ names are symbolic; standby region is not an active booking writer.
+%% @boundary pooled account
+%% @boundary primary region
+%% @boundary vpc vpc
+%% @boundary aza az
+%% @boundary privateA subnet
+%% @boundary azb az
+%% @boundary privateB subnet
+%% @boundary standby region
+%% @boundary standbyVpc vpc
+%% @boundary backups account
+%% @boundary backupRegion region
+group pooled(cloud)[Account: Pooled production]
+group primary(cloud)[Region: Primary writer] in pooled
+group vpc(cloud)[VPC: Hotel cell] in primary
+group aza(cloud)[AZ: A] in vpc
+group privateA(cloud)[Subnet: Private A] in aza
+group azb(cloud)[AZ: B] in vpc
+group privateB(cloud)[Subnet: Private B] in azb
+group standby(cloud)[Region: Recovery] in pooled
+group standbyVpc(cloud)[VPC: Standby cell] in standby
+group backups(cloud)[Account: Backup archive]
+group backupRegion(cloud)[Region: Backup destination] in backups
+service alb(aws:elb)[Multi-AZ internal ALB] in vpc
+service appA(aws:fargate)[App tasks A] in privateA
+service appB(aws:fargate)[App tasks B] in privateB
+service writer(aws:aurora)[Aurora writer A] in privateA
+service reader(aws:aurora)[Aurora reader B] in privateB
+service volume(aws:aurora)[Shared cluster volume] in primary
+service standbyDb(aws:aurora)[Secondary DB cluster] in standbyVpc
+service standbyApp(aws:fargate)[Standby app service] in standbyVpc
+service vault(aws:backup)[Isolated backup vault] in backupRegion
+%% @edge alb appA request | ALB spans enabled AZ subnets and sends healthy requests to private tasks A.
+alb:T --&gt; B:appA
+%% @edge alb appB request | Independent task replicas in another AZ; security groups constrain ingress.
+alb:B --&gt; L:appB
+%% @edge appA writer request | Booking transactions use the cluster writer endpoint, not the reader endpoint.
+appA:R --&gt; L:writer
+%% @edge appB writer request | Tasks in AZ B can reach the same writer through permitted intra-VPC traffic.
+appB:L --&gt; B:writer
+%% @edge writer volume replication | Aurora writer persists to its distributed cluster volume; storage spans three AZs independently of app placement.
+writer:R --&gt; L:volume
+%% @edge volume reader replication | Reader shares cluster storage and applies updates; not a second independent writable database.
+volume:B --&gt; R:reader
+%% @edge reader writer recovery | Eligible reader promotion changes the writer role after failure; this is a recovery transition, not a reverse data stream.
+reader:L --&gt; T:writer
+%% @edge volume standbyDb replication | Assumed Aurora Global Database asynchronously replicates to the supported recovery region; lag and data loss are possible.
+volume:R --&gt; L:standbyDb
+%% @edge standbyApp standbyDb recovery | Standby activation follows fencing of the old writer and explicit database promotion.
+standbyApp:R --&gt; T:standbyDb
+%% @edge volume vault recovery | Scheduled AWS Backup cross-account copy needs supported resources, organization configuration, backup role and KMS policies.
+volume:T --&gt; L:vault
+</code></pre><p>Reproduce this collection from the Beautiflow repository:</p><pre tabindex="0"><code>bun scripts/build-boring-diagrams.ts</code></pre><div class="source-links"><a href="../entries/aurora-recovery/scene.json">Positioned scene JSON</a><a href="../draw.js">Drawing program</a></div></section>
+<section id="evidence" class="evidence-panel" aria-labelledby="evidence-title"><div class="section-heading"><h2 id="evidence-title">Measured evidence</h2><a href="../entries/aurora-recovery/evidence.json">Full evidence JSON</a></div><dl class="evidence-summary"><div><dt>Native geometry</dt><dd>0 findings across 8 measured checks</dd></div><div><dt>Styled render integrity</dt><dd>0 element, plain-label, ID or reference findings</dd></div><div><dt>Authored annotations</dt><dd>11 boundaries · 10 relationship meanings</dd></div><div><dt>AWS configuration</dt><dd>Not validated</dd></div></dl><p class="evidence-limits">These checks do not establish visual quality, every decorative mark, browser glyph ink, edge-label boxes or deployed AWS correctness. Architecture has guarded transforms, not automatic polish.</p><h3>Source SHA-256</h3><code class="source-hash">35a88f454ffc8f34d907c198ff710e71aa4b67359f50df0747f80d74f878efb7</code><div class="source-links"><a href="../entries/aurora-recovery/capabilities.json">Agent capabilities JSON</a><a href="../entries/aurora-recovery/scene.json">Positioned scene JSON</a></div></section></div>
+<nav class="related-views" aria-label="Related views for Grand Aurora: Failure &amp; Recovery"><strong>Related views</strong><a href="../aurora/">The Grand Aurora Hotel</a><a href="../aurora-identity/">Grand Aurora: Tenant Isolation</a></nav>
+<details class="relationships"><summary>Read all 10 relationships</summary><p>Line patterns distinguish requests, credentials, events, replication, configuration/control and recovery. Hover a styled connector for its meaning. Native layout preserves routes but does not include these gallery annotations.</p><div class="flow-scroll" tabindex="0" role="region" aria-label="Relationships for Grand Aurora: Failure &amp; Recovery"><table><caption>Authored flow meanings, not deployed AWS configuration evidence</caption><thead><tr><th scope="col">From</th><th scope="col">To</th><th scope="col">Kind</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td>Multi-AZ internal ALB</td><td>App tasks A</td><td>request</td><td>ALB spans enabled AZ subnets and sends healthy requests to private tasks A.</td></tr><tr><td>Multi-AZ internal ALB</td><td>App tasks B</td><td>request</td><td>Independent task replicas in another AZ; security groups constrain ingress.</td></tr><tr><td>App tasks A</td><td>Aurora writer A</td><td>request</td><td>Booking transactions use the cluster writer endpoint, not the reader endpoint.</td></tr><tr><td>App tasks B</td><td>Aurora writer A</td><td>request</td><td>Tasks in AZ B can reach the same writer through permitted intra-VPC traffic.</td></tr><tr><td>Aurora writer A</td><td>Shared cluster volume</td><td>replication</td><td>Aurora writer persists to its distributed cluster volume; storage spans three AZs independently of app placement.</td></tr><tr><td>Shared cluster volume</td><td>Aurora reader B</td><td>replication</td><td>Reader shares cluster storage and applies updates; not a second independent writable database.</td></tr><tr><td>Aurora reader B</td><td>Aurora writer A</td><td>recovery</td><td>Eligible reader promotion changes the writer role after failure; this is a recovery transition, not a reverse data stream.</td></tr><tr><td>Shared cluster volume</td><td>Secondary DB cluster</td><td>replication</td><td>Assumed Aurora Global Database asynchronously replicates to the supported recovery region; lag and data loss are possible.</td></tr><tr><td>Standby app service</td><td>Secondary DB cluster</td><td>recovery</td><td>Standby activation follows fencing of the old writer and explicit database promotion.</td></tr><tr><td>Shared cluster volume</td><td>Isolated backup vault</td><td>recovery</td><td>Scheduled AWS Backup cross-account copy needs supported resources, organization configuration, backup role and KMS policies.</td></tr></tbody></table></div></details>
+<details class="architecture-notes"><summary>Architecture assumptions &amp; omissions</summary><ul><li>AZ A/B are illustrative, not deployable AZ identifiers. ALB nodes require enabled subnet mappings in both AZs; its subnet mappings and VPC Link ingress are aggregated. Task and DB security groups need explicit rules.</li><li>Aurora compute instances use DB subnets; the shared cluster volume is regional managed infrastructure with storage across three AZs. A reader is not a separately writable replica. The recovery arrow denotes role promotion, not reverse replication.</li><li>Aurora Global Database requires supported versions/regions and asynchronously replicates storage. Standby activation requires fencing the previous writer, database promotion and traffic/credential changes. Lag, loss and manual recovery decisions remain possible.</li><li>Backups assume a supported encrypted cross-account copy configuration, dedicated roles, KMS grants and restore tests. A backup is not a hot replica. No RTO/RPO, zero-loss failover or production readiness is claimed. This view expands one pooled cell, not every enterprise deployment.</li></ul></details>
+<nav class="end-navigation" aria-label="Continue exploring"><a href="../#collection">Back to the collection</a></nav></article></main><footer><a href="../">Boring AWS Diagrams</a><p>Less box dragging. More interesting systems.</p><a href="https://github.com/mpuig/beautiflow">Source on GitHub ↗</a></footer><p id="drawing-status" class="sr-only" aria-live="polite"></p></body></html>

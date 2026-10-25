@@ -277,6 +277,8 @@ beautiflow render examples/recipes/architecture/architecture.mmd --format png
 
 `examples/` contains the original 19-file Mermaid suite plus architecture recipes and [23 additional diagram types](examples/recipes/diagram-types/README.md). Nine flowchart/state examples exercise the complete layout and audit pipeline; ten specialized-family examples exercise render-only pipelines. Every raw source has a matching Markdown walkthrough, committed SVG or PNG, exact reproduction command, live-preview command, and agent prompt.
 
+The local [Don’t Break the Diagram replay](dont-break-the-diagram/README.md) records actual guarded edits, unsafe/stale-plan refusals, and byte-exact rollback, with downloadable source and receipt evidence. It is a static microsite, not a hosted agent or editor.
+
 See `examples/README.md` for the catalog, the [six-stage AWS architecture walkthrough](examples/recipes/aws-architecture/README.md), and the [render-options comparison](examples/recipes/render-options/README.md).
 
 ## Release checklist
@@ -302,4 +304,4 @@ Beautiflow is released under the MIT License. See `LICENSE`.
 
 ## Third-party software
 
-Beautiflow uses Beautiful Mermaid, ELK, Pele, Iconify collections, and resvg. JSDOM is used only in tests. Vendored Beautiful Mermaid layout and rendering files retain their MIT license in `src/vendor/beautiful-mermaid/LICENSE`. See `THIRD_PARTY_NOTICES.md` for the complete attribution and license list.
+Beautiflow uses Beautiful Mermaid, ELK, Pele, Iconify collections, and resvg. JSDOM is development-only, used in tests and build-time extraction for the experimental AWS microsite; it is not included in the standalone executable. Vendored Beautiful Mermaid layout and rendering files retain their MIT license in `src/vendor/beautiful-mermaid/LICENSE`. See `THIRD_PARTY_NOTICES.md` for the complete attribution and license list.

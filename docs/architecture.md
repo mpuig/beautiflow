@@ -1,4 +1,4 @@
-# Architecture
+# Runtime internals
 
 ## Process boundary
 
@@ -52,7 +52,7 @@ Mermaid is the semantic source of truth:
 architecture.mmd
 ```
 
-Beautiflow presentation state is separate:
+For flowchart and state diagrams, Beautiflow presentation state is separate (architecture diagrams do not use sidecars):
 
 ```text
 architecture.beautiflow.json
@@ -74,4 +74,4 @@ Flowchart and state diagrams use the complete project pipeline. Sequence, class,
 
 ## Standalone executable
 
-Bun compiles TypeScript, Beautiful Mermaid, Pele, ELK, resvg, Iconify assets, the browser viewer, and the Agent Skill into one host-targeted executable. PNG support includes a native resvg library, so release binaries must be built per operating system and architecture. No DOM or canvas runtime is required; JSDOM is test-only. CI then hides `node_modules` and verifies version output, agent inspection, and architecture rendering from the executable.
+Bun compiles TypeScript, Beautiful Mermaid, Pele, ELK, resvg, Iconify assets, the browser viewer, and the Agent Skill into one host-targeted executable. PNG support includes a native resvg library, so release binaries must be built per operating system and architecture. No DOM or canvas runtime is required; JSDOM is development-only for tests and experimental site generation. CI then hides `node_modules` and verifies version output, agent inspection, and architecture rendering from the executable.

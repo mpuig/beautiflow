@@ -1,0 +1,50 @@
+{
+  "retrievedOn": "2026-10-25",
+  "status": "Authored reconstructions from AWS documentation and source raster diagrams. Not AWS-authored, pixel-identical, independently AWS-reviewed, or deployable infrastructure.",
+  "references": [
+    {
+      "id": "industrial-machine-connectivity-eot",
+      "title": "Industrial machine connectivity with EOT Twin Talk",
+      "publishedOn": "2021-04-22",
+      "url": "https://docs.aws.amazon.com/reference-architecture-diagrams/latest/industrial-machine-connectivity-eot/industrial-machine-connectivity-eot.html",
+      "imageUrl": "https://docs.aws.amazon.com/images/reference-architecture-diagrams/latest/industrial-machine-connectivity-eot/images/cygnet-and-pi-data-to-sitewise-ra.png",
+      "pageSha256": "f9b7a6e82ded9752b57da038908f73edb8f8244524433d4a3708019adc92a3a6",
+      "imageSha256": "49ad978b2edd85256b3c2a83bb1028013415d1aeaa7b0e3e68c13a4d978e46aa",
+      "preserved": ["Industrial versus AWS boundaries", "PI, CygNet and legacy historian families", "Twin Talk on an industrial PC", "Direct time-series path to SiteWise", "Separate metadata path through S3, AMC1, DynamoDB Streams and AMC2", "SiteWise property updates through IoT Core and Firehose into S3"],
+      "adaptations": ["Repeated historian and field-device drawings are aggregated", "SiteWise, IoT Core and Firehose use explicitly named neutral icons", "Step 10 downstream consumers remain prose-only, as in the original picture"]
+    },
+    {
+      "id": "account-security-data-platform",
+      "title": "Account and security strategy for a serverless data platform",
+      "publishedOn": "2020-12-21",
+      "url": "https://docs.aws.amazon.com/reference-architecture-diagrams/latest/account-security-data-platform/account-security-data-platform.html",
+      "imageUrl": "https://docs.aws.amazon.com/images/reference-architecture-diagrams/latest/account-security-data-platform/images/travel-hospitality-account-security-ra.png",
+      "pageSha256": "4966c389792e2e17b52b64a930798e06c958d279c4adea47e1dc1ce3ba3b7892",
+      "imageSha256": "60215054f8360c931ce10c479d2584586fa1202f23c121e2a3b54b56388826e3",
+      "preserved": ["All eleven numbered AWS account roles", "Named service and third-party-tool inventory", "Batch SFTP and streaming Kinesis/Firehose ingestion", "Operations Step Functions with two Lambda inventory nodes", "Production API, ECS, DynamoDB and SageMaker relationships", "SageMaker sandbox processing/training and model deployment", "Security, network, logging, DevOps and shared-services inventories without invented fan-out edges"],
+      "adaptations": ["Airline source systems aggregated into batch and event producers", "Four lake dataset columns aggregated; names retained in README", "Broad shared lake bus, lake-to-backup line and some cross-account analytics access lines omitted rather than guessing endpoint/direction from raster", "Lambda execution ordering not inferred", "Master account, AWS SSO and Elasticsearch labels modernized; original terms retained in README", "This is a partial topology reconstruction and an account inventory, not an exact edge-for-edge trace"]
+    },
+    {
+      "id": "magento-ecommerce-on-aws",
+      "title": "Adobe Commerce and Magento Open Source on AWS",
+      "publishedOn": "2022-04-25",
+      "url": "https://docs.aws.amazon.com/reference-architecture-diagrams/latest/magento-ecommerce-on-aws/magento-ecommerce-on-aws.html",
+      "imageUrl": "https://docs.aws.amazon.com/images/reference-architecture-diagrams/latest/magento-ecommerce-on-aws/images/magento-ecommerce-on-aws.png",
+      "pageSha256": "6729d9af5796120e7400c1efdd753113e69c00bec0a2be14c86f28efcc0c63ea",
+      "imageSha256": "68b647f1a0302bda463f63a76d08268538b6b6fe6199e0190c95b6bd1f2081ca",
+      "preserved": ["VPC, two AZs and public/private subnet placement", "Two NAT gateways and an internet gateway as network context", "Internet-facing and internal ALBs", "Optional Varnish and Magento fleet members in both AZs", "Single OpenSearch, Redis and Aurora cluster identities with AZ-labelled members", "Aurora writer/replica and reference read/write paths", "Redis replication", "One regional EFS filesystem and two mount targets"],
+      "adaptations": ["ASG membership in labels rather than overlapping fleet outlines", "Cluster members carry AZ labels because a Mermaid node cannot have both cluster and AZ parents", "Route 53 and WAF sequence is explanatory, not a chain of HTTP proxies", "Aurora reference replication arrow is not a claim about independent per-AZ storage", "No invented NAT egress paths or security rules"]
+    },
+    {
+      "id": "advanced-distribution-management-system",
+      "title": "Advanced distribution management on AWS Outposts",
+      "publishedOn": "2022-07-21",
+      "url": "https://docs.aws.amazon.com/reference-architecture-diagrams/latest/advanced-distribution-management-system/advanced-distribution-management-system.html",
+      "imageUrl": "https://docs.aws.amazon.com/images/reference-architecture-diagrams/latest/advanced-distribution-management-system/images/advanced-distribution-management-system.png",
+      "pageSha256": "97eb2775912d6216baf2dce484f9f80b215b76d7255a2bec980d954b11f7ca46",
+      "imageSha256": "905d6f53f2b5d13b7a4b360fa8becfbe52526ba37877f2a05e479d3f89f161ce",
+      "preserved": ["Two physically isolated corporate data centers", "Two Outposts racks homed to different parent-Region AZs", "ADMS compute and vendor-supported databases", "PI servers, corporate IT and field devices", "Local OT gateway connectivity distinct from service links", "Regional DERMS in separate AZ subnets", "Regional S3, Athena, QuickSight and SageMaker inventory"],
+      "adaptations": ["VPC1/VPC2 are reconstruction labels for the two green VPC outlines, not IDs supplied by AWS", "A VPC's Outposts and Region portions share a label rather than an overlapping boundary", "Service links get named connector nodes; local gateways do not carry service-link management traffic", "Local OT associations use diagram and walkthrough together", "No database engine, replication, failover policy or analytics chain invented"]
+    }
+  ]
+}

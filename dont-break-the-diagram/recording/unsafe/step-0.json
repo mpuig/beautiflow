@@ -1,0 +1,10 @@
+{
+  "name": "Original source",
+  "command": null,
+  "exitCode": null,
+  "output": null,
+  "receipt": null,
+  "source": "architecture-beta\naccTitle: Hotel tenant request path\naccDescr: Illustrative pooled hotel cell. Token validation, membership checks and database policies must be implemented separately.\n%% api in this comment is documentation, not a rename target.\ngroup cell(cloud)[Pooled cell]\nservice staff(lucide:users)[Hotel staff]\nservice api(aws:api-gateway)[Cell API] in cell\nservice membership(aws:fargate)[Membership check] in cell\nservice records(aws:aurora)[Tenant records] in cell\nstaff:R --> L:api\napi:R --> L:membership\nmembership:R --> L:records\n",
+  "hash": "87fc5c59b2f686444e1b897c7e00453bceb25d333648bbe203aaab61ca28dc5a",
+  "diagram": "unsafe/step-0.svg"
+}

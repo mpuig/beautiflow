@@ -1,0 +1,51 @@
+architecture-beta
+%% Fictional modern telemetry platform, not historical Apollo or flight-control infrastructure.
+%% @boundary ingestAccount account
+%% @boundary ingestRegion region
+%% @boundary analyticsAccount account
+%% @boundary analyticsRegion region
+%% @boundary security account
+%% @boundary securityRegion region
+group ingestAccount(cloud)[Account: Mission ingestion]
+group ingestRegion(cloud)[Region: Primary] in ingestAccount
+group analyticsAccount(cloud)[Account: Research analytics]
+group analyticsRegion(cloud)[Region: Primary] in analyticsAccount
+group security(cloud)[Account: Audit archive]
+group securityRegion(cloud)[Region: Primary] in security
+service devices(lucide:satellite)[Mission devices]
+service ingest(lucide:radio)[IoT Core certificate auth] in ingestRegion
+service stream(aws:kinesis)[Telemetry stream] in ingestRegion
+service live(aws:lambda)[Live metric processor] in ingestRegion
+service alarms(aws:cloudwatch)[CloudWatch alarms] in ingestRegion
+service notify(aws:sns)[Operator notifications] in ingestRegion
+service firehose(lucide:funnel)[Buffered Data Firehose] in ingestRegion
+service raw(aws:s3)[Research telemetry lake] in analyticsRegion
+service key(aws:kms)[Research data key] in analyticsRegion
+service analyst(aws:cognito)[Researcher federation] in analyticsRegion
+service athena(aws:athena)[Scoped Athena queries] in analyticsRegion
+service trail(aws:cloudtrail)[Organization audit] in securityRegion
+service archive(aws:s3)[Immutable audit store] in securityRegion
+%% @edge devices ingest identity | Device certificates and IoT policies bind each device to allowed telemetry topics.
+devices:R --> L:ingest
+%% @edge ingest stream event | An IoT rule forwards validated topic traffic using an ingestion role.
+ingest:R --> L:stream
+%% @edge stream live event | Event-source mapping consumes batches; late and duplicate records require event IDs and timestamps.
+stream:R --> L:live
+%% @edge live alarms request | Processor publishes custom metrics; configured alarms evaluate the metrics.
+live:R --> L:alarms
+%% @edge alarms notify event | Alarm transitions notify operators; no flight-control action is implied.
+alarms:R --> L:notify
+%% @edge stream firehose event | Independent archival consumer buffers delivery without blocking live alarms.
+stream:B --> T:firehose
+%% @edge firehose raw event | Cross-account S3 writes require delivery-role, bucket and KMS key policies.
+firehose:R --> L:raw
+%% @edge key raw control | KMS key policy authorizes encryption and separately scoped decryption; this is key association.
+key:R --> T:raw
+%% @edge analyst athena identity | Federated analysts assume constrained research roles; arbitrary lake access is not granted.
+analyst:R --> L:athena
+%% @edge athena raw request | Queries use approved datasets and restricted results storage; workgroup and result bucket are omitted.
+athena:R --> B:raw
+%% @edge ingest trail control | Organization trail captures applicable AWS API activity, not every telemetry payload.
+ingest:B --> L:trail
+%% @edge trail archive event | Audit retention assumes configured Object Lock, versioning and constrained deletion privileges.
+trail:R --> L:archive

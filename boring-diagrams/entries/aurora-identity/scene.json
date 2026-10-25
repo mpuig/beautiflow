@@ -1,0 +1,1039 @@
+{
+  "family": "architecture",
+  "title": "Grand Aurora: Tenant Isolation",
+  "description": "Identity lines show browser-carried credentials, not Cognito initiating calls into the APIs. Each API validates issuer, audience, expiry and scopes. VPC Link integrations and internal ALBs remain in their own account/region. The app derives the subject from verified identity, checks selected-hotel membership and assigned-cell policy, and sets tenant context locally within a transaction. A client-supplied tenant ID is a selection, not evidence of entitlement. Pooled PostgreSQL isolation assumes non-owner/non-BYPASSRLS roles, forced row policies, safe transaction pooling and tests covering raw SQL, background workers and administrative paths. The picture does not prove those controls. Separate enterprise credentials/database/account reduce shared-data-plane exposure; the app still rejects other tenants. Identity federation, revocation, privileged operations and complete networking are not implementation artifacts here. This is a focused authored view of the overview’s cell aggregates.",
+  "sourceHash": "b5819e6fb604b0a15053b00f5f2d23abfd228c681e778c43a765547ce927f7fb",
+  "width": 1138,
+  "height": 580,
+  "geometry": {
+    "services": [
+      {
+        "id": "staff",
+        "icon": {
+          "x": 13,
+          "y": 108,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 0.9840000000000018,
+          "y": 160,
+          "width": 72.032,
+          "height": 24
+        }
+      },
+      {
+        "id": "login",
+        "icon": {
+          "x": 167,
+          "y": 108,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 154.536,
+          "y": 160,
+          "width": 72.928,
+          "height": 42
+        }
+      },
+      {
+        "id": "pooledApi",
+        "icon": {
+          "x": 423,
+          "y": 108,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 402.544,
+          "y": 160,
+          "width": 88.912,
+          "height": 42
+        }
+      },
+      {
+        "id": "pooledLink",
+        "icon": {
+          "x": 553,
+          "y": 108,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 532.5360000000001,
+          "y": 160,
+          "width": 88.928,
+          "height": 42
+        }
+      },
+      {
+        "id": "pooledAlb",
+        "icon": {
+          "x": 712,
+          "y": 108,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 682.64,
+          "y": 160,
+          "width": 106.72,
+          "height": 42
+        }
+      },
+      {
+        "id": "pooledApp",
+        "icon": {
+          "x": 851,
+          "y": 108,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 830.992,
+          "y": 160,
+          "width": 88.016,
+          "height": 42
+        }
+      },
+      {
+        "id": "pooledDb",
+        "icon": {
+          "x": 987,
+          "y": 108,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 960.744,
+          "y": 160,
+          "width": 100.512,
+          "height": 42
+        }
+      },
+      {
+        "id": "dedicatedApi",
+        "icon": {
+          "x": 423,
+          "y": 410,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 410.544,
+          "y": 462,
+          "width": 72.912,
+          "height": 42
+        }
+      },
+      {
+        "id": "dedicatedLink",
+        "icon": {
+          "x": 553,
+          "y": 410,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 540.984,
+          "y": 462,
+          "width": 72.032,
+          "height": 42
+        }
+      },
+      {
+        "id": "dedicatedAlb",
+        "icon": {
+          "x": 712,
+          "y": 410,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 684.856,
+          "y": 462,
+          "width": 102.288,
+          "height": 42
+        }
+      },
+      {
+        "id": "dedicatedApp",
+        "icon": {
+          "x": 851,
+          "y": 410,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 838.544,
+          "y": 462,
+          "width": 72.912,
+          "height": 42
+        }
+      },
+      {
+        "id": "dedicatedDb",
+        "icon": {
+          "x": 987,
+          "y": 410,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 974.544,
+          "y": 462,
+          "width": 72.912,
+          "height": 42
+        }
+      }
+    ],
+    "routes": [
+      {
+        "source": "staff",
+        "target": "login",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 61,
+          "y": 132
+        },
+        "targetAnchor": {
+          "x": 167,
+          "y": 132
+        },
+        "points": [
+          {
+            "x": 61,
+            "y": 132
+          },
+          {
+            "x": 167,
+            "y": 132
+          }
+        ]
+      },
+      {
+        "source": "login",
+        "target": "pooledApi",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 215,
+          "y": 132
+        },
+        "targetAnchor": {
+          "x": 423,
+          "y": 132
+        },
+        "points": [
+          {
+            "x": 215,
+            "y": 132
+          },
+          {
+            "x": 423,
+            "y": 132
+          }
+        ]
+      },
+      {
+        "source": "login",
+        "target": "dedicatedApi",
+        "sourcePort": "B",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 191,
+          "y": 204
+        },
+        "targetAnchor": {
+          "x": 423,
+          "y": 434
+        },
+        "points": [
+          {
+            "x": 191,
+            "y": 204
+          },
+          {
+            "x": 191,
+            "y": 434
+          },
+          {
+            "x": 423,
+            "y": 434
+          }
+        ]
+      },
+      {
+        "source": "pooledApi",
+        "target": "pooledLink",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 471,
+          "y": 132
+        },
+        "targetAnchor": {
+          "x": 553,
+          "y": 132
+        },
+        "points": [
+          {
+            "x": 471,
+            "y": 132
+          },
+          {
+            "x": 553,
+            "y": 132
+          }
+        ]
+      },
+      {
+        "source": "pooledLink",
+        "target": "pooledAlb",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 601,
+          "y": 132
+        },
+        "targetAnchor": {
+          "x": 712,
+          "y": 132
+        },
+        "points": [
+          {
+            "x": 601,
+            "y": 132
+          },
+          {
+            "x": 712,
+            "y": 132
+          }
+        ]
+      },
+      {
+        "source": "pooledAlb",
+        "target": "pooledApp",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 760,
+          "y": 132
+        },
+        "targetAnchor": {
+          "x": 851,
+          "y": 132
+        },
+        "points": [
+          {
+            "x": 760,
+            "y": 132
+          },
+          {
+            "x": 851,
+            "y": 132
+          }
+        ]
+      },
+      {
+        "source": "pooledApp",
+        "target": "pooledDb",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 899,
+          "y": 132
+        },
+        "targetAnchor": {
+          "x": 987,
+          "y": 132
+        },
+        "points": [
+          {
+            "x": 899,
+            "y": 132
+          },
+          {
+            "x": 987,
+            "y": 132
+          }
+        ]
+      },
+      {
+        "source": "dedicatedApi",
+        "target": "dedicatedLink",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 471,
+          "y": 434
+        },
+        "targetAnchor": {
+          "x": 553,
+          "y": 434
+        },
+        "points": [
+          {
+            "x": 471,
+            "y": 434
+          },
+          {
+            "x": 553,
+            "y": 434
+          }
+        ]
+      },
+      {
+        "source": "dedicatedLink",
+        "target": "dedicatedAlb",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 601,
+          "y": 434
+        },
+        "targetAnchor": {
+          "x": 712,
+          "y": 434
+        },
+        "points": [
+          {
+            "x": 601,
+            "y": 434
+          },
+          {
+            "x": 712,
+            "y": 434
+          }
+        ]
+      },
+      {
+        "source": "dedicatedAlb",
+        "target": "dedicatedApp",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 760,
+          "y": 434
+        },
+        "targetAnchor": {
+          "x": 851,
+          "y": 434
+        },
+        "points": [
+          {
+            "x": 760,
+            "y": 434
+          },
+          {
+            "x": 851,
+            "y": 434
+          }
+        ]
+      },
+      {
+        "source": "dedicatedApp",
+        "target": "dedicatedDb",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 899,
+          "y": 434
+        },
+        "targetAnchor": {
+          "x": 987,
+          "y": 434
+        },
+        "points": [
+          {
+            "x": 899,
+            "y": 434
+          },
+          {
+            "x": 987,
+            "y": 434
+          }
+        ]
+      }
+    ],
+    "headers": [
+      {
+        "x": 124,
+        "y": 42,
+        "width": 187.856,
+        "height": 24
+      },
+      {
+        "x": 144,
+        "y": 78,
+        "width": 140.688,
+        "height": 24
+      },
+      {
+        "x": 372,
+        "y": 6,
+        "width": 221.664,
+        "height": 24
+      },
+      {
+        "x": 392,
+        "y": 42,
+        "width": 140.688,
+        "height": 24
+      },
+      {
+        "x": 672,
+        "y": 78,
+        "width": 195.84,
+        "height": 24
+      },
+      {
+        "x": 372,
+        "y": 308,
+        "width": 204.752,
+        "height": 24
+      },
+      {
+        "x": 392,
+        "y": 344,
+        "width": 140.688,
+        "height": 24
+      },
+      {
+        "x": 672,
+        "y": 380,
+        "width": 216.288,
+        "height": 24
+      }
+    ],
+    "offset": {
+      "x": 8,
+      "y": 8
+    }
+  },
+  "nodes": [
+    {
+      "id": "staff",
+      "label": "Hotel staff",
+      "icon": "lucide:users",
+      "transform": "translate(37,108)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"lucide:users\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\"><g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/></g></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" x=\"0\" y=\"69.6\" text-anchor=\"middle\">Hotel staff</text>"
+    },
+    {
+      "id": "login",
+      "label": "Federated sign-in",
+      "icon": "aws:cognito",
+      "parent": "identityRegion",
+      "transform": "translate(191,108)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:cognito\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-db964a2578c4-10-SVGYPnorcPn\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#bd0816\"/><stop offset=\"100%\" stop-color=\"#ff5252\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-db964a2578c4-10-SVGYPnorcPn)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M54.283 114.585H95.58v-6.344H54.283zm142.119 46.154l4.491 4.485l-23.59 23.556a3.18 3.18 0 0 1-4.491 0l-11.868-11.848l4.491-4.485l9.623 9.605zm14.619 17.481c-.725 5.964-3.152 11.511-7.03 16.048a30.6 30.6 0 0 1-10.058 7.701a30 30 0 0 1-16.506 2.665a30.05 30.05 0 0 1-15.06-6.29c-8.33-6.614-12.535-16.87-11.255-27.436a30.3 30.3 0 0 1 16.185-23.301a29.9 29.9 0 0 1 13.726-3.337c1.223 0 2.456.076 3.685.225c9.962 1.215 18.65 7.302 23.231 16.282a30.24 30.24 0 0 1 3.082 17.443m2.58-20.32c-5.544-10.868-16.059-18.233-28.124-19.702a36.25 36.25 0 0 0-21.096 3.772a36.64 36.64 0 0 0-19.578 28.177c-1.544 12.768 3.542 25.167 13.612 33.164a36.4 36.4 0 0 0 18.24 7.62q2.221.27 4.438.269a36.3 36.3 0 0 0 15.566-3.502a36.9 36.9 0 0 0 12.163-9.313c4.692-5.488 7.634-12.197 8.508-19.404a36.54 36.54 0 0 0-3.73-21.081M86.05 133.618h12.706v-6.344H86.05zm-31.768 0h25.414v-6.344H54.283zM51.54 51.144h142.086c3.742 0 6.786 3.702 6.786 8.25v23.47h-9.53v-15.86a3.173 3.173 0 0 0-3.177-3.172H114.64a3.173 3.173 0 0 0-3.176 3.172v15.86h-66.71v-23.47c0-4.472 3.11-8.25 6.785-8.25m99.68 30.8c7.377 0 13.378 5.933 13.378 13.222c0 4.806-2.653 9.228-6.922 11.543a13.6 13.6 0 0 1-12.939.003c-4.253-2.322-6.893-6.744-6.893-11.546c0-7.29 5.997-13.221 13.377-13.221M44.754 150.748V89.209h66.71v53.925a3.17 3.17 0 0 0 3.177 3.172h33.21v-6.344h-26.532c.276-12.695 8.716-23.66 20.87-27.163c5.617 2.624 12.323 2.65 18.025-.003c6.919 1.999 12.973 6.62 16.725 12.815l5.435-3.286c-3.85-6.347-9.692-11.302-16.467-14.182c3.176-3.521 5.044-8.102 5.044-12.977c0-10.788-8.853-19.565-19.73-19.565c-10.88 0-19.73 8.777-19.73 19.565c0 4.856 1.848 9.421 5.003 12.942a35.17 35.17 0 0 0-18.676 18.525V70.176h66.71v50.753h6.354V89.21h9.53l.003 47.58h6.353l-.003-77.394c0-8.048-5.893-14.595-13.139-14.595H51.54c-7.246 0-13.139 6.547-13.139 14.595v91.352c0 8.047 5.893 14.591 13.139 14.591h85.338v-6.344H51.539c-3.676 0-6.786-3.775-6.786-8.247\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Federated</tspan><tspan x=\"0\" y=\"89.1\">sign-in</tspan></text>"
+    },
+    {
+      "id": "pooledApi",
+      "label": "Shared JWT API",
+      "icon": "aws:api-gateway",
+      "parent": "primary",
+      "transform": "translate(447,108)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:api-gateway\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-a3df41a88d39-11-SVGyDrnJbhE\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#b0084d\"/><stop offset=\"100%\" stop-color=\"#ff4f8b\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-a3df41a88d39-11-SVGyDrnJbhE)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M109.008 178.024h9.392v-6.455h-9.392zm15.792 0h9.6v-6.455h-9.6zM86.4 46.814L44.8 67.463v128.356l41.6 14.068zm6.4 40.845v83.91h9.6v6.455h-9.6v36.349a3.24 3.24 0 0 1-1.331 2.62a3.18 3.18 0 0 1-2.887.44l-48-16.23a3.23 3.23 0 0 1-2.182-3.06V65.452c0-1.226.694-2.353 1.789-2.895l48-23.824a3.16 3.16 0 0 1 3.1.155a3.23 3.23 0 0 1 1.511 2.74v39.576h9.6v6.455zm48 90.365h9.6v-6.455h-9.6zm.208-90.365h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zM211.2 67.463l-41.6-20.649v163.073l41.6-14.068zm6.4 130.68a3.23 3.23 0 0 1-2.182 3.06l-48 16.23a3.17 3.17 0 0 1-2.887-.44a3.24 3.24 0 0 1-1.331-2.62v-36.35h-6.192v-6.454h6.192v-83.91h-6.192v-6.455h6.192V41.628c0-1.117.573-2.153 1.51-2.74a3.16 3.16 0 0 1 3.101-.155l48 23.824a3.23 3.23 0 0 1 1.789 2.895zm-80.211-89.962l-5.978-2.317l-16 41.955l5.978 2.317zm21.673 20.487a3.243 3.243 0 0 0 0-4.563l-12.8-12.91l-4.524 4.564l10.537 10.628l-10.537 10.627l4.524 4.564zm-49.324 12.91l-12.8-12.91a3.243 3.243 0 0 1 0-4.563l12.8-12.91l4.524 4.564l-10.537 10.628l10.537 10.627z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Shared JWT</tspan><tspan x=\"0\" y=\"89.1\">API</tspan></text>"
+    },
+    {
+      "id": "pooledLink",
+      "label": "Shared VPC Link",
+      "icon": "aws:api-gateway",
+      "parent": "primary",
+      "transform": "translate(577,108)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:api-gateway\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-a3df41a88d39-12-SVGyDrnJbhE\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#b0084d\"/><stop offset=\"100%\" stop-color=\"#ff4f8b\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-a3df41a88d39-12-SVGyDrnJbhE)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M109.008 178.024h9.392v-6.455h-9.392zm15.792 0h9.6v-6.455h-9.6zM86.4 46.814L44.8 67.463v128.356l41.6 14.068zm6.4 40.845v83.91h9.6v6.455h-9.6v36.349a3.24 3.24 0 0 1-1.331 2.62a3.18 3.18 0 0 1-2.887.44l-48-16.23a3.23 3.23 0 0 1-2.182-3.06V65.452c0-1.226.694-2.353 1.789-2.895l48-23.824a3.16 3.16 0 0 1 3.1.155a3.23 3.23 0 0 1 1.511 2.74v39.576h9.6v6.455zm48 90.365h9.6v-6.455h-9.6zm.208-90.365h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zM211.2 67.463l-41.6-20.649v163.073l41.6-14.068zm6.4 130.68a3.23 3.23 0 0 1-2.182 3.06l-48 16.23a3.17 3.17 0 0 1-2.887-.44a3.24 3.24 0 0 1-1.331-2.62v-36.35h-6.192v-6.454h6.192v-83.91h-6.192v-6.455h6.192V41.628c0-1.117.573-2.153 1.51-2.74a3.16 3.16 0 0 1 3.101-.155l48 23.824a3.23 3.23 0 0 1 1.789 2.895zm-80.211-89.962l-5.978-2.317l-16 41.955l5.978 2.317zm21.673 20.487a3.243 3.243 0 0 0 0-4.563l-12.8-12.91l-4.524 4.564l10.537 10.628l-10.537 10.627l4.524 4.564zm-49.324 12.91l-12.8-12.91a3.243 3.243 0 0 1 0-4.563l12.8-12.91l4.524 4.564l-10.537 10.628l10.537 10.627z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Shared VPC</tspan><tspan x=\"0\" y=\"89.1\">Link</tspan></text>"
+    },
+    {
+      "id": "pooledAlb",
+      "label": "Internal shared ALB",
+      "icon": "aws:elb",
+      "parent": "pooledVpc",
+      "transform": "translate(736,108)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:elb\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-3a63c3c3864d-13-SVGusebDeuy\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#4d27a8\"/><stop offset=\"100%\" stop-color=\"#a166ff\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-3a63c3c3864d-13-SVGusebDeuy)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M96 169.6c-22.938 0-41.6-18.662-41.6-41.6S73.062 86.4 96 86.4s41.6 18.662 41.6 41.6s-18.662 41.6-41.6 41.6m96 19.2c0 7.06-5.74 12.8-12.8 12.8s-12.8-5.74-12.8-12.8s5.74-12.8 12.8-12.8s12.8 5.74 12.8 12.8M179.2 54.4c7.06 0 12.8 5.74 12.8 12.8S186.26 80 179.2 80s-12.8-5.74-12.8-12.8s5.74-12.8 12.8-12.8m9.6 60.8c7.06 0 12.8 5.74 12.8 12.8s-5.74 12.8-12.8 12.8S176 135.06 176 128s5.74-12.8 12.8-12.8m-44.963 16h26.051c1.53 9.066 9.418 16 18.912 16c10.589 0 19.2-8.611 19.2-19.2s-8.611-19.2-19.2-19.2c-9.494 0-17.382 6.934-18.912 16h-26.051a47.5 47.5 0 0 0-4.407-17.107l28.397-25.06c3.187 2.356 7.114 3.767 11.373 3.767c10.589 0 19.2-8.611 19.2-19.2S189.789 48 179.2 48S160 56.611 160 67.2c0 4.02 1.245 7.747 3.363 10.835L136.26 101.95C127.693 88.762 112.867 80 96 80c-26.467 0-48 21.533-48 48s21.533 48 48 48c16.867 0 31.693-8.762 40.26-21.949l27.103 23.914A19.1 19.1 0 0 0 160 188.8c0 10.589 8.611 19.2 19.2 19.2s19.2-8.611 19.2-19.2s-8.611-19.2-19.2-19.2c-4.26 0-8.186 1.411-11.373 3.766l-28.397-25.059a47.5 47.5 0 0 0 4.407-17.107\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Internal shared</tspan><tspan x=\"0\" y=\"89.1\">ALB</tspan></text>"
+    },
+    {
+      "id": "pooledApp",
+      "label": "Membership and RLS",
+      "icon": "aws:fargate",
+      "parent": "pooledVpc",
+      "transform": "translate(875,108)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:fargate\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-76c4685dabad-14-SVGeyciVcvH\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#c8511b\"/><stop offset=\"100%\" stop-color=\"#f90\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-76c4685dabad-14-SVGeyciVcvH)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M166.4 180.874v-15.508l9.6-3.84v15.508zm-16-19.348l9.6 3.84v15.508l-9.6-3.84zm-19.2 41.748v-15.508l9.6-3.84v15.508zm-16-19.348l9.6 3.84v15.508l-9.6-3.84zM96 180.874v-15.508l9.6-3.84v15.508zm-16-19.348l9.6 3.84v15.508l-9.6-3.84zm12.8-7.68l7.386 2.954l-7.386 2.954l-7.386-2.954zm35.2 22.4l7.386 2.954l-7.386 2.954l-7.386-2.954zm35.2-22.4l7.386 2.954l-7.386 2.954l-7.386-2.954zm17.187-.019l-16-6.4c-.761-.3-1.613-.3-2.374 0l-16 6.4A3.205 3.205 0 0 0 144 156.8v18.954l-14.813-5.927c-.761-.3-1.613-.3-2.374 0L112 175.754V156.8a3.205 3.205 0 0 0-2.013-2.973l-16-6.4c-.761-.3-1.613-.3-2.374 0l-16 6.4A3.205 3.205 0 0 0 73.6 156.8v22.4c0 1.309.797 2.483 2.013 2.973l16 6.4c.38.15.784.227 1.187.227s.806-.077 1.187-.227l14.813-5.927V201.6c0 1.309.797 2.483 2.013 2.973l16 6.4c.38.15.784.227 1.187.227s.806-.077 1.187-.227l16-6.4a3.205 3.205 0 0 0 2.013-2.973v-18.954l14.813 5.927c.38.15.784.227 1.187.227s.806-.077 1.187-.227l16-6.4a3.205 3.205 0 0 0 2.013-2.973v-22.4a3.205 3.205 0 0 0-2.013-2.973M208 115.002c0 18.704-41.22 28.8-80 28.8s-80-10.096-80-28.8c0-8.932 9.904-16.794 27.888-22.141l1.824 6.134c-14.38 4.275-23.312 10.41-23.312 16.007c0 10.595 30.224 22.4 73.6 22.4s73.6-11.805 73.6-22.4c0-5.597-8.931-11.732-23.312-16.007l1.824-6.134C198.096 98.208 208 106.07 208 115m-80-60.375L160.685 67.2L128 79.773L95.315 67.2zm33.856 63.267c-6.035 2.701-16.166 5.847-30.656 6.27V85.397l35.2-13.536v39.012c0 3.043-1.78 5.798-4.544 7.02m-72.256-7.02V71.862l35.2 13.536v38.765c-14.49-.422-24.62-3.568-30.669-6.275c-2.752-1.216-4.531-3.971-4.531-7.014m1.933 12.86c7.043 3.152 19.088 6.912 36.467 6.912c17.38 0 29.424-3.76 36.458-6.905c5.068-2.243 8.342-7.293 8.342-12.867V67.2a3.2 3.2 0 0 0-2.051-2.989l-41.6-16a3.23 3.23 0 0 0-2.298 0l-41.6 16A3.2 3.2 0 0 0 83.2 67.2v43.674c0 5.574 3.274 10.624 8.333 12.86\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Membership</tspan><tspan x=\"0\" y=\"89.1\">and RLS</tspan></text>"
+    },
+    {
+      "id": "pooledDb",
+      "label": "Shared tenant records",
+      "icon": "aws:aurora",
+      "parent": "pooledVpc",
+      "transform": "translate(1011,108)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:aurora\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-51dff7986b04-15-SVGte2wIbLN\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#2e27ad\"/><stop offset=\"100%\" stop-color=\"#527fff\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-51dff7986b04-15-SVGte2wIbLN)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M144.292 57.744h-9.626v-6.457h9.626V41.6h6.417v9.687h9.625v6.457h-9.625v9.687h-6.417zm38.502 35.518h-9.625v-6.458h9.625v-9.686h6.418v9.686h9.625v6.458h-9.625v9.687h-6.418zm-16.71 102.046c-6.128-15.57-20.272-29.803-35.75-35.973c15.478-6.167 29.622-20.4 35.75-35.973c6.129 15.573 20.272 29.806 35.747 35.973c-15.475 6.17-29.618 20.403-35.747 35.973m51.507-39.202c-22.569 0-48.298-25.893-48.298-48.605a3.22 3.22 0 0 0-3.209-3.228a3.22 3.22 0 0 0-3.208 3.228c0 22.712-25.733 48.605-48.302 48.605c-1.771 0-3.209 1.446-3.209 3.229a3.22 3.22 0 0 0 3.209 3.229c22.569 0 48.302 25.892 48.302 48.607a3.22 3.22 0 0 0 3.208 3.229a3.22 3.22 0 0 0 3.209-3.229c0-22.715 25.73-48.607 48.298-48.607a3.22 3.22 0 0 0 3.209-3.23a3.22 3.22 0 0 0-3.209-3.228M41.617 92.49c9.344 6.84 27.498 10.459 44.92 10.459s35.577-3.62 44.92-10.459v30.927c-4.623 6.186-21.626 12.282-44.278 12.282c-26.076 0-45.562-8.201-45.562-15.534zm44.92-25.059c27.831 0 44.92 8.463 44.92 14.53s-17.089 14.53-44.92 14.53s-44.92-8.463-44.92-14.53s17.089-14.53 44.92-14.53m44.92 121.183c0 7.443-19.216 15.77-44.936 15.77c-25.7 0-44.904-8.327-44.904-15.77v-20.632c9.459 7.22 27.976 11.042 45.745 11.042c12.356 0 24.305-1.756 33.632-4.946l-2.06-6.116c-8.682 2.968-19.896 4.605-31.572 4.605c-26.182 0-45.745-8.202-45.745-15.535v-25.898c9.433 7.206 27.87 11.023 45.562 11.023c18.956 0 35.214-3.93 44.278-10.152v9.69h6.417V81.961c0-13.632-26.448-20.988-51.337-20.988c-23.875 0-49.123 6.787-51.138 19.374H35.2v108.267c0 14.436 26.442 22.228 51.321 22.228c24.895 0 51.353-7.792 51.353-22.228v-11.401h-6.417z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Shared tenant</tspan><tspan x=\"0\" y=\"89.1\">records</tspan></text>"
+    },
+    {
+      "id": "dedicatedApi",
+      "label": "Enterprise JWT API",
+      "icon": "aws:api-gateway",
+      "parent": "dedicatedRegion",
+      "transform": "translate(447,410)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:api-gateway\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-a3df41a88d39-16-SVGyDrnJbhE\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#b0084d\"/><stop offset=\"100%\" stop-color=\"#ff4f8b\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-a3df41a88d39-16-SVGyDrnJbhE)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M109.008 178.024h9.392v-6.455h-9.392zm15.792 0h9.6v-6.455h-9.6zM86.4 46.814L44.8 67.463v128.356l41.6 14.068zm6.4 40.845v83.91h9.6v6.455h-9.6v36.349a3.24 3.24 0 0 1-1.331 2.62a3.18 3.18 0 0 1-2.887.44l-48-16.23a3.23 3.23 0 0 1-2.182-3.06V65.452c0-1.226.694-2.353 1.789-2.895l48-23.824a3.16 3.16 0 0 1 3.1.155a3.23 3.23 0 0 1 1.511 2.74v39.576h9.6v6.455zm48 90.365h9.6v-6.455h-9.6zm.208-90.365h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zM211.2 67.463l-41.6-20.649v163.073l41.6-14.068zm6.4 130.68a3.23 3.23 0 0 1-2.182 3.06l-48 16.23a3.17 3.17 0 0 1-2.887-.44a3.24 3.24 0 0 1-1.331-2.62v-36.35h-6.192v-6.454h6.192v-83.91h-6.192v-6.455h6.192V41.628c0-1.117.573-2.153 1.51-2.74a3.16 3.16 0 0 1 3.101-.155l48 23.824a3.23 3.23 0 0 1 1.789 2.895zm-80.211-89.962l-5.978-2.317l-16 41.955l5.978 2.317zm21.673 20.487a3.243 3.243 0 0 0 0-4.563l-12.8-12.91l-4.524 4.564l10.537 10.628l-10.537 10.627l4.524 4.564zm-49.324 12.91l-12.8-12.91a3.243 3.243 0 0 1 0-4.563l12.8-12.91l4.524 4.564l-10.537 10.628l10.537 10.627z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Enterprise</tspan><tspan x=\"0\" y=\"89.1\">JWT API</tspan></text>"
+    },
+    {
+      "id": "dedicatedLink",
+      "label": "Dedicated VPC Link",
+      "icon": "aws:api-gateway",
+      "parent": "dedicatedRegion",
+      "transform": "translate(577,410)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:api-gateway\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-a3df41a88d39-17-SVGyDrnJbhE\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#b0084d\"/><stop offset=\"100%\" stop-color=\"#ff4f8b\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-a3df41a88d39-17-SVGyDrnJbhE)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M109.008 178.024h9.392v-6.455h-9.392zm15.792 0h9.6v-6.455h-9.6zM86.4 46.814L44.8 67.463v128.356l41.6 14.068zm6.4 40.845v83.91h9.6v6.455h-9.6v36.349a3.24 3.24 0 0 1-1.331 2.62a3.18 3.18 0 0 1-2.887.44l-48-16.23a3.23 3.23 0 0 1-2.182-3.06V65.452c0-1.226.694-2.353 1.789-2.895l48-23.824a3.16 3.16 0 0 1 3.1.155a3.23 3.23 0 0 1 1.511 2.74v39.576h9.6v6.455zm48 90.365h9.6v-6.455h-9.6zm.208-90.365h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zM211.2 67.463l-41.6-20.649v163.073l41.6-14.068zm6.4 130.68a3.23 3.23 0 0 1-2.182 3.06l-48 16.23a3.17 3.17 0 0 1-2.887-.44a3.24 3.24 0 0 1-1.331-2.62v-36.35h-6.192v-6.454h6.192v-83.91h-6.192v-6.455h6.192V41.628c0-1.117.573-2.153 1.51-2.74a3.16 3.16 0 0 1 3.101-.155l48 23.824a3.23 3.23 0 0 1 1.789 2.895zm-80.211-89.962l-5.978-2.317l-16 41.955l5.978 2.317zm21.673 20.487a3.243 3.243 0 0 0 0-4.563l-12.8-12.91l-4.524 4.564l10.537 10.628l-10.537 10.627l4.524 4.564zm-49.324 12.91l-12.8-12.91a3.243 3.243 0 0 1 0-4.563l12.8-12.91l4.524 4.564l-10.537 10.628l10.537 10.627z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Dedicated</tspan><tspan x=\"0\" y=\"89.1\">VPC Link</tspan></text>"
+    },
+    {
+      "id": "dedicatedAlb",
+      "label": "Internal tenant ALB",
+      "icon": "aws:elb",
+      "parent": "dedicatedVpc",
+      "transform": "translate(736,410)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:elb\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-3a63c3c3864d-18-SVGusebDeuy\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#4d27a8\"/><stop offset=\"100%\" stop-color=\"#a166ff\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-3a63c3c3864d-18-SVGusebDeuy)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M96 169.6c-22.938 0-41.6-18.662-41.6-41.6S73.062 86.4 96 86.4s41.6 18.662 41.6 41.6s-18.662 41.6-41.6 41.6m96 19.2c0 7.06-5.74 12.8-12.8 12.8s-12.8-5.74-12.8-12.8s5.74-12.8 12.8-12.8s12.8 5.74 12.8 12.8M179.2 54.4c7.06 0 12.8 5.74 12.8 12.8S186.26 80 179.2 80s-12.8-5.74-12.8-12.8s5.74-12.8 12.8-12.8m9.6 60.8c7.06 0 12.8 5.74 12.8 12.8s-5.74 12.8-12.8 12.8S176 135.06 176 128s5.74-12.8 12.8-12.8m-44.963 16h26.051c1.53 9.066 9.418 16 18.912 16c10.589 0 19.2-8.611 19.2-19.2s-8.611-19.2-19.2-19.2c-9.494 0-17.382 6.934-18.912 16h-26.051a47.5 47.5 0 0 0-4.407-17.107l28.397-25.06c3.187 2.356 7.114 3.767 11.373 3.767c10.589 0 19.2-8.611 19.2-19.2S189.789 48 179.2 48S160 56.611 160 67.2c0 4.02 1.245 7.747 3.363 10.835L136.26 101.95C127.693 88.762 112.867 80 96 80c-26.467 0-48 21.533-48 48s21.533 48 48 48c16.867 0 31.693-8.762 40.26-21.949l27.103 23.914A19.1 19.1 0 0 0 160 188.8c0 10.589 8.611 19.2 19.2 19.2s19.2-8.611 19.2-19.2s-8.611-19.2-19.2-19.2c-4.26 0-8.186 1.411-11.373 3.766l-28.397-25.059a47.5 47.5 0 0 0 4.407-17.107\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Internal tenant</tspan><tspan x=\"0\" y=\"89.1\">ALB</tspan></text>"
+    },
+    {
+      "id": "dedicatedApp",
+      "label": "Enterprise allowlist",
+      "icon": "aws:fargate",
+      "parent": "dedicatedVpc",
+      "transform": "translate(875,410)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:fargate\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-76c4685dabad-19-SVGeyciVcvH\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#c8511b\"/><stop offset=\"100%\" stop-color=\"#f90\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-76c4685dabad-19-SVGeyciVcvH)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M166.4 180.874v-15.508l9.6-3.84v15.508zm-16-19.348l9.6 3.84v15.508l-9.6-3.84zm-19.2 41.748v-15.508l9.6-3.84v15.508zm-16-19.348l9.6 3.84v15.508l-9.6-3.84zM96 180.874v-15.508l9.6-3.84v15.508zm-16-19.348l9.6 3.84v15.508l-9.6-3.84zm12.8-7.68l7.386 2.954l-7.386 2.954l-7.386-2.954zm35.2 22.4l7.386 2.954l-7.386 2.954l-7.386-2.954zm35.2-22.4l7.386 2.954l-7.386 2.954l-7.386-2.954zm17.187-.019l-16-6.4c-.761-.3-1.613-.3-2.374 0l-16 6.4A3.205 3.205 0 0 0 144 156.8v18.954l-14.813-5.927c-.761-.3-1.613-.3-2.374 0L112 175.754V156.8a3.205 3.205 0 0 0-2.013-2.973l-16-6.4c-.761-.3-1.613-.3-2.374 0l-16 6.4A3.205 3.205 0 0 0 73.6 156.8v22.4c0 1.309.797 2.483 2.013 2.973l16 6.4c.38.15.784.227 1.187.227s.806-.077 1.187-.227l14.813-5.927V201.6c0 1.309.797 2.483 2.013 2.973l16 6.4c.38.15.784.227 1.187.227s.806-.077 1.187-.227l16-6.4a3.205 3.205 0 0 0 2.013-2.973v-18.954l14.813 5.927c.38.15.784.227 1.187.227s.806-.077 1.187-.227l16-6.4a3.205 3.205 0 0 0 2.013-2.973v-22.4a3.205 3.205 0 0 0-2.013-2.973M208 115.002c0 18.704-41.22 28.8-80 28.8s-80-10.096-80-28.8c0-8.932 9.904-16.794 27.888-22.141l1.824 6.134c-14.38 4.275-23.312 10.41-23.312 16.007c0 10.595 30.224 22.4 73.6 22.4s73.6-11.805 73.6-22.4c0-5.597-8.931-11.732-23.312-16.007l1.824-6.134C198.096 98.208 208 106.07 208 115m-80-60.375L160.685 67.2L128 79.773L95.315 67.2zm33.856 63.267c-6.035 2.701-16.166 5.847-30.656 6.27V85.397l35.2-13.536v39.012c0 3.043-1.78 5.798-4.544 7.02m-72.256-7.02V71.862l35.2 13.536v38.765c-14.49-.422-24.62-3.568-30.669-6.275c-2.752-1.216-4.531-3.971-4.531-7.014m1.933 12.86c7.043 3.152 19.088 6.912 36.467 6.912c17.38 0 29.424-3.76 36.458-6.905c5.068-2.243 8.342-7.293 8.342-12.867V67.2a3.2 3.2 0 0 0-2.051-2.989l-41.6-16a3.23 3.23 0 0 0-2.298 0l-41.6 16A3.2 3.2 0 0 0 83.2 67.2v43.674c0 5.574 3.274 10.624 8.333 12.86\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Enterprise</tspan><tspan x=\"0\" y=\"89.1\">allowlist</tspan></text>"
+    },
+    {
+      "id": "dedicatedDb",
+      "label": "Enterprise records",
+      "icon": "aws:aurora",
+      "parent": "dedicatedVpc",
+      "transform": "translate(1011,410)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:aurora\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-51dff7986b04-20-SVGte2wIbLN\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#2e27ad\"/><stop offset=\"100%\" stop-color=\"#527fff\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-51dff7986b04-20-SVGte2wIbLN)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M144.292 57.744h-9.626v-6.457h9.626V41.6h6.417v9.687h9.625v6.457h-9.625v9.687h-6.417zm38.502 35.518h-9.625v-6.458h9.625v-9.686h6.418v9.686h9.625v6.458h-9.625v9.687h-6.418zm-16.71 102.046c-6.128-15.57-20.272-29.803-35.75-35.973c15.478-6.167 29.622-20.4 35.75-35.973c6.129 15.573 20.272 29.806 35.747 35.973c-15.475 6.17-29.618 20.403-35.747 35.973m51.507-39.202c-22.569 0-48.298-25.893-48.298-48.605a3.22 3.22 0 0 0-3.209-3.228a3.22 3.22 0 0 0-3.208 3.228c0 22.712-25.733 48.605-48.302 48.605c-1.771 0-3.209 1.446-3.209 3.229a3.22 3.22 0 0 0 3.209 3.229c22.569 0 48.302 25.892 48.302 48.607a3.22 3.22 0 0 0 3.208 3.229a3.22 3.22 0 0 0 3.209-3.229c0-22.715 25.73-48.607 48.298-48.607a3.22 3.22 0 0 0 3.209-3.23a3.22 3.22 0 0 0-3.209-3.228M41.617 92.49c9.344 6.84 27.498 10.459 44.92 10.459s35.577-3.62 44.92-10.459v30.927c-4.623 6.186-21.626 12.282-44.278 12.282c-26.076 0-45.562-8.201-45.562-15.534zm44.92-25.059c27.831 0 44.92 8.463 44.92 14.53s-17.089 14.53-44.92 14.53s-44.92-8.463-44.92-14.53s17.089-14.53 44.92-14.53m44.92 121.183c0 7.443-19.216 15.77-44.936 15.77c-25.7 0-44.904-8.327-44.904-15.77v-20.632c9.459 7.22 27.976 11.042 45.745 11.042c12.356 0 24.305-1.756 33.632-4.946l-2.06-6.116c-8.682 2.968-19.896 4.605-31.572 4.605c-26.182 0-45.745-8.202-45.745-15.535v-25.898c9.433 7.206 27.87 11.023 45.562 11.023c18.956 0 35.214-3.93 44.278-10.152v9.69h6.417V81.961c0-13.632-26.448-20.988-51.337-20.988c-23.875 0-49.123 6.787-51.138 19.374H35.2v108.267c0 14.436 26.442 22.228 51.321 22.228c24.895 0 51.353-7.792 51.353-22.228v-11.401h-6.417z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Enterprise</tspan><tspan x=\"0\" y=\"89.1\">records</tspan></text>"
+    }
+  ],
+  "groups": [
+    {
+      "id": "identityAccount",
+      "label": "Account: Control plane",
+      "kind": "account",
+      "box": {
+        "x": 114,
+        "y": 36,
+        "width": 208,
+        "height": 206,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"124\" y=\"44\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"230.93\" y=\"59.6\" text-anchor=\"middle\">Account: Control plane</text>"
+    },
+    {
+      "id": "identityRegion",
+      "label": "Region: Primary",
+      "kind": "region",
+      "parent": "identityAccount",
+      "box": {
+        "x": 134,
+        "y": 72,
+        "width": 161,
+        "height": 150,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"144\" y=\"80\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"227.34\" y=\"95.6\" text-anchor=\"middle\">Region: Primary</text>"
+    },
+    {
+      "id": "pooled",
+      "label": "Account: Pooled production",
+      "kind": "account",
+      "box": {
+        "x": 362,
+        "y": 0,
+        "width": 760,
+        "height": 262,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"372\" y=\"8\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"495.83\" y=\"23.6\" text-anchor=\"middle\">Account: Pooled production</text>"
+    },
+    {
+      "id": "primary",
+      "label": "Region: Primary",
+      "kind": "region",
+      "parent": "pooled",
+      "box": {
+        "x": 382,
+        "y": 36,
+        "width": 720,
+        "height": 206,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"392\" y=\"44\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"475.34\" y=\"59.6\" text-anchor=\"middle\">Region: Primary</text>"
+    },
+    {
+      "id": "pooledVpc",
+      "label": "VPC: Shared workloads",
+      "kind": "vpc",
+      "parent": "primary",
+      "box": {
+        "x": 662,
+        "y": 72,
+        "width": 420,
+        "height": 150,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"672\" y=\"80\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"782.92\" y=\"95.6\" text-anchor=\"middle\">VPC: Shared workloads</text>"
+    },
+    {
+      "id": "dedicated",
+      "label": "Account: Enterprise hotel",
+      "kind": "account",
+      "box": {
+        "x": 362,
+        "y": 302,
+        "width": 760,
+        "height": 262,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"372\" y=\"310\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"487.38\" y=\"325.6\" text-anchor=\"middle\">Account: Enterprise hotel</text>"
+    },
+    {
+      "id": "dedicatedRegion",
+      "label": "Region: Primary",
+      "kind": "region",
+      "parent": "dedicated",
+      "box": {
+        "x": 382,
+        "y": 338,
+        "width": 720,
+        "height": 206,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"392\" y=\"346\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"475.34\" y=\"361.6\" text-anchor=\"middle\">Region: Primary</text>"
+    },
+    {
+      "id": "dedicatedVpc",
+      "label": "VPC: Dedicated workloads",
+      "kind": "vpc",
+      "parent": "dedicatedRegion",
+      "box": {
+        "x": 662,
+        "y": 374,
+        "width": 420,
+        "height": 150,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"672\" y=\"382\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"793.14\" y=\"397.6\" text-anchor=\"middle\">VPC: Dedicated workloads</text>"
+    }
+  ],
+  "edges": [
+    {
+      "id": "staff-login",
+      "source": "staff",
+      "target": "login",
+      "kind": "identity",
+      "meaning": "Browser authenticates with the federated user pool; MFA and federation must be configured.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M61,132L160,132",
+          "marker": false
+        },
+        {
+          "d": "M167,132L159,135.36L159,128.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "login-pooledApi",
+      "source": "login",
+      "target": "pooledApi",
+      "kind": "identity",
+      "meaning": "Browser presents access token; API validates issuer, audience, expiry and required scopes using cached keys.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M215,132L416,132",
+          "marker": false
+        },
+        {
+          "d": "M423,132L415,135.36L415,128.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "login-dedicatedApi",
+      "source": "login",
+      "target": "dedicatedApi",
+      "kind": "identity",
+      "meaning": "Same issuer may serve dedicated tenants, but this API has its own audience and cell authorization policy.",
+      "sourcePort": "B",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M191,204L191,428Q191,434 197,434L416,434",
+          "marker": false
+        },
+        {
+          "d": "M423,434L415,437.36L415,430.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "pooledApi-pooledLink",
+      "source": "pooledApi",
+      "target": "pooledLink",
+      "kind": "request",
+      "meaning": "Authorized HTTP integration uses a VPC Link in the same account and region as its load balancer.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M471,132L546,132",
+          "marker": false
+        },
+        {
+          "d": "M553,132L545,135.36L545,128.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "pooledLink-pooledAlb",
+      "source": "pooledLink",
+      "target": "pooledAlb",
+      "kind": "request",
+      "meaning": "Private integration reaches the internal ALB; no direct public app endpoint.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M601,132L705,132",
+          "marker": false
+        },
+        {
+          "d": "M712,132L704,135.36L704,128.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "pooledAlb-pooledApp",
+      "source": "pooledAlb",
+      "target": "pooledApp",
+      "kind": "request",
+      "meaning": "App derives subject from verified identity and validates selected hotel membership.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M760,132L844,132",
+          "marker": false
+        },
+        {
+          "d": "M851,132L843,135.36L843,128.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "pooledApp-pooledDb",
+      "source": "pooledApp",
+      "target": "pooledDb",
+      "kind": "request",
+      "meaning": "Server-validated tenant context is transaction-local; non-owner database role and forced RLS enforce row policies.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M899,132L980,132",
+          "marker": false
+        },
+        {
+          "d": "M987,132L979,135.36L979,128.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "dedicatedApi-dedicatedLink",
+      "source": "dedicatedApi",
+      "target": "dedicatedLink",
+      "kind": "request",
+      "meaning": "Dedicated cell has its own same-account private integration.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M471,434L546,434",
+          "marker": false
+        },
+        {
+          "d": "M553,434L545,437.36L545,430.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "dedicatedLink-dedicatedAlb",
+      "source": "dedicatedLink",
+      "target": "dedicatedAlb",
+      "kind": "request",
+      "meaning": "Private load balancer stays inside the enterprise account.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M601,434L705,434",
+          "marker": false
+        },
+        {
+          "d": "M712,434L704,437.36L704,430.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "dedicatedAlb-dedicatedApp",
+      "source": "dedicatedAlb",
+      "target": "dedicatedApp",
+      "kind": "request",
+      "meaning": "App rejects valid tokens for tenants not assigned to this cell.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M760,434L844,434",
+          "marker": false
+        },
+        {
+          "d": "M851,434L843,437.36L843,430.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "dedicatedApp-dedicatedDb",
+      "source": "dedicatedApp",
+      "target": "dedicatedDb",
+      "kind": "request",
+      "meaning": "Separate credentials and database; no pooled database route is authorized.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M899,434L980,434",
+          "marker": false
+        },
+        {
+          "d": "M987,434L979,437.36L979,430.64Z",
+          "marker": true
+        }
+      ]
+    }
+  ]
+}

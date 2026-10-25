@@ -1,0 +1,411 @@
+{
+  "engine": "Beautiflow architecture pipeline: Pele + local positioned-geometry extension",
+  "sourceHash": "732f53f787b48a2bd31f6e07e28afead4778745970bf7d1878aa6837315c5051",
+  "scope": "Geometry audit of the native layout; each styled drawing additionally checks elements, plain service labels, IDs, and SVG references. Decorative ink and cloud-provider semantics are not measured.",
+  "annotations": {
+    "coverage": "authored-annotations-and-containment-only",
+    "boundaries": 12,
+    "relationships": 15,
+    "configurationValidated": false
+  },
+  "structure": {
+    "family": "architecture",
+    "score": 100,
+    "nodes": [
+      {
+        "id": "publisherA",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Tenant A publisher",
+        "in": "customerAr"
+      },
+      {
+        "id": "publisherB",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Tenant B publisher",
+        "in": "customerBr"
+      },
+      {
+        "id": "identity",
+        "type": "service",
+        "icon": "aws:cognito",
+        "title": "Operator sign-in",
+        "in": "admin"
+      },
+      {
+        "id": "controller",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Tenant controller",
+        "in": "admin"
+      },
+      {
+        "id": "bus",
+        "type": "service",
+        "icon": "aws:eventbridge",
+        "title": "Authorized ingress",
+        "in": "primary"
+      },
+      {
+        "id": "queue",
+        "type": "service",
+        "icon": "aws:sqs",
+        "title": "Pooled delivery queue",
+        "in": "primary"
+      },
+      {
+        "id": "dlq",
+        "type": "service",
+        "icon": "aws:sqs",
+        "title": "Pooled failed work",
+        "in": "primary"
+      },
+      {
+        "id": "workerA",
+        "type": "service",
+        "icon": "aws:fargate",
+        "title": "Delivery tasks A",
+        "in": "zoneA"
+      },
+      {
+        "id": "workerB",
+        "type": "service",
+        "icon": "aws:fargate",
+        "title": "Delivery tasks B",
+        "in": "zoneB"
+      },
+      {
+        "id": "ledger",
+        "type": "service",
+        "icon": "aws:dynamodb",
+        "title": "Pooled tenant ledger",
+        "in": "primary"
+      },
+      {
+        "id": "siloBus",
+        "type": "service",
+        "icon": "aws:eventbridge",
+        "title": "Tenant B ingress",
+        "in": "siloRegion"
+      },
+      {
+        "id": "siloQueue",
+        "type": "service",
+        "icon": "aws:sqs",
+        "title": "Tenant B queue",
+        "in": "siloRegion"
+      },
+      {
+        "id": "siloWorker",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Tenant B worker",
+        "in": "siloRegion"
+      },
+      {
+        "id": "siloLedger",
+        "type": "service",
+        "icon": "aws:dynamodb",
+        "title": "Tenant B ledger",
+        "in": "siloRegion"
+      },
+      {
+        "id": "siloDlq",
+        "type": "service",
+        "icon": "aws:sqs",
+        "title": "Tenant B failed work",
+        "in": "siloRegion"
+      }
+    ],
+    "groups": [
+      {
+        "id": "customerA",
+        "icon": "cloud",
+        "title": "Account: Tenant A"
+      },
+      {
+        "id": "customerAr",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "customerA"
+      },
+      {
+        "id": "customerB",
+        "icon": "cloud",
+        "title": "Account: Tenant B"
+      },
+      {
+        "id": "customerBr",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "customerB"
+      },
+      {
+        "id": "platform",
+        "icon": "cloud",
+        "title": "Account: Delivery platform"
+      },
+      {
+        "id": "primary",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "platform"
+      },
+      {
+        "id": "admin",
+        "icon": "cloud",
+        "title": "Logical: Tenant administration",
+        "in": "primary"
+      },
+      {
+        "id": "workersVpc",
+        "icon": "cloud",
+        "title": "VPC: Worker cell",
+        "in": "primary"
+      },
+      {
+        "id": "zoneA",
+        "icon": "cloud",
+        "title": "AZ: A - private tasks",
+        "in": "workersVpc"
+      },
+      {
+        "id": "zoneB",
+        "icon": "cloud",
+        "title": "AZ: B - private tasks",
+        "in": "workersVpc"
+      },
+      {
+        "id": "silo",
+        "icon": "cloud",
+        "title": "Account: Tenant B silo"
+      },
+      {
+        "id": "siloRegion",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "silo"
+      }
+    ],
+    "edges": [
+      {
+        "lhsId": "publisherA",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "bus",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "publisherB",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "bus",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "identity",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "controller",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "controller",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "bus",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "bus",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "queue",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "queue",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "workerA",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "queue",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "workerB",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "workerA",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "ledger",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "workerB",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "ledger",
+        "rhsDir": "R",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "queue",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "dlq",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "bus",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "siloBus",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "siloBus",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "siloQueue",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "siloQueue",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "siloWorker",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "siloWorker",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "siloLedger",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "siloQueue",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "siloDlq",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      }
+    ],
+    "alignmentHints": [],
+    "metrics": {
+      "services": 15,
+      "junctions": 0,
+      "groups": 12,
+      "relationships": 15,
+      "components": 1,
+      "isolatedServices": 0,
+      "maxDepth": 4
+    },
+    "issues": [
+      {
+        "severity": "info",
+        "type": "deep-containment",
+        "message": "4 containment levels may be difficult to read"
+      },
+      {
+        "severity": "info",
+        "type": "high-connectivity",
+        "nodes": [
+          "bus"
+        ],
+        "message": "bus has 5 neighbours; inspect its visual focus"
+      }
+    ],
+    "limitations": [
+      "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+    ]
+  },
+  "audit": {
+    "score": 100,
+    "coverage": "pele-positioned-geometry",
+    "metrics": {
+      "detachedEndpoints": 0,
+      "portViolations": 0,
+      "nodeOverlaps": 0,
+      "labelCollisions": 0,
+      "edgeNodeIntersections": 0,
+      "headerCrossings": 0,
+      "excessiveBends": 0,
+      "sharedSegments": 0
+    },
+    "integrity": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 42,
+      "labelsChecked": 15,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    },
+    "issues": [],
+    "limitations": [
+      "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+      "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+    ]
+  },
+  "styledIntegrity": {
+    "ancient": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 42,
+      "labelsChecked": 15,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    }
+  }
+}

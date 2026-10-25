@@ -1,20 +1,33 @@
 import { cp, mkdir, rm, stat } from 'node:fs/promises'
 import { resolve, relative, sep } from 'node:path'
 import { buildDiagramGallery } from './build-diagram-gallery.ts'
+import { buildBoringDiagrams } from './build-boring-diagrams.ts'
+import { buildExamplePrompts } from './build-example-prompts.ts'
+import { buildExamplePages } from './site-catalogue.ts'
+import { buildDiagramSafety } from './build-diagram-safety.ts'
 
 const repository = resolve(import.meta.dir, '..')
 
 export async function buildSite(destination = resolve(repository, 'dist/site')) {
   await mkdir(destination, { recursive: true })
   await rm(resolve(destination, 'examples'), { recursive: true, force: true })
-  for (const file of ['index.html', 'examples.html', 'site.css', 'install.sh', 'CNAME', 'examples']) {
+  for (const file of ['index.html', 'examples.html', 'site.css', 'reading.css', 'example-prompts.css', 'example-prompts.js', 'install.sh', 'CNAME', 'examples']) {
     await cp(resolve(repository, file), resolve(destination, file), { recursive: true })
   }
+  await rm(resolve(destination, 'boring-diagrams'), { recursive: true, force: true })
+  await cp(resolve(repository, 'boring-diagrams'), resolve(destination, 'boring-diagrams'), {
+    recursive: true, filter: (source) => !source.split(sep).includes('.impeccable'),
+  })
+  await buildBoringDiagrams(resolve(destination, 'boring-diagrams'))
+  await rm(resolve(destination, 'dont-break-the-diagram'), { recursive: true, force: true })
+  await buildDiagramSafety(resolve(destination, 'dont-break-the-diagram'))
   await buildDiagramGallery(resolve(destination, 'examples/recipes/diagram-types'))
+  await buildExamplePages(destination)
   const docs = Bun.spawn([process.execPath, resolve(repository, 'scripts/build-docs.ts'), resolve(destination, 'docs')], {
     cwd: repository, stdout: 'inherit', stderr: 'inherit',
   })
   if (await docs.exited !== 0) throw new Error('Documentation build failed')
+  await buildExamplePrompts(destination)
   await Bun.write(resolve(destination, '.nojekyll'), '')
   return destination
 }

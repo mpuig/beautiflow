@@ -1,0 +1,60 @@
+architecture-beta
+accTitle: ADMS on AWS Outposts - reconstruction of the AWS reference
+accDescr: Two physically isolated data centers have separate Outposts racks homed to different Availability Zones. Local gateways connect OT and field devices; service links connect each rack to its home Region. Regional DERMS and analytics are separate from on-premises ADMS.
+%% Source: https://docs.aws.amazon.com/reference-architecture-diagrams/latest/advanced-distribution-management-system/advanced-distribution-management-system.html
+%% A VPC crosses physical Outposts/Region placement. Repeated VPC IDs label fragments,
+%% not separate VPCs. Mermaid supports one parent, not overlapping physical/logical boundaries.
+group dc1(cloud)[Corporate data center 1]
+group dc2(cloud)[Corporate data center 2]
+group other1(server)[Other infrastructure DC1] in dc1
+group other2(server)[Other infrastructure DC2] in dc2
+group rack1(server)[Outposts rack 1 - home AZ1] in dc1
+group rack2(server)[Outposts rack 2 - home AZ2] in dc2
+group subnet1(server)[VPC1 - Outposts subnet] in rack1
+group subnet2(server)[VPC2 - Outposts subnet] in rack2
+group adms1(server)[ADMS site 1] in subnet1
+group adms2(server)[ADMS site 2] in subnet2
+group region(cloud)[AWS Region]
+group az1(cloud)[Availability Zone 1] in region
+group az2(cloud)[Availability Zone 2] in region
+group regional1(server)[VPC1 - Region subnet] in az1
+group regional2(server)[VPC2 - Region subnet] in az2
+group analytics(server)[Regional analytics and ML] in region
+service field(lucide:radio-tower)[Field sensors and actuators]
+service pi1(server)[PI server DC1] in other1
+service corp1(server)[Corporate IT DC1] in other1
+service pi2(server)[PI server DC2] in other2
+service corp2(server)[Corporate IT DC2] in other2
+service compute1(aws:ec2)[ADMS on EC2 site 1] in adms1
+service db1(database)[Vendor supported DB site 1] in adms1
+service compute2(aws:ec2)[ADMS on EC2 site 2] in adms2
+service db2(database)[Vendor supported DB site 2] in adms2
+service lgw1(lucide:router)[Outposts local gateway 1] in rack1
+service lgw2(lucide:router)[Outposts local gateway 2] in rack2
+service link1(lucide:cable)[Outposts service link 1] in rack1
+service link2(lucide:cable)[Outposts service link 2] in rack2
+service wan(lucide:network)[WAN link - service link transport]
+service derms1(server)[DERMS AZ1] in regional1
+service derms2(server)[DERMS AZ2] in regional2
+service s3(aws:s3)[Amazon S3] in analytics
+service athena(aws:athena)[Amazon Athena] in analytics
+service quick(aws:quicksight)[Amazon QuickSight] in analytics
+service sagemaker(aws:sagemaker)[Amazon SageMaker] in analytics
+%% Local OT network connectivity is distinct from Outposts service-link traffic.
+field:T -[Local OT network]-> B:lgw1
+field:B -[Local OT network]-> L:lgw2
+pi1:L -- L:lgw1
+corp1:R -- B:lgw1
+pi2:T -- B:lgw2
+corp2:R -- B:lgw2
+lgw1:R -- L:compute1
+lgw2:R -- L:compute2
+%% The reference connects ADMS and DERMS through each VPC and service link.
+compute1:B -- B:link1
+compute2:T -- T:link2
+link1:R -[VPC1 home AZ1]-> L:derms1
+link2:R -[VPC2 home AZ2]-> L:derms2
+link1:B -- B:wan
+link2:B -- B:wan
+%% WAN link is physical transport context, not a database replication or failover arrow.
+%% The diagram does not specify a database engine, site-to-site replication or an analytics pipeline.

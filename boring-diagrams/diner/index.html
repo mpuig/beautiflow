@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Midnight at the Diner — Boring AWS Diagrams</title><meta name="description" content="Can stores reconnect and replay stock updates without counting them twice?">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../site.css">
+<link rel="preload" href="../fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script type="module" src="../app.js"></script></head><body><a class="skip-link" href="#diagram">Skip to the diagram</a>
+<header class="masthead"><a class="wordmark" href="../" aria-label="Boring AWS Diagrams home">B/AWS</a><nav aria-label="Main"><a href="../#collection">Collection</a><a href="../#method">Our drawing process</a><a href="../../">Beautiflow ↗</a></nav></header>
+<main class="diagram-page"><nav class="page-navigation" aria-label="Collection navigation"><a href="../#collection">Back to all ten diagrams</a><div><a rel="prev" href="../reef/">Previous diagram</a><a rel="next" href="../rail/">Next diagram</a></div></nav>
+<article class="exhibit" id="diner" data-style="diner" data-base="../entries/diner">
+<div class="exhibit-heading"><h1>Midnight at the Diner</h1><p class="treatment">Mid-century order pad</p></div><p class="story">Store integrations arrive from a separate account. The inventory platform reconciles a versioned journal, can place work in either AZ, and waits for a supervisor before releasing a supplier proposal.</p>
+<nav class="process-navigation" aria-label="Explore the authoring process"><a href="#prompt"><strong>Authoring prompt</strong><span>The brief that shaped this view</span></a><a href="#source"><strong>Mermaid source</strong><span>13 services · 12 relationships</span></a><a href="#evidence"><strong>Measured evidence</strong><span>Geometry, integrity &amp; limits</span></a></nav>
+<div class="diagram-workspace"><figure id="diagram"><div class="drawing-tools"><p>Can stores reconnect and replay stock updates without counting them twice?</p><div class="view-controls" hidden><button type="button" data-view="art" aria-pressed="true">Drawing</button><button type="button" data-view="native" aria-pressed="false">Native layout</button><button type="button" class="fit-toggle" data-fit-toggle aria-pressed="true">Fit whole diagram</button></div></div>
+<p class="pan-hint" data-fit-hint>Whole diagram fitted. For larger labels, turn off “Fit whole diagram” and pan, or open the full-size SVG.</p><div class="drawing-window" data-fit="true" style="--drawing-width:1539px" tabindex="0" role="region" aria-label="Midnight at the Diner architecture viewer"><img src="../entries/diner/rendered/diner.svg" width="1539" height="1170" alt="Midnight at the Diner: Store sync connector, Store identity API, Validate and deduplicate, Versioned stock journal, Nightly schedule, Reconcile and approve, Reconcile tasks A, Reconcile tasks B, Transactional stock DB, Supervisor sign-in, Approve supplier draft, Operator failure alert, Inventory backup vault. Relationships and limits are explained below." loading="eager"></div>
+<figcaption><a class="svg-download" href="../entries/diner/rendered/diner.svg" download="diner-diner.svg">Download SVG</a><a href="../entries/diner/rendered/diner.svg">Open full drawing ↗</a><a href="../entries/diner/rendered/native.svg">Open native render ↗</a></figcaption></figure>
+<aside class="authoring-prompt" id="prompt" aria-labelledby="prompt-title"><h2 id="prompt-title">Authoring prompt</h2><p class="process-description">The design brief for this example.</p><blockquote>Design a fictional multi-location inventory platform with authenticated cross-account store connectors, idempotent offline replay, a versioned stock journal, scheduled orchestration, private multi-AZ task capacity, transactional stock storage, authenticated supplier approval, failure notifications and a separate backup account.</blockquote><div class="prompt-actions"><a href="#source">Read the Mermaid source</a><a href="#evidence">Inspect measured evidence</a></div></aside></div>
+<div class="process-materials"><section id="source" class="source-panel" aria-labelledby="source-title"><div class="section-heading"><h2 id="source-title">Mermaid source</h2><a href="../entries/diner/source.mmd" download="diner.mmd">Download .mmd</a></div><p>Semantic content and gallery-only boundary/flow annotations stay in this file. The drawing treatment is applied after layout.</p><pre tabindex="0" aria-label="Midnight at the Diner Mermaid source"><code>architecture-beta
+%% Fictional multi-location stock workflow. Suppliers receive proposals only after a human approval.
+%% @boundary branches account
+%% @boundary branchRegion region
+%% @boundary production account
+%% @boundary primary region
+%% @boundary vpc vpc
+%% @boundary aza az
+%% @boundary azb az
+%% @boundary backups account
+%% @boundary backupRegion region
+group branches(cloud)[Account: Store integrations]
+group branchRegion(cloud)[Region: Primary] in branches
+group production(cloud)[Account: Inventory platform]
+group primary(cloud)[Region: Primary] in production
+group vpc(cloud)[VPC: Stock processing] in primary
+group aza(cloud)[AZ: A - private tasks] in vpc
+group azb(cloud)[AZ: B - private tasks] in vpc
+group backups(cloud)[Account: Recovery archive]
+group backupRegion(cloud)[Region: Backup destination] in backups
+service stores(aws:lambda)[Store sync connector] in branchRegion
+service api(aws:api-gateway)[Store identity API] in primary
+service ingest(aws:lambda)[Validate and deduplicate] in primary
+service journal(aws:dynamodb)[Versioned stock journal] in primary
+service schedule(aws:eventbridge)[Nightly schedule] in primary
+service flow(aws:step-functions)[Reconcile and approve] in primary
+service taskA(aws:fargate)[Reconcile tasks A] in aza
+service taskB(aws:fargate)[Reconcile tasks B] in azb
+service db(aws:aurora)[Transactional stock DB] in vpc
+service supervisor(aws:cognito)[Supervisor sign-in] in primary
+service review(aws:lambda)[Approve supplier draft] in primary
+service failures(aws:sns)[Operator failure alert] in primary
+service vault(aws:backup)[Inventory backup vault] in backupRegion
+%% @edge stores api identity | Store workload signs requests with its own IAM role; configured API resource policy limits integration accounts.
+stores:R --&gt; L:api
+%% @edge api ingest request | Connector includes store ID and monotonic event version; backend checks identity-to-store binding.
+api:R --&gt; L:ingest
+%% @edge ingest journal request | Conditional event-ID insertion and version checks tolerate offline replay without double counting.
+ingest:R --&gt; L:journal
+%% @edge schedule flow control | Scheduler starts a bounded execution, not an unbounded retry loop.
+schedule:L --&gt; B:flow
+%% @edge flow taskA control | Orchestrator starts reconciliation work with explicit retry and timeout policies.
+flow:R --&gt; L:taskA
+%% @edge flow taskB control | Alternative AZ placement is capacity, not a second execution of the same stock mutation.
+flow:B --&gt; L:taskB
+%% @edge taskA db request | Transactional stock updates; a VPC endpoint permits journal reads that are omitted from the drawing.
+taskA:R --&gt; L:db
+%% @edge taskB db request | Shared cluster enforces idempotent reconciliation checkpoints.
+taskB:R --&gt; B:db
+%% @edge supervisor review identity | Verified supervisor membership authorizes a supplier-proposal approval, not unrestricted inventory writes.
+supervisor:R --&gt; L:review
+%% @edge review flow control | Authenticated callback releases the approval step; supplier execution remains outside this view.
+review:R --&gt; L:flow
+%% @edge flow failures event | Catch path notifies an operator with execution ID and failed checkpoint.
+flow:T --&gt; L:failures
+%% @edge db vault recovery | Scheduled cross-account backup copy requires supported resources, backup roles and encryption permissions.
+db:R --&gt; L:vault
+</code></pre><p>Reproduce this collection from the Beautiflow repository:</p><pre tabindex="0"><code>bun scripts/build-boring-diagrams.ts</code></pre><div class="source-links"><a href="../entries/diner/scene.json">Positioned scene JSON</a><a href="../draw.js">Drawing program</a></div></section>
+<section id="evidence" class="evidence-panel" aria-labelledby="evidence-title"><div class="section-heading"><h2 id="evidence-title">Measured evidence</h2><a href="../entries/diner/evidence.json">Full evidence JSON</a></div><dl class="evidence-summary"><div><dt>Native geometry</dt><dd>0 findings across 8 measured checks</dd></div><div><dt>Styled render integrity</dt><dd>0 element, plain-label, ID or reference findings</dd></div><div><dt>Authored annotations</dt><dd>9 boundaries · 12 relationship meanings</dd></div><div><dt>AWS configuration</dt><dd>Not validated</dd></div></dl><p class="evidence-limits">These checks do not establish visual quality, every decorative mark, browser glyph ink, edge-label boxes or deployed AWS correctness. Architecture has guarded transforms, not automatic polish.</p><h3>Source SHA-256</h3><code class="source-hash">f34b572d66f750bbadeae56e9336a2bfe7ba6a0efd9cd0249a91d0a806223755</code><div class="source-links"><a href="../entries/diner/capabilities.json">Agent capabilities JSON</a><a href="../entries/diner/scene.json">Positioned scene JSON</a></div></section></div>
+
+<details class="relationships"><summary>Read all 12 relationships</summary><p>Line patterns distinguish requests, credentials, events, replication, configuration/control and recovery. Hover a styled connector for its meaning. Native layout preserves routes but does not include these gallery annotations.</p><div class="flow-scroll" tabindex="0" role="region" aria-label="Relationships for Midnight at the Diner"><table><caption>Authored flow meanings, not deployed AWS configuration evidence</caption><thead><tr><th scope="col">From</th><th scope="col">To</th><th scope="col">Kind</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td>Store sync connector</td><td>Store identity API</td><td>identity</td><td>Store workload signs requests with its own IAM role; configured API resource policy limits integration accounts.</td></tr><tr><td>Store identity API</td><td>Validate and deduplicate</td><td>request</td><td>Connector includes store ID and monotonic event version; backend checks identity-to-store binding.</td></tr><tr><td>Validate and deduplicate</td><td>Versioned stock journal</td><td>request</td><td>Conditional event-ID insertion and version checks tolerate offline replay without double counting.</td></tr><tr><td>Nightly schedule</td><td>Reconcile and approve</td><td>control</td><td>Scheduler starts a bounded execution, not an unbounded retry loop.</td></tr><tr><td>Reconcile and approve</td><td>Reconcile tasks A</td><td>control</td><td>Orchestrator starts reconciliation work with explicit retry and timeout policies.</td></tr><tr><td>Reconcile and approve</td><td>Reconcile tasks B</td><td>control</td><td>Alternative AZ placement is capacity, not a second execution of the same stock mutation.</td></tr><tr><td>Reconcile tasks A</td><td>Transactional stock DB</td><td>request</td><td>Transactional stock updates; a VPC endpoint permits journal reads that are omitted from the drawing.</td></tr><tr><td>Reconcile tasks B</td><td>Transactional stock DB</td><td>request</td><td>Shared cluster enforces idempotent reconciliation checkpoints.</td></tr><tr><td>Supervisor sign-in</td><td>Approve supplier draft</td><td>identity</td><td>Verified supervisor membership authorizes a supplier-proposal approval, not unrestricted inventory writes.</td></tr><tr><td>Approve supplier draft</td><td>Reconcile and approve</td><td>control</td><td>Authenticated callback releases the approval step; supplier execution remains outside this view.</td></tr><tr><td>Reconcile and approve</td><td>Operator failure alert</td><td>event</td><td>Catch path notifies an operator with execution ID and failed checkpoint.</td></tr><tr><td>Transactional stock DB</td><td>Inventory backup vault</td><td>recovery</td><td>Scheduled cross-account backup copy requires supported resources, backup roles and encryption permissions.</td></tr></tbody></table></div></details>
+<details class="architecture-notes"><summary>Architecture assumptions &amp; omissions</summary><ul><li>Store connectors sign API requests. Identity-to-store bindings, event IDs and monotonic source versions must be checked server-side; a store ID in JSON is not authority.</li><li>Fargate placements in AZ A/B are alternative execution capacity, not permission to execute each stock mutation twice. Reconciliation uses transactional checkpoints and bounded retries. Journal-read paths and VPC endpoints are omitted.</li><li>The supervisor callback releases a workflow approval step. Supplier ordering and payment are outside the view. Catch paths carry execution/checkpoint identifiers for recovery.</li><li>The Aurora icon is an aggregate cluster, not a single-instance HA claim. Cross-account backup needs supported resources, organization configuration, copy roles, KMS permissions, retention and tested restoration.</li></ul></details>
+<nav class="end-navigation" aria-label="Continue exploring"><a href="../#collection">Back to the collection</a><a rel="next" href="../rail/">Next: The Last Train Home ↗</a></nav></article></main><footer><a href="../">Boring AWS Diagrams</a><p>Less box dragging. More interesting systems.</p><a href="https://github.com/mpuig/beautiflow">Source on GitHub ↗</a></footer><p id="drawing-status" class="sr-only" aria-live="polite"></p></body></html>

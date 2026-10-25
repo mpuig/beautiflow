@@ -80,7 +80,7 @@ describe('developer landing page', () => {
     expect(landing).toContain('href="examples.html"')
     expect(landing).not.toContain('<section class="examples"')
     expect(html.match(/<h1\b/g)?.length).toBe(1)
-    expect(html).toContain('Portable diagrams. Verified outcomes.')
+    expect(html).toContain('Architecture examples and references.')
     expect(paths.length).toBeGreaterThanOrEqual(6)
     for (const path of paths) expect(existsSync(resolve(root, path))).toBe(true)
   })
@@ -100,7 +100,7 @@ describe('developer landing page', () => {
       expect([...gallery!.querySelectorAll('.nav-links a')].map((link) => link.textContent)).toEqual([...home!.querySelectorAll('.nav-links a')].map((link) => link.textContent))
       expect(gallery!.querySelector('[aria-current="page"]')?.getAttribute('href')).toBe('examples.html')
       expect(gallery!.querySelector('header .button')?.getAttribute('href')).toBe('index.html#start')
-      expect(gallery!.querySelectorAll('.example-row')).toHaveLength(4)
+      expect(gallery!.querySelectorAll('.example-row')).toHaveLength(8)
       for (const row of gallery!.querySelectorAll('.example-row')) {
         expect(row.querySelector('.showcase .diagram-caption a')?.getAttribute('href')).toBe(row.querySelector('.art')?.getAttribute('href'))
         expect(row.querySelector('.artifact-links')).not.toBeNull()
@@ -108,6 +108,32 @@ describe('developer landing page', () => {
     } finally {
       for (const page of pages) page.window.close()
     }
+  })
+
+  test('makes all four AWS reference reconstructions discoverable on the Examples page', async () => {
+    const dom = new JSDOM(await readFile(resolve(root, 'examples.html'), 'utf8'))
+    try {
+      const document = dom.window.document
+      expect(document.querySelector('.hero-actions a[href="#aws-references"]')).not.toBeNull()
+      expect(document.querySelector('#aws-references')).not.toBeNull()
+      const rows = [...document.querySelectorAll('.aws-reference')]
+      expect(rows).toHaveLength(4)
+      const catalogue = JSON.parse(await readFile(resolve(root, 'examples/recipes/aws-reference-architectures/references.json'), 'utf8'))
+      for (const [index, entry] of catalogue.references.entries()) {
+        const row = rows[index]!
+        expect(row.querySelector(`a[href="${entry.url}"]`)).not.toBeNull()
+        for (const path of [`sources/${entry.id}.mmd`, `rendered/${entry.id}.svg`, `rendered/${entry.id}.png`, `evidence/${entry.id}.json`]) {
+          const href = `examples/recipes/aws-reference-architectures/${path}`
+          expect(row.querySelector(`a[href="${href}"]`)).not.toBeNull()
+          expect(existsSync(resolve(root, href))).toBe(true)
+        }
+        expect(row.querySelector('img')!.getAttribute('alt')!.length).toBeGreaterThan(50)
+      }
+      expect(rows[1]!.textContent).toContain('Partial topology:')
+      expect(rows[0]!.textContent).toContain('shared-route findings remain')
+      expect(rows[2]!.textContent).toContain('not a chain of HTTP proxies')
+      expect(rows[3]!.textContent).toContain('No database replication')
+    } finally { dom.window.close() }
   })
 
   test('generates a source-synchronized HTML diagram gallery with user-facing type names', async () => {
@@ -197,7 +223,7 @@ describe('developer landing page', () => {
       await Bun.write(resolve(directory, 'examples/removed-example.html'), 'obsolete generated content')
       await buildSite(directory)
       expect((await siteResponse(new Request('http://localhost/examples/removed-example.html'), directory)).status).toBe(404)
-      const links = new Set<string>(['/', '/examples.html', '/examples/recipes/visual-quality/', '/site.css', '/docs/docs.css', '/docs/docs.js'])
+      const links = new Set<string>(['/', '/examples.html', '/examples/recipes/visual-quality/', '/boring-diagrams/', '/dont-break-the-diagram/', '/dont-break-the-diagram/recording/recording.json', '/site.css', '/docs/docs.css', '/docs/docs.js'])
       for (const file of ['index.html', 'examples.html']) {
         const html = await readFile(resolve(directory, file), 'utf8')
         for (const match of html.matchAll(/href="(\/docs\/[^"#]*)"/g)) links.add(match[1]!)
@@ -221,9 +247,27 @@ describe('developer landing page', () => {
           expect((await siteResponse(new Request(url), directory)).status).toBe(200)
         }
       } finally { dom.window.close() }
+      const catalogue = JSON.parse(await readFile(resolve(directory, 'boring-diagrams/catalogue.json'), 'utf8'))
+      expect(catalogue).toHaveLength(10)
+      for (const entry of catalogue) {
+        const pageUrl = `http://localhost/boring-diagrams/${entry.id}/`
+        const response = await siteResponse(new Request(pageUrl), directory)
+        expect(response.status).toBe(200)
+        const page = new JSDOM(await response.text())
+        try {
+          expect(page.window.document.querySelector('.drawing-window')!.getAttribute('data-fit')).toBe('true')
+          for (const element of page.window.document.querySelectorAll('[href], img[src], script[src]')) {
+            const href = element.getAttribute('href') ?? element.getAttribute('src')!
+            const url = new URL(href, pageUrl)
+            if (url.origin !== 'http://localhost') continue
+            expect((await siteResponse(new Request(url), directory)).status).toBe(200)
+          }
+        } finally { page.window.close() }
+      }
+      expect((await siteResponse(new Request('http://localhost/boring-diagrams/aurora'), directory)).status).toBe(308)
       for (const page of ['docs/index.html', 'docs/rendering/index.html']) {
         const html = await readFile(resolve(directory, page), 'utf8')
-        expect(html).toContain('href="/examples/recipes/diagram-types/"')
+        expect(html).toContain('href="/docs/diagram-types/"')
         expect(html).toContain('href="/examples.html"')
       }
       expect((await siteResponse(new Request('http://localhost/docs'), directory)).status).toBe(308)

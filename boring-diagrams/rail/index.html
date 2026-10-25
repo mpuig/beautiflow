@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Last Train Home — Boring AWS Diagrams</title><meta name="description" content="What must a station do after losing its region and every open connection?">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../site.css">
+<link rel="preload" href="../fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script type="module" src="../app.js"></script></head><body><a class="skip-link" href="#diagram">Skip to the diagram</a>
+<header class="masthead"><a class="wordmark" href="../" aria-label="Boring AWS Diagrams home">B/AWS</a><nav aria-label="Main"><a href="../#collection">Collection</a><a href="../#method">Our drawing process</a><a href="../../">Beautiflow ↗</a></nav></header>
+<main class="diagram-page"><nav class="page-navigation" aria-label="Collection navigation"><a href="../#collection">Back to all ten diagrams</a><div><a rel="prev" href="../diner/">Previous diagram</a><a rel="next" href="../mixtape/">Next diagram</a></div></nav>
+<article class="exhibit" id="rail" data-style="transit" data-base="../entries/rail">
+<div class="exhibit-heading"><h1>The Last Train Home</h1><p class="treatment">High-contrast wayfinding</p></div><p class="story">The operational feed has its own account. Passenger regions maintain local projections and broadcasters. Reconnection includes authentication and a snapshot, not just a new socket.</p>
+<nav class="process-navigation" aria-label="Explore the authoring process"><a href="#prompt"><strong>Authoring prompt</strong><span>The brief that shaped this view</span></a><a href="#source"><strong>Mermaid source</strong><span>13 services · 14 relationships</span></a><a href="#evidence"><strong>Measured evidence</strong><span>Geometry, integrity &amp; limits</span></a></nav>
+<div class="diagram-workspace"><figure id="diagram"><div class="drawing-tools"><p>What must a station do after losing its region and every open connection?</p><div class="view-controls" hidden><button type="button" data-view="art" aria-pressed="true">Drawing</button><button type="button" data-view="native" aria-pressed="false">Native layout</button><button type="button" class="fit-toggle" data-fit-toggle aria-pressed="true">Fit whole diagram</button></div></div>
+<p class="pan-hint" data-fit-hint>Whole diagram fitted. For larger labels, turn off “Fit whole diagram” and pan, or open the full-size SVG.</p><div class="drawing-window" data-fit="true" style="--drawing-width:1358px" tabindex="0" role="region" aria-label="The Last Train Home architecture viewer"><img src="../entries/rail/rendered/transit.svg" width="1358" height="946" alt="The Last Train Home: Authorized departure feed, Passenger event ingress, Ordered departure stream, Versioned state reducer, Current departures, Primary broadcaster, Primary WebSocket API, Snapshot HTTP API, Regional departure replica, Regional broadcaster, Regional WebSocket API, Station identity, Authenticated displays. Relationships and limits are explained below." loading="eager"></div>
+<figcaption><a class="svg-download" href="../entries/rail/rendered/transit.svg" download="rail-transit.svg">Download SVG</a><a href="../entries/rail/rendered/transit.svg">Open full drawing ↗</a><a href="../entries/rail/rendered/native.svg">Open native render ↗</a></figcaption></figure>
+<aside class="authoring-prompt" id="prompt" aria-labelledby="prompt-title"><h2 id="prompt-title">Authoring prompt</h2><p class="process-description">The design brief for this example.</p><blockquote>Design a fictional multi-region passenger-information service with an authorized cross-account feed, ordered ingestion, version-aware primary projection, asynchronous regional replica, independent regional broadcasters/WebSocket APIs, station identity and explicit snapshot recovery. Never imply that an existing WebSocket moves between regions or that this controls trains.</blockquote><div class="prompt-actions"><a href="#source">Read the Mermaid source</a><a href="#evidence">Inspect measured evidence</a></div></aside></div>
+<div class="process-materials"><section id="source" class="source-panel" aria-labelledby="source-title"><div class="section-heading"><h2 id="source-title">Mermaid source</h2><a href="../entries/rail/source.mmd" download="rail.mmd">Download .mmd</a></div><p>Semantic content and gallery-only boundary/flow annotations stay in this file. The drawing treatment is applied after layout.</p><pre tabindex="0" aria-label="The Last Train Home Mermaid source"><code>architecture-beta
+%% Fictional passenger information, never train control. Regions serve local projections of an authoritative timetable feed.
+%% @boundary operations account
+%% @boundary sourceRegion region
+%% @boundary public account
+%% @boundary primary region
+%% @boundary secondary region
+group operations(cloud)[Account: Rail operations]
+group sourceRegion(cloud)[Region: Feed authority] in operations
+group public(cloud)[Account: Passenger service]
+group primary(cloud)[Region: Primary service] in public
+group secondary(cloud)[Region: Regional replica] in public
+service source(aws:eventbridge)[Authorized departure feed] in sourceRegion
+service bus(aws:eventbridge)[Passenger event ingress] in primary
+service stream(aws:kinesis)[Ordered departure stream] in primary
+service reducer(aws:lambda)[Versioned state reducer] in primary
+service state(aws:dynamodb)[Current departures] in primary
+service broadcast(aws:lambda)[Primary broadcaster] in primary
+service socket(aws:api-gateway)[Primary WebSocket API] in primary
+service snapshot(aws:api-gateway)[Snapshot HTTP API] in primary
+service replica(aws:dynamodb)[Regional departure replica] in secondary
+service broadcastB(aws:lambda)[Regional broadcaster] in secondary
+service socketB(aws:api-gateway)[Regional WebSocket API] in secondary
+service auth(aws:cognito)[Station identity] in primary
+service boards(lucide:monitor)[Authenticated displays]
+%% @edge source bus event | Cross-account bus policy and forwarding role allow only the operational event source.
+source:R --&gt; L:bus
+%% @edge bus stream event | Partition by train or station according to ordering requirements; fan-in is not a global event order.
+bus:B --&gt; T:stream
+%% @edge stream reducer event | Consumer deduplicates and rejects stale authoritative versions.
+stream:R --&gt; L:reducer
+%% @edge reducer state request | Primary region is the only projection writer; records include source version and update time.
+reducer:R --&gt; L:state
+%% @edge state broadcast event | DynamoDB Streams invokes the broadcaster; retries may deliver duplicate changes.
+state:R --&gt; L:broadcast
+%% @edge broadcast socket request | Calls management API for registered connection IDs; regional connection store is omitted.
+broadcast:R --&gt; L:socket
+%% @edge socket boards event | Pushes updates over an authenticated connection; disconnected displays can miss deltas.
+socket:B --&gt; L:boards
+%% @edge state replica replication | Asynchronous global-table replication; the regional replica is not the timetable authority.
+state:B --&gt; L:replica
+%% @edge replica broadcastB event | Regional stream drives local notifications after replicated writes arrive.
+replica:R --&gt; L:broadcastB
+%% @edge broadcastB socketB request | Uses the local connection registry and local API management endpoint.
+broadcastB:R --&gt; L:socketB
+%% @edge socketB boards recovery | After regional outage the client explicitly reconnects, reauthenticates and fetches a snapshot; existing sockets do not move.
+socketB:R --&gt; B:boards
+%% @edge auth boards identity | Station identity tokens must be validated at connection and snapshot endpoints.
+auth:R --&gt; T:boards
+%% @edge boards snapshot recovery | Client fetches full current state and a version watermark on connect/reconnect.
+boards:B --&gt; T:snapshot
+%% @edge snapshot state request | Snapshot backend reads current state; an API integration Lambda and secondary snapshot endpoint are omitted.
+snapshot:R --&gt; T:state
+</code></pre><p>Reproduce this collection from the Beautiflow repository:</p><pre tabindex="0"><code>bun scripts/build-boring-diagrams.ts</code></pre><div class="source-links"><a href="../entries/rail/scene.json">Positioned scene JSON</a><a href="../draw.js">Drawing program</a></div></section>
+<section id="evidence" class="evidence-panel" aria-labelledby="evidence-title"><div class="section-heading"><h2 id="evidence-title">Measured evidence</h2><a href="../entries/rail/evidence.json">Full evidence JSON</a></div><dl class="evidence-summary"><div><dt>Native geometry</dt><dd>0 findings across 8 measured checks</dd></div><div><dt>Styled render integrity</dt><dd>0 element, plain-label, ID or reference findings</dd></div><div><dt>Authored annotations</dt><dd>5 boundaries · 14 relationship meanings</dd></div><div><dt>AWS configuration</dt><dd>Not validated</dd></div></dl><p class="evidence-limits">These checks do not establish visual quality, every decorative mark, browser glyph ink, edge-label boxes or deployed AWS correctness. Architecture has guarded transforms, not automatic polish.</p><h3>Source SHA-256</h3><code class="source-hash">6b68974ffb83ef6c7cf481f77b099cc300a417a3e91058db40b37488fbf65d90</code><div class="source-links"><a href="../entries/rail/capabilities.json">Agent capabilities JSON</a><a href="../entries/rail/scene.json">Positioned scene JSON</a></div></section></div>
+
+<details class="relationships"><summary>Read all 14 relationships</summary><p>Line patterns distinguish requests, credentials, events, replication, configuration/control and recovery. Hover a styled connector for its meaning. Native layout preserves routes but does not include these gallery annotations.</p><div class="flow-scroll" tabindex="0" role="region" aria-label="Relationships for The Last Train Home"><table><caption>Authored flow meanings, not deployed AWS configuration evidence</caption><thead><tr><th scope="col">From</th><th scope="col">To</th><th scope="col">Kind</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td>Authorized departure feed</td><td>Passenger event ingress</td><td>event</td><td>Cross-account bus policy and forwarding role allow only the operational event source.</td></tr><tr><td>Passenger event ingress</td><td>Ordered departure stream</td><td>event</td><td>Partition by train or station according to ordering requirements; fan-in is not a global event order.</td></tr><tr><td>Ordered departure stream</td><td>Versioned state reducer</td><td>event</td><td>Consumer deduplicates and rejects stale authoritative versions.</td></tr><tr><td>Versioned state reducer</td><td>Current departures</td><td>request</td><td>Primary region is the only projection writer; records include source version and update time.</td></tr><tr><td>Current departures</td><td>Primary broadcaster</td><td>event</td><td>DynamoDB Streams invokes the broadcaster; retries may deliver duplicate changes.</td></tr><tr><td>Primary broadcaster</td><td>Primary WebSocket API</td><td>request</td><td>Calls management API for registered connection IDs; regional connection store is omitted.</td></tr><tr><td>Primary WebSocket API</td><td>Authenticated displays</td><td>event</td><td>Pushes updates over an authenticated connection; disconnected displays can miss deltas.</td></tr><tr><td>Current departures</td><td>Regional departure replica</td><td>replication</td><td>Asynchronous global-table replication; the regional replica is not the timetable authority.</td></tr><tr><td>Regional departure replica</td><td>Regional broadcaster</td><td>event</td><td>Regional stream drives local notifications after replicated writes arrive.</td></tr><tr><td>Regional broadcaster</td><td>Regional WebSocket API</td><td>request</td><td>Uses the local connection registry and local API management endpoint.</td></tr><tr><td>Regional WebSocket API</td><td>Authenticated displays</td><td>recovery</td><td>After regional outage the client explicitly reconnects, reauthenticates and fetches a snapshot; existing sockets do not move.</td></tr><tr><td>Station identity</td><td>Authenticated displays</td><td>identity</td><td>Station identity tokens must be validated at connection and snapshot endpoints.</td></tr><tr><td>Authenticated displays</td><td>Snapshot HTTP API</td><td>recovery</td><td>Client fetches full current state and a version watermark on connect/reconnect.</td></tr><tr><td>Snapshot HTTP API</td><td>Current departures</td><td>request</td><td>Snapshot backend reads current state; an API integration Lambda and secondary snapshot endpoint are omitted.</td></tr></tbody></table></div></details>
+<details class="architecture-notes"><summary>Architecture assumptions &amp; omissions</summary><ul><li>The operational event version is authoritative. The primary reducer rejects stale versions and duplicate events. A replicated passenger projection is not the source timetable and must not become a competing authoritative writer.</li><li>DynamoDB replication is asynchronous. Regional broadcasters consume their local streams and use local connection registries. The assumed compatible global-table/stream configuration and regional resource policies require deployment validation.</li><li>Stations reauthenticate, fetch current state plus a version watermark, then reconcile deltas after reconnect. A WebSocket CONNECT authorizer and snapshot backend enforce identity; neither is fully expanded.</li><li>The secondary snapshot endpoint, regional connection registries, routing/health checks and source-feed disaster recovery are omitted. The shown primary snapshot path alone is not a complete regional failover implementation. Passenger information only: no signalling or train control.</li></ul></details>
+<nav class="end-navigation" aria-label="Continue exploring"><a href="../#collection">Back to the collection</a><a rel="next" href="../mixtape/">Next: The Mixtape Archive ↗</a></nav></article></main><footer><a href="../">Boring AWS Diagrams</a><p>Less box dragging. More interesting systems.</p><a href="https://github.com/mpuig/beautiflow">Source on GitHub ↗</a></footer><p id="drawing-status" class="sr-only" aria-live="polite"></p></body></html>

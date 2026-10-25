@@ -1,0 +1,295 @@
+{
+  "engine": "Beautiflow architecture pipeline: Pele + local positioned-geometry extension",
+  "sourceHash": "2bcfb2407e0a03ff4998d429a5aaa4d03b713f79fff9a6fa299d7cd67e89952b",
+  "scope": "Geometry audit of the native layout; each styled drawing additionally checks elements, plain service labels, IDs, and SVG references. Decorative ink and cloud-provider semantics are not measured.",
+  "annotations": {
+    "coverage": "authored-annotations-and-containment-only",
+    "boundaries": 8,
+    "relationships": 10,
+    "configurationValidated": false
+  },
+  "structure": {
+    "family": "architecture",
+    "score": 100,
+    "nodes": [
+      {
+        "id": "auth",
+        "type": "service",
+        "icon": "aws:cognito",
+        "title": "Artist identity",
+        "in": "ingestRegion"
+      },
+      {
+        "id": "broker",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Scoped upload broker",
+        "in": "ingestRegion"
+      },
+      {
+        "id": "masters",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Quarantined masters",
+        "in": "ingestRegion"
+      },
+      {
+        "id": "submit",
+        "type": "service",
+        "icon": "aws:step-functions",
+        "title": "Authorized job workflow",
+        "in": "processingRegion"
+      },
+      {
+        "id": "encode",
+        "type": "service",
+        "icon": "lucide:audio-lines",
+        "title": "MediaConvert jobs",
+        "in": "processingRegion"
+      },
+      {
+        "id": "staged",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Unpublished renditions",
+        "in": "processingRegion"
+      },
+      {
+        "id": "approve",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Rights and release gate",
+        "in": "publishRegion"
+      },
+      {
+        "id": "published",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Approved playback files",
+        "in": "publishRegion"
+      },
+      {
+        "id": "catalogue",
+        "type": "service",
+        "icon": "aws:dynamodb",
+        "title": "Published catalogue",
+        "in": "publishRegion"
+      },
+      {
+        "id": "cdn",
+        "type": "service",
+        "icon": "aws:cloudfront",
+        "title": "Signed CloudFront playback",
+        "in": "publishAccount"
+      },
+      {
+        "id": "archive",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Versioned master replica",
+        "in": "archiveRegion"
+      }
+    ],
+    "groups": [
+      {
+        "id": "ingestion",
+        "icon": "cloud",
+        "title": "Account: Artist ingestion"
+      },
+      {
+        "id": "ingestRegion",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "ingestion"
+      },
+      {
+        "id": "processing",
+        "icon": "cloud",
+        "title": "Account: Audio processing"
+      },
+      {
+        "id": "processingRegion",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "processing"
+      },
+      {
+        "id": "publishAccount",
+        "icon": "cloud",
+        "title": "Account: Publication"
+      },
+      {
+        "id": "publishRegion",
+        "icon": "cloud",
+        "title": "Region: Primary",
+        "in": "publishAccount"
+      },
+      {
+        "id": "archiveAccount",
+        "icon": "cloud",
+        "title": "Account: Master archive"
+      },
+      {
+        "id": "archiveRegion",
+        "icon": "cloud",
+        "title": "Region: Recovery",
+        "in": "archiveAccount"
+      }
+    ],
+    "edges": [
+      {
+        "lhsId": "auth",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "broker",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "broker",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "masters",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "masters",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "submit",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "submit",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "encode",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "encode",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "staged",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "staged",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "approve",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "approve",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "published",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "approve",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "catalogue",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "cdn",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "published",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "masters",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "archive",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      }
+    ],
+    "alignmentHints": [],
+    "metrics": {
+      "services": 11,
+      "junctions": 0,
+      "groups": 8,
+      "relationships": 10,
+      "components": 1,
+      "isolatedServices": 0,
+      "maxDepth": 2
+    },
+    "issues": [],
+    "limitations": [
+      "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+    ]
+  },
+  "audit": {
+    "score": 100,
+    "coverage": "pele-positioned-geometry",
+    "metrics": {
+      "detachedEndpoints": 0,
+      "portViolations": 0,
+      "nodeOverlaps": 0,
+      "labelCollisions": 0,
+      "edgeNodeIntersections": 0,
+      "headerCrossings": 0,
+      "excessiveBends": 0,
+      "sharedSegments": 0
+    },
+    "integrity": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 29,
+      "labelsChecked": 11,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    },
+    "issues": [],
+    "limitations": [
+      "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+      "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+    ]
+  },
+  "styledIntegrity": {
+    "zine": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 29,
+      "labelsChecked": 11,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    }
+  }
+}

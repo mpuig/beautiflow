@@ -1,0 +1,51 @@
+architecture-beta
+%% Illustrative flash-sale design. Only the primary region accepts inventory-changing commands.
+%% @boundary prod account
+%% @boundary primary region
+%% @boundary projections logical
+%% @boundary recovery region
+%% @boundary security account
+%% @boundary auditRegion region
+group prod(cloud)[Account: Ticket production]
+group primary(cloud)[Region: Authoritative sales] in prod
+group projections(cloud)[Logical: Async consumers] in primary
+group recovery(cloud)[Region: Read-only recovery] in prod
+group security(cloud)[Account: Security]
+group auditRegion(cloud)[Region: Audit archive] in security
+service edge(aws:cloudfront)[Protected ticket site] in prod
+service waf(aws:waf)[Edge WAF policy] in prod
+service auth(aws:cognito)[Ticket buyer sign-in] in primary
+service api(aws:api-gateway)[JWT ticket API] in primary
+service reserve(aws:lambda)[Reserve capacity] in primary
+service sales(aws:dynamodb)[Reservations and outbox] in primary
+service pipe(aws:eventbridge)[Streams to event bus] in primary
+service bus(aws:eventbridge)[Committed purchases] in primary
+service door(aws:lambda)[Door-list projector] in projections
+service mail(aws:sqs)[Ticket delivery queue] in projections
+service failed(aws:sqs)[Failed ticket delivery] in projections
+service replica(aws:dynamodb)[Read-only sales replica] in recovery
+service audit(aws:s3)[Protected audit archive] in auditRegion
+%% @edge waf edge control | WAF web ACL is associated with the distribution; not an extra request proxy hop.
+waf:R --> L:edge
+%% @edge edge auth identity | Browser starts user-pool login; identity data is not cached as site content.
+edge:R --> L:auth
+%% @edge auth api identity | Browser presents scoped access token; authorizer verifies issuer and audience.
+auth:R --> L:api
+%% @edge api reserve request | Authenticated booking command; server validates event, buyer and purchase limits.
+api:R --> L:reserve
+%% @edge reserve sales request | Transactional conditional capacity update and outbox record; application expiry, not TTL deletion, releases holds.
+reserve:R --> L:sales
+%% @edge sales pipe event | DynamoDB Streams feed a configured EventBridge Pipe with duplicate-tolerant processing.
+sales:T --> B:pipe
+%% @edge pipe bus event | Filter committed purchases; do not independently dual-write from reservation code.
+pipe:R --> L:bus
+%% @edge bus door event | Door-list projection can lag and must deduplicate event versions.
+bus:R --> L:door
+%% @edge bus mail event | Independent delivery queue decouples email work from the reservation transaction.
+bus:T --> B:mail
+%% @edge mail failed event | Configured SQS redrive after failed consumer attempts; mail worker is omitted from this projection view.
+mail:R --> L:failed
+%% @edge sales replica replication | Asynchronous global-table replica is read-only by application policy; no active-active capacity allocation.
+sales:B --> L:replica
+%% @edge reserve audit control | Audit pipeline records sensitive booking actions in a separate account; transport and KMS policies require implementation.
+reserve:T --> L:audit

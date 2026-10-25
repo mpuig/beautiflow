@@ -1,0 +1,109 @@
+architecture-beta
+accTitle: Account and security strategy for a serverless data platform - AWS reference reconstruction
+accDescr: Eleven AWS account roles from the AWS reference, including management, security, network, production analytics, ML sandbox, audit, dashboards, DevOps, analytics sandbox, ingestion and shared services. Account inventories without reference arrows are not wired with invented runtime dependencies.
+%% Source: https://docs.aws.amazon.com/reference-architecture-diagrams/latest/account-security-data-platform/account-security-data-platform.html
+%% Labels modernize Master to Management, AWS SSO to IAM Identity Center and Elasticsearch to OpenSearch.
+group aws(cloud)[AWS Cloud]
+group management(cloud)[1 - Management account] in aws
+group security(cloud)[2 - Security account] in aws
+group network(cloud)[3 - Network account] in aws
+group ml(cloud)[4 - ML Sandbox account] in aws
+group audit(cloud)[5 - Logs and Audit account] in aws
+group dashboards(cloud)[6 - Dashboards account] in aws
+group devops(cloud)[7 - DevOps tools account] in aws
+group sandbox(cloud)[8 - Analytics Sandbox account] in aws
+group production(cloud)[9 - Analytics Production account] in aws
+group ingestion(cloud)[10 - Ingestion account] in aws
+group shared(cloud)[11 - Shared Services account] in aws
+group records(server)[Systems of record]
+group processing(server)[Step Functions - operations data processing] in ingestion
+group modelOps(server)[SageMaker deployment and monitoring] in production
+service sourceBatch(server)[Airline systems - batch] in records
+service sourceEvents(server)[Airline systems - events] in records
+service controlTower(lucide:landmark)[AWS Control Tower] in management
+service organizations(lucide:building-2)[AWS Organizations] in management
+service iam(aws:iam)[AWS IAM] in management
+service identityVendor(lucide:key-round)[Third party identity tools] in security
+service logsSecurity(aws:cloudwatch)[CloudWatch Logs] in security
+service hub(lucide:shield-check)[AWS Security Hub] in security
+service casb(lucide:shield)[Third party CASB tools] in security
+service kms(aws:kms)[AWS KMS] in security
+service guard(lucide:scan-eye)[Amazon GuardDuty] in security
+service trail(aws:cloudtrail)[AWS CloudTrail] in security
+service macie(lucide:file-search)[Amazon Macie] in security
+service vpn(aws:vpn)[VPC VPN connection] in network
+service transit(lucide:network)[AWS Transit Gateway] in network
+service direct(lucide:cable)[AWS Direct Connect] in network
+service notebooks(aws:sagemaker)[Studio notebooks] in ml
+service debugger(aws:sagemaker)[SageMaker Debugger] in ml
+service training(aws:sagemaker)[SageMaker Train and Tune] in ml
+service checking(aws:sagemaker)[SageMaker Processing] in ml
+service ground(aws:sagemaker)[SageMaker Ground Truth] in ml
+service backups(aws:s3)[Backups bucket] in audit
+service logs(aws:s3)[Logs bucket] in audit
+service quick(aws:quicksight)[QuickSight dashboards] in dashboards
+service biTools(lucide:chart-no-axes-combined)[Third party dashboard tools] in dashboards
+service deploy(aws:codedeploy)[CodeDeploy] in devops
+service build(aws:codebuild)[CodeBuild] in devops
+service commit(aws:codecommit)[CodeCommit] in devops
+service pipeline(aws:codepipeline)[CodePipeline] in devops
+service sandboxRedshift(aws:redshift)[Redshift sandbox] in sandbox
+service sandboxEmr(lucide:server)[EMR sandbox] in sandbox
+service sandboxAthena(aws:athena)[Athena sandbox] in sandbox
+service raw(aws:s3)[Raw sandbox bucket] in sandbox
+service modelBucket(aws:s3)[Model sandbox bucket] in sandbox
+service reports(aws:s3)[Reports sandbox bucket] in sandbox
+service dns(aws:route53)[Route 53 DNS] in shared
+service directory(lucide:contact)[AWS Directory Service] in shared
+service sharedTools(lucide:wrench)[Third party shared tools] in shared
+service sso(lucide:key-round)[IAM Identity Center] in shared
+service transfer(lucide:upload)[AWS Transfer - SFTP] in ingestion
+service streams(aws:kinesis)[Kinesis Data Streams] in ingestion
+service firehose(lucide:workflow)[Data Firehose] in ingestion
+service workflow(aws:step-functions)[Operations data processing] in processing
+service lambda1(aws:lambda)[Processing Lambda 1] in processing
+service lambda2(aws:lambda)[Processing Lambda 2] in processing
+service api(aws:api-gateway)[API Gateway - API management] in production
+service ecs(aws:ecs)[Amazon ECS] in production
+service dynamo(aws:dynamodb)[API data - DynamoDB] in production
+service prediction(aws:sagemaker)[Prediction model] in modelOps
+service deployment(aws:sagemaker)[Deploy and management] in modelOps
+service monitoring(aws:sagemaker)[Model Monitor] in modelOps
+service formation(aws:lake-formation)[Lake Formation] in production
+service catalogue(aws:glue)[Glue Data Catalog] in production
+service glue(aws:glue)[AWS Glue] in production
+service emr(lucide:server)[Amazon EMR] in production
+service athena(aws:athena)[Amazon Athena] in production
+service redshift(aws:redshift)[Redshift Spectrum] in production
+service search(aws:open-search)[OpenSearch real time reports] in production
+service batch(aws:s3)[Batch staging datasets] in production
+service realtime(aws:s3)[Real time staging datasets] in production
+service parquet(aws:s3)[Parquet datasets] in production
+service reportable(aws:s3)[Reportable datasets] in production
+%% The original has no arrows wiring management/security/network/shared inventories to every account.
+sourceBatch:B --> B:transfer
+sourceEvents:R --> L:streams
+transfer:T --> B:batch
+streams:R --> B:firehose
+firehose:B --> T:realtime
+streams:T --> L:workflow
+workflow:R --> B:realtime
+workflow:B --> B:search
+%% Lambda inventory is retained without inventing a sequential workflow interior.
+%% Shared lake bus lines are ambiguous at the source raster resolution and omitted here.
+api:B <--> T:ecs
+ecs:B <--> T:dynamo
+prediction:L --> R:ecs
+deployment:L --> R:prediction
+monitoring:L --> R:deployment
+emr:T --> B:dynamo
+athena:T <--> B:deployment
+quick:L --> R:redshift
+biTools:B --> B:redshift
+debugger:R --> L:training
+ground:L --> R:checking
+checking:L --> R:training
+training:B --> T:deployment
+%% The original shows a broad lake/analytics connection to Backups, not a Model Monitor-to-Logs edge.
+%% No invented inter-account log-shipping or DevOps deployment arrows are added.
+%% Dataset names and interpretation of broad lines are recorded in the companion guide.

@@ -47,9 +47,16 @@ https://github.com/lucide-icons/lucide
 
 ## jsdom (development only)
 
-JSDOM is used for test assertions and is not included in the standalone executable. Licensed under MIT.
+JSDOM is used for test assertions and build-time SVG extraction in the experimental AWS microsite. It is not included in the standalone executable or the browser drawing program. Licensed under MIT.
 
 https://github.com/jsdom/jsdom
+
+## Microsite fonts (website only)
+
+The Boring AWS Diagrams microsite self-hosts Archivo Black and Public Sans under the SIL Open Font License 1.1. Their licences and source URLs are included in `boring-diagrams/fonts/`. These website assets are not embedded in the standalone CLI.
+
+https://github.com/google/fonts/tree/main/ofl/archivoblack
+https://github.com/google/fonts/tree/main/ofl/publicsans
 
 ## ELK / elkjs
 

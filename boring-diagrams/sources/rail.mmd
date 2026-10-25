@@ -1,0 +1,53 @@
+architecture-beta
+%% Fictional passenger information, never train control. Regions serve local projections of an authoritative timetable feed.
+%% @boundary operations account
+%% @boundary sourceRegion region
+%% @boundary public account
+%% @boundary primary region
+%% @boundary secondary region
+group operations(cloud)[Account: Rail operations]
+group sourceRegion(cloud)[Region: Feed authority] in operations
+group public(cloud)[Account: Passenger service]
+group primary(cloud)[Region: Primary service] in public
+group secondary(cloud)[Region: Regional replica] in public
+service source(aws:eventbridge)[Authorized departure feed] in sourceRegion
+service bus(aws:eventbridge)[Passenger event ingress] in primary
+service stream(aws:kinesis)[Ordered departure stream] in primary
+service reducer(aws:lambda)[Versioned state reducer] in primary
+service state(aws:dynamodb)[Current departures] in primary
+service broadcast(aws:lambda)[Primary broadcaster] in primary
+service socket(aws:api-gateway)[Primary WebSocket API] in primary
+service snapshot(aws:api-gateway)[Snapshot HTTP API] in primary
+service replica(aws:dynamodb)[Regional departure replica] in secondary
+service broadcastB(aws:lambda)[Regional broadcaster] in secondary
+service socketB(aws:api-gateway)[Regional WebSocket API] in secondary
+service auth(aws:cognito)[Station identity] in primary
+service boards(lucide:monitor)[Authenticated displays]
+%% @edge source bus event | Cross-account bus policy and forwarding role allow only the operational event source.
+source:R --> L:bus
+%% @edge bus stream event | Partition by train or station according to ordering requirements; fan-in is not a global event order.
+bus:B --> T:stream
+%% @edge stream reducer event | Consumer deduplicates and rejects stale authoritative versions.
+stream:R --> L:reducer
+%% @edge reducer state request | Primary region is the only projection writer; records include source version and update time.
+reducer:R --> L:state
+%% @edge state broadcast event | DynamoDB Streams invokes the broadcaster; retries may deliver duplicate changes.
+state:R --> L:broadcast
+%% @edge broadcast socket request | Calls management API for registered connection IDs; regional connection store is omitted.
+broadcast:R --> L:socket
+%% @edge socket boards event | Pushes updates over an authenticated connection; disconnected displays can miss deltas.
+socket:B --> L:boards
+%% @edge state replica replication | Asynchronous global-table replication; the regional replica is not the timetable authority.
+state:B --> L:replica
+%% @edge replica broadcastB event | Regional stream drives local notifications after replicated writes arrive.
+replica:R --> L:broadcastB
+%% @edge broadcastB socketB request | Uses the local connection registry and local API management endpoint.
+broadcastB:R --> L:socketB
+%% @edge socketB boards recovery | After regional outage the client explicitly reconnects, reauthenticates and fetches a snapshot; existing sockets do not move.
+socketB:R --> B:boards
+%% @edge auth boards identity | Station identity tokens must be validated at connection and snapshot endpoints.
+auth:R --> T:boards
+%% @edge boards snapshot recovery | Client fetches full current state and a version watermark on connect/reconnect.
+boards:B --> T:snapshot
+%% @edge snapshot state request | Snapshot backend reads current state; an API integration Lambda and secondary snapshot endpoint are omitted.
+snapshot:R --> T:state

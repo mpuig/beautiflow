@@ -1,0 +1,319 @@
+{
+  "engine": "Beautiflow architecture pipeline: Pele + local positioned-geometry extension",
+  "sourceHash": "3d0dc22e540c66daf688205e91b6f5076bdf8c1b123cabe57af292b0ea780d04",
+  "scope": "Geometry audit of the native layout; each styled drawing additionally checks elements, plain service labels, IDs, and SVG references. Decorative ink and cloud-provider semantics are not measured.",
+  "annotations": {
+    "coverage": "authored-annotations-and-containment-only",
+    "boundaries": 6,
+    "relationships": 12,
+    "configurationValidated": false
+  },
+  "structure": {
+    "family": "architecture",
+    "score": 100,
+    "nodes": [
+      {
+        "id": "edge",
+        "type": "service",
+        "icon": "aws:cloudfront",
+        "title": "Protected ticket site",
+        "in": "prod"
+      },
+      {
+        "id": "waf",
+        "type": "service",
+        "icon": "aws:waf",
+        "title": "Edge WAF policy",
+        "in": "prod"
+      },
+      {
+        "id": "auth",
+        "type": "service",
+        "icon": "aws:cognito",
+        "title": "Ticket buyer sign-in",
+        "in": "primary"
+      },
+      {
+        "id": "api",
+        "type": "service",
+        "icon": "aws:api-gateway",
+        "title": "JWT ticket API",
+        "in": "primary"
+      },
+      {
+        "id": "reserve",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Reserve capacity",
+        "in": "primary"
+      },
+      {
+        "id": "sales",
+        "type": "service",
+        "icon": "aws:dynamodb",
+        "title": "Reservations and outbox",
+        "in": "primary"
+      },
+      {
+        "id": "pipe",
+        "type": "service",
+        "icon": "aws:eventbridge",
+        "title": "Streams to event bus",
+        "in": "primary"
+      },
+      {
+        "id": "bus",
+        "type": "service",
+        "icon": "aws:eventbridge",
+        "title": "Committed purchases",
+        "in": "primary"
+      },
+      {
+        "id": "door",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Door-list projector",
+        "in": "projections"
+      },
+      {
+        "id": "mail",
+        "type": "service",
+        "icon": "aws:sqs",
+        "title": "Ticket delivery queue",
+        "in": "projections"
+      },
+      {
+        "id": "failed",
+        "type": "service",
+        "icon": "aws:sqs",
+        "title": "Failed ticket delivery",
+        "in": "projections"
+      },
+      {
+        "id": "replica",
+        "type": "service",
+        "icon": "aws:dynamodb",
+        "title": "Read-only sales replica",
+        "in": "recovery"
+      },
+      {
+        "id": "audit",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Protected audit archive",
+        "in": "auditRegion"
+      }
+    ],
+    "groups": [
+      {
+        "id": "prod",
+        "icon": "cloud",
+        "title": "Account: Ticket production"
+      },
+      {
+        "id": "primary",
+        "icon": "cloud",
+        "title": "Region: Authoritative sales",
+        "in": "prod"
+      },
+      {
+        "id": "projections",
+        "icon": "cloud",
+        "title": "Logical: Async consumers",
+        "in": "primary"
+      },
+      {
+        "id": "recovery",
+        "icon": "cloud",
+        "title": "Region: Read-only recovery",
+        "in": "prod"
+      },
+      {
+        "id": "security",
+        "icon": "cloud",
+        "title": "Account: Security"
+      },
+      {
+        "id": "auditRegion",
+        "icon": "cloud",
+        "title": "Region: Audit archive",
+        "in": "security"
+      }
+    ],
+    "edges": [
+      {
+        "lhsId": "waf",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "edge",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "edge",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "auth",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "auth",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "api",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "api",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "reserve",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "reserve",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "sales",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "sales",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "pipe",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "pipe",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "bus",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "bus",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "door",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "bus",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "mail",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "mail",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "failed",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "sales",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "replica",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "reserve",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "audit",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      }
+    ],
+    "alignmentHints": [],
+    "metrics": {
+      "services": 13,
+      "junctions": 0,
+      "groups": 6,
+      "relationships": 12,
+      "components": 1,
+      "isolatedServices": 0,
+      "maxDepth": 3
+    },
+    "issues": [],
+    "limitations": [
+      "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+    ]
+  },
+  "audit": {
+    "score": 100,
+    "coverage": "pele-positioned-geometry",
+    "metrics": {
+      "detachedEndpoints": 0,
+      "portViolations": 0,
+      "nodeOverlaps": 0,
+      "labelCollisions": 0,
+      "edgeNodeIntersections": 0,
+      "headerCrossings": 0,
+      "excessiveBends": 0,
+      "sharedSegments": 0
+    },
+    "integrity": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 31,
+      "labelsChecked": 13,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    },
+    "issues": [],
+    "limitations": [
+      "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+      "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+    ]
+  },
+  "styledIntegrity": {
+    "disco": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 31,
+      "labelsChecked": 13,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    }
+  }
+}

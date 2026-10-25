@@ -1,0 +1,1177 @@
+{
+  "family": "architecture",
+  "title": "The Last Train Home",
+  "description": "The operational event version is authoritative. The primary reducer rejects stale versions and duplicate events. A replicated passenger projection is not the source timetable and must not become a competing authoritative writer. DynamoDB replication is asynchronous. Regional broadcasters consume their local streams and use local connection registries. The assumed compatible global-table/stream configuration and regional resource policies require deployment validation. Stations reauthenticate, fetch current state plus a version watermark, then reconcile deltas after reconnect. A WebSocket CONNECT authorizer and snapshot backend enforce identity; neither is fully expanded. The secondary snapshot endpoint, regional connection registries, routing/health checks and source-feed disaster recovery are omitted. The shown primary snapshot path alone is not a complete regional failover implementation. Passenger information only: no signalling or train control.",
+  "sourceHash": "6b68974ffb83ef6c7cf481f77b099cc300a417a3e91058db40b37488fbf65d90",
+  "width": 1294,
+  "height": 762,
+  "geometry": {
+    "services": [
+      {
+        "id": "source",
+        "icon": {
+          "x": 69,
+          "y": 72,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 40.968,
+          "y": 124,
+          "width": 104.064,
+          "height": 42
+        }
+      },
+      {
+        "id": "bus",
+        "icon": {
+          "x": 357,
+          "y": 72,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 333.424,
+          "y": 124,
+          "width": 95.152,
+          "height": 42
+        }
+      },
+      {
+        "id": "stream",
+        "icon": {
+          "x": 357,
+          "y": 246,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 346.76,
+          "y": 298,
+          "width": 68.48,
+          "height": 63
+        }
+      },
+      {
+        "id": "reducer",
+        "icon": {
+          "x": 497,
+          "y": 246,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 474.312,
+          "y": 298,
+          "width": 93.376,
+          "height": 42
+        }
+      },
+      {
+        "id": "state",
+        "icon": {
+          "x": 623,
+          "y": 246,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 608.76,
+          "y": 298,
+          "width": 76.48,
+          "height": 42
+        }
+      },
+      {
+        "id": "broadcast",
+        "icon": {
+          "x": 765,
+          "y": 246,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 746.76,
+          "y": 298,
+          "width": 84.48,
+          "height": 42
+        }
+      },
+      {
+        "id": "socket",
+        "icon": {
+          "x": 891,
+          "y": 246,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 874.096,
+          "y": 298,
+          "width": 81.808,
+          "height": 63
+        }
+      },
+      {
+        "id": "snapshot",
+        "icon": {
+          "x": 497,
+          "y": 72,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 484.992,
+          "y": 124,
+          "width": 72.016,
+          "height": 42
+        }
+      },
+      {
+        "id": "replica",
+        "icon": {
+          "x": 765,
+          "y": 591,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 754.76,
+          "y": 643,
+          "width": 68.48,
+          "height": 63
+        }
+      },
+      {
+        "id": "broadcastB",
+        "icon": {
+          "x": 891,
+          "y": 591,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 872.76,
+          "y": 643,
+          "width": 84.48,
+          "height": 42
+        }
+      },
+      {
+        "id": "socketB",
+        "icon": {
+          "x": 1035,
+          "y": 591,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 1018.096,
+          "y": 643,
+          "width": 81.808,
+          "height": 63
+        }
+      },
+      {
+        "id": "auth",
+        "icon": {
+          "x": 357,
+          "y": 401,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 328.528,
+          "y": 453,
+          "width": 104.944,
+          "height": 24
+        }
+      },
+      {
+        "id": "boards",
+        "icon": {
+          "x": 1205,
+          "y": 401,
+          "width": 48,
+          "height": 48
+        },
+        "label": {
+          "x": 1180.08,
+          "y": 453,
+          "width": 97.84,
+          "height": 42
+        }
+      }
+    ],
+    "routes": [
+      {
+        "source": "source",
+        "target": "bus",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 117,
+          "y": 96
+        },
+        "targetAnchor": {
+          "x": 357,
+          "y": 96
+        },
+        "points": [
+          {
+            "x": 117,
+            "y": 96
+          },
+          {
+            "x": 357,
+            "y": 96
+          }
+        ]
+      },
+      {
+        "source": "bus",
+        "target": "stream",
+        "sourcePort": "B",
+        "targetPort": "T",
+        "sourceAnchor": {
+          "x": 381,
+          "y": 168
+        },
+        "targetAnchor": {
+          "x": 381,
+          "y": 246
+        },
+        "points": [
+          {
+            "x": 381,
+            "y": 168
+          },
+          {
+            "x": 381,
+            "y": 246
+          }
+        ]
+      },
+      {
+        "source": "stream",
+        "target": "reducer",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 405,
+          "y": 270
+        },
+        "targetAnchor": {
+          "x": 497,
+          "y": 270
+        },
+        "points": [
+          {
+            "x": 405,
+            "y": 270
+          },
+          {
+            "x": 497,
+            "y": 270
+          }
+        ]
+      },
+      {
+        "source": "reducer",
+        "target": "state",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 545,
+          "y": 270
+        },
+        "targetAnchor": {
+          "x": 623,
+          "y": 270
+        },
+        "points": [
+          {
+            "x": 545,
+            "y": 270
+          },
+          {
+            "x": 623,
+            "y": 270
+          }
+        ]
+      },
+      {
+        "source": "state",
+        "target": "broadcast",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 671,
+          "y": 270
+        },
+        "targetAnchor": {
+          "x": 765,
+          "y": 270
+        },
+        "points": [
+          {
+            "x": 671,
+            "y": 270
+          },
+          {
+            "x": 765,
+            "y": 270
+          }
+        ]
+      },
+      {
+        "source": "broadcast",
+        "target": "socket",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 813,
+          "y": 270
+        },
+        "targetAnchor": {
+          "x": 891,
+          "y": 270
+        },
+        "points": [
+          {
+            "x": 813,
+            "y": 270
+          },
+          {
+            "x": 891,
+            "y": 270
+          }
+        ]
+      },
+      {
+        "source": "socket",
+        "target": "boards",
+        "sourcePort": "B",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 915,
+          "y": 363
+        },
+        "targetAnchor": {
+          "x": 1205,
+          "y": 425
+        },
+        "points": [
+          {
+            "x": 915,
+            "y": 363
+          },
+          {
+            "x": 915,
+            "y": 425
+          },
+          {
+            "x": 1205,
+            "y": 425
+          }
+        ]
+      },
+      {
+        "source": "state",
+        "target": "replica",
+        "sourcePort": "B",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 647,
+          "y": 342
+        },
+        "targetAnchor": {
+          "x": 765,
+          "y": 615
+        },
+        "points": [
+          {
+            "x": 647,
+            "y": 342
+          },
+          {
+            "x": 647,
+            "y": 615
+          },
+          {
+            "x": 765,
+            "y": 615
+          }
+        ]
+      },
+      {
+        "source": "replica",
+        "target": "broadcastB",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 813,
+          "y": 615
+        },
+        "targetAnchor": {
+          "x": 891,
+          "y": 615
+        },
+        "points": [
+          {
+            "x": 813,
+            "y": 615
+          },
+          {
+            "x": 891,
+            "y": 615
+          }
+        ]
+      },
+      {
+        "source": "broadcastB",
+        "target": "socketB",
+        "sourcePort": "R",
+        "targetPort": "L",
+        "sourceAnchor": {
+          "x": 939,
+          "y": 615
+        },
+        "targetAnchor": {
+          "x": 1035,
+          "y": 615
+        },
+        "points": [
+          {
+            "x": 939,
+            "y": 615
+          },
+          {
+            "x": 1035,
+            "y": 615
+          }
+        ]
+      },
+      {
+        "source": "socketB",
+        "target": "boards",
+        "sourcePort": "R",
+        "targetPort": "B",
+        "sourceAnchor": {
+          "x": 1083,
+          "y": 615
+        },
+        "targetAnchor": {
+          "x": 1229,
+          "y": 497
+        },
+        "points": [
+          {
+            "x": 1083,
+            "y": 615
+          },
+          {
+            "x": 1229,
+            "y": 615
+          },
+          {
+            "x": 1229,
+            "y": 497
+          }
+        ]
+      },
+      {
+        "source": "auth",
+        "target": "boards",
+        "sourcePort": "R",
+        "targetPort": "T",
+        "sourceAnchor": {
+          "x": 405,
+          "y": 425
+        },
+        "targetAnchor": {
+          "x": 1229,
+          "y": 401
+        },
+        "points": [
+          {
+            "x": 405,
+            "y": 425
+          },
+          {
+            "x": 417,
+            "y": 425
+          },
+          {
+            "x": 417,
+            "y": 389
+          },
+          {
+            "x": 1229,
+            "y": 389
+          },
+          {
+            "x": 1229,
+            "y": 401
+          }
+        ]
+      },
+      {
+        "source": "boards",
+        "target": "snapshot",
+        "sourcePort": "B",
+        "targetPort": "T",
+        "sourceAnchor": {
+          "x": 1229,
+          "y": 497
+        },
+        "targetAnchor": {
+          "x": 521,
+          "y": 72
+        },
+        "points": [
+          {
+            "x": 1229,
+            "y": 497
+          },
+          {
+            "x": 1229,
+            "y": 509
+          },
+          {
+            "x": 869,
+            "y": 509
+          },
+          {
+            "x": 869,
+            "y": 60
+          },
+          {
+            "x": 521,
+            "y": 60
+          },
+          {
+            "x": 521,
+            "y": 72
+          }
+        ]
+      },
+      {
+        "source": "snapshot",
+        "target": "state",
+        "sourcePort": "R",
+        "targetPort": "T",
+        "sourceAnchor": {
+          "x": 545,
+          "y": 96
+        },
+        "targetAnchor": {
+          "x": 647,
+          "y": 246
+        },
+        "points": [
+          {
+            "x": 545,
+            "y": 96
+          },
+          {
+            "x": 647,
+            "y": 96
+          },
+          {
+            "x": 647,
+            "y": 246
+          }
+        ]
+      }
+    ],
+    "headers": [
+      {
+        "x": 10,
+        "y": 6,
+        "width": 199.408,
+        "height": 24
+      },
+      {
+        "x": 30,
+        "y": 42,
+        "width": 187.856,
+        "height": 24
+      },
+      {
+        "x": 298,
+        "y": 6,
+        "width": 224.304,
+        "height": 24
+      },
+      {
+        "x": 318,
+        "y": 42,
+        "width": 195.808,
+        "height": 24
+      },
+      {
+        "x": 736,
+        "y": 561,
+        "width": 200.288,
+        "height": 24
+      }
+    ],
+    "offset": {
+      "x": 8,
+      "y": 8
+    }
+  },
+  "nodes": [
+    {
+      "id": "source",
+      "label": "Authorized departure feed",
+      "icon": "aws:eventbridge",
+      "parent": "sourceRegion",
+      "transform": "translate(93,72)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:eventbridge\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-6809cc56ccf0-6-SVGyDrnJbhE\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#b0084d\"/><stop offset=\"100%\" stop-color=\"#ff4f8b\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-6809cc56ccf0-6-SVGyDrnJbhE)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M171.702 211.2c-6.858 0-12.44-5.61-12.44-12.509s5.582-12.509 12.44-12.509s12.438 5.61 12.438 12.51c0 6.898-5.581 12.508-12.438 12.508m-27.278-54.4h-33.071L94.815 128l16.538-28.8h33.071L160.96 128zM88.387 69.818c-6.857 0-12.438-5.61-12.438-12.51c0-6.898 5.581-12.508 12.438-12.508c6.861 0 12.443 5.61 12.443 12.509s-5.582 12.509-12.443 12.509m83.315 109.964c-2.362 0-4.614.458-6.699 1.261l-13.514-22.931l-.713.426L167.39 129.6a3.23 3.23 0 0 0 0-3.2l-18.374-32a3.18 3.18 0 0 0-2.755-1.6h-33.435l.13-.077l-12.39-21.03c4.047-3.469 6.628-8.627 6.628-14.384c0-10.426-8.436-18.909-18.807-18.909c-10.367 0-18.803 8.483-18.803 18.909s8.436 18.909 18.803 18.909c2.365 0 4.618-.458 6.702-1.261l11.567 19.625L88.384 126.4a3.23 3.23 0 0 0 0 3.2l18.377 32c.57.992 1.62 1.6 2.756 1.6h36.744c.264 0 .521-.042.77-.102l12.496 21.21c-4.051 3.468-6.629 8.626-6.629 14.383c0 10.426 8.433 18.909 18.804 18.909s18.803-8.483 18.803-18.909s-8.433-18.909-18.803-18.909m18.968-77.05c-6.857 0-12.436-5.609-12.436-12.508c0-6.9 5.579-12.509 12.436-12.509s12.44 5.61 12.44 12.509c0 6.9-5.582 12.509-12.44 12.509m23.303 23.668l-12.08-21.04c4.592-3.453 7.58-8.944 7.58-15.136c0-10.426-8.432-18.909-18.803-18.909c-2.638 0-5.152.554-7.433 1.549l-9.849-17.155a3.18 3.18 0 0 0-2.756-1.6h-39.448v6.4h37.612l9.11 15.872c-3.703 3.456-6.036 8.374-6.036 13.843c0 10.426 8.433 18.909 18.8 18.909c1.932 0 3.8-.298 5.556-.845L207.545 128l-15.892 27.674l5.512 3.2l16.808-29.274a3.21 3.21 0 0 0 0-3.2m-146.04 50.39c-6.86 0-12.442-5.612-12.442-12.508c0-6.9 5.581-12.51 12.442-12.51c6.857 0 12.439 5.61 12.439 12.51c0 6.896-5.582 12.508-12.44 12.508m10.393 3.236c5.062-3.392 8.41-9.181 8.41-15.744c0-10.426-8.436-18.91-18.803-18.91c-3.004 0-5.833.73-8.353 1.994L48.458 128l18.428-32.093l-5.515-3.2L42.027 126.4a3.21 3.21 0 0 0 0 3.2l12.388 21.568c-3.268 3.405-5.289 8.022-5.289 13.114c0 10.425 8.436 18.908 18.807 18.908c1.562 0 3.074-.214 4.528-.579l10.15 17.68c.57.989 1.62 1.6 2.757 1.6h39.451v-6.4H87.204z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Authorized</tspan><tspan x=\"0\" y=\"89.1\">departure feed</tspan></text>"
+    },
+    {
+      "id": "bus",
+      "label": "Passenger event ingress",
+      "icon": "aws:eventbridge",
+      "parent": "primary",
+      "transform": "translate(381,72)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:eventbridge\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-6809cc56ccf0-7-SVGyDrnJbhE\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#b0084d\"/><stop offset=\"100%\" stop-color=\"#ff4f8b\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-6809cc56ccf0-7-SVGyDrnJbhE)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M171.702 211.2c-6.858 0-12.44-5.61-12.44-12.509s5.582-12.509 12.44-12.509s12.438 5.61 12.438 12.51c0 6.898-5.581 12.508-12.438 12.508m-27.278-54.4h-33.071L94.815 128l16.538-28.8h33.071L160.96 128zM88.387 69.818c-6.857 0-12.438-5.61-12.438-12.51c0-6.898 5.581-12.508 12.438-12.508c6.861 0 12.443 5.61 12.443 12.509s-5.582 12.509-12.443 12.509m83.315 109.964c-2.362 0-4.614.458-6.699 1.261l-13.514-22.931l-.713.426L167.39 129.6a3.23 3.23 0 0 0 0-3.2l-18.374-32a3.18 3.18 0 0 0-2.755-1.6h-33.435l.13-.077l-12.39-21.03c4.047-3.469 6.628-8.627 6.628-14.384c0-10.426-8.436-18.909-18.807-18.909c-10.367 0-18.803 8.483-18.803 18.909s8.436 18.909 18.803 18.909c2.365 0 4.618-.458 6.702-1.261l11.567 19.625L88.384 126.4a3.23 3.23 0 0 0 0 3.2l18.377 32c.57.992 1.62 1.6 2.756 1.6h36.744c.264 0 .521-.042.77-.102l12.496 21.21c-4.051 3.468-6.629 8.626-6.629 14.383c0 10.426 8.433 18.909 18.804 18.909s18.803-8.483 18.803-18.909s-8.433-18.909-18.803-18.909m18.968-77.05c-6.857 0-12.436-5.609-12.436-12.508c0-6.9 5.579-12.509 12.436-12.509s12.44 5.61 12.44 12.509c0 6.9-5.582 12.509-12.44 12.509m23.303 23.668l-12.08-21.04c4.592-3.453 7.58-8.944 7.58-15.136c0-10.426-8.432-18.909-18.803-18.909c-2.638 0-5.152.554-7.433 1.549l-9.849-17.155a3.18 3.18 0 0 0-2.756-1.6h-39.448v6.4h37.612l9.11 15.872c-3.703 3.456-6.036 8.374-6.036 13.843c0 10.426 8.433 18.909 18.8 18.909c1.932 0 3.8-.298 5.556-.845L207.545 128l-15.892 27.674l5.512 3.2l16.808-29.274a3.21 3.21 0 0 0 0-3.2m-146.04 50.39c-6.86 0-12.442-5.612-12.442-12.508c0-6.9 5.581-12.51 12.442-12.51c6.857 0 12.439 5.61 12.439 12.51c0 6.896-5.582 12.508-12.44 12.508m10.393 3.236c5.062-3.392 8.41-9.181 8.41-15.744c0-10.426-8.436-18.91-18.803-18.91c-3.004 0-5.833.73-8.353 1.994L48.458 128l18.428-32.093l-5.515-3.2L42.027 126.4a3.21 3.21 0 0 0 0 3.2l12.388 21.568c-3.268 3.405-5.289 8.022-5.289 13.114c0 10.425 8.436 18.908 18.807 18.908c1.562 0 3.074-.214 4.528-.579l10.15 17.68c.57.989 1.62 1.6 2.757 1.6h39.451v-6.4H87.204z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Passenger</tspan><tspan x=\"0\" y=\"89.1\">event ingress</tspan></text>"
+    },
+    {
+      "id": "stream",
+      "label": "Ordered departure stream",
+      "icon": "aws:kinesis",
+      "parent": "primary",
+      "transform": "translate(381,246)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:kinesis\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-eca43732d66d-8-SVGusebDeuy\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#4d27a8\"/><stop offset=\"100%\" stop-color=\"#a166ff\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-eca43732d66d-8-SVGusebDeuy)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M60.8 198.4h6.4c0-26.9 17.488-54.4 147.2-54.4v-6.4c-135.35 0-153.6 30.733-153.6 60.8M80 217.6h6.4c0-24.211 0-60.8 128-60.8v-6.4c-58.678 0-96.87 7.549-116.768 23.078C80 187.238 80 204.788 80 217.6M48 83.2h-6.4c0 23.667 32.125 38.656 95.658 44.8c-63.533 6.144-95.658 21.133-95.658 44.8H48c0-15.536 21.62-41.6 166.4-41.6v-6.4C69.62 124.8 48 98.736 48 83.2m19.2-25.6h-6.4c0 30.067 18.25 60.8 153.6 60.8V112C84.688 112 67.2 84.5 67.2 57.6m147.2 41.6v6.4c-58.678 0-96.87-7.549-116.768-23.078C80 68.762 80 51.212 80 38.4h6.4c0 24.211 0 60.8 128 60.8\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Ordered</tspan><tspan x=\"0\" y=\"89.1\">departure</tspan><tspan x=\"0\" y=\"110.1\">stream</tspan></text>"
+    },
+    {
+      "id": "reducer",
+      "label": "Versioned state reducer",
+      "icon": "aws:lambda",
+      "parent": "primary",
+      "transform": "translate(521,246)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:lambda\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-3621c043acaa-9-SVGeyciVcvH\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#c8511b\"/><stop offset=\"100%\" stop-color=\"#f90\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-3621c043acaa-9-SVGeyciVcvH)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M89.624 211.2H49.89l43.945-91.853l19.912 40.992zm7.079-100.63a3.22 3.22 0 0 0-2.887-1.805h-.01a3.2 3.2 0 0 0-2.886 1.82L41.913 213.022a3.203 3.203 0 0 0 2.893 4.58l46.848-.001a3.21 3.21 0 0 0 2.9-1.83l25.65-54.08a3.18 3.18 0 0 0-.016-2.762zM207.985 211.2h-39.477L105.174 78.624a3.21 3.21 0 0 0-2.897-1.824h-25.83l.03-32h50.626l63.042 132.573a3.21 3.21 0 0 0 2.897 1.827h14.943zm3.208-38.4h-16.121L132.03 40.227a3.21 3.21 0 0 0-2.9-1.827H73.273a3.206 3.206 0 0 0-3.208 3.197l-.035 38.4c0 .851.333 1.664.94 2.265c.6.602 1.414.938 2.267.938h27.017l63.337 132.576a3.2 3.2 0 0 0 2.893 1.824h44.709a3.203 3.203 0 0 0 3.207-3.2V176c0-1.766-1.434-3.2-3.207-3.2\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Versioned</tspan><tspan x=\"0\" y=\"89.1\">state reducer</tspan></text>"
+    },
+    {
+      "id": "state",
+      "label": "Current departures",
+      "icon": "aws:dynamodb",
+      "parent": "primary",
+      "transform": "translate(647,246)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:dynamodb\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-bf36248ccf12-10-SVGte2wIbLN\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#2e27ad\"/><stop offset=\"100%\" stop-color=\"#527fff\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-bf36248ccf12-10-SVGte2wIbLN)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M166.675 175.52c-10.682 8.637-33.091 13.2-54.534 13.2c-21.447 0-43.863-4.566-54.541-13.202v17.392h.003c0 8.675 22.397 18.342 54.538 18.342c32.115 0 54.499-9.655 54.534-18.323zm.003-33.049l6.4-.035v.035c0 3.866-1.936 7.475-5.705 10.779c4.57 4.021 5.705 7.966 5.705 10.775c0 .02-.003.035-.003.054v28.831h.003c0 16.035-31.398 24.69-60.937 24.69c-29.469 0-60.781-8.617-60.931-24.578c0-.016-.01-.032-.01-.048v-28.958c0-.007.006-.016.006-.026c.01-2.809 1.15-6.738 5.712-10.75c-4.534-4.005-5.686-7.912-5.715-10.699h.003c0-.013-.006-.022-.006-.035v-28.958c0-.01.006-.02.006-.029c.01-2.809 1.152-6.738 5.716-10.743c-4.538-4.009-5.69-7.92-5.719-10.703h.003c0-.012-.006-.025-.006-.038V63.08c0-.01.006-.019.006-.029C51.261 47.04 82.624 38.4 112.141 38.4c16.675 0 32.694 2.65 43.948 7.271l-2.448 5.866c-10.505-4.314-25.632-6.79-41.5-6.79c-32.141 0-54.538 9.668-54.538 18.349c0 8.677 22.397 18.345 54.538 18.345c.867.01 1.715 0 2.573-.032l.268 6.342c-.947.038-1.894.038-2.841.038c-21.447 0-43.863-4.568-54.541-13.204V91.97h.003v.073c.032 3.329 3.447 6.236 6.307 8.083c8.608 5.488 24.032 9.236 41.232 10.014l-.29 6.341c-17.425-.79-32.682-4.405-42.503-9.946c-2.42 1.809-4.746 4.256-4.746 7.03c0 8.677 22.397 18.345 54.538 18.345c3.152 0 6.281-.105 9.305-.315l.445 6.332c-3.168.22-6.451.33-9.75.33c-21.447 0-43.863-4.567-54.541-13.203v17.383h.003c.032 3.403 3.447 6.307 6.307 8.157c9.844 6.281 28.327 10.192 48.23 10.192h1.409v6.347h-1.408c-20.221 0-38.599-3.754-49.837-10.099c-2.406 1.806-4.7 4.24-4.7 6.992c0 8.677 22.396 18.348 54.537 18.348c32.115 0 54.499-9.655 54.534-18.326v-.035c-.006-2.758-2.31-5.192-4.723-6.998a45 45 0 0 1-5.14 2.523l-2.45-5.865c2.323-.955 4.339-1.987 5.993-3.072c2.886-1.883 6.323-4.825 6.323-8.129m27.411-46.418h-17.932c-1.06 0-2.055-.52-2.647-1.39a3.14 3.14 0 0 1-.33-2.951l10.91-27.27h-41.31l-19.2 38.086h20.423c1.02 0 1.98.486 2.586 1.301c.598.82.774 1.87.464 2.838l-18.228 56.818zm9.821-.974l-79.996 82.648a3.22 3.22 0 0 1-2.31.974a3.2 3.2 0 0 1-1.636-.444a3.16 3.16 0 0 1-1.414-3.692l21.075-65.69h-21.226a3.21 3.21 0 0 1-2.723-1.504a3.15 3.15 0 0 1-.138-3.088l22.4-44.434a3.2 3.2 0 0 1 2.861-1.755h48a3.21 3.21 0 0 1 2.646 1.39a3.15 3.15 0 0 1 .33 2.955L180.87 89.706h20.73c1.28 0 2.441.761 2.944 1.93a3.16 3.16 0 0 1-.634 3.443M62.256 194.158c4.534 2.555 10.243 4.703 16.966 6.38l1.562-6.158c-6.077-1.514-11.389-3.5-15.366-5.742zm16.966-44.403l1.562-6.154c-6.077-1.517-11.389-3.504-15.366-5.745l-3.162 5.52c4.534 2.555 10.24 4.704 16.966 6.38M62.256 92.594l3.162-5.52c3.97 2.241 9.286 4.225 15.366 5.745l-1.562 6.154c-6.732-1.679-12.438-3.827-16.966-6.38\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Current</tspan><tspan x=\"0\" y=\"89.1\">departures</tspan></text>"
+    },
+    {
+      "id": "broadcast",
+      "label": "Primary broadcaster",
+      "icon": "aws:lambda",
+      "parent": "primary",
+      "transform": "translate(789,246)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:lambda\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-3621c043acaa-11-SVGeyciVcvH\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#c8511b\"/><stop offset=\"100%\" stop-color=\"#f90\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-3621c043acaa-11-SVGeyciVcvH)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M89.624 211.2H49.89l43.945-91.853l19.912 40.992zm7.079-100.63a3.22 3.22 0 0 0-2.887-1.805h-.01a3.2 3.2 0 0 0-2.886 1.82L41.913 213.022a3.203 3.203 0 0 0 2.893 4.58l46.848-.001a3.21 3.21 0 0 0 2.9-1.83l25.65-54.08a3.18 3.18 0 0 0-.016-2.762zM207.985 211.2h-39.477L105.174 78.624a3.21 3.21 0 0 0-2.897-1.824h-25.83l.03-32h50.626l63.042 132.573a3.21 3.21 0 0 0 2.897 1.827h14.943zm3.208-38.4h-16.121L132.03 40.227a3.21 3.21 0 0 0-2.9-1.827H73.273a3.206 3.206 0 0 0-3.208 3.197l-.035 38.4c0 .851.333 1.664.94 2.265c.6.602 1.414.938 2.267.938h27.017l63.337 132.576a3.2 3.2 0 0 0 2.893 1.824h44.709a3.203 3.203 0 0 0 3.207-3.2V176c0-1.766-1.434-3.2-3.207-3.2\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Primary</tspan><tspan x=\"0\" y=\"89.1\">broadcaster</tspan></text>"
+    },
+    {
+      "id": "socket",
+      "label": "Primary WebSocket API",
+      "icon": "aws:api-gateway",
+      "parent": "primary",
+      "transform": "translate(915,246)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:api-gateway\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-a3df41a88d39-12-SVGyDrnJbhE\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#b0084d\"/><stop offset=\"100%\" stop-color=\"#ff4f8b\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-a3df41a88d39-12-SVGyDrnJbhE)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M109.008 178.024h9.392v-6.455h-9.392zm15.792 0h9.6v-6.455h-9.6zM86.4 46.814L44.8 67.463v128.356l41.6 14.068zm6.4 40.845v83.91h9.6v6.455h-9.6v36.349a3.24 3.24 0 0 1-1.331 2.62a3.18 3.18 0 0 1-2.887.44l-48-16.23a3.23 3.23 0 0 1-2.182-3.06V65.452c0-1.226.694-2.353 1.789-2.895l48-23.824a3.16 3.16 0 0 1 3.1.155a3.23 3.23 0 0 1 1.511 2.74v39.576h9.6v6.455zm48 90.365h9.6v-6.455h-9.6zm.208-90.365h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zM211.2 67.463l-41.6-20.649v163.073l41.6-14.068zm6.4 130.68a3.23 3.23 0 0 1-2.182 3.06l-48 16.23a3.17 3.17 0 0 1-2.887-.44a3.24 3.24 0 0 1-1.331-2.62v-36.35h-6.192v-6.454h6.192v-83.91h-6.192v-6.455h6.192V41.628c0-1.117.573-2.153 1.51-2.74a3.16 3.16 0 0 1 3.101-.155l48 23.824a3.23 3.23 0 0 1 1.789 2.895zm-80.211-89.962l-5.978-2.317l-16 41.955l5.978 2.317zm21.673 20.487a3.243 3.243 0 0 0 0-4.563l-12.8-12.91l-4.524 4.564l10.537 10.628l-10.537 10.627l4.524 4.564zm-49.324 12.91l-12.8-12.91a3.243 3.243 0 0 1 0-4.563l12.8-12.91l4.524 4.564l-10.537 10.628l10.537 10.627z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Primary</tspan><tspan x=\"0\" y=\"89.1\">WebSocket</tspan><tspan x=\"0\" y=\"110.1\">API</tspan></text>"
+    },
+    {
+      "id": "snapshot",
+      "label": "Snapshot HTTP API",
+      "icon": "aws:api-gateway",
+      "parent": "primary",
+      "transform": "translate(521,72)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:api-gateway\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-a3df41a88d39-13-SVGyDrnJbhE\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#b0084d\"/><stop offset=\"100%\" stop-color=\"#ff4f8b\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-a3df41a88d39-13-SVGyDrnJbhE)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M109.008 178.024h9.392v-6.455h-9.392zm15.792 0h9.6v-6.455h-9.6zM86.4 46.814L44.8 67.463v128.356l41.6 14.068zm6.4 40.845v83.91h9.6v6.455h-9.6v36.349a3.24 3.24 0 0 1-1.331 2.62a3.18 3.18 0 0 1-2.887.44l-48-16.23a3.23 3.23 0 0 1-2.182-3.06V65.452c0-1.226.694-2.353 1.789-2.895l48-23.824a3.16 3.16 0 0 1 3.1.155a3.23 3.23 0 0 1 1.511 2.74v39.576h9.6v6.455zm48 90.365h9.6v-6.455h-9.6zm.208-90.365h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zM211.2 67.463l-41.6-20.649v163.073l41.6-14.068zm6.4 130.68a3.23 3.23 0 0 1-2.182 3.06l-48 16.23a3.17 3.17 0 0 1-2.887-.44a3.24 3.24 0 0 1-1.331-2.62v-36.35h-6.192v-6.454h6.192v-83.91h-6.192v-6.455h6.192V41.628c0-1.117.573-2.153 1.51-2.74a3.16 3.16 0 0 1 3.101-.155l48 23.824a3.23 3.23 0 0 1 1.789 2.895zm-80.211-89.962l-5.978-2.317l-16 41.955l5.978 2.317zm21.673 20.487a3.243 3.243 0 0 0 0-4.563l-12.8-12.91l-4.524 4.564l10.537 10.628l-10.537 10.627l4.524 4.564zm-49.324 12.91l-12.8-12.91a3.243 3.243 0 0 1 0-4.563l12.8-12.91l4.524 4.564l-10.537 10.628l10.537 10.627z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Snapshot</tspan><tspan x=\"0\" y=\"89.1\">HTTP API</tspan></text>"
+    },
+    {
+      "id": "replica",
+      "label": "Regional departure replica",
+      "icon": "aws:dynamodb",
+      "parent": "secondary",
+      "transform": "translate(789,591)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:dynamodb\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-bf36248ccf12-14-SVGte2wIbLN\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#2e27ad\"/><stop offset=\"100%\" stop-color=\"#527fff\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-bf36248ccf12-14-SVGte2wIbLN)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M166.675 175.52c-10.682 8.637-33.091 13.2-54.534 13.2c-21.447 0-43.863-4.566-54.541-13.202v17.392h.003c0 8.675 22.397 18.342 54.538 18.342c32.115 0 54.499-9.655 54.534-18.323zm.003-33.049l6.4-.035v.035c0 3.866-1.936 7.475-5.705 10.779c4.57 4.021 5.705 7.966 5.705 10.775c0 .02-.003.035-.003.054v28.831h.003c0 16.035-31.398 24.69-60.937 24.69c-29.469 0-60.781-8.617-60.931-24.578c0-.016-.01-.032-.01-.048v-28.958c0-.007.006-.016.006-.026c.01-2.809 1.15-6.738 5.712-10.75c-4.534-4.005-5.686-7.912-5.715-10.699h.003c0-.013-.006-.022-.006-.035v-28.958c0-.01.006-.02.006-.029c.01-2.809 1.152-6.738 5.716-10.743c-4.538-4.009-5.69-7.92-5.719-10.703h.003c0-.012-.006-.025-.006-.038V63.08c0-.01.006-.019.006-.029C51.261 47.04 82.624 38.4 112.141 38.4c16.675 0 32.694 2.65 43.948 7.271l-2.448 5.866c-10.505-4.314-25.632-6.79-41.5-6.79c-32.141 0-54.538 9.668-54.538 18.349c0 8.677 22.397 18.345 54.538 18.345c.867.01 1.715 0 2.573-.032l.268 6.342c-.947.038-1.894.038-2.841.038c-21.447 0-43.863-4.568-54.541-13.204V91.97h.003v.073c.032 3.329 3.447 6.236 6.307 8.083c8.608 5.488 24.032 9.236 41.232 10.014l-.29 6.341c-17.425-.79-32.682-4.405-42.503-9.946c-2.42 1.809-4.746 4.256-4.746 7.03c0 8.677 22.397 18.345 54.538 18.345c3.152 0 6.281-.105 9.305-.315l.445 6.332c-3.168.22-6.451.33-9.75.33c-21.447 0-43.863-4.567-54.541-13.203v17.383h.003c.032 3.403 3.447 6.307 6.307 8.157c9.844 6.281 28.327 10.192 48.23 10.192h1.409v6.347h-1.408c-20.221 0-38.599-3.754-49.837-10.099c-2.406 1.806-4.7 4.24-4.7 6.992c0 8.677 22.396 18.348 54.537 18.348c32.115 0 54.499-9.655 54.534-18.326v-.035c-.006-2.758-2.31-5.192-4.723-6.998a45 45 0 0 1-5.14 2.523l-2.45-5.865c2.323-.955 4.339-1.987 5.993-3.072c2.886-1.883 6.323-4.825 6.323-8.129m27.411-46.418h-17.932c-1.06 0-2.055-.52-2.647-1.39a3.14 3.14 0 0 1-.33-2.951l10.91-27.27h-41.31l-19.2 38.086h20.423c1.02 0 1.98.486 2.586 1.301c.598.82.774 1.87.464 2.838l-18.228 56.818zm9.821-.974l-79.996 82.648a3.22 3.22 0 0 1-2.31.974a3.2 3.2 0 0 1-1.636-.444a3.16 3.16 0 0 1-1.414-3.692l21.075-65.69h-21.226a3.21 3.21 0 0 1-2.723-1.504a3.15 3.15 0 0 1-.138-3.088l22.4-44.434a3.2 3.2 0 0 1 2.861-1.755h48a3.21 3.21 0 0 1 2.646 1.39a3.15 3.15 0 0 1 .33 2.955L180.87 89.706h20.73c1.28 0 2.441.761 2.944 1.93a3.16 3.16 0 0 1-.634 3.443M62.256 194.158c4.534 2.555 10.243 4.703 16.966 6.38l1.562-6.158c-6.077-1.514-11.389-3.5-15.366-5.742zm16.966-44.403l1.562-6.154c-6.077-1.517-11.389-3.504-15.366-5.745l-3.162 5.52c4.534 2.555 10.24 4.704 16.966 6.38M62.256 92.594l3.162-5.52c3.97 2.241 9.286 4.225 15.366 5.745l-1.562 6.154c-6.732-1.679-12.438-3.827-16.966-6.38\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Regional</tspan><tspan x=\"0\" y=\"89.1\">departure</tspan><tspan x=\"0\" y=\"110.1\">replica</tspan></text>"
+    },
+    {
+      "id": "broadcastB",
+      "label": "Regional broadcaster",
+      "icon": "aws:lambda",
+      "parent": "secondary",
+      "transform": "translate(915,591)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:lambda\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-3621c043acaa-15-SVGeyciVcvH\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#c8511b\"/><stop offset=\"100%\" stop-color=\"#f90\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-3621c043acaa-15-SVGeyciVcvH)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M89.624 211.2H49.89l43.945-91.853l19.912 40.992zm7.079-100.63a3.22 3.22 0 0 0-2.887-1.805h-.01a3.2 3.2 0 0 0-2.886 1.82L41.913 213.022a3.203 3.203 0 0 0 2.893 4.58l46.848-.001a3.21 3.21 0 0 0 2.9-1.83l25.65-54.08a3.18 3.18 0 0 0-.016-2.762zM207.985 211.2h-39.477L105.174 78.624a3.21 3.21 0 0 0-2.897-1.824h-25.83l.03-32h50.626l63.042 132.573a3.21 3.21 0 0 0 2.897 1.827h14.943zm3.208-38.4h-16.121L132.03 40.227a3.21 3.21 0 0 0-2.9-1.827H73.273a3.206 3.206 0 0 0-3.208 3.197l-.035 38.4c0 .851.333 1.664.94 2.265c.6.602 1.414.938 2.267.938h27.017l63.337 132.576a3.2 3.2 0 0 0 2.893 1.824h44.709a3.203 3.203 0 0 0 3.207-3.2V176c0-1.766-1.434-3.2-3.207-3.2\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Regional</tspan><tspan x=\"0\" y=\"89.1\">broadcaster</tspan></text>"
+    },
+    {
+      "id": "socketB",
+      "label": "Regional WebSocket API",
+      "icon": "aws:api-gateway",
+      "parent": "secondary",
+      "transform": "translate(1059,591)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:api-gateway\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-a3df41a88d39-16-SVGyDrnJbhE\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#b0084d\"/><stop offset=\"100%\" stop-color=\"#ff4f8b\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-a3df41a88d39-16-SVGyDrnJbhE)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M109.008 178.024h9.392v-6.455h-9.392zm15.792 0h9.6v-6.455h-9.6zM86.4 46.814L44.8 67.463v128.356l41.6 14.068zm6.4 40.845v83.91h9.6v6.455h-9.6v36.349a3.24 3.24 0 0 1-1.331 2.62a3.18 3.18 0 0 1-2.887.44l-48-16.23a3.23 3.23 0 0 1-2.182-3.06V65.452c0-1.226.694-2.353 1.789-2.895l48-23.824a3.16 3.16 0 0 1 3.1.155a3.23 3.23 0 0 1 1.511 2.74v39.576h9.6v6.455zm48 90.365h9.6v-6.455h-9.6zm.208-90.365h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zm-16 0h9.392v-6.455h-9.392zM211.2 67.463l-41.6-20.649v163.073l41.6-14.068zm6.4 130.68a3.23 3.23 0 0 1-2.182 3.06l-48 16.23a3.17 3.17 0 0 1-2.887-.44a3.24 3.24 0 0 1-1.331-2.62v-36.35h-6.192v-6.454h6.192v-83.91h-6.192v-6.455h6.192V41.628c0-1.117.573-2.153 1.51-2.74a3.16 3.16 0 0 1 3.101-.155l48 23.824a3.23 3.23 0 0 1 1.789 2.895zm-80.211-89.962l-5.978-2.317l-16 41.955l5.978 2.317zm21.673 20.487a3.243 3.243 0 0 0 0-4.563l-12.8-12.91l-4.524 4.564l10.537 10.628l-10.537 10.627l4.524 4.564zm-49.324 12.91l-12.8-12.91a3.243 3.243 0 0 1 0-4.563l12.8-12.91l4.524 4.564l-10.537 10.628l10.537 10.627z\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Regional</tspan><tspan x=\"0\" y=\"89.1\">WebSocket</tspan><tspan x=\"0\" y=\"110.1\">API</tspan></text>"
+    },
+    {
+      "id": "auth",
+      "label": "Station identity",
+      "icon": "aws:cognito",
+      "parent": "primary",
+      "transform": "translate(381,401)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"aws:cognito\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 256 256\" width=\"24\" height=\"24\" fill=\"currentColor\" stroke=\"none\"><defs><linearGradient id=\"beautiflow-icon-db964a2578c4-17-SVGYPnorcPn\" x1=\"0%\" x2=\"100%\" y1=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#bd0816\"/><stop offset=\"100%\" stop-color=\"#ff5252\"/></linearGradient></defs><path fill=\"url(#beautiflow-icon-db964a2578c4-17-SVGYPnorcPn)\" d=\"M0 0h256v256H0z\"/><path fill=\"#fff\" d=\"M54.283 114.585H95.58v-6.344H54.283zm142.119 46.154l4.491 4.485l-23.59 23.556a3.18 3.18 0 0 1-4.491 0l-11.868-11.848l4.491-4.485l9.623 9.605zm14.619 17.481c-.725 5.964-3.152 11.511-7.03 16.048a30.6 30.6 0 0 1-10.058 7.701a30 30 0 0 1-16.506 2.665a30.05 30.05 0 0 1-15.06-6.29c-8.33-6.614-12.535-16.87-11.255-27.436a30.3 30.3 0 0 1 16.185-23.301a29.9 29.9 0 0 1 13.726-3.337c1.223 0 2.456.076 3.685.225c9.962 1.215 18.65 7.302 23.231 16.282a30.24 30.24 0 0 1 3.082 17.443m2.58-20.32c-5.544-10.868-16.059-18.233-28.124-19.702a36.25 36.25 0 0 0-21.096 3.772a36.64 36.64 0 0 0-19.578 28.177c-1.544 12.768 3.542 25.167 13.612 33.164a36.4 36.4 0 0 0 18.24 7.62q2.221.27 4.438.269a36.3 36.3 0 0 0 15.566-3.502a36.9 36.9 0 0 0 12.163-9.313c4.692-5.488 7.634-12.197 8.508-19.404a36.54 36.54 0 0 0-3.73-21.081M86.05 133.618h12.706v-6.344H86.05zm-31.768 0h25.414v-6.344H54.283zM51.54 51.144h142.086c3.742 0 6.786 3.702 6.786 8.25v23.47h-9.53v-15.86a3.173 3.173 0 0 0-3.177-3.172H114.64a3.173 3.173 0 0 0-3.176 3.172v15.86h-66.71v-23.47c0-4.472 3.11-8.25 6.785-8.25m99.68 30.8c7.377 0 13.378 5.933 13.378 13.222c0 4.806-2.653 9.228-6.922 11.543a13.6 13.6 0 0 1-12.939.003c-4.253-2.322-6.893-6.744-6.893-11.546c0-7.29 5.997-13.221 13.377-13.221M44.754 150.748V89.209h66.71v53.925a3.17 3.17 0 0 0 3.177 3.172h33.21v-6.344h-26.532c.276-12.695 8.716-23.66 20.87-27.163c5.617 2.624 12.323 2.65 18.025-.003c6.919 1.999 12.973 6.62 16.725 12.815l5.435-3.286c-3.85-6.347-9.692-11.302-16.467-14.182c3.176-3.521 5.044-8.102 5.044-12.977c0-10.788-8.853-19.565-19.73-19.565c-10.88 0-19.73 8.777-19.73 19.565c0 4.856 1.848 9.421 5.003 12.942a35.17 35.17 0 0 0-18.676 18.525V70.176h66.71v50.753h6.354V89.21h9.53l.003 47.58h6.353l-.003-77.394c0-8.048-5.893-14.595-13.139-14.595H51.54c-7.246 0-13.139 6.547-13.139 14.595v91.352c0 8.047 5.893 14.591 13.139 14.591h85.338v-6.344H51.539c-3.676 0-6.786-3.775-6.786-8.247\"/></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" x=\"0\" y=\"69.6\" text-anchor=\"middle\">Station identity</text>"
+    },
+    {
+      "id": "boards",
+      "label": "Authenticated displays",
+      "icon": "lucide:monitor",
+      "transform": "translate(1229,401)",
+      "box": {
+        "x": -24,
+        "y": 0,
+        "width": 48,
+        "height": 48,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"lucide:monitor\" x=\"-12\" y=\"12\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\"><g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><rect width=\"20\" height=\"14\" x=\"2\" y=\"3\" rx=\"2\"/><path d=\"M8 21h8m-4-4v4\"/></g></svg></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-label\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"68.1\">Authenticated</tspan><tspan x=\"0\" y=\"89.1\">displays</tspan></text>"
+    }
+  ],
+  "groups": [
+    {
+      "id": "operations",
+      "label": "Account: Rail operations",
+      "kind": "account",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 248,
+        "height": 206,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"10\" y=\"8\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"122.7\" y=\"23.6\" text-anchor=\"middle\">Account: Rail operations</text>"
+    },
+    {
+      "id": "sourceRegion",
+      "label": "Region: Feed authority",
+      "kind": "region",
+      "parent": "operations",
+      "box": {
+        "x": 20,
+        "y": 36,
+        "width": 208,
+        "height": 150,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"30\" y=\"44\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"136.93\" y=\"59.6\" text-anchor=\"middle\">Region: Feed authority</text>"
+    },
+    {
+      "id": "public",
+      "label": "Account: Passenger service",
+      "kind": "account",
+      "box": {
+        "x": 288,
+        "y": 0,
+        "width": 852,
+        "height": 746,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"298\" y=\"8\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"423.15\" y=\"23.6\" text-anchor=\"middle\">Account: Passenger service</text>"
+    },
+    {
+      "id": "primary",
+      "label": "Region: Primary service",
+      "kind": "region",
+      "parent": "public",
+      "box": {
+        "x": 308,
+        "y": 36,
+        "width": 670,
+        "height": 479,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"318\" y=\"44\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"428.9\" y=\"59.6\" text-anchor=\"middle\">Region: Primary service</text>"
+    },
+    {
+      "id": "secondary",
+      "label": "Region: Regional replica",
+      "kind": "region",
+      "parent": "public",
+      "box": {
+        "x": 726,
+        "y": 555,
+        "width": 394,
+        "height": 171,
+        "rx": 4
+      },
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-icon\" data-icon=\"cloud\" x=\"736\" y=\"563\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z\" stroke=\"#183b32\" stroke-width=\"1.5\"/></svg>",
+      "labelSvg": "<text xmlns=\"http://www.w3.org/2000/svg\" class=\"pele-cluster-label\" fill=\"#78716c\" x=\"849.14\" y=\"578.6\" text-anchor=\"middle\">Region: Regional replica</text>"
+    }
+  ],
+  "edges": [
+    {
+      "id": "source-bus",
+      "source": "source",
+      "target": "bus",
+      "kind": "event",
+      "meaning": "Cross-account bus policy and forwarding role allow only the operational event source.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M117,96L350,96",
+          "marker": false
+        },
+        {
+          "d": "M357,96L349,99.36L349,92.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "bus-stream",
+      "source": "bus",
+      "target": "stream",
+      "kind": "event",
+      "meaning": "Partition by train or station according to ordering requirements; fan-in is not a global event order.",
+      "sourcePort": "B",
+      "targetPort": "T",
+      "paths": [
+        {
+          "d": "M381,168L381,239",
+          "marker": false
+        },
+        {
+          "d": "M381,246L377.64,238L384.36,238Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "stream-reducer",
+      "source": "stream",
+      "target": "reducer",
+      "kind": "event",
+      "meaning": "Consumer deduplicates and rejects stale authoritative versions.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M405,270L490,270",
+          "marker": false
+        },
+        {
+          "d": "M497,270L489,273.36L489,266.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "reducer-state",
+      "source": "reducer",
+      "target": "state",
+      "kind": "request",
+      "meaning": "Primary region is the only projection writer; records include source version and update time.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M545,270L616,270",
+          "marker": false
+        },
+        {
+          "d": "M623,270L615,273.36L615,266.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "state-broadcast",
+      "source": "state",
+      "target": "broadcast",
+      "kind": "event",
+      "meaning": "DynamoDB Streams invokes the broadcaster; retries may deliver duplicate changes.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M671,270L758,270",
+          "marker": false
+        },
+        {
+          "d": "M765,270L757,273.36L757,266.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "broadcast-socket",
+      "source": "broadcast",
+      "target": "socket",
+      "kind": "request",
+      "meaning": "Calls management API for registered connection IDs; regional connection store is omitted.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M813,270L884,270",
+          "marker": false
+        },
+        {
+          "d": "M891,270L883,273.36L883,266.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "socket-boards",
+      "source": "socket",
+      "target": "boards",
+      "kind": "event",
+      "meaning": "Pushes updates over an authenticated connection; disconnected displays can miss deltas.",
+      "sourcePort": "B",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M915,363L915,419Q915,425 921,425L1198,425",
+          "marker": false
+        },
+        {
+          "d": "M1205,425L1197,428.36L1197,421.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "state-replica",
+      "source": "state",
+      "target": "replica",
+      "kind": "replication",
+      "meaning": "Asynchronous global-table replication; the regional replica is not the timetable authority.",
+      "sourcePort": "B",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M647,342L647,609Q647,615 653,615L758,615",
+          "marker": false
+        },
+        {
+          "d": "M765,615L757,618.36L757,611.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "replica-broadcastB",
+      "source": "replica",
+      "target": "broadcastB",
+      "kind": "event",
+      "meaning": "Regional stream drives local notifications after replicated writes arrive.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M813,615L884,615",
+          "marker": false
+        },
+        {
+          "d": "M891,615L883,618.36L883,611.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "broadcastB-socketB",
+      "source": "broadcastB",
+      "target": "socketB",
+      "kind": "request",
+      "meaning": "Uses the local connection registry and local API management endpoint.",
+      "sourcePort": "R",
+      "targetPort": "L",
+      "paths": [
+        {
+          "d": "M939,615L1028,615",
+          "marker": false
+        },
+        {
+          "d": "M1035,615L1027,618.36L1027,611.64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "socketB-boards",
+      "source": "socketB",
+      "target": "boards",
+      "kind": "recovery",
+      "meaning": "After regional outage the client explicitly reconnects, reauthenticates and fetches a snapshot; existing sockets do not move.",
+      "sourcePort": "R",
+      "targetPort": "B",
+      "paths": [
+        {
+          "d": "M1083,615L1223,615Q1229,615 1229,609L1229,504",
+          "marker": false
+        },
+        {
+          "d": "M1229,497L1232.36,505L1225.64,505Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "auth-boards",
+      "source": "auth",
+      "target": "boards",
+      "kind": "identity",
+      "meaning": "Station identity tokens must be validated at connection and snapshot endpoints.",
+      "sourcePort": "R",
+      "targetPort": "T",
+      "paths": [
+        {
+          "d": "M405,425L411,425Q417,425 417,419L417,395Q417,389 423,389L1226.5,389Q1229,389 1229,391.5L1229,394",
+          "marker": false
+        },
+        {
+          "d": "M1229,401L1225.64,393L1232.36,393Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "boards-snapshot",
+      "source": "boards",
+      "target": "snapshot",
+      "kind": "recovery",
+      "meaning": "Client fetches full current state and a version watermark on connect/reconnect.",
+      "sourcePort": "B",
+      "targetPort": "T",
+      "paths": [
+        {
+          "d": "M1229,497L1229,503Q1229,509 1223,509L875,509Q869,509 869,503L869,66Q869,60 863,60L523.5,60Q521,60 521,62.5L521,65",
+          "marker": false
+        },
+        {
+          "d": "M521,72L517.64,64L524.36,64Z",
+          "marker": true
+        }
+      ]
+    },
+    {
+      "id": "snapshot-state",
+      "source": "snapshot",
+      "target": "state",
+      "kind": "request",
+      "meaning": "Snapshot backend reads current state; an API integration Lambda and secondary snapshot endpoint are omitted.",
+      "sourcePort": "R",
+      "targetPort": "T",
+      "paths": [
+        {
+          "d": "M545,96L641,96Q647,96 647,102L647,239",
+          "marker": false
+        },
+        {
+          "d": "M647,246L643.64,238L650.36,238Z",
+          "marker": true
+        }
+      ]
+    }
+  ]
+}

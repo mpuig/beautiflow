@@ -1,0 +1,64 @@
+architecture-beta
+%% Fictional SaaS deployment overview. Network and isolation details have focused companion views.
+%% @boundary control account
+%% @boundary controlRegion region
+%% @boundary pooled account
+%% @boundary pooledRegion region
+%% @boundary pooledVpc vpc
+%% @boundary enterprise account
+%% @boundary enterpriseRegion region
+%% @boundary enterpriseVpc vpc
+%% @boundary security account
+%% @boundary securityRegion region
+group control(cloud)[Account: Control plane]
+group controlRegion(cloud)[Region: Primary] in control
+group pooled(cloud)[Account: Pooled production]
+group pooledRegion(cloud)[Region: Primary] in pooled
+group pooledVpc(cloud)[VPC: Shared hotel cell] in pooledRegion
+group enterprise(cloud)[Account: Enterprise hotel]
+group enterpriseRegion(cloud)[Region: Primary] in enterprise
+group enterpriseVpc(cloud)[VPC: Dedicated cell] in enterpriseRegion
+group security(cloud)[Account: Security archive]
+group securityRegion(cloud)[Region: Primary] in security
+service identity(aws:cognito)[Staff federation] in controlRegion
+service discovery(aws:lambda)[Tenant discovery] in controlRegion
+service tenants(aws:dynamodb)[Tenant directory] in controlRegion
+service provision(aws:step-functions)[Cell provisioner] in controlRegion
+service sharedIngress(aws:api-gateway)[Shared cell API] in pooledRegion
+service sharedApp(aws:fargate)[Shared app service] in pooledVpc
+service sharedDb(aws:aurora)[Pooled booking DB] in pooledVpc
+service dedicatedIngress(aws:api-gateway)[Dedicated cell API] in enterpriseRegion
+service dedicatedApp(aws:fargate)[Dedicated app service] in enterpriseVpc
+service dedicatedDb(aws:aurora)[Dedicated booking DB] in enterpriseVpc
+service deployRole(aws:iam)[Cell deploy role] in enterprise
+service stack(aws:cloudformation)[Cell stack] in enterpriseRegion
+service trail(aws:cloudtrail)[Organization trail] in securityRegion
+service logs(aws:s3)[Central audit logs] in securityRegion
+%% @edge identity discovery identity | Staff presents issued JWT; discovery verifies issuer, audience and tenant membership.
+identity:R --> L:discovery
+%% @edge discovery tenants request | Resolve validated tenant to its cell; directory is not an authorization bypass.
+discovery:R --> L:tenants
+%% @edge discovery sharedIngress control | Return pooled-cell API endpoint to the browser; not a server proxy request.
+discovery:B --> T:sharedIngress
+%% @edge discovery dedicatedIngress control | Return enterprise-cell API endpoint to the browser; each cell reauthorizes the tenant.
+discovery:T --> L:dedicatedIngress
+%% @edge sharedIngress sharedApp request | API private integration reaches application tasks; VPC Link and internal ALB are expanded in the identity view.
+sharedIngress:R --> L:sharedApp
+%% @edge sharedApp sharedDb request | Transactional booking access with server-derived tenant context and database policies.
+sharedApp:T --> B:sharedDb
+%% @edge dedicatedIngress dedicatedApp request | Dedicated API private integration reaches its own application service; same-account network detail is expanded separately.
+dedicatedIngress:R --> L:dedicatedApp
+%% @edge dedicatedApp dedicatedDb request | Separate account and database isolate the enterprise data plane.
+dedicatedApp:R --> L:dedicatedDb
+%% @edge provision deployRole control | Provisioner assumes a tightly scoped cross-account deployment role.
+provision:R --> L:deployRole
+%% @edge deployRole stack control | Assumed role authorizes CloudFormation in the dedicated account.
+deployRole:R --> L:stack
+%% @edge stack dedicatedApp control | Stack owns cell resources; arrow summarizes provisioning, not runtime traffic.
+stack:B --> T:dedicatedApp
+%% @edge sharedApp trail control | AWS API activity is captured by the configured organization trail, not application log streaming.
+sharedApp:B --> L:trail
+%% @edge dedicatedApp trail control | Organization coverage includes the enterprise account; application logs are separate.
+dedicatedApp:B --> T:trail
+%% @edge trail logs event | Central S3 delivery requires organization-trail bucket and encryption-key policies.
+trail:R --> L:logs

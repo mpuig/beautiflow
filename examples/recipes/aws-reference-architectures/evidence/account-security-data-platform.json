@@ -1,0 +1,876 @@
+{
+  "source": "sources/account-security-data-platform.mmd",
+  "sourceSha256": "e2634fe894b54dbc2be1e67bd1e6987ae8c431996e6850560df3e26ce7312181",
+  "svgSha256": "d63044f1447bf15e1a95ad09b08cf86d7e78139bb7e73953745273fa876b69ab",
+  "pngSha256": "c4f83a158375e3296e91180d26c41126de70156ccfb0c7bbaea80de113ea7cbb",
+  "executable": {
+    "version": "beautiflow 1.0.1",
+    "sha256": "09b18c50d8e3f120030a05306d6ac2006c3e51c5beb3cc677d2483ef1fea8f03"
+  },
+  "reference": "https://docs.aws.amazon.com/reference-architecture-diagrams/latest/account-security-data-platform/account-security-data-platform.html",
+  "referenceImage": "https://docs.aws.amazon.com/images/reference-architecture-diagrams/latest/account-security-data-platform/images/travel-hospitality-account-security-ra.png",
+  "geometryAcceptedAsClean": false,
+  "visualReview": {
+    "attestedByGenerator": false,
+    "note": "The generator does not perform visual review. See README for the separate manual-review scope and limitations."
+  },
+  "audit": {
+    "ok": true,
+    "operation": "audit",
+    "changed": false,
+    "family": "architecture",
+    "score": 90,
+    "coverage": "pele-positioned-geometry",
+    "metrics": {
+      "detachedEndpoints": 0,
+      "portViolations": 0,
+      "nodeOverlaps": 0,
+      "labelCollisions": 0,
+      "edgeNodeIntersections": 0,
+      "headerCrossings": 1,
+      "excessiveBends": 0,
+      "sharedSegments": 0
+    },
+    "integrity": {
+      "coverage": "architecture-elements-and-svg-references",
+      "elementsChecked": 98,
+      "labelsChecked": 62,
+      "issues": [],
+      "limitations": [
+        "Label presence checks cover plain service labels, not markdown/math or Mermaid-entity fidelity, browser glyph measurements, or provider semantics."
+      ]
+    },
+    "issues": [
+      {
+        "severity": "high",
+        "type": "headerCrossings",
+        "message": "1 measured architecture geometry findings: headerCrossings"
+      }
+    ],
+    "limitations": [
+      "Geometry comes from a pinned additive Pele renderer extension before arrow trimming and corner rounding.",
+      "Edge-label boxes and browser font differences are not audited. Geometry does not validate provider semantics."
+    ],
+    "warnings": [
+      {
+        "severity": "high",
+        "type": "headerCrossings",
+        "message": "1 measured architecture geometry findings: headerCrossings"
+      }
+    ],
+    "nextAction": null
+  },
+  "inspection": {
+    "source": "/Users/puigmarc/code/beautiflow/examples/recipes/aws-reference-architectures/sources/account-security-data-platform.mmd",
+    "family": "architecture",
+    "score": 100,
+    "nodes": [
+      {
+        "id": "sourceBatch",
+        "type": "service",
+        "icon": "server",
+        "title": "Airline systems - batch",
+        "in": "records"
+      },
+      {
+        "id": "sourceEvents",
+        "type": "service",
+        "icon": "server",
+        "title": "Airline systems - events",
+        "in": "records"
+      },
+      {
+        "id": "controlTower",
+        "type": "service",
+        "icon": "lucide:landmark",
+        "title": "AWS Control Tower",
+        "in": "management"
+      },
+      {
+        "id": "organizations",
+        "type": "service",
+        "icon": "lucide:building-2",
+        "title": "AWS Organizations",
+        "in": "management"
+      },
+      {
+        "id": "iam",
+        "type": "service",
+        "icon": "aws:iam",
+        "title": "AWS IAM",
+        "in": "management"
+      },
+      {
+        "id": "identityVendor",
+        "type": "service",
+        "icon": "lucide:key-round",
+        "title": "Third party identity tools",
+        "in": "security"
+      },
+      {
+        "id": "logsSecurity",
+        "type": "service",
+        "icon": "aws:cloudwatch",
+        "title": "CloudWatch Logs",
+        "in": "security"
+      },
+      {
+        "id": "hub",
+        "type": "service",
+        "icon": "lucide:shield-check",
+        "title": "AWS Security Hub",
+        "in": "security"
+      },
+      {
+        "id": "casb",
+        "type": "service",
+        "icon": "lucide:shield",
+        "title": "Third party CASB tools",
+        "in": "security"
+      },
+      {
+        "id": "kms",
+        "type": "service",
+        "icon": "aws:kms",
+        "title": "AWS KMS",
+        "in": "security"
+      },
+      {
+        "id": "guard",
+        "type": "service",
+        "icon": "lucide:scan-eye",
+        "title": "Amazon GuardDuty",
+        "in": "security"
+      },
+      {
+        "id": "trail",
+        "type": "service",
+        "icon": "aws:cloudtrail",
+        "title": "AWS CloudTrail",
+        "in": "security"
+      },
+      {
+        "id": "macie",
+        "type": "service",
+        "icon": "lucide:file-search",
+        "title": "Amazon Macie",
+        "in": "security"
+      },
+      {
+        "id": "vpn",
+        "type": "service",
+        "icon": "aws:vpn",
+        "title": "VPC VPN connection",
+        "in": "network"
+      },
+      {
+        "id": "transit",
+        "type": "service",
+        "icon": "lucide:network",
+        "title": "AWS Transit Gateway",
+        "in": "network"
+      },
+      {
+        "id": "direct",
+        "type": "service",
+        "icon": "lucide:cable",
+        "title": "AWS Direct Connect",
+        "in": "network"
+      },
+      {
+        "id": "notebooks",
+        "type": "service",
+        "icon": "aws:sagemaker",
+        "title": "Studio notebooks",
+        "in": "ml"
+      },
+      {
+        "id": "debugger",
+        "type": "service",
+        "icon": "aws:sagemaker",
+        "title": "SageMaker Debugger",
+        "in": "ml"
+      },
+      {
+        "id": "training",
+        "type": "service",
+        "icon": "aws:sagemaker",
+        "title": "SageMaker Train and Tune",
+        "in": "ml"
+      },
+      {
+        "id": "checking",
+        "type": "service",
+        "icon": "aws:sagemaker",
+        "title": "SageMaker Processing",
+        "in": "ml"
+      },
+      {
+        "id": "ground",
+        "type": "service",
+        "icon": "aws:sagemaker",
+        "title": "SageMaker Ground Truth",
+        "in": "ml"
+      },
+      {
+        "id": "backups",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Backups bucket",
+        "in": "audit"
+      },
+      {
+        "id": "logs",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Logs bucket",
+        "in": "audit"
+      },
+      {
+        "id": "quick",
+        "type": "service",
+        "icon": "aws:quicksight",
+        "title": "QuickSight dashboards",
+        "in": "dashboards"
+      },
+      {
+        "id": "biTools",
+        "type": "service",
+        "icon": "lucide:chart-no-axes-combined",
+        "title": "Third party dashboard tools",
+        "in": "dashboards"
+      },
+      {
+        "id": "deploy",
+        "type": "service",
+        "icon": "aws:codedeploy",
+        "title": "CodeDeploy",
+        "in": "devops"
+      },
+      {
+        "id": "build",
+        "type": "service",
+        "icon": "aws:codebuild",
+        "title": "CodeBuild",
+        "in": "devops"
+      },
+      {
+        "id": "commit",
+        "type": "service",
+        "icon": "aws:codecommit",
+        "title": "CodeCommit",
+        "in": "devops"
+      },
+      {
+        "id": "pipeline",
+        "type": "service",
+        "icon": "aws:codepipeline",
+        "title": "CodePipeline",
+        "in": "devops"
+      },
+      {
+        "id": "sandboxRedshift",
+        "type": "service",
+        "icon": "aws:redshift",
+        "title": "Redshift sandbox",
+        "in": "sandbox"
+      },
+      {
+        "id": "sandboxEmr",
+        "type": "service",
+        "icon": "lucide:server",
+        "title": "EMR sandbox",
+        "in": "sandbox"
+      },
+      {
+        "id": "sandboxAthena",
+        "type": "service",
+        "icon": "aws:athena",
+        "title": "Athena sandbox",
+        "in": "sandbox"
+      },
+      {
+        "id": "raw",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Raw sandbox bucket",
+        "in": "sandbox"
+      },
+      {
+        "id": "modelBucket",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Model sandbox bucket",
+        "in": "sandbox"
+      },
+      {
+        "id": "reports",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Reports sandbox bucket",
+        "in": "sandbox"
+      },
+      {
+        "id": "dns",
+        "type": "service",
+        "icon": "aws:route53",
+        "title": "Route 53 DNS",
+        "in": "shared"
+      },
+      {
+        "id": "directory",
+        "type": "service",
+        "icon": "lucide:contact",
+        "title": "AWS Directory Service",
+        "in": "shared"
+      },
+      {
+        "id": "sharedTools",
+        "type": "service",
+        "icon": "lucide:wrench",
+        "title": "Third party shared tools",
+        "in": "shared"
+      },
+      {
+        "id": "sso",
+        "type": "service",
+        "icon": "lucide:key-round",
+        "title": "IAM Identity Center",
+        "in": "shared"
+      },
+      {
+        "id": "transfer",
+        "type": "service",
+        "icon": "lucide:upload",
+        "title": "AWS Transfer - SFTP",
+        "in": "ingestion"
+      },
+      {
+        "id": "streams",
+        "type": "service",
+        "icon": "aws:kinesis",
+        "title": "Kinesis Data Streams",
+        "in": "ingestion"
+      },
+      {
+        "id": "firehose",
+        "type": "service",
+        "icon": "lucide:workflow",
+        "title": "Data Firehose",
+        "in": "ingestion"
+      },
+      {
+        "id": "workflow",
+        "type": "service",
+        "icon": "aws:step-functions",
+        "title": "Operations data processing",
+        "in": "processing"
+      },
+      {
+        "id": "lambda1",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Processing Lambda 1",
+        "in": "processing"
+      },
+      {
+        "id": "lambda2",
+        "type": "service",
+        "icon": "aws:lambda",
+        "title": "Processing Lambda 2",
+        "in": "processing"
+      },
+      {
+        "id": "api",
+        "type": "service",
+        "icon": "aws:api-gateway",
+        "title": "API Gateway - API management",
+        "in": "production"
+      },
+      {
+        "id": "ecs",
+        "type": "service",
+        "icon": "aws:ecs",
+        "title": "Amazon ECS",
+        "in": "production"
+      },
+      {
+        "id": "dynamo",
+        "type": "service",
+        "icon": "aws:dynamodb",
+        "title": "API data - DynamoDB",
+        "in": "production"
+      },
+      {
+        "id": "prediction",
+        "type": "service",
+        "icon": "aws:sagemaker",
+        "title": "Prediction model",
+        "in": "modelOps"
+      },
+      {
+        "id": "deployment",
+        "type": "service",
+        "icon": "aws:sagemaker",
+        "title": "Deploy and management",
+        "in": "modelOps"
+      },
+      {
+        "id": "monitoring",
+        "type": "service",
+        "icon": "aws:sagemaker",
+        "title": "Model Monitor",
+        "in": "modelOps"
+      },
+      {
+        "id": "formation",
+        "type": "service",
+        "icon": "aws:lake-formation",
+        "title": "Lake Formation",
+        "in": "production"
+      },
+      {
+        "id": "catalogue",
+        "type": "service",
+        "icon": "aws:glue",
+        "title": "Glue Data Catalog",
+        "in": "production"
+      },
+      {
+        "id": "glue",
+        "type": "service",
+        "icon": "aws:glue",
+        "title": "AWS Glue",
+        "in": "production"
+      },
+      {
+        "id": "emr",
+        "type": "service",
+        "icon": "lucide:server",
+        "title": "Amazon EMR",
+        "in": "production"
+      },
+      {
+        "id": "athena",
+        "type": "service",
+        "icon": "aws:athena",
+        "title": "Amazon Athena",
+        "in": "production"
+      },
+      {
+        "id": "redshift",
+        "type": "service",
+        "icon": "aws:redshift",
+        "title": "Redshift Spectrum",
+        "in": "production"
+      },
+      {
+        "id": "search",
+        "type": "service",
+        "icon": "aws:open-search",
+        "title": "OpenSearch real time reports",
+        "in": "production"
+      },
+      {
+        "id": "batch",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Batch staging datasets",
+        "in": "production"
+      },
+      {
+        "id": "realtime",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Real time staging datasets",
+        "in": "production"
+      },
+      {
+        "id": "parquet",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Parquet datasets",
+        "in": "production"
+      },
+      {
+        "id": "reportable",
+        "type": "service",
+        "icon": "aws:s3",
+        "title": "Reportable datasets",
+        "in": "production"
+      }
+    ],
+    "groups": [
+      {
+        "id": "aws",
+        "icon": "cloud",
+        "title": "AWS Cloud"
+      },
+      {
+        "id": "management",
+        "icon": "cloud",
+        "title": "1 - Management account",
+        "in": "aws"
+      },
+      {
+        "id": "security",
+        "icon": "cloud",
+        "title": "2 - Security account",
+        "in": "aws"
+      },
+      {
+        "id": "network",
+        "icon": "cloud",
+        "title": "3 - Network account",
+        "in": "aws"
+      },
+      {
+        "id": "ml",
+        "icon": "cloud",
+        "title": "4 - ML Sandbox account",
+        "in": "aws"
+      },
+      {
+        "id": "audit",
+        "icon": "cloud",
+        "title": "5 - Logs and Audit account",
+        "in": "aws"
+      },
+      {
+        "id": "dashboards",
+        "icon": "cloud",
+        "title": "6 - Dashboards account",
+        "in": "aws"
+      },
+      {
+        "id": "devops",
+        "icon": "cloud",
+        "title": "7 - DevOps tools account",
+        "in": "aws"
+      },
+      {
+        "id": "sandbox",
+        "icon": "cloud",
+        "title": "8 - Analytics Sandbox account",
+        "in": "aws"
+      },
+      {
+        "id": "production",
+        "icon": "cloud",
+        "title": "9 - Analytics Production account",
+        "in": "aws"
+      },
+      {
+        "id": "ingestion",
+        "icon": "cloud",
+        "title": "10 - Ingestion account",
+        "in": "aws"
+      },
+      {
+        "id": "shared",
+        "icon": "cloud",
+        "title": "11 - Shared Services account",
+        "in": "aws"
+      },
+      {
+        "id": "records",
+        "icon": "server",
+        "title": "Systems of record"
+      },
+      {
+        "id": "processing",
+        "icon": "server",
+        "title": "Step Functions - operations data processing",
+        "in": "ingestion"
+      },
+      {
+        "id": "modelOps",
+        "icon": "server",
+        "title": "SageMaker deployment and monitoring",
+        "in": "production"
+      }
+    ],
+    "edges": [
+      {
+        "lhsId": "sourceBatch",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "transfer",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "sourceEvents",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "streams",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "transfer",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "batch",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "streams",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "firehose",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "firehose",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "realtime",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "streams",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "workflow",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "workflow",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "realtime",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "workflow",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "search",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "api",
+        "lhsDir": "B",
+        "lhsInto": true,
+        "lhsGroup": false,
+        "rhsId": "ecs",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "ecs",
+        "lhsDir": "B",
+        "lhsInto": true,
+        "lhsGroup": false,
+        "rhsId": "dynamo",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "prediction",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "ecs",
+        "rhsDir": "R",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "deployment",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "prediction",
+        "rhsDir": "R",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "monitoring",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "deployment",
+        "rhsDir": "R",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "emr",
+        "lhsDir": "T",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "dynamo",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "athena",
+        "lhsDir": "T",
+        "lhsInto": true,
+        "lhsGroup": false,
+        "rhsId": "deployment",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "quick",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "redshift",
+        "rhsDir": "R",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "biTools",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "redshift",
+        "rhsDir": "B",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "debugger",
+        "lhsDir": "R",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "training",
+        "rhsDir": "L",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "ground",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "checking",
+        "rhsDir": "R",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "checking",
+        "lhsDir": "L",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "training",
+        "rhsDir": "R",
+        "rhsInto": true,
+        "rhsGroup": false
+      },
+      {
+        "lhsId": "training",
+        "lhsDir": "B",
+        "lhsInto": false,
+        "lhsGroup": false,
+        "rhsId": "deployment",
+        "rhsDir": "T",
+        "rhsInto": true,
+        "rhsGroup": false
+      }
+    ],
+    "alignmentHints": [],
+    "metrics": {
+      "services": 62,
+      "junctions": 0,
+      "groups": 15,
+      "relationships": 21,
+      "components": 42,
+      "isolatedServices": 38,
+      "maxDepth": 3
+    },
+    "issues": [
+      {
+        "severity": "info",
+        "type": "isolated-services",
+        "nodes": [
+          "controlTower",
+          "organizations",
+          "iam",
+          "identityVendor",
+          "logsSecurity",
+          "hub",
+          "casb",
+          "kms",
+          "guard",
+          "trail",
+          "macie",
+          "vpn",
+          "transit",
+          "direct",
+          "notebooks",
+          "backups",
+          "logs",
+          "deploy",
+          "build",
+          "commit",
+          "pipeline",
+          "sandboxRedshift",
+          "sandboxEmr",
+          "sandboxAthena",
+          "raw",
+          "modelBucket",
+          "reports",
+          "dns",
+          "directory",
+          "sharedTools",
+          "sso",
+          "lambda1",
+          "lambda2",
+          "formation",
+          "catalogue",
+          "glue",
+          "parquet",
+          "reportable"
+        ],
+        "message": "38 services or junctions have no relationships"
+      },
+      {
+        "severity": "info",
+        "type": "disconnected-components",
+        "message": "42 disconnected components; confirm that separate views are intentional"
+      },
+      {
+        "severity": "info",
+        "type": "detail-budget",
+        "message": "62 elements; retain the full source and consider separate focused views"
+      }
+    ],
+    "limitations": [
+      "Structural observations are informational and do not validate cloud-provider semantics or authorize deletion."
+    ]
+  }
+}
