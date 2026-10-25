@@ -2,7 +2,6 @@ import { describe, expect, test } from 'bun:test'
 import { renderSource, resolveTheme } from '../src/render.ts'
 import { diagramFamily, renderStandaloneOutput } from '../src/diagram/pipeline.ts'
 import { JSDOM } from 'jsdom'
-import { hasFragmentedArchitectureLabel } from '../src/diagram/architecture-layout.ts'
 
 const source = `flowchart LR
   A[Start] --> B{Ready?}
@@ -74,10 +73,10 @@ waf:B --> T:eks
     const png = await renderStandaloneOutput(architecture, { inputPath: 'architecture.mmd', format: 'png', transparent: false })
     expect(svg).toContain('aria-roledescription="architecture"')
     expect(repeatedSvg).toBe(svg)
-    expect(svg).toContain('service-waf')
+    expect(svg).toContain('data-id="waf"')
     expect(svg).toContain('viewBox="0 0 256 256"')
-    expect(svg).toContain('class="architecture-edges"')
-    expect(svg).toContain('class="arrow"')
+    expect(svg).toContain('class="pele-edges"')
+    expect(svg).toContain('class="pele-marker"')
     expect(svg).not.toContain('data-beautiflow-layout="compound-elk-fallback"')
     expect(png).toBeInstanceOf(Uint8Array)
     expect([...png.slice(0, 8)]).toEqual([137, 80, 78, 71, 13, 10, 26, 10])
@@ -112,30 +111,16 @@ waf:B --> T:eks
     }
   })
 
-  test('detects split words but allows natural two-line architecture labels', () => {
-    const dom = new JSDOM('<svg><g id="label"><text><tspan class="text-outer-tspan">CloudFron</tspan><tspan class="text-outer-tspan">t</tspan></text></g></svg>')
-    try {
-      const service = dom.window.document.querySelector('#label')!
-      expect(hasFragmentedArchitectureLabel(service, 'CloudFront')).toBe(true)
-      service.querySelectorAll('tspan')[0]!.textContent = 'Public'
-      service.querySelectorAll('tspan')[1]!.textContent = 'users'
-      expect(hasFragmentedArchitectureLabel(service, 'Public users')).toBe(false)
-    } finally {
-      dom.window.close()
-    }
-  })
-
-  test('fits short architecture service names within the compound fallback label width', async () => {
+  test('preserves short architecture service names in Pele output', async () => {
     const source = await Bun.file('examples/recipes/aws-architecture/sources/step-6-production-architecture.mmd').text()
     const svg = await renderStandaloneOutput(source, { inputPath: 'aws.mmd', format: 'svg', transparent: false, themeName: 'github-light' }) as string
     const dom = new JSDOM(svg)
     try {
       for (const [id, label] of [['cloudfront', 'CloudFront'], ['cloudwatch', 'CloudWatch'], ['controller', 'Controller']] as const) {
-        const service = dom.window.document.querySelector(`[id$="-service-${id}"]`)!
-        expect([...service.querySelectorAll('.text-outer-tspan')].map((row) => row.textContent)).toEqual([label])
+        const service = dom.window.document.querySelector(`.pele-service[data-id="${id}"]`)!
+        expect(service.querySelector('.pele-label')!.textContent).toBe(label)
       }
-      expect(svg).toContain('data-beautiflow-layout="compound-elk-fallback"')
-      expect(svg).toContain('data-beautiflow-wrapped-labels="0"')
+      expect(svg).toContain('pele-architecture')
     } finally {
       dom.window.close()
     }

@@ -35,8 +35,8 @@ src/cli.ts
   ├─ diagram/pipeline.ts     family routing and output
   ├─ diagram/svg.ts          Beautiful Mermaid SVG adaptation
   ├─ diagram/specialized.ts  pie and GitGraph rendering
-  ├─ diagram/architecture.ts Mermaid architecture, icons, DOM/canvas adapter
-  ├─ diagram/architecture-layout.ts compound ELK placement and orthogonal routing
+  ├─ diagram/architecture.ts architecture rendering entry point
+  ├─ diagram/pele.ts         pinned Pele runtime, Iconify adapter, concrete SVG colors
   ├─ server.ts               live read-only preview
   └─ skill.ts                embedded Agent Skill installer
 ```
@@ -59,7 +59,7 @@ Semantic transformations update Mermaid. Layout actions update the sidecar. Rend
 
 ## Rendering families
 
-Flowchart and state diagrams use the complete project pipeline. Sequence, class, ER, and XY charts route through Beautiful Mermaid’s specialized renderers. Pie and GitGraph use deterministic Beautiflow renderers. `architecture-beta` uses Mermaid’s native renderer by default and adds a compound ELK stability fallback for large multilevel diagrams. See [Rendering](rendering.md).
+Flowchart and state diagrams use the complete project pipeline. Sequence, class, ER, and XY charts route through Beautiful Mermaid’s specialized renderers. Pie and GitGraph use deterministic Beautiflow renderers. `architecture-beta` uses Pele's synchronous DOM-free parser and renderer for every size, with explicit ports and registered icons. Flowchart/state sidecars and ELK remain unchanged. See [Rendering](rendering.md).
 
 ## Determinism
 
@@ -71,4 +71,4 @@ Flowchart and state diagrams use the complete project pipeline. Sequence, class,
 
 ## Standalone executable
 
-Bun compiles TypeScript, Beautiful Mermaid, Mermaid, ELK, JSDOM, canvas, resvg, the browser viewer, and the Agent Skill into one host-targeted executable. PNG support includes a native resvg library, so release binaries must be built per operating system and architecture. The build embeds JSDOM's runtime stylesheet and disables its unused synchronous-XHR worker path. CI then hides `node_modules` and verifies version output, agent inspection, and architecture rendering from the executable.
+Bun compiles TypeScript, Beautiful Mermaid, Pele, ELK, resvg, Iconify assets, the browser viewer, and the Agent Skill into one host-targeted executable. PNG support includes a native resvg library, so release binaries must be built per operating system and architecture. No DOM or canvas runtime is required; JSDOM is test-only. CI then hides `node_modules` and verifies version output, agent inspection, and architecture rendering from the executable.

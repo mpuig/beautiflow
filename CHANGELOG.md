@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.0
+
+- Added accessible SVG names and descriptions with authored Mermaid metadata and deterministic fallbacks.
+- Added readability diagnostics for stacked endpoints, label overflow, and group-header collisions, with issue-specific repair guidance.
+- Added informational composition guidance for detail budgets, focused views, weak labels, and fan-in without authorizing semantic deletion.
+- Embedded curated semantic patterns and added a 34-diagram visual contact sheet with accessibility validation.
+
+- Migrated `architecture-beta` to pinned Pele 1.10.0 with deterministic, synchronous rendering and registered AWS/Lucide icons.
+- Removed Mermaid, JSDOM, and napi-rs canvas from the executable; JSDOM remains test-only.
+- Preserved themes, accessibility, transparency, and PNG exports; regenerated architecture fixtures with Pele's layout.
+- Architecture audit now reports `pele-renderer-only` coverage with null score and metrics. The previous compound geometry checks are unavailable because Pele does not expose positioned routes.
+- Flowchart/state ELK, sidecars, transformations, and polish remain unchanged.
+
 ## 0.9.0
 
 - Prevented first-use polish from accepting layouts below the incumbent geometry score, including diagrams without a sidecar.

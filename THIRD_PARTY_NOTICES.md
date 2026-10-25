@@ -10,11 +10,33 @@ The layout and SVG rendering adapters under `src/vendor/beautiful-mermaid/` are 
 
 https://github.com/lukilabs/beautiful-mermaid
 
-## Mermaid
+## Pele
 
-Mermaid 11 provides parsing, fCoSE layout, and SVG rendering for `architecture-beta` diagrams. Licensed under the MIT License.
+Pele 1.10.0 provides synchronous parsing and SVG rendering for `architecture-beta` diagrams. Its compatibility specifications and grammar files derive from MIT-licensed Mermaid.
 
-https://github.com/mermaid-js/mermaid
+https://github.com/obsidianmd/pele
+
+MIT License
+
+Copyright (c) 2026 kepano
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ## SVG Logos and Lucide icon data
 
@@ -23,12 +45,11 @@ Architecture diagrams register the Iconify `logos` collection (SVG Logos, CC0-1.
 https://github.com/gilbarbara/logos
 https://github.com/lucide-icons/lucide
 
-## jsdom and napi-rs canvas
+## jsdom (development only)
 
-Beautiflow uses jsdom and `@napi-rs/canvas` to provide the DOM and canvas measurement APIs required by Mermaid’s architecture renderer in the standalone executable. See their packages for MIT licensing and notices.
+JSDOM is used for test assertions and is not included in the standalone executable. Licensed under MIT.
 
 https://github.com/jsdom/jsdom
-https://github.com/Brooooooklyn/canvas
 
 ## ELK / elkjs
 

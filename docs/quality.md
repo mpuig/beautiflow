@@ -26,9 +26,9 @@ Flowchart/state readability findings include semantic element IDs, measured `evi
 
 High-severity geometry findings reduce the score heavily. Layout actions and transformations are rejected when they introduce node overlaps or arrows through unrelated nodes.
 
-`audit` also evaluates supported large multilevel architecture renders. The provider-neutral compound pass measures detached endpoints, explicit-port direction violations, icon overlaps, label/icon/route collisions, shared channels, group-title crossings, excessive bends, fragmented labels, and detail beyond the single-slide budget. Only short common terminal stubs are excluded from shared-channel counts; a shared endpoint does not excuse an entire shared route. The renderer does not infer a primary semantic path from graph length or provider names.
+Architecture uses Pele's deterministic renderer. `audit` validates rendering and reports `coverage: pele-renderer-only`, `score: null`, and `metrics: null`. Pele's public API does not expose positioned route geometry, so the previous compound-geometry checks are unavailable. Rendering success is not a passing geometry audit. Inspect attachment points, port directions, overlaps, shared routes, group headers, labels, and readability in the final artifact. The renderer does not infer a primary semantic path from graph length or provider names.
 
-The JSON report identifies coverage. `compound-geometry` includes measured geometry and a score, including a real zero when defects warrant it. `native-renderer-only` means those checks were not run and reports `score: null`, not 100. Geometry scores never certify AWS/GCP/Azure correctness or readability at a particular display size. Preserve the complete source and author separate request, network, and operations views when density obscures meaning.
+Geometry scores never certify AWS/GCP/Azure correctness or readability at a particular display size. Preserve the complete source and author separate request, network, and operations views when density obscures meaning.
 
 ## Semantic diagnostics
 

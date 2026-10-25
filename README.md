@@ -47,7 +47,7 @@ The harness invokes the skill and follows Beautiflow's capability-aware, receipt
 - Preserve Beautiful Mermaid’s ELK routes, clipping, labels, shapes, and arrowheads
 - Route moved flowchart edges and architecture connectors around obstacles with deterministic Manhattan routing
 
-Layout actions, semantic transformations, diagnostics, polishing, and persistent sidecars focus on Mermaid flowcharts and state diagrams. Sequence, class, ER, and XY charts use family-specific SVG/PNG renderers and terminal output where supported. Pie and GitGraph support SVG/PNG rendering. Architecture supports SVG/PNG rendering plus visual audit; it preserves Mermaid’s native documented layout for normal diagrams and activates a deterministic compound ELK stability fallback for large multilevel diagrams. Both architecture paths retain explicit ports and registered AWS/Lucide icon packs.
+Layout actions, semantic transformations, diagnostics, polishing, and persistent sidecars focus on Mermaid flowcharts and state diagrams. Sequence, class, ER, and XY charts use family-specific SVG/PNG renderers and terminal output where supported. Pie and GitGraph support SVG/PNG rendering. Architecture uses Pele's deterministic, DOM-free SVG/PNG renderer, retaining explicit ports and registered AWS/Lucide icon packs. Architecture audit reports renderer-only coverage with no geometry score; inspect the final artifact visually.
 
 ## Documentation and examples
 
@@ -302,4 +302,4 @@ Beautiflow is released under the MIT License. See `LICENSE`.
 
 ## Third-party software
 
-Beautiflow uses Beautiful Mermaid, ELK, Mermaid, JSDOM, napi-rs canvas, Iconify collections, and resvg. Vendored Beautiful Mermaid layout and rendering files retain their MIT license in `src/vendor/beautiful-mermaid/LICENSE`. See `THIRD_PARTY_NOTICES.md` for the complete attribution and license list.
+Beautiflow uses Beautiful Mermaid, ELK, Pele, Iconify collections, and resvg. JSDOM is used only in tests. Vendored Beautiful Mermaid layout and rendering files retain their MIT license in `src/vendor/beautiful-mermaid/LICENSE`. See `THIRD_PARTY_NOTICES.md` for the complete attribution and license list.

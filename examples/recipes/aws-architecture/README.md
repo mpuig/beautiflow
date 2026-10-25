@@ -16,7 +16,7 @@ In another terminal, start Pi, Claude Code, or Codex with the Beautiflow skill i
 
 ## AWS architecture rendering
 
-This recipe uses Mermaid `architecture-beta`, not a generic flowchart. Mermaid supplies parsing, labels, boundaries, registered `logos`, `lucide`, and `aws` icons, and the native layout used by the smaller snapshots. The full production snapshot crosses Beautiflow’s complexity threshold and uses the compound ELK stability fallback instead of accepting an extreme fCoSE arrangement. The result works as SVG, PNG, and live server output. The layout and audit code are provider-neutral; AWS-specific decisions live only in these example sources.
+This recipe uses Mermaid `architecture-beta`, not a generic flowchart. Pele supplies deterministic parsing, labels, boundaries, and layout for every snapshot; Beautiflow resolves registered `logos`, `lucide`, and `aws` icons. The result works as SVG, PNG, and live server output without a DOM runtime. Architecture audit reports renderer-only coverage (`score: null` and `metrics: null`), so inspect ports, labels, crossings, and readability visually. AWS-specific decisions live only in these example sources.
 
 AWS service glyphs come from the CC0 SVG Logos collection where available. Lucide supplies neutral actors and fallbacks for services absent from that collection. They create an AWS-documentation-style diagram but are not a redistributed copy of the official AWS Architecture Icon Package. AWS names and marks remain the property of Amazon Web Services.
 
@@ -276,7 +276,7 @@ The conventional flowchart's reviewed version shows the controller relationship 
 
 For presentation-sized explanations, start with the separate [request, network, and operations examples](../architecture-views/README.md). They use provider-neutral responsibilities, are not automatic projections of this AWS source, and do not replace the complete reference.
 
-Solid arrows in the native architecture reference mean directed relationships, not necessarily request traffic. A layout algorithm cannot validate provider semantics; review those separately using [AWS load-balancing guidance](https://docs.aws.amazon.com/eks/latest/best-practices/load-balancing.html) and [zonal NAT guidance](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-basics.html).
+Solid arrows in the architecture reference mean directed relationships, not necessarily request traffic. A layout algorithm cannot validate provider semantics; review those separately using [AWS load-balancing guidance](https://docs.aws.amazon.com/eks/latest/best-practices/load-balancing.html) and [zonal NAT guidance](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-basics.html).
 
 ## Continue the conversation
 

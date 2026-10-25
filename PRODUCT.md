@@ -29,7 +29,7 @@ A coding agent starts with `beautiflow inspect <diagram.mmd> --agent --json`, se
 - It does not run polish automatically.
 - It has no visual editing, tldraw, embedded chat, or model integration.
 - Flowchart and state diagrams use the complete layout pipeline; specialized Mermaid families use render-only pipelines.
-- `architecture-beta` preserves Mermaid’s native renderer for normal diagrams and uses a deterministic compound ELK stability fallback for large multilevel diagrams, with explicit ports and registered AWS/Lucide icon packs.
+- `architecture-beta` uses Pele's deterministic, DOM-free renderer with explicit ports and registered AWS/Lucide icon packs. Architecture audit reports renderer-only coverage, not an unmeasured geometry score.
 - The normal interface must remain simple and avoid exposing unnecessary options.
 - Agent integrations discover family-specific capabilities, mutation boundaries, JSON Schemas, safe argument arrays, execution budgets, and stop conditions through a versioned JSON contract.
 - Every agent mutation uses a receipt-backed state machine with stale-input rejection, validated evidence, rollback, and explicit terminal states.

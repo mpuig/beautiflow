@@ -21,7 +21,7 @@ function capabilitiesFor(family: DiagramFamily): Record<string, Capability> {
     audit: {
       supported: graph || architecture,
       mutates: false,
-      ...(!graph && !architecture ? { reason: 'Geometric audit is available for flowchart, state, and architecture diagrams' } : {}),
+      ...(architecture ? { reason: 'Pele renderer-only coverage; architecture geometry metrics and score are unavailable' } : !graph ? { reason: 'Audit is available for flowchart, state, and architecture diagrams' } : {}),
     },
     diagnose: {
       supported: graph,
@@ -66,7 +66,7 @@ export async function agentInspection(inputPath: string) {
     constraints.push('Use semantic actions or transformations; never write node coordinates by hand')
     constraints.push('Preview layout and topology changes with --dry-run before applying them')
   } else if (family === 'architecture') {
-    constraints.push('Architecture diagrams support rendering and visual audit but not semantic polish or transformations')
+    constraints.push('Architecture uses Pele; audit reports renderer-only coverage with null score and metrics. Inspect the final artifact visually. Semantic polish and transformations are unsupported')
   } else {
     constraints.push(`${family} diagrams are render-only in the current project model`)
   }
@@ -102,7 +102,7 @@ export async function agentInspection(inputPath: string) {
       ? [
           {
             operation: 'audit',
-            when: 'Evaluate final rendered architecture quality before accepting the result',
+            when: 'Validate rendering and discover audit limitations before visually reviewing the final architecture',
             argv: ['beautiflow', 'audit', inputPath, '--json'],
             mutates: false,
           },

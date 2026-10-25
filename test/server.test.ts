@@ -22,6 +22,27 @@ async function waitFor(url: string, predicate: (state: any) => boolean): Promise
 }
 
 describe('read-only preview server', () => {
+  test('previews Pele architecture read-only and retains the last good SVG', async () => {
+    const directory = await mkdtemp(join(tmpdir(), 'beautiflow-pele-server-'))
+    directories.push(directory)
+    const sourcePath = join(directory, 'architecture.mmd')
+    const source = 'architecture-beta\nservice api(lucide:box)[API]\n'
+    await writeFile(sourcePath, source)
+    const server = await startPreviewServer(sourcePath, { port: 0, openBrowser: false })
+    servers.push(server)
+    const svg = await fetch(`${server.url}/diagram.svg`).then((response) => response.text())
+    expect(svg).toContain('pele-architecture')
+    expect(await Bun.file(sourcePath).text()).toBe(source)
+    expect(await Bun.file(join(directory, 'architecture.beautiflow.json')).exists()).toBe(false)
+    await writeFile(sourcePath, 'architecture-beta\nservice api(server)[API]\napi:R --> L:missing')
+    await waitFor(server.url, (state) => state.status === 'error')
+    expect(await fetch(`${server.url}/diagram.svg`).then((response) => response.text())).toBe(svg)
+    await writeFile(sourcePath, 'architecture-beta\nservice db(database)[Recovered]\n')
+    await waitFor(server.url, (state) => state.status === 'ready')
+    expect(await fetch(`${server.url}/diagram.svg`).then((response) => response.text())).toContain('Recovered')
+    expect(await Bun.file(join(directory, 'architecture.beautiflow.json')).exists()).toBe(false)
+  })
+
   test('updates on save and keeps the last good render through errors', async () => {
     const directory = await mkdtemp(join(tmpdir(), 'beautiflow-server-'))
     directories.push(directory)

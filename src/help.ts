@@ -27,8 +27,8 @@ Quality:
   JSON findings name supported semantic repairs; agents never author coordinates.
   polish ranks valid candidates in one bounded pass without changing semantics.
   First-use polish keeps the incumbent unless a valid candidate meets its score.
-  Architecture audit declares coverage; native-only renders have no geometry score.
-  Compound architecture layout preserves explicit ports without cloud-specific rules.
+  Architecture uses Pele with explicit ports and registered AWS/Lucide icons.
+  Architecture audit reports renderer-only coverage with no geometry score.
 
 Render options:
   -f, --format <format>   Output: svg, png, unicode, or ascii (default: svg)

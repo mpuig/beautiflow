@@ -41,6 +41,8 @@ describe('agent protocol', () => {
 
     expect(result.family).toBe('architecture')
     expect(result.capabilities.audit!.supported).toBe(true)
+    expect(result.capabilities.audit!.reason).toContain('renderer-only')
+    expect(result.constraints.join(' ')).toContain('null score and metrics')
     expect(result.capabilities.polish!.supported).toBe(false)
     expect(result.capabilities.transform!.mutates).toBe(false)
     expect(result.recommendedOperations[0]?.operation).toBe('audit')

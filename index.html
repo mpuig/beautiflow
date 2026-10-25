@@ -16,7 +16,7 @@
     "name": "Beautiflow",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "macOS, Linux",
-    "softwareVersion": "0.9.0",
+    "softwareVersion": "1.0.0",
     "license": "https://opensource.org/licenses/MIT",
     "url": "https://beautiflow.cc/"
   }
@@ -45,7 +45,7 @@
         </div>
         <div id="panel-architecture" role="tabpanel" aria-labelledby="tab-architecture" tabindex="0">
           <a class="diagram-stage" href="examples/recipes/visual-quality/rendered/architecture.svg" aria-label="Open the full-size order platform architecture"><img src="examples/recipes/visual-quality/rendered/architecture.svg" alt="Customers call an Orders API connected to a database and a queue, worker, and notification path within a platform boundary" fetchpriority="high"></a>
-          <div class="diagram-caption"><p><strong>Order platform.</strong> Services, dependencies, and one clear boundary. Native Mermaid architecture rendering; no automatic polish.</p><div class="artifact-links"><a href="examples/recipes/visual-quality/architecture.mmd">Mermaid source</a><a href="examples/recipes/visual-quality/rendered/architecture.svg">Full-size SVG</a></div></div>
+          <div class="diagram-caption"><p><strong>Order platform.</strong> Services, dependencies, and one clear boundary. Deterministic Pele architecture rendering; no automatic polish.</p><div class="artifact-links"><a href="examples/recipes/visual-quality/architecture.mmd">Mermaid source</a><a href="examples/recipes/visual-quality/rendered/architecture.svg">Full-size SVG</a></div></div>
         </div>
         <div id="panel-sequence" role="tabpanel" aria-labelledby="tab-sequence" tabindex="0" hidden>
           <a class="diagram-stage" href="examples/recipes/visual-quality/rendered/cache.svg" aria-label="Open the full-size cache sequence"><img src="examples/recipes/visual-quality/rendered/cache.svg" alt="A browser request takes a cache-hit or database-fallback path before the API returns a response" loading="lazy"></a>
@@ -81,7 +81,7 @@
       <div class="principles">
         <div><h3>Keep the meaning</h3><p>Mermaid holds the relationships. Sidecars hold layout overrides. Polishing never changes topology to make a diagram look better.</p><a href="/docs/sidecar/">How layout state works</a></div>
         <div><h3>Check, then change</h3><p>A validated plan precedes each supported agent mutation. Receipts enforce verification, allow one named correction, and support rollback.</p><a href="/docs/agent-skill/">Read the agent protocol</a></div>
-        <div><h3>Know the limits</h3><p>Flowcharts and state diagrams support polish. Architecture supports rendering and audit. Specialized families use their own renderers.</p><a href="/docs/rendering/">See family support</a></div>
+        <div><h3>Know the limits</h3><p>Flowcharts and state diagrams support polish. Architecture supports rendering and renderer-only audit, without a geometry score. Specialized families use their own renderers.</p><a href="/docs/rendering/">See family support</a></div>
       </div>
     </section>
   </main>

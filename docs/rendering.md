@@ -11,9 +11,9 @@
 - `xychart` → Beautiful Mermaid XY renderer
 - `pie` → Beautiflow pie renderer
 - `gitGraph` → Beautiflow GitGraph renderer
-- `architecture-beta` → Mermaid parser, icon registry, and native renderer; large multilevel diagrams then use Beautiflow's compound ELK stability fallback and orthogonal routing
+- `architecture-beta` → pinned Pele parser and renderer with Beautiflow's Iconify adapter
 
-YAML frontmatter is skipped during family detection and remains available to Mermaid for architecture theme and layout configuration. Unknown families fail explicitly.
+YAML frontmatter is skipped during family detection and remains available to the selected renderer. Pele reads supported architecture configuration (such as icon size and padding); Mermaid-specific fCoSE settings are no longer used. Beautiflow theme names remain authoritative for exported colors. Unknown families fail explicitly.
 
 Sequence output uses the theme foreground for message labels rather than the muted secondary color. This keeps essential request and response text readable in dark palettes while preserving connector and arrow colors.
 
@@ -38,27 +38,23 @@ Positioned ELK edges are matched to semantic edges by source/target endpoint que
 
 ## Architecture diagrams
 
-The compound fallback measures actual icon dimensions and separately measures label boxes. ELK receives those measured footprints instead of fixed placeholder sizes. Labels wrap at word boundaries and move to an unused side when a connector needs the bottom port; this keeps labels out of terminal paths. Its label audit counts mid-word splits and labels longer than two lines. Natural two-line labels are allowed.
-
-`architecture-beta` uses Mermaid 11 for parsing, labels, icons, boundary styling, and its native fCoSE layout on normal-sized diagrams, matching Mermaid’s documented renderer. For large diagrams with at least 14 services and multilevel groups, Beautiflow applies a bounded stability fallback: the same compound ELK engine used by Beautiful Mermaid replaces unstable fCoSE coordinates while retaining Mermaid’s architecture visuals. Generated IDs are normalized for deterministic output. The standalone renderer registers:
+`architecture-beta` uses Pele 1.10.0 for synchronous, deterministic parsing, placement, and SVG rendering without DOM, canvas, or randomness. Pele targets Mermaid 12.1 syntax but owns its layout and visual style; it does not promise pixel parity with Mermaid.js. The same renderer handles small and large diagrams, eliminating the previous native/fallback split. The standalone adapter resolves:
 
 - `logos:` — CC0 SVG Logos, including colored AWS service marks
 - `lucide:` — ISC-licensed neutral actors and infrastructure symbols
 - `aws:` — AWS-logo aliases plus Lucide fallbacks for services absent from the logos collection
 
-Architecture diagrams support SVG, PNG, transparency, frontmatter configuration, explicit `T/B/L/R` ports, nested groups, Mermaid `align row`/`align column` directives in the native path, and live preview. Native diagrams retain Mermaid’s straight and single-elbow connectors. The complex-diagram fallback uses Beautiflow’s shared visibility-grid/A* Manhattan router, preserves every explicit port including external actors, avoids icon/label/header boxes, and penalizes shared channels. It uses neutral solid relationships: neither provider names, group IDs, nor a longest-path heuristic determine request-flow meaning. AWS, GCP, Azure, built-in icons, and custom registered icon families share the same geometry code.
+Architecture supports SVG, PNG, transparency, supported frontmatter configuration, explicit `T/B/L/R` ports, nested groups, junctions, labelled edges, `align row`/`align column` directives, and live preview. Iconify viewBoxes are retained and gradient IDs are scoped deterministically per icon occurrence. Pele's source/output limits remain enforced. Beautiflow does not infer primary traffic from provider names or graph length.
 
-The fallback accepts a deliberately bounded subset: explicit service/group declarations and unlabelled service-to-service edges with ports. Junctions, group endpoints, labelled edges, alignment directives, and unrecognized syntax retain the complete native render rather than silently losing semantics. Architecture diagrams support the public `audit` command but do not currently support terminal output, sidecar layout actions, diagnose, transform, or polish.
-
-Architecture audit reports `coverage: compound-geometry` for the fallback, including detached endpoints, port direction violations, icon overlaps, label collisions, edge/icon intersections, and header crossings. Native output reports `coverage: native-renderer-only` and `score: null`; a successful native render is not an unmeasured 100/100. Neither mode validates cloud architecture semantics or text readability at an arbitrary thumbnail size.
+Architecture does not support terminal output, sidecar layout actions, diagnose, transform, or polish. The public `audit` command validates rendering and reports `coverage: pele-renderer-only`, `score: null`, and `metrics: null`. Pele does not expose positioned route geometry through its public API; the previous compound-geometry audit is unavailable. A successful render is not an unmeasured 100/100. Review attachment points, overlaps, labels, cloud semantics, and readability in the final artifact.
 
 ## SVG
 
-The vendored Beautiful Mermaid renderer owns node shapes, clipping, labels, groups, arrowheads, and most family-specific presentation. Beautiflow materializes CSS variables into concrete colors because resvg does not implement every browser CSS fallback used by the upstream SVG. Architecture SVGs always retain Mermaid’s icon and boundary styling. Mermaid owns normal architecture placement and connectors; Beautiflow owns placement and route geometry only when the complex-diagram stability fallback is activated.
+The vendored Beautiful Mermaid renderer owns node shapes, clipping, labels, groups, arrowheads, and most family-specific presentation. Beautiflow materializes CSS variables into concrete colors because resvg does not implement every browser CSS fallback used by the upstream SVG. Pele owns architecture placement, labels, boundaries, and connectors. Beautiflow adapts Iconify assets, resolves Pele CSS variables to concrete values for export, adds an explicit background unless transparent, and applies accessibility fallbacks. Rendering defaults never depend on preview container width.
 
 ## PNG
 
-PNG is rendered from the final SVG with `@resvg/resvg-js` at 2× scale. System fonts are enabled with Arial as the final fallback. The native resvg dependency makes compiled executables host-targeted. JSDOM is loaded only for architecture rendering; its default stylesheet is embedded and its unused synchronous-XHR worker path is removed during compilation so the executable does not depend on the build machine's `node_modules`.
+PNG is rendered from the final SVG with `@resvg/resvg-js` at 2× scale. System fonts are enabled with Arial as the final fallback. The native resvg dependency makes compiled executables host-targeted. Architecture rendering requires no DOM runtime or canvas native library. JSDOM is test-only; the executable does not depend on the build machine's `node_modules`.
 
 ## Themes
 

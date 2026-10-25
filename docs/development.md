@@ -82,7 +82,7 @@ When updating Beautiful Mermaid:
 
 ## Adding a diagram family
 
-Do not route a new family through flowchart semantics merely because it renders. Add explicit detection and a family-specific parser/renderer, use Beautiful Mermaid’s specialized pipeline, or use Mermaid’s native renderer when its semantics require it. Mark whether the family is render-only or supports the complete project IR. `architecture-beta` is the reference for a render-only Mermaid family with additional runtime adapters and icon assets.
+Do not route a new family through flowchart semantics merely because it renders. Add explicit detection and a family-specific parser/renderer, using Beautiful Mermaid's specialized pipeline or the pinned Pele adapter. Mark whether the family is render-only or supports the complete project IR. `architecture-beta` uses Pele 1.10.0 with Iconify assets and concrete SVG colors. Keep Pele behind `src/diagram/pele.ts`; validate upgrades against the example suite before changing the exact pin. JSDOM is a test-only dependency, not part of the executable.
 
 ## Adding a CLI option
 

@@ -3,7 +3,6 @@ import { readdir } from 'node:fs/promises'
 import { basename, join } from 'node:path'
 import { diagramFamily, renderProjectOutput, renderStandaloneOutput } from '../src/diagram/pipeline.ts'
 import { loadProject } from '../src/diagram/project.ts'
-import { expectArchitectureSnapshot } from './helpers/architecture-snapshot.ts'
 
 describe('example Mermaid compatibility suite', () => {
   test('keeps focused architecture views reproducible and separately scoped', async () => {
@@ -43,7 +42,7 @@ describe('example Mermaid compatibility suite', () => {
       const output = project ? await renderProjectOutput(project, request) : await renderStandaloneOutput(source, request)
       const committed = await Bun.file(`${root}/rendered/${stem}.svg`).text()
       if (name === 'architecture') {
-        expectArchitectureSnapshot(String(output), committed)
+        expect(output).toBe(committed)
         expect(await renderStandaloneOutput(source, request)).toBe(output)
       } else {
         expect(output).toBe(committed)
@@ -130,18 +129,13 @@ describe('example Mermaid compatibility suite', () => {
 
       const svg = await Bun.file(outputPath).text()
       expect(svg).toContain('aria-roledescription="architecture"')
-      expect(svg).toContain('class="architecture-edges"')
-      if (stem === 'step-6-production-architecture') {
-        expect(svg).toContain('data-beautiflow-layout="compound-elk-fallback"')
-        expect(Number(svg.match(/data-beautiflow-quality-score="([\d.]+)"/)?.[1])).toBeGreaterThanOrEqual(85)
-        expect(svg).toContain('data-beautiflow-wrapped-labels="0"')
-        expect(svg).toContain('data-flow-role="relationship"')
-        for (const metric of ['detached-endpoints', 'port-violations', 'node-overlaps', 'label-collisions', 'edge-node-intersections', 'header-crossings']) {
-          expect(svg).toContain(`data-beautiflow-${metric}="0"`)
-        }
-      }
+      expect(svg).toContain('class="pele-edges"')
+      const rendered = await renderStandaloneOutput(source, { inputPath, format: 'svg', themeName: 'github-light', transparent: false })
+      expect(rendered).toBe(svg)
+      expect(svg).not.toContain('var(')
       const viewBox = svg.match(/viewBox="[\d.-]+ [\d.-]+ ([\d.]+) ([\d.]+)"/)
-      expect(Number(viewBox?.[1])).toBeGreaterThan(Number(viewBox?.[2]))
+      expect(Number(viewBox?.[1])).toBeGreaterThan(0)
+      expect(Number(viewBox?.[2])).toBeGreaterThan(0)
     }
   })
 

@@ -17,7 +17,7 @@ validation; the harness owns intent and visual judgment.
 
 - Bun 1.3+ and TypeScript, compiled to a standalone host-targeted executable
 - Beautiful Mermaid 1.1.3 (vendored synchronous ELK layout/render adapter under `src/vendor/beautiful-mermaid/`)
-- Mermaid 11 for `architecture-beta` (JSDOM + napi-rs canvas shim)
+- Pele 1.10.0 for synchronous DOM-free `architecture-beta` rendering
 - elkjs for layout, resvg-js for PNG, Iconify packs for architecture icons
 
 ## Project Conventions
@@ -67,5 +67,5 @@ behavior changes, docs under `docs/` updated for public behavior changes,
 
 ## External Dependencies
 
-`beautiful-mermaid`, `elkjs`, `mermaid`, `@resvg/resvg-js`, `jsdom`,
-`@napi-rs/canvas`, `@iconify-json/logos`, `@iconify-json/lucide`.
+`beautiful-mermaid`, `elkjs`, `pele`, `@resvg/resvg-js`,
+`@iconify-json/logos`, `@iconify-json/lucide`. JSDOM is test-only.

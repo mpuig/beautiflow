@@ -195,50 +195,24 @@ async function runDiagnose(inputPath: string, json: boolean): Promise<void> {
 async function runAudit(inputPath: string, json: boolean): Promise<void> {
   const source = await readInput(inputPath)
   if (diagramFamily(source) === 'architecture') {
-    const svg = await renderStandaloneOutput(source, { inputPath, format: 'svg', transparent: false }) as string
-    const metric = (name: string): number => Number(svg.match(new RegExp(`data-beautiflow-${name}="([\\d.]+)"`))?.[1] ?? 0)
-    const metrics = {
-      sharedSegments: metric('shared-segments'),
-      headerCrossings: metric('header-crossings'),
-      excessiveBends: metric('excessive-bends'),
-      wrappedLabels: metric('wrapped-labels'),
-      complexityLoad: metric('complexity-load'),
-      detachedEndpoints: metric('detached-endpoints'),
-      portViolations: metric('port-violations'),
-      nodeOverlaps: metric('node-overlaps'),
-      edgeNodeIntersections: metric('edge-node-intersections'),
-      labelCollisions: metric('label-collisions'),
-    }
-    const audited = svg.includes('data-beautiflow-quality-score=')
-    const score = audited ? metric('quality-score') : null
-    const issues = [
-      ...(metrics.sharedSegments ? [{ severity: metrics.sharedSegments > 10 ? 'high' : 'medium', type: 'shared-segments', message: `${metrics.sharedSegments} connector segments share a routing channel` }] : []),
-      ...(metrics.headerCrossings ? [{ severity: 'high', type: 'header-crossings', message: `${metrics.headerCrossings} connectors cross a group header` }] : []),
-      ...(metrics.excessiveBends ? [{ severity: 'medium', type: 'excessive-bends', message: `${metrics.excessiveBends} bends exceed the route complexity budget` }] : []),
-      ...(metrics.wrappedLabels ? [{ severity: 'medium', type: 'wrapped-labels', message: `${metrics.wrappedLabels} service labels split words or wrap beyond two lines` }] : []),
-      ...(['detachedEndpoints', 'portViolations', 'nodeOverlaps', 'edgeNodeIntersections', 'labelCollisions'] as const).flatMap((name) => metrics[name]
-        ? [{ severity: 'high', type: name.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`), message: `${metrics[name]} architecture geometry defects: ${name}` }]
-        : []),
-      ...(metrics.complexityLoad ? [{ severity: 'low', type: 'complexity-load', message: `${metrics.complexityLoad} services exceed the single-slide detail budget` }] : []),
-    ]
+    await renderStandaloneOutput(source, { inputPath, format: 'svg', transparent: false })
     const report = {
       ok: true,
       operation: 'audit',
       changed: false,
-      score,
+      score: null,
       family: 'architecture',
-      coverage: audited ? 'compound-geometry' : 'native-renderer-only',
-      limitations: audited ? ['Geometry does not validate provider semantics or readability at a chosen display size.'] : ['Native rendering succeeded; fallback geometry checks were not run.'],
-      metrics,
-      issues,
-      warnings: issues,
-      nextAction: issues.some((issue) => issue.severity === 'high') ? { operation: 'edit-source', argv: [], reason: 'Correct high-severity architecture findings before accepting the render; architecture mutation is not supported', requiresConfirmation: true } : null,
+      coverage: 'pele-renderer-only',
+      limitations: ['Pele rendering succeeded; route geometry is not exposed by the renderer and has not been audited. Inspect the final artifact for port attachment, overlap, label clearance, and readability.'],
+      metrics: null,
+      issues: [],
+      warnings: [],
+      nextAction: null,
     }
     if (json) printJson(report)
     else {
-      console.log(audited ? `Architecture score ${score}/100` : 'Native architecture rendered; geometry score unavailable')
-      console.log(`${metrics.sharedSegments} shared segments · ${metrics.headerCrossings} header crossings · ${metrics.excessiveBends} excessive bends · ${metrics.wrappedLabels} wrapped labels · ${metrics.complexityLoad} complexity load`)
-      for (const issue of issues) console.log(`  ${issue.severity}: ${issue.message}`)
+      console.log('Pele architecture rendered; geometry score unavailable')
+      console.log(report.limitations[0])
     }
     return
   }
