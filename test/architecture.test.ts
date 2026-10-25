@@ -62,11 +62,11 @@ describe('Pele architecture runtime', () => {
   })
 
   test('rejects invalid diagrams and oversized input', async () => {
-    await expect(renderStandaloneOutput('architecture-beta\nservice api(server)[API]\napi:R --> L:missing', request)).rejects.toThrow('Unable to render architecture diagram')
+    await expect(renderStandaloneOutput('architecture-beta\nservice api(server)[API]\napi:R --> L:missing', request)).rejects.toThrow('Could not process Mermaid')
     await expect(renderStandaloneOutput('architecture-beta\n' + ' '.repeat(50_000), request)).rejects.toThrow('limit')
   })
 
-  test('reports unavailable geometry rather than an unmeasured perfect score', async () => {
+  test('reports positioned geometry with explicit limitations', async () => {
     const directory = await mkdtemp(join(tmpdir(), 'architecture-audit-'))
     try {
       const path = join(directory, 'native.mmd')
@@ -74,9 +74,10 @@ describe('Pele architecture runtime', () => {
       const result = Bun.spawnSync([process.execPath, 'src/cli.ts', 'audit', path, '--json'])
       expect(result.exitCode).toBe(0)
       const report = JSON.parse(result.stdout.toString())
-      expect(report.coverage).toBe('pele-renderer-only')
-      expect(report.score).toBeNull()
-      expect(report.metrics).toBeNull()
+      expect(report.coverage).toBe('pele-positioned-geometry')
+      expect(report.score).toBe(100)
+      expect(report.metrics.nodeOverlaps).toBe(0)
+      expect(report.integrity.issues).toEqual([])
       expect(report.limitations.length).toBeGreaterThan(0)
     } finally { await rm(directory, { recursive: true, force: true }) }
   })

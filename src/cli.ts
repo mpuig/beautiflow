@@ -20,6 +20,10 @@ import { findFlowContext } from './flow-context.ts'
 import { startPreviewServer } from './server.ts'
 import { doctorReport } from './doctor.ts'
 import { schemaContract } from './schemas.ts'
+import { inspectArchitecture, auditArchitecture } from './diagram/architecture-analysis.ts'
+import { parseArchitectureActions, transformArchitecture, writeArchitectureSource } from './diagram/architecture-transform.ts'
+import { parsePele } from './diagram/pele.ts'
+import { svgIntegrity } from './diagram/integrity.ts'
 import { commitAgentMutation, finishAgentMutation, planAgentCorrection, planAgentMutation, rollbackAgentMutation, verifyAgentMutation } from './agent-runtime.ts'
 
 function printJson(value: unknown): void {
@@ -52,6 +56,15 @@ async function runInspect(inputPath: string, json: boolean, agent: boolean): Pro
       console.log(`${contract.family} · ${Object.values(contract.capabilities).filter((capability) => capability.supported).length} supported operations`)
       console.log(`Next: ${contract.recommendedOperations[0]?.argv.join(' ') ?? 'No operation recommended'}`)
     }
+    return
+  }
+  const source = await readInput(inputPath)
+  const family = diagramFamily(source)
+  if (family !== 'graph') {
+    const model = family === 'architecture' ? inspectArchitecture(source) : parsePele(source)
+    const summary = JSON.parse(JSON.stringify(model, (_key, value) => value instanceof Map ? Object.fromEntries(value) : value))
+    if (json) printJson({ source: inputPath, family, ...summary })
+    else console.log(`${family} · ${'metrics' in summary ? JSON.stringify(summary.metrics) : 'render-only'}`)
     return
   }
   const project = await loadProject(inputPath)
@@ -174,6 +187,14 @@ async function runLayout(inputPath: string, count: number, json: boolean): Promi
 }
 
 async function runDiagnose(inputPath: string, json: boolean): Promise<void> {
+  const source = await readInput(inputPath)
+  if (diagramFamily(source) === 'architecture') {
+    const semantic = inspectArchitecture(source)
+    const report = { ok: true, operation: 'diagnose', changed: false, ...semantic, warnings: semantic.issues, nextAction: null }
+    if (json) printJson(report)
+    else { console.log(JSON.stringify(report.metrics)); for (const issue of semantic.issues) console.log(issue.message) }
+    return
+  }
   const project = await loadProject(inputPath)
   const semantic = diagnoseProject(project)
   const report = {
@@ -195,25 +216,21 @@ async function runDiagnose(inputPath: string, json: boolean): Promise<void> {
 async function runAudit(inputPath: string, json: boolean): Promise<void> {
   const source = await readInput(inputPath)
   if (diagramFamily(source) === 'architecture') {
-    await renderStandaloneOutput(source, { inputPath, format: 'svg', transparent: false })
-    const report = {
-      ok: true,
-      operation: 'audit',
-      changed: false,
-      score: null,
-      family: 'architecture',
-      coverage: 'pele-renderer-only',
-      limitations: ['Pele rendering succeeded; route geometry is not exposed by the renderer and has not been audited. Inspect the final artifact for port attachment, overlap, label clearance, and readability.'],
-      metrics: null,
-      issues: [],
-      warnings: [],
-      nextAction: null,
-    }
+    const audit = auditArchitecture(source)
+    const report = { ok: true, operation: 'audit', changed: false, family: 'architecture', ...audit, warnings: audit.issues, nextAction: null }
     if (json) printJson(report)
     else {
-      console.log('Pele architecture rendered; geometry score unavailable')
+      console.log(`Architecture score ${report.score}/100 · ${report.coverage}`)
       console.log(report.limitations[0])
     }
+    return
+  }
+  if (diagramFamily(source) !== 'graph') {
+    const svg = await renderStandaloneOutput(source, { inputPath, format: 'svg', transparent: false }) as string
+    const integrity = svgIntegrity(svg)
+    const report = { ok: true, operation: 'audit', changed: false, family: diagramFamily(source), score: null, metrics: null, ...integrity, warnings: integrity.issues, nextAction: null }
+    if (json) printJson(report)
+    else console.log(`${report.family} · ${report.coverage} · geometry not measured`)
     return
   }
   const project = await loadProject(inputPath)
@@ -244,6 +261,16 @@ async function runTransform(
   dryRun: boolean,
   json: boolean,
 ): Promise<void> {
+  const source = await readInput(inputPath)
+  if (diagramFamily(source) === 'architecture') {
+    const actions = parseArchitectureActions(JSON.parse(await readInput(actionsPath)))
+    const result = transformArchitecture(source, actions)
+    if (!dryRun) await writeArchitectureSource(inputPath, result.source, source)
+    const report = { ok: true, operation: 'transform', changed: !dryRun, dryRun, actionsApplied: result.actionsApplied, score: result.audit.score, metrics: result.audit.metrics, warnings: result.audit.issues, ...(dryRun ? { transformedSource: result.source } : {}), nextAction: null }
+    if (json) printJson(report)
+    else console.log(`${dryRun ? 'Validated' : 'Applied'} ${actions.length} architecture transformations`)
+    return
+  }
   const project = await loadProject(inputPath)
   let actionsInput: unknown
   try {
@@ -431,6 +458,7 @@ if (import.meta.main) {
           code: cliError?.code ?? 'INTERNAL_ERROR',
           message: cliError ? message : 'Beautiflow encountered an unexpected internal error',
           retryable: false,
+          ...(cliError?.details ?? {}),
         },
         warnings: [],
         nextAction: null,

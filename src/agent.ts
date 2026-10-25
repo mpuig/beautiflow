@@ -5,6 +5,8 @@ import { diagnoseProject } from './diagram/semantic.ts'
 import { CliError } from './errors.ts'
 import { findFlowContext } from './flow-context.ts'
 import { readInput } from './io.ts'
+import { inspectArchitecture } from './diagram/architecture-analysis.ts'
+import { parsePele } from './diagram/pele.ts'
 
 interface Capability {
   supported: boolean
@@ -19,14 +21,14 @@ function capabilitiesFor(family: DiagramFamily): Record<string, Capability> {
     render: { supported: family !== 'unknown', mutates: false },
     preview: { supported: family !== 'unknown', mutates: false },
     audit: {
-      supported: graph || architecture,
+      supported: family !== 'unknown',
       mutates: false,
-      ...(architecture ? { reason: 'Pele renderer-only coverage; architecture geometry metrics and score are unavailable' } : !graph ? { reason: 'Audit is available for flowchart, state, and architecture diagrams' } : {}),
+      ...(!graph && !architecture ? { reason: 'SVG reference integrity only; geometry and model-to-render fidelity are not measured' } : {}),
     },
     diagnose: {
-      supported: graph,
+      supported: graph || architecture,
       mutates: false,
-      ...(!graph ? { reason: 'Semantic diagnosis requires the complete flowchart/state graph model' } : {}),
+      ...(!graph && !architecture ? { reason: 'Structural diagnosis requires a flowchart/state or architecture model' } : {}),
     },
     polish: {
       supported: graph,
@@ -39,9 +41,9 @@ function capabilitiesFor(family: DiagramFamily): Record<string, Capability> {
       ...(!graph ? { reason: 'Semantic layout actions currently require a flowchart or state diagram' } : {}),
     },
     transform: {
-      supported: graph,
-      mutates: graph,
-      ...(!graph ? { reason: 'Graph transformations currently require a flowchart or state diagram' } : {}),
+      supported: graph || architecture,
+      mutates: graph || architecture,
+      ...(!graph && !architecture ? { reason: 'Transformations require a flowchart/state or architecture model' } : {}),
     },
   }
 }
@@ -56,7 +58,7 @@ export async function agentInspection(inputPath: string) {
   const constraints: string[] = []
   let sidecar: string | null = null
   let sidecarExists = false
-  let semantic: ReturnType<typeof diagnoseProject> | null = null
+  let semantic: ReturnType<typeof diagnoseProject> | ReturnType<typeof inspectArchitecture> | null = null
 
   if (family === 'graph') {
     const project = await loadProject(inputPath)
@@ -66,9 +68,12 @@ export async function agentInspection(inputPath: string) {
     constraints.push('Use semantic actions or transformations; never write node coordinates by hand')
     constraints.push('Preview layout and topology changes with --dry-run before applying them')
   } else if (family === 'architecture') {
-    constraints.push('Architecture uses Pele; audit reports renderer-only coverage with null score and metrics. Inspect the final artifact visually. Semantic polish and transformations are unsupported')
+    semantic = inspectArchitecture(source)
+    constraints.push('Architecture supports structural diagnosis, measured geometry audit, and bounded source-preserving architecture transformations. No sidecar layout or automatic polish.')
+    constraints.push('Architecture geometry uses a pinned additive Pele extension; edge-label boxes and browser glyph measurements are not covered.')
   } else {
-    constraints.push(`${family} diagrams are render-only in the current project model`)
+    parsePele(source)
+    constraints.push(`${family} diagrams are render-only in the current project model; audit checks SVG references only. Terminal output is available only for sequence, class, ER, and XY charts`)
   }
 
   const recommendedOperations = family === 'graph'
@@ -100,9 +105,11 @@ export async function agentInspection(inputPath: string) {
       ]
     : family === 'architecture'
       ? [
+          { operation: 'diagnose', when: 'Inspect services, groups, connectivity, containment, labels, and detail load', argv: ['beautiflow', 'diagnose', inputPath, '--json'], mutates: false },
+          { operation: 'transform', when: 'Rename, relabel, move, add or reconnect an architecture element using architecture-specific actions', argv: ['beautiflow', 'agent', 'plan', inputPath, '--operation', 'transform', '--actions', '<transformations.json>', '--json'], mutates: false },
           {
             operation: 'audit',
-            when: 'Validate rendering and discover audit limitations before visually reviewing the final architecture',
+            when: 'Measure architecture geometry and check rendered element integrity before visual review',
             argv: ['beautiflow', 'audit', inputPath, '--json'],
             mutates: false,
           },

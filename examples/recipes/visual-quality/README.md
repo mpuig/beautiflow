@@ -37,7 +37,7 @@ Stop with Ctrl-C before opening another example. Substitute `job.mmd` or `cache.
 
 Sequence auditing is unsupported; do not interpret a successful render as a geometry audit.
 
-Architecture supports `audit` and `server`, but not `polish`, `apply`, or `transform`. Pele owns placement. Audit reports renderer-only coverage with null score and metrics; inspect the output visually rather than interpreting an empty issue list as passing geometry checks. The platform boundary here is illustrative, not a security assurance.
+Architecture supports `inspect`, `diagnose`, measured `audit`, bounded architecture-specific `transform`, and `server`, but not `polish` or layout `apply`. Pele owns placement. A pinned additive renderer extension supplies geometry and integrity evidence; edge-label boxes and browser glyph ink remain outside coverage, so inspect the output visually. The platform boundary here is illustrative, not a security assurance.
 
 ## Reproduce final fixtures
 

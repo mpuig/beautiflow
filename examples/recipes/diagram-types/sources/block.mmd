@@ -1,0 +1,17 @@
+block
+  columns 3
+  soil["Soil moisture"] light["Daylight"] temperature["Temperature"]
+  controller["Greenhouse controller"]:3
+  water["Drip irrigation"] shade["Shade screen"] fan["Ventilation"]
+  soil --> controller
+  light --> controller
+  temperature --> controller
+  controller --> water
+  controller --> shade
+  controller --> fan
+  classDef sensor fill:#e0f2fe,stroke:#0369a1,color:#0c4a6e
+  classDef control fill:#dcfce7,stroke:#15803d,color:#14532d
+  classDef actuator fill:#ffedd5,stroke:#c2410c,color:#7c2d12
+  class soil,light,temperature sensor
+  class controller control
+  class water,shade,fan actuator

@@ -1,0 +1,15 @@
+agentflow-beta TB
+  flow planner["Trail planning assistant"]
+    request["Plan a weekend hike"]@{ shape: input }
+    research["Find suitable trails"]@{ shape: task }
+    forecast["Check local weather"]@{ shape: tool }
+    draft["Draft an itinerary"]@{ shape: task }
+    review["Safe for this group?"]@{ shape: decision }
+    itinerary["Share the trail guide"]@{ shape: refdoc }
+    request --> research
+    research --> forecast
+    forecast --> draft
+    draft --> review
+    review -->|Yes| itinerary
+    review -->|No: revise route| research
+  end

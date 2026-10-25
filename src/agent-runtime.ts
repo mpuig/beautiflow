@@ -10,6 +10,9 @@ import { polishProject } from './diagram/polish.ts'
 import { diagnoseProject } from './diagram/semantic.ts'
 import { parseTransformActions, transformProject } from './diagram/transform.ts'
 import { CliError } from './errors.ts'
+import { architectureModel } from './diagram/pele.ts'
+import { auditArchitecture, inspectArchitecture } from './diagram/architecture-analysis.ts'
+import { isArchitectureAction, parseArchitectureActions, transformArchitecture, writeArchitectureSource, type ArchitectureAction } from './diagram/architecture-transform.ts'
 import { readInput, requestedOutputPath, writeOutput } from './io.ts'
 import { diagramFamily, renderProjectOutput } from './diagram/pipeline.ts'
 
@@ -96,11 +99,19 @@ async function parseActionFile(operation: AgentMutationOperation, actionsPath: s
     const message = error instanceof Error ? error.message : String(error)
     throw new CliError(`Could not parse actions file: ${message}`, 2, 'INVALID_ACTIONS')
   }
-  const actions = operation === 'apply' ? parseActions(input) : parseTransformActions(input)
+  const architecture = Array.isArray((input as { actions?: unknown })?.actions) && (input as { actions: unknown[] }).actions.some(isArchitectureAction)
+  const actions = operation === 'apply' ? parseActions(input) : architecture ? parseArchitectureActions(input) : parseTransformActions(input)
   return { actions, text, path }
 }
 
 async function dryRun(sourcePath: string, operation: AgentMutationOperation, actionsPath: string | null) {
+  const source = await readInput(sourcePath)
+  if (diagramFamily(source) === 'architecture') {
+    if (operation !== 'transform') throw new CliError('Architecture only supports receipt-backed transform', 2, 'UNSUPPORTED_OPERATION')
+    const parsed = await parseActionFile(operation, actionsPath)
+    const result = transformArchitecture(source, parsed.actions as ArchitectureAction[])
+    return { evidence: result, score: result.audit.score, baselineScore: result.before.score, metrics: result.audit.metrics, semanticScore: result.semantic.score, actionsPath: parsed.path!, actionsText: parsed.text! }
+  }
   const project = await loadProject(sourcePath)
   const parsed = await parseActionFile(operation, actionsPath)
   if (operation === 'polish') {
@@ -143,10 +154,11 @@ async function dryRun(sourcePath: string, operation: AgentMutationOperation, act
 export async function planAgentMutation(inputPath: string, operation: AgentMutationOperation, actionsPath?: string, receiptPath?: string) {
   const sourcePath = resolve(inputPath)
   const source = await readInput(sourcePath)
-  if (diagramFamily(source) !== 'graph') {
-    throw new CliError('Receipt-backed mutations currently support flowchart and state diagrams only', 2, 'UNSUPPORTED_OPERATION')
+  const family = diagramFamily(source)
+  if (family !== 'graph' && !(family === 'architecture' && operation === 'transform')) {
+    throw new CliError('Receipt-backed mutations support flowchart/state and architecture transforms only', 2, 'UNSUPPORTED_OPERATION')
   }
-  const project = await loadProject(sourcePath)
+  const project = family === 'graph' ? await loadProject(sourcePath) : { sourcePath, sidecarPath: defaultSidecarPath(sourcePath) }
   const receiptFile = resolve(receiptPath ?? `${sourcePath}.beautiflow-agent.json`)
   const before = await fileState(project.sourcePath, project.sidecarPath)
   const planned = await dryRun(sourcePath, operation, actionsPath ?? null)
@@ -195,6 +207,15 @@ async function assertCurrent(receipt: AgentReceipt, receiptPath: string) {
 }
 
 async function commitOperation(receipt: AgentReceipt) {
+  const source = await readInput(receipt.source)
+  if (diagramFamily(source) === 'architecture') {
+    if (receipt.pendingOperation !== 'transform') throw new CliError('Architecture only supports transform', 2)
+    const parsed = await parseActionFile(receipt.pendingOperation, receipt.actions)
+    if (hash(source) !== receipt.hashes.sourceCurrent || parsed.text === null || hash(parsed.text) !== receipt.hashes.actions) throw new CliError('Architecture receipt became stale before commit', 2, 'STALE_RECEIPT')
+    const result = transformArchitecture(source, parsed.actions as ArchitectureAction[])
+    await writeArchitectureSource(receipt.source, result.source, source)
+    return { actionsApplied: result.actionsApplied, score: result.audit.score, metrics: result.audit.metrics, semantic: result.semantic }
+  }
   const project = await loadProject(receipt.source)
   if (receipt.pendingOperation === 'polish') {
     const result = await polishProject(project)
@@ -229,6 +250,11 @@ export async function commitAgentMutation(receiptPath: string) {
   try {
     evidence = await commitOperation(receipt)
   } catch (error) {
+    if (error instanceof CliError && (error.code === 'STALE_RECEIPT' || error.code === 'STALE_INPUT')) {
+      receipt.state = 'stale'
+      await atomicJson(path, receipt)
+      throw error
+    }
     await writeOutput(receipt.source, beforeCommit.source)
     if (beforeCommit.sidecar === null) await rm(receipt.sidecar, { force: true })
     else await writeOutput(receipt.sidecar, beforeCommit.sidecar)
@@ -257,16 +283,23 @@ export async function verifyAgentMutation(receiptPath: string) {
   const receipt = await loadReceipt(path)
   if (receipt.state !== 'applied') throw new CliError(`Cannot verify an agent receipt in state ${receipt.state}`, 2, 'INVALID_AGENT_STATE')
   await assertCurrent(receipt, path)
-  const project = await loadProject(receipt.source)
-  const diagram = await layoutProject(project, { direction: project.sidecar.direction, applyOverrides: true })
-  const audit = auditDiagram(diagram)
-  const semantic = diagnoseProject(project)
+  const source = await readInput(receipt.source)
+  const architecture = diagramFamily(source) === 'architecture'
+  const { audit, semantic } = architecture
+    ? { audit: auditArchitecture(source), semantic: inspectArchitecture(source) }
+    : await (async () => {
+        const project = await loadProject(receipt.source)
+        const diagram = await layoutProject(project, { direction: project.sidecar.direction, applyOverrides: true })
+        return { audit: auditDiagram(diagram), semantic: diagnoseProject(project) }
+      })()
   const regressions = [
     ...(receipt.expected.baselineScore !== undefined && audit.score < receipt.expected.baselineScore ? [`Geometry score ${audit.score} is below pre-plan baseline ${receipt.expected.baselineScore}`] : []),
     ...(audit.score < receipt.expected.score ? [`Geometry score ${audit.score} is below validated score ${receipt.expected.score}`] : []),
     ...(semantic.score < receipt.expected.semanticScore ? [`Semantic score ${semantic.score} is below validated score ${receipt.expected.semanticScore}`] : []),
-    ...(audit.metrics.nodeOverlaps ? [`${audit.metrics.nodeOverlaps} node overlaps remain`] : []),
-    ...(audit.metrics.edgeNodeIntersections ? [`${audit.metrics.edgeNodeIntersections} edge/node intersections remain`] : []),
+    ...(!architecture && audit.metrics.nodeOverlaps ? [`${audit.metrics.nodeOverlaps} node overlaps remain`] : []),
+    ...(!architecture && audit.metrics.edgeNodeIntersections ? [`${audit.metrics.edgeNodeIntersections} edge/node intersections remain`] : []),
+    ...(architecture ? Object.entries(audit.metrics).filter(([key, count]) => count > (receipt.expected.metrics[key] ?? 0)).map(([key, count]) => `Architecture ${key} increased to ${count}`) : []),
+    ...('integrity' in audit && audit.integrity.issues.some((issue) => issue.severity === 'high') ? ['Architecture render integrity failed'] : []),
   ]
   receipt.state = regressions.length ? 'needs-correction' : 'verified'
   receipt.evidence = { audit, semantic, regressions }
@@ -330,7 +363,7 @@ export async function rollbackAgentMutation(receiptPath: string) {
   const path = resolve(receiptPath)
   const receipt = await loadReceipt(path)
   if (receipt.state === 'rolled-back') throw new CliError('Agent receipt has already been rolled back', 2, 'INVALID_AGENT_STATE')
-  try { parseMermaid(receipt.snapshot.source) }
+  try { if (diagramFamily(receipt.snapshot.source) === 'architecture') architectureModel(receipt.snapshot.source); else parseMermaid(receipt.snapshot.source) }
   catch { throw new CliError('Agent receipt contains an invalid Mermaid rollback snapshot', 2, 'INVALID_RECEIPT') }
   await writeOutput(receipt.source, receipt.snapshot.source)
   if (receipt.snapshot.sidecar === null) await rm(receipt.sidecar, { force: true })

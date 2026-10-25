@@ -16,7 +16,7 @@ In another terminal, start Pi, Claude Code, or Codex with the Beautiflow skill i
 
 ## AWS architecture rendering
 
-This recipe uses Mermaid `architecture-beta`, not a generic flowchart. Pele supplies deterministic parsing, labels, boundaries, and layout for every snapshot; Beautiflow resolves registered `logos`, `lucide`, and `aws` icons. The result works as SVG, PNG, and live server output without a DOM runtime. Architecture audit reports renderer-only coverage (`score: null` and `metrics: null`), so inspect ports, labels, crossings, and readability visually. AWS-specific decisions live only in these example sources.
+This recipe uses Mermaid `architecture-beta`, not a generic flowchart. Pele supplies deterministic parsing, labels, boundaries, and layout for every snapshot; Beautiflow resolves registered `logos`, `lucide`, and `aws` icons. The result works as SVG, PNG, and live server output without a DOM runtime. Architecture audit reports `pele-positioned-geometry` using a pinned additive renderer extension, plus element and SVG-reference integrity. It does not measure edge-label boxes or browser glyph ink, so also inspect the final artifact visually. AWS-specific decisions live only in these example sources.
 
 AWS service glyphs come from the CC0 SVG Logos collection where available. Lucide supplies neutral actors and fallbacks for services absent from that collection. They create an AWS-documentation-style diagram but are not a redistributed copy of the official AWS Architecture Icon Package. AWS names and marks remain the property of Amazon Web Services.
 

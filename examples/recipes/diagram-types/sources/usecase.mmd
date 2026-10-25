@@ -1,0 +1,16 @@
+usecase-beta
+  direction LR
+  actor Member("Member")
+  actor Librarian("Librarian")
+  systemBoundary "Neighborhood library"
+    Search("Find a book")
+    Reserve("Reserve a copy")
+    Borrow("Borrow a book")
+    Renew("Renew a loan")
+    Catalog("Add a new title")
+  end
+  Member --> Search
+  Member --> Reserve
+  Member --> Renew
+  Librarian --> Borrow
+  Librarian --> Catalog

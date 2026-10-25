@@ -42,12 +42,12 @@ The harness invokes the skill and follows Beautiflow's capability-aware, receipt
 - Generate multiple ELK layout candidates and select the strongest
 - Score overlaps, crossings, bends, alignment, and aspect ratio
 - Persist node positions, roles, and pins in a sidecar
-- Render flowchart, state, sequence, class, ER, XY chart, pie, GitGraph, and `architecture-beta` diagrams to SVG or PNG
+- Recognize 32 diagram types and render them to SVG or PNG, preserving the existing family-specific renderers
 - Render supported textual families to Unicode or ASCII through Beautiful Mermaid
 - Preserve Beautiful Mermaid’s ELK routes, clipping, labels, shapes, and arrowheads
-- Route moved flowchart edges and architecture connectors around obstacles with deterministic Manhattan routing
+- Route moved flowchart edges deterministically and audit Pele's actual architecture route geometry
 
-Layout actions, semantic transformations, diagnostics, polishing, and persistent sidecars focus on Mermaid flowcharts and state diagrams. Sequence, class, ER, and XY charts use family-specific SVG/PNG renderers and terminal output where supported. Pie and GitGraph support SVG/PNG rendering. Architecture uses Pele's deterministic, DOM-free SVG/PNG renderer, retaining explicit ports and registered AWS/Lucide icon packs. Architecture audit reports renderer-only coverage with no geometry score; inspect the final artifact visually.
+Layout actions, semantic transformations, diagnostics, polishing, and persistent sidecars focus on Mermaid flowcharts and state diagrams. Sequence, class, ER, and XY charts use family-specific SVG/PNG renderers and terminal output where supported. Pie and GitGraph support SVG/PNG rendering. Architecture uses Pele's deterministic, DOM-free SVG/PNG renderer, retaining explicit ports and registered AWS/Lucide icon packs. Architecture supports structural diagnosis, measured geometry and render-integrity auditing, and bounded receipt-backed transformations through a pinned additive Pele renderer extension. Other diagram types are render-only; their audits check SVG references with no geometry score. Inspect the final artifact visually.
 
 ## Documentation and examples
 
@@ -275,7 +275,7 @@ beautiflow render examples/recipes/architecture/architecture.mmd --format png
 
 ## Example suite
 
-`examples/` contains 19 original examples covering every supported Mermaid family. Nine flowchart/state examples exercise the complete layout and audit pipeline; ten specialized-family examples exercise render-only pipelines. Every raw source has a matching Markdown walkthrough, committed SVG or PNG, exact reproduction command, live-preview command, and agent prompt.
+`examples/` contains the original 19-file Mermaid suite plus architecture recipes and [23 additional diagram types](examples/recipes/diagram-types/README.md). Nine flowchart/state examples exercise the complete layout and audit pipeline; ten specialized-family examples exercise render-only pipelines. Every raw source has a matching Markdown walkthrough, committed SVG or PNG, exact reproduction command, live-preview command, and agent prompt.
 
 See `examples/README.md` for the catalog, the [six-stage AWS architecture walkthrough](examples/recipes/aws-architecture/README.md), and the [render-options comparison](examples/recipes/render-options/README.md).
 

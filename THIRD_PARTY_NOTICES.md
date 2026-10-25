@@ -12,7 +12,7 @@ https://github.com/lukilabs/beautiful-mermaid
 
 ## Pele
 
-Pele 1.10.0 provides synchronous parsing and SVG rendering for `architecture-beta` diagrams. Its compatibility specifications and grammar files derive from MIT-licensed Mermaid.
+Pele 1.10.0 provides all-family detection and additional diagram-family rendering. The generated architecture module under `src/vendor/pele-architecture/` adds geometry evidence without changing upstream SVG output and retains the MIT license in that directory. Its generator and exact upstream commit are documented there. Pele's compatibility specifications and grammar files derive from MIT-licensed Mermaid.
 
 https://github.com/obsidianmd/pele
 

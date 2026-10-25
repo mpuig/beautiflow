@@ -21,7 +21,7 @@ Do not add model SDKs, provider authentication, embedded chat, visual editing, o
 - Bun 1.3+
 - TypeScript
 - Beautiful Mermaid 1.1.3
-- Pele 1.10.0 for DOM-free `architecture-beta` parsing and rendering
+- Pele 1.10.0 for all-family detection and additional render-only families, with a pinned additive architecture geometry extension
 - ELK through the vendored synchronous Beautiful Mermaid adapter
 - Iconify SVG Logos and Lucide packs
 - resvg-js for PNG output
@@ -66,7 +66,7 @@ BEAUTIFLOW_NO_OPEN=1 ./dist/beautiflow server examples/recipes/architecture/arch
 
 ## Engineering rules
 
-1. Preserve Beautiful Mermaid routes and renderers whenever that family supports them. For `architecture-beta`, use the pinned Pele adapter, retaining Mermaid syntax, icons, labels, and explicit ports. Do not claim geometry coverage that the renderer does not expose.
+1. Preserve Beautiful Mermaid routes and renderers whenever that family supports them. For `architecture-beta`, use the pinned Pele adapter, retaining Mermaid syntax, icons, labels, and explicit ports. Keep the additive geometry extension reproducible and SVG-byte-compatible. State audit coverage explicitly; never infer geometry from successful rendering alone.
 2. Match positioned edges by semantic endpoints, never by array index.
 3. Keep Mermaid semantics in the source and visual overrides in the sidecar.
 4. Agents emit semantic actions; they do not invent pixel coordinates.

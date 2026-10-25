@@ -29,7 +29,7 @@ A coding agent starts with `beautiflow inspect <diagram.mmd> --agent --json`, se
 - It does not run polish automatically.
 - It has no visual editing, tldraw, embedded chat, or model integration.
 - Flowchart and state diagrams use the complete layout pipeline; specialized Mermaid families use render-only pipelines.
-- `architecture-beta` uses Pele's deterministic, DOM-free renderer with explicit ports and registered AWS/Lucide icon packs. Architecture audit reports renderer-only coverage, not an unmeasured geometry score.
+- `architecture-beta` uses Pele's deterministic, DOM-free renderer with explicit ports and registered AWS/Lucide icon packs. A pinned additive renderer extension exposes measured geometry for audit. Architecture also supports structural diagnosis and bounded source-preserving transformations. 32 diagram types are supported; additional families are render-only with SVG-reference checks.
 - The normal interface must remain simple and avoid exposing unnecessary options.
 - Agent integrations discover family-specific capabilities, mutation boundaries, JSON Schemas, safe argument arrays, execution budgets, and stop conditions through a versioned JSON contract.
 - Every agent mutation uses a receipt-backed state machine with stale-input rejection, validated evidence, rollback, and explicit terminal states.
@@ -41,7 +41,7 @@ The product is named Beautiflow. The tone is clear, calm, direct, and technicall
 
 ## Evidence on Hand
 
-The repository includes a 19-file original Mermaid example suite spanning every supported family under `examples/`.
+The repository includes the original 19-file Mermaid suite, architecture recipes, and 23 additional diagram-type fixtures under `examples/`.
 
 ## Product Principles
 
@@ -49,6 +49,7 @@ The repository includes a 19-file original Mermaid example suite spanning every 
 - Make agents proactive about discovery and conservative about mutation.
 - Preview never mutates source files.
 - The artifact leads; viewer chrome stays secondary.
+- Public navigation names diagram types, not rendering engines; engine names belong in technical documentation and attribution.
 - Failures remain visible and actionable without replacing the last good render.
 - Conversation belongs to the agent harness; deterministic work belongs to Beautiflow.
 

@@ -1,0 +1,20 @@
+swimlane-beta LR
+  subgraph Visitor
+    Bring[Bring a broken item]
+    Try[Try the repair]
+    Leave[Take it home]
+  end
+  subgraph Welcome desk
+    Register[Register the item]
+    Match[Find a repairer]
+  end
+  subgraph Repair volunteer
+    Diagnose[Diagnose the fault]
+    Repair[Repair together]
+  end
+  Bring --> Register
+  Register --> Match
+  Match --> Diagnose
+  Diagnose --> Repair
+  Repair --> Try
+  Try --> Leave

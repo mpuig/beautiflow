@@ -8,13 +8,14 @@ import type { RenderRequest } from '../types.ts'
 import { CliError } from '../errors.ts'
 import { renderGitGraphSvg, renderPieSvg } from './specialized.ts'
 import { renderArchitectureSvg } from './architecture.ts'
+import { peleFamily, peleError, renderPeleDetailed, type DiagramType } from './pele.ts'
 
 const DEFAULT_COLORS = {
   bg: '#ffffff', fg: '#27272a', accent: '#2563eb', line: '#71717a',
   muted: '#78716c', surface: '#ffffff', border: '#d4d4d8',
 }
 
-export type DiagramFamily = 'graph' | 'sequence' | 'class' | 'er' | 'xychart' | 'pie' | 'gitgraph' | 'architecture' | 'unknown'
+export type DiagramFamily = Exclude<DiagramType, 'flowchart' | 'state' | 'gitGraph'> | 'graph' | 'gitgraph' | 'unknown'
 
 function graphDescription(diagram: Awaited<ReturnType<typeof layoutProject>>, source: string): string {
   const state = /^\s*stateDiagram/im.test(mermaidBody(source))
@@ -33,22 +34,16 @@ function mermaidBody(source: string): string {
 }
 
 export function diagramFamily(source: string): DiagramFamily {
-  const header = mermaidBody(source).split(/[\n;]/)[0]?.trim().toLowerCase() ?? ''
-  if (/^(?:graph|flowchart)\s+|^statediagram(?:-v2)?\b/.test(header)) return 'graph'
-  if (header === 'sequencediagram') return 'sequence'
-  if (header === 'classdiagram') return 'class'
-  if (header === 'erdiagram') return 'er'
-  if (/^xychart(?:-beta)?\b/.test(header)) return 'xychart'
-  if (/^pie\b/.test(header)) return 'pie'
-  if (/^gitgraph\b/.test(header)) return 'gitgraph'
-  if (/^architecture-beta\b/.test(header)) return 'architecture'
-  return 'unknown'
+  try {
+    const family = peleFamily(source)
+    return family === 'flowchart' || family === 'state' ? 'graph' : family === 'gitGraph' ? 'gitgraph' : family ?? 'unknown'
+  } catch (error) { throw peleError(error) }
 }
 
 export async function renderStandaloneOutput(source: string, request: RenderRequest): Promise<string | Uint8Array> {
   const family = diagramFamily(source)
   if (request.format === 'ascii' || request.format === 'unicode') {
-    if (family === 'pie' || family === 'gitgraph' || family === 'architecture') {
+    if (!['graph', 'sequence', 'class', 'er', 'xychart'].includes(family)) {
       throw new CliError(`${family} terminal rendering is not supported`, 2)
     }
     return renderMermaidASCII(source, { useAscii: request.format === 'ascii', colorMode: 'none' })
@@ -56,14 +51,16 @@ export async function renderStandaloneOutput(source: string, request: RenderRequ
   const resolvedTheme = resolveTheme(request.themeName) ?? DEFAULT_COLORS
   const theme = family === 'sequence' ? { ...resolvedTheme, muted: resolvedTheme.fg } : resolvedTheme
   const transparent = request.transparent
+  const peleOnly = !['graph', 'sequence', 'class', 'er', 'xychart', 'pie', 'gitgraph', 'architecture', 'unknown'].includes(family)
+  if (family === 'unknown') throw new CliError('Unsupported Mermaid diagram family', 2, 'UNSUPPORTED_OPERATION')
   const rendered = family === 'pie'
     ? renderPieSvg(source, theme, transparent)
     : family === 'gitgraph'
       ? renderGitGraphSvg(source, theme, transparent)
       : family === 'architecture'
         ? await renderArchitectureSvg(source, theme, transparent)
-        : renderMermaidSVG(source, { ...theme, transparent })
-  const rawSvg = family === 'pie' || family === 'gitgraph' || family === 'architecture'
+        : peleOnly ? renderPeleDetailed(source, theme, transparent).svg : renderMermaidSVG(source, { ...theme, transparent })
+  const rawSvg = family === 'pie' || family === 'gitgraph' || family === 'architecture' || peleOnly
     ? rendered
     : materializeColors(rendered, theme, transparent)
   const svg = makeSvgAccessible(rawSvg, source, request.inputPath, family)

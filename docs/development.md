@@ -4,7 +4,7 @@
 
 Run `bun run preview:site` and open `http://127.0.0.1:4173/`. This assembles the homepage, examples, generated HTML documentation, and schemas together in `dist/site`, then serves them on localhost. Stop with Ctrl-C and rerun after changes. Do not use `open index.html` or serve the repository root to test documentation links: `docs/` in the checkout contains Markdown, not the generated website.
 
-`bun run build:site` builds the same directory without starting a server. GitHub Pages deploys this exact build path so local navigation and deployed navigation use the same routes.
+`bun run build:site` builds the same directory without starting a server. It also regenerates the diagram gallery at `/examples/recipes/diagram-types/` from the committed Mermaid sources. Run `bun run build:gallery` to refresh the committed HTML gallery and its Markdown guide after changing those sources or the website shell. GitHub Pages deploys this exact build path so local navigation and deployed navigation use the same routes.
 
 ## Requirements
 
@@ -27,7 +27,7 @@ bun run build
 ./dist/beautiflow version
 ```
 
-The build command first applies a narrowly checked JSDOM compile patch that disables its unused synchronous-XHR worker path, then compiles `src/cli.ts` with minification and Bun bytecode into `dist/beautiflow`. JSDOM's default stylesheet is embedded as text and supplied during dynamic module initialization. These adapters prevent the executable from referring to build-machine `node_modules` paths. The executable does not require Bun at runtime.
+The build command compiles `src/cli.ts` with minification and Bun bytecode into `dist/beautiflow`. The executable does not require Bun or `node_modules` at runtime; JSDOM is used only by tests.
 
 ## Documentation site
 
@@ -37,7 +37,7 @@ Markdown under `docs/` is the canonical source. Build the static HTML documentat
 bun run build:docs
 ```
 
-The command writes clean-route pages, shared CSS, and copy-button JavaScript to `dist/docs/`, plus public protocol schemas to `dist/schemas/`. GitHub Pages runs the same generator against `_site/docs`; generated HTML and schemas are not committed. Internal Markdown links are rewritten to web routes, while every page links back to its source on GitHub.
+The command writes clean-route pages, shared CSS, and copy-button JavaScript to `dist/docs/`, plus public protocol schemas to `dist/schemas/`. GitHub Pages runs the same generator against `dist/site/docs`; generated HTML and schemas are not committed. Internal Markdown links are rewritten to web routes, while every page links back to its source on GitHub.
 
 For a visual release review, generate `dist/diagram-contact-sheet.html`:
 
@@ -62,7 +62,9 @@ This runs type checking, every Bun test, the standalone build, documentation gen
 - `args.test.ts` — public command parsing
 - `diagram.test.ts` — layout, routing, actions, audits, and ELK edge association
 - `docs.test.ts` — local links, public command coverage, agent protocol, release metadata, and site-version synchronization
-- `examples.test.ts` — 19-file Mermaid family compatibility suite
+- `examples.test.ts` — original Mermaid family compatibility suite
+- `diagram-types.test.ts` — 23 additional diagram types, SVG/PNG, capability boundaries, and structured errors
+- `architecture-agent.test.ts` — geometry parity, integrity, diagnostics, safe edits, receipts, and rollback
 - `polish.test.ts` — bounded candidate selection and `FLOW.md`
 - `render.test.ts` — SVG, terminal, specialized families, and PNG signatures
 - `server.test.ts` — save detection, last-good-render retention, and recovery
@@ -82,7 +84,7 @@ When updating Beautiful Mermaid:
 
 ## Adding a diagram family
 
-Do not route a new family through flowchart semantics merely because it renders. Add explicit detection and a family-specific parser/renderer, using Beautiful Mermaid's specialized pipeline or the pinned Pele adapter. Mark whether the family is render-only or supports the complete project IR. `architecture-beta` uses Pele 1.10.0 with Iconify assets and concrete SVG colors. Keep Pele behind `src/diagram/pele.ts`; validate upgrades against the example suite before changing the exact pin. JSDOM is a test-only dependency, not part of the executable.
+Do not route a new family through flowchart semantics merely because it renders. Add explicit detection and a family-specific parser/renderer, using Beautiful Mermaid's specialized pipeline or the pinned Pele adapter. Mark whether the family is render-only or supports the complete project IR. `architecture-beta` uses Pele 1.10.0 with Iconify assets and concrete SVG colors. Keep Pele behind `src/diagram/pele.ts`; validate upgrades against the example suite before changing the exact pin. JSDOM is a test-only dependency, not part of the executable. The additive geometry module under `src/vendor/pele-architecture/` is regenerated from the exact upstream source commit using `scripts/vendor-pele-architecture.ts`; see its README. Preserve upstream SVG bytes and keep audit limitations explicit. All-family detection must not accidentally grant flowchart mutations to a render-only type.
 
 ## Adding a CLI option
 

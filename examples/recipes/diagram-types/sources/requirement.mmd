@@ -1,0 +1,31 @@
+requirementDiagram
+  requirement safe_stopping {
+    id: "SAF-01"
+    text: A loaded cargo bike must stop safely in wet weather.
+    risk: high
+    verifymethod: test
+  }
+  requirement visible_at_night {
+    id: "VIS-01"
+    text: Front and rear lights remain visible with cargo loaded.
+    risk: high
+    verifymethod: demonstration
+  }
+  requirement carry_groceries {
+    id: "USE-01"
+    text: The front rack carries the weekly grocery box.
+    risk: low
+    verifymethod: test
+  }
+  element brake_test {
+    type: "Wet braking test"
+  }
+  element lighting_check {
+    type: "Night visibility check"
+  }
+  element load_test {
+    type: "Loaded rack test"
+  }
+  brake_test - verifies -> safe_stopping
+  lighting_check - verifies -> visible_at_night
+  load_test - verifies -> carry_groceries

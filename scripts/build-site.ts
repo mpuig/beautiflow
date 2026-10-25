@@ -1,13 +1,16 @@
-import { cp, mkdir, stat } from 'node:fs/promises'
+import { cp, mkdir, rm, stat } from 'node:fs/promises'
 import { resolve, relative, sep } from 'node:path'
+import { buildDiagramGallery } from './build-diagram-gallery.ts'
 
 const repository = resolve(import.meta.dir, '..')
 
 export async function buildSite(destination = resolve(repository, 'dist/site')) {
   await mkdir(destination, { recursive: true })
+  await rm(resolve(destination, 'examples'), { recursive: true, force: true })
   for (const file of ['index.html', 'examples.html', 'site.css', 'install.sh', 'CNAME', 'examples']) {
     await cp(resolve(repository, file), resolve(destination, file), { recursive: true })
   }
+  await buildDiagramGallery(resolve(destination, 'examples/recipes/diagram-types'))
   const docs = Bun.spawn([process.execPath, resolve(repository, 'scripts/build-docs.ts'), resolve(destination, 'docs')], {
     cwd: repository, stdout: 'inherit', stderr: 'inherit',
   })

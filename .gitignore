@@ -1,5 +1,6 @@
 node_modules/
 dist/
+.impeccable/review/
 .env
 .env.*
 !.env.example

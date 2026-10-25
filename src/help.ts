@@ -28,7 +28,15 @@ Quality:
   polish ranks valid candidates in one bounded pass without changing semantics.
   First-use polish keeps the incumbent unless a valid candidate meets its score.
   Architecture uses Pele with explicit ports and registered AWS/Lucide icons.
-  Architecture audit reports renderer-only coverage with no geometry score.
+  Architecture supports diagnosis, measured audit, and bounded transformations.
+  Other families audit SVG references only, without a geometry score.
+
+Families:
+  32 diagram types are supported. Existing family renderers are preserved.
+  Additional SVG/PNG families: agentflow, block, C4, Cynefin, event modeling,
+  Gantt, Ishikawa, journey, kanban, mindmap, packet, quadrant, radar,
+  railroad, requirement, Sankey, swimlane, timeline, treemap, tree view,
+  use case, Venn, and Wardley. These additional families are render-only.
 
 Render options:
   -f, --format <format>   Output: svg, png, unicode, or ascii (default: svg)

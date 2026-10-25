@@ -1,6 +1,6 @@
 # Beautiflow examples
 
-This directory contains 19 original, runnable Mermaid examples covering every diagram family currently rendered by Beautiflow. Each example has:
+The original suite contains 19 runnable Mermaid examples. The [diagram types recipe](recipes/diagram-types/README.md) adds 23 scenario-led sources and SVGs, with a browsable [HTML diagram gallery](recipes/diagram-types/index.html). Architecture has its own progressive recipe below. Each original example has:
 
 - A Markdown walkthrough with an inline Mermaid preview
 - A matching raw `.mmd` file under [`sources/`](sources/)

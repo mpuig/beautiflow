@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { JSDOM } from 'jsdom'
 import { buildSite, siteResponse } from '../scripts/build-site.ts'
+import { buildDiagramGallery } from '../scripts/build-diagram-gallery.ts'
 
 const root = resolve(import.meta.dir, '..')
 
@@ -105,6 +106,49 @@ describe('developer landing page', () => {
     }
   })
 
+  test('generates a source-synchronized HTML diagram gallery with user-facing type names', async () => {
+    const directory = await mkdtemp(resolve(tmpdir(), 'beautiflow-gallery-'))
+    const recipe = resolve(root, 'examples/recipes/diagram-types')
+    let dom: JSDOM | undefined
+    try {
+      expect(await buildDiagramGallery(directory)).toBe(23)
+      for (const file of ['index.html', 'README.md']) {
+        expect(await readFile(resolve(directory, file), 'utf8')).toBe(await readFile(resolve(recipe, file), 'utf8'))
+      }
+      const html = await readFile(resolve(directory, 'index.html'), 'utf8')
+      expect(html).not.toContain('pele-families')
+      expect(html).not.toContain('Pele family')
+      dom = new JSDOM(html)
+      const document = dom.window.document
+      expect(document.querySelectorAll('h1')).toHaveLength(1)
+      expect(document.querySelector('h1')!.textContent).toBe('Diagram gallery')
+      expect(document.querySelector('link[href="../../../site.css"]')?.getAttribute('rel')).toBe('stylesheet')
+      expect(document.querySelectorAll('.type-index a')).toHaveLength(23)
+      expect(document.querySelectorAll('.diagram-type')).toHaveLength(23)
+      expect(document.querySelector('.hero-copy')!.textContent).toContain('All scenarios and data are illustrative')
+      expect(document.querySelector('#sankey h3')!.textContent).toBe('Where a sunny day’s energy goes')
+      expect(document.querySelector('#journey')!.classList.contains('example-row--wide')).toBe(true)
+      expect(document.querySelector('#agentflow figure')!.classList.contains('example-figure--portrait')).toBe(true)
+      expect(document.querySelector('#info')).toBeNull()
+      expect(document.querySelector('a[href="#info"]')).toBeNull()
+      expect(document.querySelector('img[src="rendered/info.svg"]')).toBeNull()
+      expect(document.querySelector('.type-coverage')!.textContent).toContain('geometry scores, transformations, sidecars, and automatic polish are not available')
+      for (const link of document.querySelectorAll('.type-index a')) {
+        expect(document.querySelector(link.getAttribute('href')!)).not.toBeNull()
+      }
+      for (const row of document.querySelectorAll('.diagram-type')) {
+        const source = await readFile(resolve(recipe, `sources/${row.id}.mmd`), 'utf8')
+        expect(row.querySelector('pre code')!.textContent).toBe(source.trimEnd())
+        expect(row.querySelector('.art')!.getAttribute('href')).toBe(`rendered/${row.id}.svg`)
+        expect(row.querySelector('img')!.getAttribute('alt')!.length).toBeGreaterThan(10)
+        expect(existsSync(resolve(recipe, row.querySelector('img')!.getAttribute('src')!))).toBe(true)
+      }
+    } finally {
+      dom?.window.close()
+      await rm(directory, { recursive: true, force: true })
+    }
+  })
+
   test('has a GitHub Pages deployment workflow', async () => {
     const workflow = await readFile(resolve(root, '.github/workflows/pages.yml'), 'utf8')
 
@@ -117,7 +161,9 @@ describe('developer landing page', () => {
   test('serves every website docs link from the same assembled site used for deployment', async () => {
     const directory = await mkdtemp(resolve(tmpdir(), 'beautiflow-site-'))
     try {
+      await Bun.write(resolve(directory, 'examples/removed-example.html'), 'obsolete generated content')
       await buildSite(directory)
+      expect((await siteResponse(new Request('http://localhost/examples/removed-example.html'), directory)).status).toBe(404)
       const links = new Set<string>(['/', '/examples.html', '/site.css', '/docs/docs.css', '/docs/docs.js'])
       for (const file of ['index.html', 'examples.html']) {
         const html = await readFile(resolve(directory, file), 'utf8')
@@ -127,6 +173,25 @@ describe('developer landing page', () => {
         const response = await siteResponse(new Request(`http://localhost${path}`), directory)
         expect(response.status).toBe(200)
         expect((await response.text()).length).toBeGreaterThan(100)
+      }
+      const galleryUrl = 'http://localhost/examples/recipes/diagram-types/'
+      const galleryResponse = await siteResponse(new Request(galleryUrl), directory)
+      expect(galleryResponse.status).toBe(200)
+      expect(galleryResponse.headers.get('Content-Type')).toContain('text/html')
+      const galleryHtml = await galleryResponse.text()
+      const dom = new JSDOM(galleryHtml)
+      try {
+        for (const element of dom.window.document.querySelectorAll('[href], img[src]')) {
+          const href = element.getAttribute('href') ?? element.getAttribute('src')!
+          const url = new URL(href, galleryUrl)
+          if (url.origin !== 'http://localhost') continue
+          expect((await siteResponse(new Request(url), directory)).status).toBe(200)
+        }
+      } finally { dom.window.close() }
+      for (const page of ['docs/index.html', 'docs/rendering/index.html']) {
+        const html = await readFile(resolve(directory, page), 'utf8')
+        expect(html).toContain('href="/examples/recipes/diagram-types/"')
+        expect(html).toContain('href="/examples.html"')
       }
       expect((await siteResponse(new Request('http://localhost/docs'), directory)).status).toBe(308)
       expect((await siteResponse(new Request('http://localhost/missing'), directory)).status).toBe(404)

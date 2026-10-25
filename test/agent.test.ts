@@ -35,17 +35,17 @@ describe('agent protocol', () => {
     expect(result.stopWhen.length).toBeGreaterThanOrEqual(4)
   })
 
-  test('routes architecture diagrams to audit without offering mutation', async () => {
+  test('advertises bounded architecture transforms, diagnosis and measured audit', async () => {
     const path = await fixture('architecture.mmd', 'architecture-beta\n  service api(lucide:box)[API]\n')
     const result = await agentInspection(path)
 
     expect(result.family).toBe('architecture')
     expect(result.capabilities.audit!.supported).toBe(true)
-    expect(result.capabilities.audit!.reason).toContain('renderer-only')
-    expect(result.constraints.join(' ')).toContain('null score and metrics')
+    expect(result.constraints.join(' ')).toContain('pinned additive Pele extension')
     expect(result.capabilities.polish!.supported).toBe(false)
-    expect(result.capabilities.transform!.mutates).toBe(false)
-    expect(result.recommendedOperations[0]?.operation).toBe('audit')
+    expect(result.capabilities.diagnose!.supported).toBe(true)
+    expect(result.capabilities.transform!.mutates).toBe(true)
+    expect(result.recommendedOperations[0]?.operation).toBe('diagnose')
   })
 
   test('doctor validates the local environment and an input diagram', async () => {

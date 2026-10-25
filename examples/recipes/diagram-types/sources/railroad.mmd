@@ -1,0 +1,7 @@
+railroad-ebnf-beta
+  title "A tiny field-guide search language"
+  query = term, { "AND", term } ;
+  term = [ "NOT" ], field, ":", value ;
+  field = "habitat" | "season" | "species" ;
+  value = word | '"', word, { " ", word }, '"' ;
+  word = ? one or more letters ? ;

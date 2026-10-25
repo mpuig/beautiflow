@@ -26,9 +26,15 @@ Flowchart/state readability findings include semantic element IDs, measured `evi
 
 High-severity geometry findings reduce the score heavily. Layout actions and transformations are rejected when they introduce node overlaps or arrows through unrelated nodes.
 
-Architecture uses Pele's deterministic renderer. `audit` validates rendering and reports `coverage: pele-renderer-only`, `score: null`, and `metrics: null`. Pele's public API does not expose positioned route geometry, so the previous compound-geometry checks are unavailable. Rendering success is not a passing geometry audit. Inspect attachment points, port directions, overlaps, shared routes, group headers, labels, and readability in the final artifact. The renderer does not infer a primary semantic path from graph length or provider names.
+Architecture audit reports `coverage: pele-positioned-geometry`. A pinned additive renderer extension supplies actual port anchors, service/junction boxes, estimated label boxes, untrimmed route points, and group-title footprints. Checks include detached endpoints, port directions, node and label collisions, connector obstruction, shared routes, excessive bends, and header crossings. A separate integrity report checks semantic element multiplicities, plain service-label presence, SVG references, duplicate IDs, and unresolved icons. The score deducts ten points per geometry finding and twenty per high-severity integrity finding, bounded at zero. Findings do not infer request traffic or provider correctness.
+
+Geometry is based on layout estimates, before arrow trimming and corner rounding. Edge-label boxes and browser glyph ink are not measured. Other render-only families expose `coverage: svg-references-only` with null geometry score and metrics, not a fabricated 100. Inspect the final artifact for readability.
 
 Geometry scores never certify AWS/GCP/Azure correctness or readability at a particular display size. Preserve the complete source and author separate request, network, and operations views when density obscures meaning.
+
+## Architecture structural diagnostics
+
+`inspect` and `diagnose` expose services, junctions, groups, explicit ports, relationships, and alignment hints. Informational findings cover isolated elements, disconnected components, empty groups, deep containment, detail load, generic/repeated labels, and highly connected services. They keep a structural score of 100 and never authorize deletion or certify provider semantics.
 
 ## Semantic diagnostics
 

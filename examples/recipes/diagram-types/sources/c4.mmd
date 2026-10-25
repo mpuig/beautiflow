@@ -1,0 +1,12 @@
+C4Context
+  title A neighborhood library, online and on the shelf
+  Person(member, "Library member", "Finds books and manages loans")
+  Person(librarian, "Librarian", "Manages the collection")
+  System(library, "Library service", "Catalog, reservations, and lending")
+  System_Ext(messages, "Message delivery", "Email and text reminders")
+  System_Ext(supplier, "Book supplier", "New titles and availability")
+  Rel(member, library, "Finds and reserves books")
+  Rel(librarian, library, "Checks out and returns books")
+  Rel(library, messages, "Sends due-date reminders")
+  Rel(messages, member, "Delivers reminders")
+  Rel(library, supplier, "Requests new titles")

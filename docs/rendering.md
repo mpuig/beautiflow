@@ -2,7 +2,7 @@
 
 ## Family detection
 
-`diagramFamily()` inspects the Mermaid header before choosing a renderer:
+`diagramFamily()` uses Pele's detector, including comments, directives, and frontmatter handling. 32 diagram types supported by Pele 1.10.0 are exposed. Existing family renderers are preserved:
 
 - `graph`, `flowchart`, `stateDiagram-v2` → project graph pipeline
 - `sequenceDiagram` → Beautiful Mermaid sequence renderer
@@ -11,7 +11,10 @@
 - `xychart` → Beautiful Mermaid XY renderer
 - `pie` → Beautiflow pie renderer
 - `gitGraph` → Beautiflow GitGraph renderer
-- `architecture-beta` → pinned Pele parser and renderer with Beautiflow's Iconify adapter
+- `architecture-beta` → pinned Pele parser and additive geometry renderer with Beautiflow's Iconify adapter
+- Agentflow, block, C4, Cynefin, event modeling, Gantt, Ishikawa, journey, kanban, mindmap, packet, quadrant, radar, railroad (including EBNF/ABNF/PEG), requirement, Sankey, swimlane, timeline, treemap, tree view, use case, Venn, and Wardley → Pele render-only pipelines
+
+All families support SVG/PNG, inspection, and read-only preview. Terminal rendering remains restricted to the existing flowchart/state, sequence, class, ER, and XY paths. Render-only `audit` checks SVG references and unresolved icons, reporting `coverage: svg-references-only`, null geometry score, and null metrics. It does not claim element fidelity or geometry coverage. The [diagram types gallery](../examples/recipes/diagram-types/README.md) contains 23 original, reproducible examples with rendered previews, Mermaid sources, and exact commands. Pele-backed Gantt exports pin `now` to epoch zero; author explicit dates instead of relying on a changing current date.
 
 YAML frontmatter is skipped during family detection and remains available to the selected renderer. Pele reads supported architecture configuration (such as icon size and padding); Mermaid-specific fCoSE settings are no longer used. Beautiflow theme names remain authoritative for exported colors. Unknown families fail explicitly.
 
@@ -46,7 +49,11 @@ Positioned ELK edges are matched to semantic edges by source/target endpoint que
 
 Architecture supports SVG, PNG, transparency, supported frontmatter configuration, explicit `T/B/L/R` ports, nested groups, junctions, labelled edges, `align row`/`align column` directives, and live preview. Iconify viewBoxes are retained and gradient IDs are scoped deterministically per icon occurrence. Pele's source/output limits remain enforced. Beautiflow does not infer primary traffic from provider names or graph length.
 
-Architecture does not support terminal output, sidecar layout actions, diagnose, transform, or polish. The public `audit` command validates rendering and reports `coverage: pele-renderer-only`, `score: null`, and `metrics: null`. Pele does not expose positioned route geometry through its public API; the previous compound-geometry audit is unavailable. A successful render is not an unmeasured 100/100. Review attachment points, overlaps, labels, cloud semantics, and readability in the final artifact.
+Architecture supports `inspect`, structural `diagnose`, measured `audit`, and receipt-backed `transform`. It still does not support terminal output, sidecar layout actions, or automatic polish. Diagnostic findings are informational and never authorize deletion.
+
+Pele's public API does not expose route geometry. A narrow, pinned, reproducible architecture module extension returns the engine's service/junction boxes, estimated labels, actual port anchors, route points, and group-title footprints without changing SVG bytes. Audit reports `coverage: pele-positioned-geometry` with measured metrics and a score. The source, license, generator, and limitations are documented in [the extension notes](../src/vendor/pele-architecture/README.md). This is a local extension, not an upstream-merged API.
+
+Render integrity additionally compares architecture services, groups, and relationship multiplicities against semantic SVG hooks, checks plain service labels, verifies SVG references and IDs, and reports unresolved icons. Corner rounding, arrow trimming, edge-label boxes, browser glyph measurements, and provider semantics are outside geometry coverage. Inspect the final artifact visually.
 
 ## SVG
 

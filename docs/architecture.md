@@ -36,7 +36,10 @@ src/cli.ts
   ├─ diagram/svg.ts          Beautiful Mermaid SVG adaptation
   ├─ diagram/specialized.ts  pie and GitGraph rendering
   ├─ diagram/architecture.ts architecture rendering entry point
-  ├─ diagram/pele.ts         pinned Pele runtime, Iconify adapter, concrete SVG colors
+  ├─ diagram/pele.ts         all-family Pele runtime, structured errors, icons, concrete colors
+  ├─ diagram/architecture-analysis.ts structural diagnosis, geometry and render integrity
+  ├─ diagram/architecture-transform.ts bounded source-preserving architecture edits
+  ├─ vendor/pele-architecture/ additive geometry renderer with upstream SVG parity
   ├─ server.ts               live read-only preview
   └─ skill.ts                embedded Agent Skill installer
 ```
@@ -59,7 +62,7 @@ Semantic transformations update Mermaid. Layout actions update the sidecar. Rend
 
 ## Rendering families
 
-Flowchart and state diagrams use the complete project pipeline. Sequence, class, ER, and XY charts route through Beautiful Mermaid’s specialized renderers. Pie and GitGraph use deterministic Beautiflow renderers. `architecture-beta` uses Pele's synchronous DOM-free parser and renderer for every size, with explicit ports and registered icons. Flowchart/state sidecars and ELK remain unchanged. See [Rendering](rendering.md).
+Flowchart and state diagrams use the complete project pipeline. Sequence, class, ER, and XY charts route through Beautiful Mermaid’s specialized renderers. Pie and GitGraph use deterministic Beautiflow renderers. `architecture-beta` uses Pele's synchronous DOM-free parser and renderer for every size, with explicit ports and registered icons. Flowchart/state sidecars and ELK remain unchanged. All other Pele types are exposed as render-only families. Architecture additionally has structural diagnostics, positioned-geometry audit, integrity checks, and receipt-backed transformations. Its additive geometry extension is pinned and reproducible, not an upstream public API. See [Rendering](rendering.md).
 
 ## Determinism
 

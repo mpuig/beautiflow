@@ -1,5 +1,5 @@
-import { register, render } from 'pele/core'
-import architecture from 'pele/diagrams/architecture'
+import { register, render, parse, detectType, type DiagramType as PeleDiagramType, type ArchitectureModel } from 'pele'
+import { architecture, type ArchitectureGeometry } from '../vendor/pele-architecture/index.js'
 import { icons as logos } from '@iconify-json/logos'
 import { icons as lucide } from '@iconify-json/lucide'
 import type { DiagramColors } from 'beautiful-mermaid'
@@ -45,22 +45,62 @@ function materialize(svg: string, colors: DiagramColors): string {
     '--pele-surface': colors.surface ?? '#ffffff', '--pele-surface-alt': colors.surface ?? '#f3f3f3',
     '--pele-border': colors.border ?? '#d4d4d8', '--pele-accent': colors.accent ?? '#2563eb',
   }))
-  for (const [, key, value] of svg.matchAll(/(--_[\w-]+):([^;"<>]+)/g)) variables.set(key!, value!)
+  for (const [, style] of svg.matchAll(/\sstyle="([^"]*)"/g)) {
+    for (const [, key, value] of style!.matchAll(/(--_[\w-]+):([^;]+)/g)) variables.set(key!, value!)
+  }
   let output = svg
-  for (let pass = 0; pass < 8 && output.includes('var('); pass++) {
-    output = output.replace(/var\((--[\w-]+)(?:,([^()]*))?\)/g, (_match, key: string, fallback?: string) => variables.get(key) ?? fallback ?? '')
+  for (let pass = 0; pass < 8; pass++) {
+    // Labels can literally contain CSS syntax. Resolve presentation attributes,
+    // never text content, so theming cannot delete semantic label text.
+    const next = output.replace(/<[^>]*>/g, (tag) => tag.replace(/var\((--[\w-]+)(?:,([^()]*))?\)/g, (_match, key: string, fallback?: string) => variables.get(key) ?? fallback ?? ''))
+    if (next === output) break
+    output = next
   }
   return output
 }
 
-export function renderPeleArchitecture(source: string, colors: DiagramColors, transparent: boolean): string {
+export type DiagramType = Exclude<PeleDiagramType, 'info'>
+
+export function peleFamily(source: string): DiagramType | null {
+  const family = detectType(source)
+  return family === 'info' ? null : family
+}
+
+function assertSupportedType(source: string) {
+  if (detectType(source) === 'info') throw new CliError('info is not a supported diagram type', 2, 'UNSUPPORTED_OPERATION')
+}
+
+export function peleError(error: unknown): CliError {
+  if (error instanceof CliError) return error
+  const detail = (error ?? {}) as { code?: string; type?: string; line?: number; column?: number; snippet?: string }
+  return new CliError(`Could not process Mermaid: ${error instanceof Error ? error.message : String(error)}`, 2, 'MERMAID_ERROR', {
+    kind: detail.code ?? 'render', family: detail.type ?? null,
+    location: detail.line && detail.line > 0 ? { line: detail.line, column: detail.column } : null,
+    snippet: detail.snippet ?? null,
+  })
+}
+
+export function parsePele(source: string) {
+  try { assertSupportedType(source); return parse(source) } catch (error) { throw peleError(error) }
+}
+
+export function architectureModel(source: string): ArchitectureModel {
+  const model = parsePele(source)
+  if (model.type !== 'architecture') throw new CliError('Expected architecture diagram', 2)
+  return model
+}
+
+export function renderPeleDetailed(source: string, colors: DiagramColors, transparent: boolean) {
   try {
+    assertSupportedType(source)
     const idPrefix = `beautiflow-pele-${createHash('sha256').update(source).digest('hex').slice(0, 16)}`
     let iconSequence = 0
-    const result = render(source, { responsive: false, autoDirection: false, idPrefix, fontFamily: 'Arial', icons: (name) => iconMarkup(name, ++iconSequence) })
+    const result = render(source, { responsive: false, autoDirection: false, idPrefix, fontFamily: 'Arial', now: 0, icons: (name) => iconMarkup(name, ++iconSequence) })
     const svg = materialize(result.svg, colors)
-    return transparent ? svg : svg.replace(/(<svg[^>]*>)/, `$1\n<rect width="100%" height="100%" fill="${colors.bg ?? '#ffffff'}" />`)
-  } catch (error) {
-    throw new CliError(`Unable to render architecture diagram: ${error instanceof Error ? error.message : String(error)}`, 2)
-  }
+    return { ...result, geometry: (result as typeof result & { geometry?: ArchitectureGeometry }).geometry, svg: transparent ? svg : svg.replace(/(<svg[^>]*>)/, `$1\n<rect width="100%" height="100%" fill="${colors.bg ?? '#ffffff'}" />`) }
+  } catch (error) { throw peleError(error) }
+}
+
+export function renderPeleArchitecture(source: string, colors: DiagramColors, transparent: boolean): string {
+  return renderPeleDetailed(source, colors, transparent).svg
 }

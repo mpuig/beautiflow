@@ -43,7 +43,7 @@ describe('enforced agent runtime', () => {
     const contract = schemaContract()
     expect(contract.protocolVersion).toBe('1.1')
     expect(contract.schemas.actions.properties.actions.items.oneOf).toHaveLength(7)
-    expect(contract.schemas.transformations.properties.actions.items.oneOf).toHaveLength(12)
+    expect(contract.schemas.transformations.properties.actions.items.oneOf).toHaveLength(16)
 
     const result = Bun.spawnSync(['bun', 'run', join(import.meta.dir, '../src/cli.ts'), 'agent', 'commit', '--receipt', '/missing/receipt.json', '--json'])
     expect(result.exitCode).toBe(2)

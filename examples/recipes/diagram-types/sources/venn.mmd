@@ -1,0 +1,16 @@
+venn-beta
+  title A garden wildlife survey
+  set Flowers[Visited flowers]
+    text Bees
+  set Water[Used water]
+    text Sparrows
+  set Shelter[Used shelter]
+    text Hedgehogs
+  union Flowers,Water[Flowers and water]
+    text Hoverflies
+  union Flowers,Shelter[Flowers and shelter]
+    text Butterflies
+  union Water,Shelter[Water and shelter]
+    text Robins
+  union Flowers,Water,Shelter[All three]
+    text Bumblebees

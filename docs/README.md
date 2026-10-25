@@ -47,6 +47,7 @@ The server reflects saved source and sidecar changes without mutating either fil
 | XY chart | Yes | Render only | No |
 | Pie | Yes | Render only | No |
 | GitGraph | Yes | Render only | No |
-| Architecture (`architecture-beta`) | Yes | Audit only | No |
+| Architecture (`architecture-beta`) | Yes | Measured audit; no layout actions | Diagnose and bounded transform; no polish |
+| All other diagram types | Yes | SVG reference checks only, no geometry score | No |
 
-The distinction is intentional: each non-flowchart family needs its own meaningful intermediate representation and quality metrics rather than flowchart heuristics applied under a different name.
+All families can be inspected and audited for SVG-reference integrity. Only flowchart/state and architecture have measured geometry audits. The distinction is intentional: do not apply flowchart mutation semantics or quality scores to other families. See [Rendering](rendering.md) for the complete diagram type list and coverage limitations, or browse the [diagram types gallery](../examples/recipes/diagram-types/README.md).

@@ -94,7 +94,9 @@ Then commit, verify, and finish. If any mutation must be abandoned, run `beautif
 - Never change topology for a visual-only request.
 - Never bypass a failed dry-run, semantic diagnostic, or geometry audit.
 - Never start a second preview server.
-- Never mutate architecture, sequence, class, ER, XY, pie, or GitGraph diagrams through the flowchart model.
+- All 32 supported diagram types can render. Other than flowchart/state and bounded architecture transforms, families are render-only; never mutate them through the flowchart model.
+- Architecture uses its own schema actions: rename/relabel, move, add-edge, and reconnect-edge. Read [transformations.md](references/transformations.md) before choosing one. No architecture polish or layout actions.
+- Audit coverage is explicit: architecture has positioned geometry and integrity evidence; other render-only families check SVG references without geometry scores.
 - Preserve pinned nodes, roles, comments, unrelated formatting, and the user's Mermaid semantics.
 - A successful render is not proof of visual quality when `audit` is supported.
 

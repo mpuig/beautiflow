@@ -36,7 +36,7 @@ beautiflow render examples/recipes/architecture-views/operations.mmd --format sv
 
 ## Choosing notation
 
-These focused views use ordinary Mermaid flowcharts because labelled relationships matter more than service icons. Use `architecture-beta` when ports, icons, and containment are the main subject. Beautiflow uses Pele's deterministic architecture renderer for every size. Architecture audit has renderer-only coverage; inspect geometry and readability visually.
+These focused views use ordinary Mermaid flowcharts because labelled relationships matter more than service icons. Use `architecture-beta` when ports, icons, and containment are the main subject. Beautiflow uses Pele's deterministic architecture renderer for every size. Architecture audit measures engine geometry and render integrity through a pinned additive Pele extension; inspect browser-specific readability visually.
 
 For another provider, author a new source with its actual services, boundaries, and relationships. Changing icons alone does not validate an architecture. Never delete detail from a complete source just to improve its score.
 

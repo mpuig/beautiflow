@@ -61,7 +61,7 @@ Options:
 - `-t, --theme`: a Beautiful Mermaid theme
 - `--transparent`: omit the background
 
-Pie, GitGraph, and `architecture-beta` currently support SVG and PNG, not terminal formats. Architecture sources may reference the registered `logos:`, `lucide:`, and `aws:` icon packs.
+32 diagram types are supported. Additional families, pie, GitGraph, and `architecture-beta` support SVG and PNG, not terminal formats. Existing flowchart/state, sequence, class, ER, and XY terminal paths remain available. Architecture sources may reference the registered `logos:`, `lucide:`, and `aws:` icon packs.
 
 ## Inspection and quality
 
@@ -77,7 +77,7 @@ beautiflow diagnose diagram.mmd --json
 - `inspect` reports graph IDs, edges, sidecar state, and the nearest `FLOW.md`.
 - `inspect --agent` works across supported families and returns capabilities, mutation boundaries, recommended commands, execution budgets, and evidence-based stop conditions.
 - `doctor` validates the local platform, skill installation, file access, family detection, output directory, `FLOW.md`, and parse/render pipeline. It accepts an optional diagram path.
-- `audit` checks flowchart/state geometry, including estimated label-mask collisions and shared routing channels. Readability findings include evidence and supported semantic repair action types. For large multilevel architecture renders it reports shared route segments, group-header crossings, excessive bends, and over-wrapped labels.
+- `audit` checks flowchart/state geometry, including estimated label-mask collisions and shared routing channels. Readability findings include evidence and supported semantic repair action types. Architecture reports `pele-positioned-geometry` coverage from a pinned additive renderer extension, plus model-to-render integrity. Other families report `svg-references-only` with null geometry score and metrics. See [quality coverage](quality.md) for limitations.
 - `diagnose` checks flow semantics.
 
 ## Agent JSON envelopes
@@ -141,6 +141,8 @@ beautiflow --help
 
 - `0`: success
 - `2`: invalid command input, missing files, parse failures, unsafe transformations, or rejected geometry
+
+Pele errors retain `error.kind`, `error.family`, `error.location` (line/column when supplied by the parser), and `error.snippet` in JSON envelopes. Locations are source-aware; missing location evidence is null rather than invented. Rendering, syntax, semantic, size-limit, and unsupported-family failures do not authorize speculative repairs.
 - `1`: failed `doctor` checks or an unexpected internal failure
 
 Human progress messages go to stderr where needed so rendered stdout remains pipe-safe.

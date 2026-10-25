@@ -9,6 +9,8 @@ export interface ArchitectureRouteGeometry {
   sourcePort: ArchitecturePort
   targetPort: ArchitecturePort
   points: Point[]
+  sourceAnchor?: Point
+  targetAnchor?: Point
 }
 
 export function architecturePortPoint(box: ArchitectureBox, port: ArchitecturePort): Point {
@@ -55,7 +57,7 @@ export function auditArchitectureGeometry(
       const anchor = end === 'source' ? route.points[0] : route.points.at(-1)
       const adjacent = end === 'source' ? route.points[1] : route.points.at(-2)
       const port = end === 'source' ? route.sourcePort : route.targetPort
-      const expected = service ? architecturePortPoint(service.icon, port) : undefined
+      const expected = (end === 'source' ? route.sourceAnchor : route.targetAnchor) ?? (service ? architecturePortPoint(service.icon, port) : undefined)
       if (!expected || !anchor || Math.hypot(expected.x - anchor.x, expected.y - anchor.y) > 0.1) detachedEndpoints += 1
       if (!anchor || !adjacent || (port === 'L' ? adjacent.x >= anchor.x || adjacent.y !== anchor.y
         : port === 'R' ? adjacent.x <= anchor.x || adjacent.y !== anchor.y

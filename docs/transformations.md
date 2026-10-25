@@ -57,6 +57,19 @@ Organization actions:
 
 The canonical schemas and examples live in `skills/beautiflow/references/transformations.md`.
 
+## Architecture transformations
+
+Architecture has a separate model and bounded actions:
+
+- `architecture-rename`: `id`, optional `newId` and/or `label`; updates service/group references and alignment hints.
+- `architecture-move`: `id`, `group`; changes containment into an existing group.
+- `architecture-add-edge`: `source`, `target`, `sourcePort`, `targetPort`, optional `label`.
+- `architecture-reconnect-edge`: `source`, `target`, `newSource`, `newTarget`, `sourcePort`, `targetPort`; preserves the matched edge's label and arrows.
+
+Ports are one of `L`, `R`, `T`, `B`. Labels are single-line plain text without brackets, angle brackets, double quotes, or braces. Reconnect requires one unambiguous simple edge statement and does not patch group-boundary traversals. Unknown fields, unsupported syntax, cycles in containment, collisions in IDs, and unsafe edits are rejected. Each patch is reparsed and compared against the full intended architecture model, not serialized from a reduced graph.
+
+The final geometry score must not regress, no measured geometry defect count may increase (even when the score is already zero), and high-severity render-integrity failures block mutation. Unchanged pre-existing geometry findings remain visible without blocking an unrelated safe edit. Architecture source replacement is atomic and creates no sidecar. It requires a regular source file; symbolic source-file paths are rejected rather than replaced. Use the same receipt-backed workflow; stale hashes, one correction budget, verification, completion, and rollback apply. Structural diagnosis is informational and never authorizes deletion. Architecture has no automatic polish or layout actions.
+
 ## Source preservation
 
 The source editor changes only affected declarations and edge lines. Comments and unrelated formatting survive. A transformation is rejected when Beautiflow cannot prove that the patched source represents the intended graph.

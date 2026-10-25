@@ -1,0 +1,15 @@
+gantt
+  title Coffee club launch
+  dateFormat YYYY-MM-DD
+  axisFormat %d %b
+  section Find the flavor
+  Taste sample roasts :done, tasting, 2027-06-01, 4d
+  Choose the first blend :done, blend, after tasting, 2d
+  section Build the offer
+  Design the packaging :active, packaging, 2027-06-04, 8d
+  Set up subscriptions :checkout, 2027-06-07, 6d
+  Box photos :photos, after packaging, 3d
+  section Deliver
+  Open the waitlist :milestone, waitlist, 2027-06-14, 0d
+  Roast and pack :crit, batch, after photos, 4d
+  Ship the first boxes :milestone, launch, after batch, 0d

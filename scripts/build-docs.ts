@@ -1,5 +1,5 @@
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
-import { basename, resolve } from 'node:path'
+import { resolve } from 'node:path'
 import { marked } from 'marked'
 import packageJson from '../package.json' with { type: 'json' }
 import { actionSchema, agentReceiptSchema, transformationSchema } from '../src/schemas.ts'
@@ -45,9 +45,11 @@ function slugify(value: string, seen: Map<string, number>) {
 
 function rewriteLinks(html: string) {
   return html.replace(/href="([^"#?]+\.md)(#[^"]*)?"/g, (_match, path: string, hash = '') => {
-    const file = basename(path)
+    if (/^(?:[a-z]+:|\/)/i.test(path)) return _match
+    if (path === '../examples/recipes/diagram-types/README.md') return `href="/examples/recipes/diagram-types/${hash}"`
+    const file = path.replace(/^\.\//, '')
     const slug = sourceToSlug.get(file as typeof pages[number]['file'])
-    if (slug === undefined) return `href="https://github.com/mpuig/beautiflow/blob/main/docs/${file}${hash}"`
+    if (slug === undefined) return `href="${new URL(path, 'https://github.com/mpuig/beautiflow/blob/main/docs/').href}${hash}"`
     return `href="/docs/${slug ? `${slug}/` : ''}${hash}"`
   })
 }
@@ -99,7 +101,7 @@ function layout(page: typeof pages[number], titleHeading: string, article: strin
       </a>
       <nav class="header-nav" aria-label="Primary">
         <a href="/docs/" aria-current="page">Docs</a>
-        <a href="/#examples">Examples</a>
+        <a href="/examples.html">Examples</a>
         <a class="github-link" href="https://github.com/mpuig/beautiflow">GitHub <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4h9v9M16 4 7 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </nav>
     </div>
@@ -112,7 +114,7 @@ function layout(page: typeof pages[number], titleHeading: string, article: strin
     <aside class="docs-nav">
       <p class="nav-title">Documentation</p>
       <nav aria-label="Documentation pages"><ol>${navigation(page.slug)}</ol></nav>
-      <a class="install-note" href="/#install"><span>Install</span><code>curl … | bash</code></a>
+      <a class="install-note" href="/#start"><span>Install</span><code>curl … | bash</code></a>
     </aside>
     <main id="content" class="doc-content">
       <header class="article-head">${titleHeading}<p>${escapeHtml(page.description)}</p></header>
