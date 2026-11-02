@@ -1,6 +1,6 @@
-// Generated from Pele 1.10.0 with additive geometry evidence. See README.md.
+// Generated from Pele 1.13.0 with additive geometry evidence. See README.md.
 // @bun
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/errors.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/errors.ts
 class PeleError extends Error {
   code;
   type;
@@ -24,7 +24,13 @@ function written(src, offset) {
   return origin !== undefined && src === origin.parsed ? origin.find(offset) : [src, offset];
 }
 function locate(src, offset) {
-  [src, offset] = written(src, offset);
+  const end = src.trimEnd().length;
+  if (end > 0 && offset >= end) {
+    [src, offset] = written(src, end - 1);
+    offset++;
+  } else {
+    [src, offset] = written(src, offset);
+  }
   let line = 1;
   let lineStart = 0;
   for (let i = src.indexOf(`
@@ -52,7 +58,7 @@ ${detail}`;
   return new PeleError(message, "syntax", { type, ...loc });
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/diagrams/architecture/db.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/diagrams/architecture/db.ts
 function fail(message) {
   throw new PeleError(message, "semantic", { type: "architecture" });
 }
@@ -152,7 +158,7 @@ function populate(ast, db) {
     db.addLayoutHint({ direction: alignment.direction, members: [...alignment.members] });
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/diagrams/common/tokens.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/diagrams/common/tokens.ts
 var tables = new WeakMap;
 function prepare(types) {
   const every = types.map((_, k) => k);
@@ -181,9 +187,9 @@ function tokenize(src, types, diagram) {
       return -1;
     const type = types[k];
     if (type.match !== undefined)
-      return type.match(src, p2);
+      return type.match(src, p2, kinds[kinds.length - 1] ?? -1);
     if (type.scanner !== undefined)
-      return (scanners[k] ??= type.scanner())(src, p2);
+      return (scanners[k] ??= type.scanner())(src, p2, kinds[kinds.length - 1] ?? -1);
     const pattern = type.pattern;
     if (typeof pattern === "string")
       return src.startsWith(pattern, p2) ? p2 + pattern.length : -1;
@@ -247,6 +253,9 @@ var TITLE = {
   pattern: /[\t ]*title(?:[\t ][^\n\r]*?(?=%%)|[\t ][^\n\r]*|)/y,
   first: "\t t"
 };
+function titleBefore(rest) {
+  return { ...TITLE, pattern: new RegExp(String.raw`[\t ]*title(?:[\t ][^\n\r]*?(?=%%)|[\t ][^\n\r]*|(?!${rest}))`, "y") };
+}
 var STRING = { name: "STRING", pattern: /"([^"\\]|\\.)*"|'([^'\\]|\\.)*'/y, first: `"'` };
 var NEWLINE = { name: "NEWLINE", pattern: /\r?\n/y, first: `\r
 ` };
@@ -350,11 +359,20 @@ class Reader {
   }
   fail(expected) {
     const found = this.kind === -1 ? "end of input" : `\`${this.text()}\``;
-    throw syntaxError(this.diagram, this.tokens.src, this.tokens.starts[this.i], `Expecting ${expected} but found ${found}.`);
+    const { src, starts, ends } = this.tokens;
+    let at = starts[this.i];
+    if (this.kind === -1) {
+      let k = this.i;
+      while (k > 0 && src.slice(starts[k - 1], ends[k - 1]).trim() === "")
+        k--;
+      if (k > 0)
+        at = ends[k - 1];
+    }
+    throw syntaxError(this.diagram, src, at, `Expecting ${expected} but found ${found}.`);
   }
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/diagrams/architecture/parser.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/diagrams/architecture/parser.ts
 var ID = { name: "ID", pattern: /[\w]([-\w]*\w)?/y };
 function word(text) {
   return { name: text, pattern: text, longer: [ID] };
@@ -376,7 +394,7 @@ var ARCHITECTURE_TOKENS = [
   { name: "ARROW_INTO", pattern: /<|>/y },
   ACC_DESCR,
   ACC_TITLE,
-  TITLE,
+  titleBefore(String.raw`[-\w]*\w`),
   STRING,
   ID,
   NEWLINE,
@@ -498,7 +516,7 @@ function parseArchitecture(src) {
   return ast;
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/diagrams/common/fit-width.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/diagrams/common/fit-width.ts
 function titleRoom(options) {
   const available = options.maxWidth;
   return available !== undefined && available > 0 ? Math.max(80, available - 2 * (options.padding ?? 8)) : 4000;
@@ -512,7 +530,7 @@ function tighten(options, draw) {
   return tight.width < loose.width ? tight : loose;
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/text/entities.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/text/entities.ts
 var NAMED = "amp:38,lt:60,gt:62,quot:34,apos:39,nbsp:160,shy:173,iexcl:161,cent:162,pound:163,curren:164,yen:165,sect:167," + "copy:169,laquo:171,not:172,reg:174,deg:176,plusmn:177,sup2:178,sup3:179,micro:181,para:182,middot:183," + "sup1:185,raquo:187,frac14:188,frac12:189,frac34:190,iquest:191,times:215,divide:247,ndash:8211,mdash:8212," + "lsquo:8216,rsquo:8217,sbquo:8218,ldquo:8220,rdquo:8221,bdquo:8222,dagger:8224,Dagger:8225,bull:8226," + "hellip:8230,permil:8240,prime:8242,Prime:8243,lsaquo:8249,rsaquo:8250,euro:8364,trade:8482,larr:8592," + "uarr:8593,rarr:8594,darr:8595,harr:8596,lArr:8656,uArr:8657,rArr:8658,dArr:8659,hArr:8660,forall:8704," + "part:8706,exist:8707,empty:8709,nabla:8711,isin:8712,notin:8713,ni:8715,prod:8719,sum:8721,minus:8722," + "radic:8730,infin:8734,and:8743,or:8744,cap:8745,cup:8746,int:8747,there4:8756,sim:8764,cong:8773," + "asymp:8776,ne:8800,equiv:8801,le:8804,ge:8805,sub:8834,sup:8835,sube:8838,supe:8839,oplus:8853,otimes:8855," + "perp:8869,sdot:8901,loz:9674,spades:9824,clubs:9827,hearts:9829,diams:9830,check:10003,cross:10007," + "AMP:38,LT:60,GT:62,QUOT:34,lsqb:91,rsqb:93,lcub:123,rcub:125,verbar:124,VerticalLine:124,midast:42," + "DiacriticalGrave:96,Hat:94,UnderBar:95," + "equals:61,colon:58,semi:59,num:35,percnt:37,lpar:40,rpar:41,lbrack:91,rbrack:93,lbrace:123,rbrace:125," + "vert:124,sol:47,bsol:92,quest:63,excl:33,ast:42,plus:43,comma:44,period:46,dollar:36,commat:64,grave:96," + "hat:94,lowbar:95,tilde:126,Alpha:913,Beta:914,Gamma:915,Delta:916,Epsilon:917,Zeta:918,Eta:919,Theta:920," + "Iota:921,Kappa:922,Lambda:923,Mu:924,Nu:925,Xi:926,Omicron:927,Pi:928,Rho:929,Sigma:931,Tau:932," + "Upsilon:933,Phi:934,Chi:935,Psi:936,Omega:937,alpha:945,beta:946,gamma:947,delta:948,epsilon:949,zeta:950," + "eta:951,theta:952,iota:953,kappa:954,lambda:955,mu:956,nu:957,xi:958,omicron:959,pi:960,rho:961,sigmaf:962," + "sigma:963,tau:964,upsilon:965,phi:966,chi:967,psi:968,omega:969";
 var named;
 function lookup(name) {
@@ -563,11 +581,11 @@ function decodeEntities(text) {
   return text;
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/text/metrics.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/text/metrics.ts
 var REGULAR = "7q7q9vfgfgopij5b9999atg87q997q7qfgfgfgfgfgfgfgfgfgfg7q7qg8g8g8fgs7ijijk2k2ijgzlmk27qdwijfgn5k2lmijlmk2ijgzk2ijq8ijijgz7q7q7qd1fg99fgfgdwfgfg7qfgfg6666dw66n5fgfgfgfg99dw7qfgdwk2dwdwdw9a789ag8";
 var BOLD = "7q99d6fgfgopk26m9999atg87q997q7qfgfgfgfgfgfgfgfgfgfg9999g8g8g8gzr3k2k2k2k2ijgzlmk27qfgk2gzn5k2lmijlmk2ijgzk2ijq8ijijgz997q99g8fg99fggzfggzfg99gzgz7q7qfg7qopgzgzgzgzatfg99gzfglmfgfgdwat7satg8";
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/text/measurer.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/text/measurer.ts
 var SMALLER = 1.2;
 function unpack(packed) {
   const out = new Uint16Array(95);
@@ -675,7 +693,7 @@ function defaultMeasurer(fontFamily = "sans-serif", monoFamily = "monospace") {
   return m;
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/svg/builder.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/svg/builder.ts
 var RE_NEEDS_ESC = /[&<>"\x00-\x08\x0b\x0c\x0e-\x1f\x7f\ud800-\udfff\ufffe\uffff]/u;
 var RE_ESC = /[&<>"]|[\x00-\x08\x0b\x0c\x0e-\x1f\x7f\ud800-\udfff\ufffe\uffff]+/gu;
 var ESC = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
@@ -804,27 +822,35 @@ function textStyle(attrs, shared2) {
   return attrs + (shared2 & 1 /* Bold */ && !attrs.includes(' font-weight="') ? BOLD2 : "") + (shared2 & 2 /* Italic */ && !attrs.includes(' font-style="') ? ITALIC : "") + (shared2 & 4 /* Mono */ && !attrs.includes(' font-family="') ? MONO : "");
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/layout/layered.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/layout/layered.ts
 var SAMPLES = 16;
 var LINE_A = new Float64Array(2 * SAMPLES + 2);
 var LINE_B = new Float64Array(2 * SAMPLES + 2);
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/svg/edges.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/svg/ink.ts
+var DARK = new Set("black blue blueviolet brown crimson darkblue darkcyan darkgreen darkmagenta darkolivegreen darkorchid darkred darkslateblue darkslategray darkviolet dimgray firebrick forestgreen green indigo maroon mediumblue mediumslateblue mediumvioletred midnightblue navy olive purple rebeccapurple royalblue saddlebrown seagreen sienna slateblue steelblue teal".split(" "));
+var LIGHT = new Set("aliceblue antiquewhite aqua aquamarine azure beige bisque blanchedalmond burlywood cadetblue chartreuse chocolate coral cornflowerblue cornsilk cyan darkgoldenrod darkgray darkkhaki darkorange darksalmon darkseagreen darkturquoise deeppink deepskyblue dodgerblue floralwhite fuchsia gainsboro ghostwhite gold goldenrod gray greenyellow honeydew hotpink indianred ivory khaki lavender lavenderblush lawngreen lemonchiffon lightblue lightcoral lightcyan lightgoldenrodyellow lightgray lightgreen lightpink lightsalmon lightseagreen lightskyblue lightslategray lightsteelblue lightyellow lime limegreen linen magenta mediumaquamarine mediumorchid mediumpurple mediumseagreen mediumspringgreen mediumturquoise mintcream mistyrose moccasin navajowhite oldlace olivedrab orange orangered orchid palegoldenrod palegreen paleturquoise palevioletred papayawhip peachpuff peru pink plum powderblue red rosybrown salmon sandybrown seashell silver skyblue slategray snow springgreen tan thistle tomato turquoise violet wheat white whitesmoke yellow yellowgreen".split(" "));
+var linear = (c) => c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+var luminance = (r, g, b) => 0.2126 * linear(r) + 0.7152 * linear(g) + 0.0722 * linear(b);
+var EVEN = Math.sqrt(1.05 * (luminance(31 / 255, 31 / 255, 31 / 255) + 0.05)) - 0.05;
+var known = new Map;
+
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/svg/edges.ts
 var ARROW = 8;
 function markerTrim(type) {
   return type === "arrow_point" ? ARROW - 1 : type === "arrow_circle" ? ARROW : type === "arrow_cross" ? 4 : 0;
 }
-function marker(type, x, y, dx, dy, color) {
+function marker(type, x, y, dx, dy, color, stroke = "none") {
   const nx = -dy;
   const ny = dx;
   if (type === "arrow_point") {
     const bx = x - dx * ARROW;
     const by = y - dy * ARROW;
     const half = ARROW * 0.42;
-    return `<path class="pele-marker" d="M${num(x)},${num(y)}L${num(bx + nx * half)},${num(by + ny * half)}L${num(bx - nx * half)},${num(by - ny * half)}Z" fill="${color}" stroke="none"/>`;
+    return `<path class="pele-marker" d="M${num(x)},${num(y)}L${num(bx + nx * half)},${num(by + ny * half)}L${num(bx - nx * half)},${num(by - ny * half)}Z" fill="${color}" stroke="${stroke}"/>`;
   }
   if (type === "arrow_circle") {
-    return `<circle class="pele-marker" cx="${num(x - dx * 4)}" cy="${num(y - dy * 4)}" r="3.5" fill="${color}" stroke="none"/>`;
+    return `<circle class="pele-marker" cx="${num(x - dx * 4)}" cy="${num(y - dy * 4)}" r="3.5" fill="${color}" stroke="${stroke}"/>`;
   }
   if (type === "arrow_cross") {
     const cx = x - dx * 4;
@@ -838,13 +864,38 @@ function marker(type, x, y, dx, dy, color) {
   }
   return "";
 }
+var TENS = Array.from({ length: 23 }, (_, i) => Number(`1e${i}`));
 function edgeLabelSvg(id, label, x, y, attrs, icons) {
   const w = label.width + 8;
   const h = label.height;
   return `<g class="pele-edge-label" data-id="${escText(id)}">` + `<rect x="${num(x - w / 2)}" y="${num(y - h / 2)}" width="${num(w)}" height="${num(h)}" rx="3" fill="var(--_bg)"/>` + labelSvg(label, x, y, attrs, icons) + "</g>";
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/svg/theme.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/preprocess.ts
+var UNSAFE_KEYS = new Set(["__proto__", "constructor", "prototype"]);
+var RE_LINE_BREAK = new RegExp("[\\n\\r" + String.fromCharCode(8232, 8233) + "]", "g");
+
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/svg/palette.ts
+var FUNCTIONS = new Set([
+  "rgb",
+  "rgba",
+  "hsl",
+  "hsla",
+  "hwb",
+  "lab",
+  "lch",
+  "oklab",
+  "oklch",
+  "color",
+  "color-mix",
+  "light-dark",
+  "var"
+]);
+var NONE = { style: "", inks: [] };
+var current = NONE;
+var paletteStyle = () => current.style;
+
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/svg/theme.ts
 var ROOT_STYLE = "--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);" + "--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);" + "--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg)";
 var RADIUS = "var(--pele-radius,4px)";
 var ROUNDED = ' style="rx:var(--_r)"';
@@ -882,7 +933,7 @@ var TEXT_PROPS = new Set([
   "opacity"
 ]);
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/svg/root.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/svg/root.ts
 var WEIGHTS = [
   ["tw", "title"],
   ["hw", "heading"],
@@ -913,10 +964,10 @@ function svgDocument(type, width, height, fontSize, options, acc, content) {
     if (used.has(alias))
       weights += `;--_${alias}:var(--pele-${name}-weight,bold)`;
   }
-  return `<svg xmlns="http://www.w3.org/2000/svg" class="pele pele-${type}" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" style="${fit}${ROOT_STYLE}${weights}${esc(fontStyle(fontSize, options.fontFamily, options.fontFamilyMono))}" fill="var(--_fg)" role="graphics-document document" aria-roledescription="${type}"${aria}>` + head + content + "</svg>";
+  return `<svg xmlns="http://www.w3.org/2000/svg" class="pele pele-${type}" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" style="${fit}${ROOT_STYLE}${weights}${esc(fontStyle(fontSize, options.fontFamily, options.fontFamilyMono))}${paletteStyle()}" fill="var(--_fg)" role="graphics-document document" aria-roledescription="${type}"${aria}>` + head + content + "</svg>";
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/text/icons.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/text/icons.ts
 var resolver;
 var found = new Map;
 function iconMarkup(name) {
@@ -930,7 +981,7 @@ function iconMarkup(name) {
   return markup;
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/text/math.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/text/math.ts
 var resolver2;
 var found2 = new Map;
 function mathActive() {
@@ -952,7 +1003,7 @@ function typeset(tex, size) {
   return markup;
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/text/label.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/text/label.ts
 var LINE_HEIGHT = 1.5;
 var WRAPPED_LINE_HEIGHT = 1.3;
 var RE_BREAK = /<br\s*\/?>|\\n|\n/gi;
@@ -1134,10 +1185,10 @@ function measureSpans(line, measurer, size) {
   return total;
 }
 function wrap(line, measurer, size, max, out, widths) {
-  let current = [];
+  let current2 = [];
   let width = 0;
   const commit = (hyphen = false) => {
-    const last = current[current.length - 1];
+    const last = current2[current2.length - 1];
     if (plain(last)) {
       let trimmed = last.text.trimEnd();
       if (hyphen && last.text.endsWith("\xAD"))
@@ -1149,9 +1200,9 @@ function wrap(line, measurer, size, max, out, widths) {
         last.width = w;
       }
     }
-    out.push(current);
+    out.push(current2);
     widths.push(width);
-    current = [];
+    current2 = [];
     width = 0;
   };
   for (const span of line) {
@@ -1159,7 +1210,7 @@ function wrap(line, measurer, size, max, out, widths) {
       const w = span.math ? span.math.width : size * 1.25;
       if (width > 0 && width + w > max)
         commit();
-      current.push({ ...span, width: w });
+      current2.push({ ...span, width: w });
       width += w;
       continue;
     }
@@ -1182,7 +1233,7 @@ function wrap(line, measurer, size, max, out, widths) {
         commit(part.trimStart() === part);
         part = part.trimStart();
       }
-      const last = current[current.length - 1];
+      const last = current2[current2.length - 1];
       if (plain(last) && last.style === span.style) {
         last.text += part;
         if (partWidth > 0 || part.trimEnd() !== part) {
@@ -1192,12 +1243,12 @@ function wrap(line, measurer, size, max, out, widths) {
         }
       } else {
         const w = measurer.width(part, size, span.style);
-        current.push({ text: part, style: span.style, width: w });
+        current2.push({ text: part, style: span.style, width: w });
         width += w;
       }
     }
   }
-  if (current.length > 0 || out.length === 0)
+  if (current2.length > 0 || out.length === 0)
     commit();
 }
 function layoutLabel(raw, markdown, measurer, size, maxWidth, base = 0) {
@@ -1298,7 +1349,7 @@ function withHeights(label) {
   return { ...label, heights, height };
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/diagrams/architecture/icons.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/diagrams/architecture/icons.ts
 var GLYPHS = new Map([
   ["database", "M4 6a8 3 0 1 0 16 0a8 3 0 1 0-16 0M4 6v12a8 3 0 0 0 16 0V6M4 12a8 3 0 0 0 16 0"],
   ["server", "M3 4h18v7H3zM3 13h18v7H3zM7 7.5h.01M7 16.5h.01M11 7.5h6M11 16.5h6"],
@@ -1311,7 +1362,7 @@ function builtinIcon(name) {
   return d === undefined ? "" : `<path d="${d}" stroke="var(--_fg)" stroke-width="1.5"/>`;
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/diagrams/architecture/layout.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/diagrams/architecture/layout.ts
 var DX = [-1, 1, 0, 0];
 var DY = [0, 0, -1, 1];
 function sideIndex(side) {
@@ -1663,7 +1714,7 @@ function placeOnGrid(nodes, groups, edges, hints) {
   };
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/diagrams/architecture/render.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/diagrams/architecture/render.ts
 var STUB = 12;
 var CORNER = 6;
 var LABEL_GAP = 4;
@@ -2178,7 +2229,7 @@ function draw(model, config, options, tight) {
   return { svg, width, height, links: [], geometry: { services, routes: geometryRoutes, headers: geometryHeaders, offset: { x: ox, y: oy } } };
 }
 
-// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-E37heG/src/diagrams/architecture/index.ts
+// ../../../../private/var/folders/5p/txt5dzv57mj59wjlq4l5s1280000gn/T/pele-geometry-IW5cRM/src/diagrams/architecture/index.ts
 var architecture = {
   type: "architecture",
   parse(source, _config, title) {

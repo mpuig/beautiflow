@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 const checkout = resolve(process.argv[2] ?? '')
 const commit = Bun.spawnSync(['git', '-C', checkout, 'rev-parse', 'HEAD']).stdout.toString().trim()
-if (commit !== '4eff76f98c73b6817800a05773517f35832e4e92') throw new Error('Expected Pele 1.10.0 pinned checkout')
+if (commit !== '3a2f075ee0c3d914f0fad3545fc0f193693975ac') throw new Error('Expected Pele 1.13.0 pinned checkout')
 const temporary = await mkdtemp(join(tmpdir(), 'pele-geometry-'))
 try {
   await cp(join(checkout, 'src'), join(temporary, 'src'), { recursive: true })
@@ -24,5 +24,5 @@ try {
   await writeFile(path, source)
   const built = await Bun.build({ entrypoints: [join(temporary, 'src/diagrams/architecture/index.ts')], target: 'bun', minify: false })
   if (!built.success) throw new Error(String(built.logs))
-  await writeFile('src/vendor/pele-architecture/index.js', '// Generated from Pele 1.10.0 with additive geometry evidence. See README.md.\n' + await built.outputs[0]!.text())
+  await writeFile('src/vendor/pele-architecture/index.js', '// Generated from Pele 1.13.0 with additive geometry evidence. See README.md.\n' + await built.outputs[0]!.text())
 } finally { await rm(temporary, { recursive: true, force: true }) }

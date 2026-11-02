@@ -1,6 +1,6 @@
 # Pele architecture geometry extension
 
-`index.js` is a generated, self-contained bundle of Pele 1.10.0's architecture diagram module from commit `4eff76f98c73b6817800a05773517f35832e4e92`. See `LICENSE` for MIT attribution. All other Pele families come from the exact npm dependency.
+`index.js` is a generated, self-contained bundle of Pele 1.13.0's architecture diagram module from commit `3a2f075ee0c3d914f0fad3545fc0f193693975ac`. See `LICENSE` for MIT attribution. All other Pele families come from the exact npm dependency.
 
 The extension is additive: the renderer returns `geometry` alongside its unchanged SVG, dimensions, and links. It exposes service/junction boxes, estimated service-label boxes, actual port anchors (including group traversals and label-aware bottom ports), untrimmed/unrounded route points, actual group-title footprints, and the SVG body's translation. The coordinates share one local coordinate system; `offset` maps it to the SVG viewport.
 

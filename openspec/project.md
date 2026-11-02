@@ -17,7 +17,7 @@ validation; the harness owns intent and visual judgment.
 
 - Bun 1.3+ and TypeScript, compiled to a standalone host-targeted executable
 - Beautiful Mermaid 1.1.3 (vendored synchronous ELK layout/render adapter under `src/vendor/beautiful-mermaid/`)
-- Pele 1.10.0 for synchronous DOM-free `architecture-beta` rendering
+- Pele 1.13.0 for synchronous DOM-free `architecture-beta` rendering
 - elkjs for layout, resvg-js for PNG, Iconify packs for architecture icons
 
 ## Project Conventions

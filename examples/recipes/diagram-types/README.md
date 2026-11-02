@@ -4,7 +4,7 @@
 
 These original scenario-led examples cover 23 additional diagram types. Scenarios, dates, measurements, scores, budgets, and observations are illustrative, not product benchmarks or real operational data. Existing types retain their existing examples and renderers. All types below support SVG, PNG, inspection, and read-only preview; their audits check SVG references only, with no geometry score. No layout actions, transformations, sidecars, or automatic polish are advertised. See [rendering capabilities](../../../docs/rendering.md) for the full type list.
 
-Rendering uses Pele 1.10.0, targeting Mermaid 12.1 syntax. Gantt export uses a fixed clock (`now: 0`) for reproducibility; use explicit dates in authored source.
+Rendering uses Pele 1.13.0, targeting Mermaid 12.1 syntax. Gantt export uses a fixed clock (`now: 0`) for reproducibility; use explicit dates in authored source.
 
 ## Agent flow
 

@@ -2,7 +2,7 @@
 
 ## Family detection
 
-`diagramFamily()` uses Pele's detector, including comments, directives, and frontmatter handling. 32 diagram types supported by Pele 1.10.0 are exposed. Existing family renderers are preserved:
+`diagramFamily()` uses Pele's detector, including comments, directives, and frontmatter handling. 32 diagram types supported by Pele 1.13.0 are exposed. Existing family renderers are preserved:
 
 - `graph`, `flowchart`, `stateDiagram-v2` → project graph pipeline
 - `sequenceDiagram` → Beautiful Mermaid sequence renderer
@@ -41,7 +41,7 @@ Positioned ELK edges are matched to semantic edges by source/target endpoint que
 
 ## Architecture diagrams
 
-`architecture-beta` uses Pele 1.10.0 for synchronous, deterministic parsing, placement, and SVG rendering without DOM, canvas, or randomness. Pele targets Mermaid 12.1 syntax but owns its layout and visual style; it does not promise pixel parity with Mermaid.js. The same renderer handles small and large diagrams, eliminating the previous native/fallback split. The standalone adapter resolves:
+`architecture-beta` uses Pele 1.13.0 for synchronous, deterministic parsing, placement, and SVG rendering without DOM, canvas, or randomness. Pele targets Mermaid 12.1 syntax but owns its layout and visual style; it does not promise pixel parity with Mermaid.js. The same renderer handles small and large diagrams, eliminating the previous native/fallback split. The standalone adapter resolves:
 
 - `logos:` — CC0 SVG Logos, including colored AWS service marks
 - `lucide:` — ISC-licensed neutral actors and infrastructure symbols

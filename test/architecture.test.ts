@@ -61,6 +61,14 @@ describe('Pele architecture runtime', () => {
     expect([...png.slice(0, 8)]).toEqual([137, 80, 78, 71, 13, 10, 26, 10])
   })
 
+  test('accepts identifiers that begin with title (Pele 1.10.1 parser fix)', async () => {
+    const source = 'architecture-beta\n  service titleService(server)[Title service]\n  service api(server)[API]\n  titleService:R --> L:api\n'
+    const svg = await renderStandaloneOutput(source, request) as string
+    expect(svg).toContain('Title service')
+    const { inspectArchitecture } = await import('../src/diagram/architecture-analysis.ts')
+    expect(JSON.stringify(inspectArchitecture(source))).toContain('titleService')
+  })
+
   test('rejects invalid diagrams and oversized input', async () => {
     await expect(renderStandaloneOutput('architecture-beta\nservice api(server)[API]\napi:R --> L:missing', request)).rejects.toThrow('Could not process Mermaid')
     await expect(renderStandaloneOutput('architecture-beta\n' + ' '.repeat(50_000), request)).rejects.toThrow('limit')

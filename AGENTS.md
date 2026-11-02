@@ -21,7 +21,7 @@ Do not add model SDKs, provider authentication, embedded chat, visual editing, o
 - Bun 1.3+
 - TypeScript
 - Beautiful Mermaid 1.1.3
-- Pele 1.10.0 for all-family detection and additional render-only families, with a pinned additive architecture geometry extension
+- Pele 1.13.0 for all-family detection and additional render-only families, with a pinned additive architecture geometry extension
 - ELK through the vendored synchronous Beautiful Mermaid adapter
 - Iconify SVG Logos and Lucide packs
 - resvg-js for PNG output

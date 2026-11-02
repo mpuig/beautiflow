@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.3
+
+- Upgraded Pele from 1.10.0 to 1.13.0 and regenerated the architecture geometry extension from upstream commit `3a2f075`. Upstream architecture SVG output and existing fixtures remain byte-identical.
+- Fixed parsing of identifiers that begin with `title` in architecture, git, tree view, event modeling, treemap, and railroad diagrams.
+- Render-only families gain upstream fixes: contrasting label colours on author-set fills, Mermaid palette theme variables for series colours, treemap containment at large font sizes, non-overlapping labels on parallel block edges, quadrant label wrapping, and parse errors located at the last line with content.
+- Flowchart and state layout are unchanged; they continue to use Beautiful Mermaid with ELK.
+
 ## 1.0.2
 
 - Reorganized the website around Docs, Examples, and Boring AWS, with a complete 32-type reference, individual example pages, and practical getting-started guides.
