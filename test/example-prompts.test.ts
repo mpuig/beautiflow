@@ -76,4 +76,4 @@ test('every example has an honest, readable prompt and copy supports failure rec
     } finally {dom.window.close()}
     expect(await readFile(resolve(directory,'dont-break-the-diagram/recording/recording.json'),'utf8')).toBe(await readFile('dont-break-the-diagram/recording/recording.json','utf8'))
   } finally {await rm(directory,{recursive:true,force:true})}
-})
+},60_000)

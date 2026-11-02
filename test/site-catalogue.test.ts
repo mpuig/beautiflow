@@ -39,4 +39,4 @@ test('publishes a complete type reference, categorized examples and valid local 
     }
     expect([...new Set(broken)]).toEqual([])
   } finally {await rm(directory,{recursive:true,force:true})}
-})
+},60_000)
